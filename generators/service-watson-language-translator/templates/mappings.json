@@ -1,0 +1,23 @@
+{
+	"watson_language_translator_url":{
+		"searchPatterns": [
+			"cloudfoundry:$.languageTranslator[0].credentials.url",
+			"env:watson_language_translator_url",
+			"file:/server/localdev-config.json:$.watson_language_translator_url"
+		]
+	},
+	"watson_language_translator_username":{
+		"searchPatterns": [
+			"cloudfoundry:$.languageTranslator[0].credentials.username",
+			"env:watson_language_translator_username",
+			"file:/server/localdev-config.json:$.watson_language_translator_username"
+		]
+	},
+	"watson_language_translator_password":{
+		"searchPatterns":[
+			"cloudfoundry:$.languageTranslator[0].credentials.password",
+			"env:watson_language_translator_password",
+			"file:/server/localdev-config.json:$.watson_language_translator_password"
+		]
+	}
+}

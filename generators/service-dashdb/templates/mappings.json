@@ -1,0 +1,23 @@
+{
+	"dashdb_uri":{
+		"searchPatterns": [
+			"cloudfoundry:$.dashDB[0].credentials.uri",
+			"env:dashdb_uri",
+			"file:/server/localdev-config.json:$.dashdb_uri"
+		]
+	},
+	"dashdb_username":{
+		"searchPatterns": [
+			"cloudfoundry:$.dashDB[0].credentials.username",
+			"env:dashdb_username",
+			"file:/server/localdev-config.json:$.dashdb_username"
+		]
+	},
+	"dashdb_password":{
+		"searchPatterns": [
+			"cloudfoundry:$.dashDB[0].credentials.password",
+			"env:dashdb_password",
+			"file:/server/localdev-config.json:$.dashdb_password"
+		]
+	}
+}

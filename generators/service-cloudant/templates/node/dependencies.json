@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"cloudant": "^1.8.0"
+	}
+}

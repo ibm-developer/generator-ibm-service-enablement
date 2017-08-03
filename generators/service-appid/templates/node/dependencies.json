@@ -1,0 +1,6 @@
+{
+	"dependencies": {
+		"bluemix-appid": "^1.0.0",
+		"passport": "^0.3.2"
+	}
+}
