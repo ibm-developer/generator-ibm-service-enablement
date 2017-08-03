@@ -30,8 +30,8 @@
 [img-github-forks]: https://img.shields.io/github/forks/ibm-developer/generator-ibm-service-enablement.svg?style=social&label=Fork
 [url-github-forks]: https://github.com/ibm-developer/generator-ibm-service-enablement/network
 
-[img-travis-master]: https://travis-ci.org/ibm-developer/generator-ibm-service-enablement.svg
-[url-travis-master]: https://travis-ci.org/ibm-developer/generator-ibm-service-enablement
+[img-travis-master]: https://travis-ci.org/ibm-developer/generator-ibm-service-enablement.svg?branch=master
+[url-travis-master]: https://travis-ci.org/ibm-developer/generator-ibm-service-enablement/branches
 
 [img-coveralls-master]: https://coveralls.io/repos/github/ibm-developer/generator-ibm-service-enablement/badge.svg
 [url-coveralls-master]: https://coveralls.io/github/ibm-developer/generator-ibm-service-enablement
