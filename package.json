@@ -1,6 +1,6 @@
 {
 	"name": "generator-ibm-service-enablement",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "This generator adds Cloud Service enablement to applications",
 	"files": [
 		"generators"
