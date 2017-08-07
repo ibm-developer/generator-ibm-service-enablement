@@ -4,7 +4,10 @@ node_js:
 before_script:
   - echo TODO replace with devops pipeline
   # - git clone -b v2 git@github.ibm.com:bluemix-mobile-services/bmd-devops-pipeline.git
-script: npm run lint && npm test # && ./bmd-devops-pipeline/scripts/npm_publish.sh 
+script:
+  - npm run lint
+  - npm test
+  # && ./bmd-devops-pipeline/scripts/npm_publish.sh
 branches:
   only:
     - development
