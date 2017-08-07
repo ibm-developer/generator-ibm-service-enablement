@@ -1,0 +1,5 @@
+{
+  "dashdb_uri": "{{uri}}",
+  "dashdb_username": "{{username}}",
+  "dashdb_password": "{{password}}"
+}

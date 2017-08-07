@@ -1,0 +1,16 @@
+{
+	"finance_predictive_market_scenarios_uri":{
+		"searchPatterns": [
+			"cloudfoundry:$['fss-predictive-scenario-analytics-service'][0].credentials.uri",
+			"env:finance_predictive_market_scenarios_uri",
+			"file:/server/localdev-config.json:$.finance_predictive_market_scenarios_uri"
+		]
+	},
+	"finance_predictive_market_scenarios_accesstoken":{
+		"searchPatterns": [
+			"cloudfoundry:$['fss-predictive-scenario-analytics-service'][0].credentials.accessToken",
+			"env:finance_predictive_market_scenarios_accesstoken",
+			"file:/server/localdev-config.json:$.finance_predictive_market_scenarios_accesstoken"
+		]
+	}
+}
