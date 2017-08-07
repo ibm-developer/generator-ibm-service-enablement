@@ -29,8 +29,8 @@ if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]]; then
             npm version patch -m "[Travis - npm version patch] Increment package version to %s"
 
             git branch --set-upstream-to origin/development
-            git push $GITHUB_URL_SECURED
-            git push $GITHUB_URL_SECURED --tags
+            git push $GITHUB_URL_SECURED HEAD:development
+            git push $GITHUB_URL_SECURED HEAD:development --tags
         fi
     fi
 else
