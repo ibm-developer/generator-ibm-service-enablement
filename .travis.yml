@@ -7,7 +7,7 @@ before_script:
 script:
   - npm run lint
   - npm test
-  - npm coveralls
+  - npm run coveralls
   # && ./bmd-devops-pipeline/scripts/npm_publish.sh
 branches:
   only:
