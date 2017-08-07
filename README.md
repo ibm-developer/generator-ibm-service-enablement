@@ -9,10 +9,6 @@
 [![DownloadsTotal][img-npm-downloads-total]][url-npm]
 [![License][img-license]][url-npm]
 
-[![GithubWatch][img-github-watchers]][url-github-watchers]
-[![GithubStars][img-github-stars]][url-github-stars]
-[![GithubForks][img-github-forks]][url-github-forks]
-
 > Work-in-progress
 
 [img-bluemix-powered]: https://img.shields.io/badge/bluemix-powered-blue.svg
@@ -22,13 +18,6 @@
 [img-version]: https://img.shields.io/npm/v/generator-ibm-service-enablement.svg
 [img-npm-downloads-monthly]: https://img.shields.io/npm/dm/generator-ibm-service-enablement.svg
 [img-npm-downloads-total]: https://img.shields.io/npm/dt/generator-ibm-service-enablement.svg
-
-[img-github-watchers]: https://img.shields.io/github/watchers/ibm-developer/generator-ibm-service-enablement.svg?style=social&label=Watch
-[url-github-watchers]: https://github.com/ibm-developer/generator-ibm-service-enablement/watchers
-[img-github-stars]: https://img.shields.io/github/stars/ibm-developer/generator-ibm-service-enablement.svg?style=social&label=Star
-[url-github-stars]: https://github.com/ibm-developer/generator-ibm-service-enablement/stargazers
-[img-github-forks]: https://img.shields.io/github/forks/ibm-developer/generator-ibm-service-enablement.svg?style=social&label=Fork
-[url-github-forks]: https://github.com/ibm-developer/generator-ibm-service-enablement/network
 
 [img-travis-master]: https://travis-ci.org/ibm-developer/generator-ibm-service-enablement.svg?branch=master
 [url-travis-master]: https://travis-ci.org/ibm-developer/generator-ibm-service-enablement/branches

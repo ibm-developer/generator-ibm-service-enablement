@@ -1,23 +1,19 @@
 language: node_js
 node_js:
 - '8'
-
 script:
-  - npm run lint
-  - npm test
-  - npm run coveralls
-  - ./npm_patch.sh
-
+- npm run lint
+- npm test
+- npm run coveralls
+- "./npm_patch.sh"
 branches:
   only:
-    - development
-    - master
-
+  - development
+  - master
 notifications:
   email:
     on_success: always
     on_failure: always
-
-  slack: 
+  slack:
     rooms:
-      - $SLACK_ARF_DEVOPS
+    - "$SLACK_ARF_DEVOPS"
