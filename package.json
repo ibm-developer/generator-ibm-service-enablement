@@ -1,35 +1,37 @@
 {
-    "name": "generator-ibm-service-enablement",
-    "version": "0.0.3",
-    "description": "This generator adds Cloud Service enablement to applications",
-    "files": [
-        "generators"
-    ],
-    "keywords": [
-        "yeoman-generator"
-    ],
-    "scripts": {
-        "lint": "eslint .",
-        "test": "nyc mocha --recursive"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ibm-developer/generator-ibm-service-enablement.git"
-    },
-    "author": "IBM",
-    "license": "Apache-2.0",
-    "dependencies": {
-        "handlebars": "^4.0.10",
-        "log4js": "^1.1.1",
-        "yeoman-generator": "^1.1.1"
-    },
-    "devDependencies": {
-        "chai": "^4.0.2",
-        "eslint": "^4.2.0",
-        "eslint-plugin-ejs": "0.0.2",
-        "mocha": "^3.4.2",
-        "nyc": "^11.0.2",
-        "yeoman-assert": "^3.0.0",
-        "yeoman-test": "^1.6.0"
-    }
+	"name": "generator-ibm-service-enablement",
+	"version": "0.0.3",
+	"description": "This generator adds Cloud Service enablement to applications",
+	"files": [
+		"generators"
+	],
+	"keywords": [
+		"yeoman-generator"
+	],
+	"scripts": {
+		"lint": "eslint .",
+		"test": "nyc mocha --recursive",
+		"coveralls": "nyc report --reporter=text-lcov | coveralls"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ibm-developer/generator-ibm-service-enablement.git"
+	},
+	"author": "IBM",
+	"license": "Apache-2.0",
+	"dependencies": {
+		"handlebars": "^4.0.10",
+		"log4js": "^1.1.1",
+		"yeoman-generator": "^1.1.1"
+	},
+	"devDependencies": {
+		"chai": "^4.0.2",
+		"coveralls": "^2.13.1",
+		"eslint": "^4.2.0",
+		"eslint-plugin-ejs": "0.0.2",
+		"mocha": "^3.4.2",
+		"nyc": "^11.0.2",
+		"yeoman-assert": "^3.0.0",
+		"yeoman-test": "^1.6.0"
+	}
 }
