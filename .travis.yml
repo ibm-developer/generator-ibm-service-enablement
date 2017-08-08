@@ -1,19 +1,27 @@
 language: node_js
 node_js:
 - '8'
-before_script:
-  - echo TODO replace with devops pipeline
-  # - git clone -b v2 git@github.ibm.com:bluemix-mobile-services/bmd-devops-pipeline.git
 script:
-  - npm run lint
-  - npm test
-  - npm run coveralls
-  # && ./bmd-devops-pipeline/scripts/npm_publish.sh
+- npm run lint
+- npm test
+- npm run coveralls
+- "./npm_patch.sh"
 branches:
   only:
-    - development
-    - master
+  - development
+  - master
 notifications:
-  slack: 
+  email:
+    on_success: always
+    on_failure: always
+  slack:
     rooms:
-      - $SLACK_ARF_DEVOPS
+    - "$SLACK_ARF_DEVOPS"
+
+deploy:
+  provider: npm
+  email: $NPM_EMAIL
+  api_key: $NPM_TOKEN
+  on:
+    branch: master
+
