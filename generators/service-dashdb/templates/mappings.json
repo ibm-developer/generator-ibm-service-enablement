@@ -1,23 +1,16 @@
 {
-	"dashdb_uri":{
+	"dashdb_dsn": {
 		"searchPatterns": [
-			"cloudfoundry:$.dashDB[0].credentials.uri",
-			"env:dashdb_uri",
-			"file:/server/localdev-config.json:$.dashdb_uri"
+			"cloudfoundry:$.dashDB[0].credentials.dsn",
+			"env:dashdb_dsn",
+			"file:/server/localdev-config.json:$.dashdb_dsn"
 		]
 	},
-	"dashdb_username":{
+	"dashdb_jdbcurl": {
 		"searchPatterns": [
-			"cloudfoundry:$.dashDB[0].credentials.username",
-			"env:dashdb_username",
-			"file:/server/localdev-config.json:$.dashdb_username"
-		]
-	},
-	"dashdb_password":{
-		"searchPatterns": [
-			"cloudfoundry:$.dashDB[0].credentials.password",
-			"env:dashdb_password",
-			"file:/server/localdev-config.json:$.dashdb_password"
+			"cloudfoundry:$.dashDB[0].credentials.jdbcurl",
+			"env:dashdb_jdbcurl",
+			"file:/server/localdev-config.json:$.dashdb_jdbcurl"
 		]
 	}
 }

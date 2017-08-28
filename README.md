@@ -1,4 +1,4 @@
-# IBM Cloud Service Enablement Yeoman Generator
+# IBM Service Enablement Yeoman Generator
 
 [![Bluemix powered][img-bluemix-powered]][url-bluemix]
 [![Travis][img-travis-master]][url-travis-master]
@@ -8,8 +8,6 @@
 [![DownloadsMonthly][img-npm-downloads-monthly]][url-npm]
 [![DownloadsTotal][img-npm-downloads-total]][url-npm]
 [![License][img-license]][url-npm]
-
-> Work-in-progress
 
 [img-bluemix-powered]: https://img.shields.io/badge/bluemix-powered-blue.svg
 [url-bluemix]: http://bluemix.net
@@ -27,3 +25,38 @@
 
 [img-codacy]: https://api.codacy.com/project/badge/Grade/8d3d304fc8f54f1b914ef982f39e00ac?branch=master
 [url-codacy]: https://www.codacy.com/app/ibm-developer/generator-ibm-service-enablement
+
+## Pre-requisites
+
+Install [Yeoman](http://yeoman.io)
+
+```bash
+npm install -g yo
+```
+
+## Installation
+
+``bash
+npm install -g generator-ibm-service-enablement
+``
+
+## Usage
+
+Following command line arguments are supported
+* `--bluemix {stringified-json}` -  used by Scaffolder to supply project information from `pman`. This will be referred as `projectConfig` in this document. You can also supply a local file containing compatible JSON object by using `--bluemix file:path/to/file.json`
+
+## Development
+
+Clone this repository and link it via npm
+
+```bash
+git clone https://github.com/ibm-developer/generator-ibm-service-enablement
+cd generator-ibm-service-enablement
+npm link
+```
+
+In a separate directory invoke the generator via
+
+```bash
+yo ibm-service-enablement 
+```

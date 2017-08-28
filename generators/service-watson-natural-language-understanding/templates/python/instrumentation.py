@@ -6,5 +6,5 @@ natural_language_understanding = NaturalLanguageUnderstandingV1(
     password=IBMCloudEnv.getString('watson_natural_language_understanding_password'),
     version='2017-02-27')
 
-def getService():
+def getService(app):
     return 'watson-natural-language-understanding', natural_language_understanding

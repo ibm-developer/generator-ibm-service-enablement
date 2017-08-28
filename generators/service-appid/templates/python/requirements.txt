@@ -1,1 +1,1 @@
-# AppID Python SDK is not available yet
+Flask-OAuthlib~=0.9.4

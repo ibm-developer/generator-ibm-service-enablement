@@ -65,11 +65,26 @@ describe('node-express', function() {
 		});
 	});
 
+	it('Can add ObjectStorage instrumentation', () => {
+		testAll('service-object-storage', {
+			object_storage_project_id: optionsBluemix.objectStorage[0].projectId,
+			object_storage_user_id: optionsBluemix.objectStorage[0].userId,
+			object_storage_password: optionsBluemix.objectStorage[0].password,
+			object_storage_region: optionsBluemix.objectStorage[0].region
+		});
+	});
+
 	it('Can add DashDB instrumentation', () => {
 		testAll('service-dashdb', {
-			dashdb_username: optionsBluemix.dashDb.username,
-			dashdb_password: optionsBluemix.dashDb.password,
-			dashdb_uri: optionsBluemix.dashDb.uri
+			dashdb_dsn: optionsBluemix.dashDb.dsn,
+			dashdb_jdbcurl: optionsBluemix.dashDb.ssljdbcurl
+		});
+	});
+
+	it('Can add DB2 instrumentation', () => {
+		testAll('service-db2', {
+			db2_dsn: optionsBluemix.db2OnCloud.dsn,
+			db2_jdbcurl: optionsBluemix.db2OnCloud.ssljdbcurl
 		});
 	});
 
@@ -222,6 +237,42 @@ describe('node-express', function() {
 		});
 	});
 
+		it('Can add Push instrumentation', () => {
+		testAll('service-push', {
+			push_app_guid: optionsBluemix.push.appGuid,
+			push_app_secret: optionsBluemix.push.appSecret,
+			push_client_secret: optionsBluemix.push.clientSecret
+		});
+	});
+
+	it('Can add AlertNotification instrumentation', () => {
+		testAll('service-alertnotification', {
+			alert_notification_url: optionsBluemix.alertnotification.url,
+			alert_notification_name: optionsBluemix.alertnotification.name,
+			alert_notification_password: optionsBluemix.alertnotification.password
+		});
+	});
+
+
+	it('Can add MongoDB instrumentation', () => {
+		testAll('service-mongodb', {
+			mongodb_uri: optionsBluemix.mongodb.uri
+		});
+	});
+
+	it('Can add Redis instrumentation', () => {
+		testAll('service-redis', {
+			redis_uri: optionsBluemix.redis.uri
+		});
+	});
+
+	it('Can add Postgre instrumentation', () => {
+		testAll('service-postgre', {
+			postgre_uri: optionsBluemix.postgresql.uri
+		});
+	});
+
+
 
 	it('Can run generation with no services', (done) => {
 		for (let key in optionsBluemix){
@@ -283,5 +334,4 @@ function testMappings(serviceName) {
 
 function testLocalDevConfig(json){
 	yassert.jsonFileContent(SERVER_LOCALDEV_CONFIG_JSON, json);
-
 }

@@ -1,0 +1,10 @@
+{
+  "jndiEntries" : [
+    {"name" : "cloudant/url", "value" : "${env.cloudant_url}"},
+    {"name" : "cloudant/username", "value" : "${env.cloudant_username}"},
+    {"name" : "cloudant/password", "value" : "${env.cloudant_password}"}
+  ],
+  "dependencies" : [
+    {"groupId" : "com.cloudant", "artifactId" : "cloudant-client", "version" : "2.7.0"}
+  ]
+}

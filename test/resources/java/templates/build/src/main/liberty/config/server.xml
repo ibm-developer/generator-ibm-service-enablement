@@ -1,0 +1,16 @@
+<server description="Sample Liberty server">
+
+  <featureManager>
+      {{#each frameworkDependencies}}
+      <feature>{{this.feature}}</feature>
+      {{/each}}
+  </featureManager>
+
+  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+      id="defaultHttpEndpoint" host="*" />
+
+  {{#each jndiEntries}}
+    <jndiEntry jndiName="{{name}}" value="{{value}}"/>
+  {{/each}}
+
+</server>

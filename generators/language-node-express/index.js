@@ -47,6 +47,8 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-cloudant'), {context: this.context});
 		this.composeWith(require.resolve('../service-apache-spark'), {context: this.context});
 		this.composeWith(require.resolve('../service-dashdb'), {context: this.context});
+		this.composeWith(require.resolve('../service-db2'), {context: this.context});
+		this.composeWith(require.resolve('../service-object-storage'), {context: this.context});
 
 		// Watson Services
 		this.composeWith(require.resolve('../service-watson-conversation'), {context: this.context});
@@ -72,6 +74,17 @@ module.exports = class extends Generator {
 
 		// Weather Services
 		this.composeWith(require.resolve('../service-weather-company-data'), {context: this.context});
+
+		//Storages
+		this.composeWith(require.resolve('../service-mongodb'), {context: this.context});
+		this.composeWith(require.resolve('../service-redis'), {context: this.context});
+		this.composeWith(require.resolve('../service-postgre'), {context: this.context});
+
+		//Mobile
+		this.composeWith(require.resolve('../service-push'), {context: this.context});
+
+		//Devops
+		this.composeWith(require.resolve('../service-alertnotification'), {context: this.context});
 	}
 
 	_addDependencies(serviceDepdendenciesString){

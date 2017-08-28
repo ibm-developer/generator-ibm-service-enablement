@@ -1,0 +1,40 @@
+<!-- an example pom file that is used for testing  -->
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <app.name>{{appName}}</app.name>
+        {{#each properties}}
+        <{{this.name}}>{{this.value}}</{{this.name}}>
+        {{/each}}
+    </properties>
+
+    <dependencies>
+        {{#each dependencies}}
+        <dependency>
+            <groupId>{{this.groupId}}</groupId>
+            <artifactId>{{this.artifactId}}</artifactId>
+            {{#if version}}
+            <version>{{this.version}}</version>
+            {{/if}}
+            {{#if scope}}
+            <scope>{{this.scope}}</scope>
+            {{/if}}
+            {{#if exclusions}}
+            <exclusions>
+              {{#each exclusions}}
+              <exclusion>
+                <groupId>{{this.groupId}}</groupId>
+                <artifactId>{{this.artifactId}}</artifactId>
+              </exclusion>
+              {{/each}}
+            </exclusions>
+            {{/if}}
+        </dependency>
+        {{/each}}
+    </dependencies>
+
+</project>
+

@@ -6,5 +6,5 @@ text_to_speech = TextToSpeechV1(
     password=IBMCloudEnv.getString('watson_text_to_speech_password'),
     x_watson_learning_opt_out=True)
 
-def getService():
+def getService(app):
     return 'watson-text-to-speech', text_to_speech

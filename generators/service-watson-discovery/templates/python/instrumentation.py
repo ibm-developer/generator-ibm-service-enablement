@@ -6,5 +6,5 @@ discovery = DiscoveryV1(
     password=IBMCloudEnv.getString('watson_discovery_password'),
     version='2016-12-01')
 
-def getService():
+def getService(app):
     return 'watson-discovery', discovery
