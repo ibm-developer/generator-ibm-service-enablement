@@ -1,0 +1,6 @@
+{
+  "ibm-alert-notification_name": "{{name}}",
+  "ibm-alert-notification_password": "{{password}}"
+  "ibm-alert-notification_url": "{{url}}",
+  "ibm-alert-notification_swaggerui": "{{swaggerui}}"
+}
