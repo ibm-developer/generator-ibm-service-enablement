@@ -1,5 +1,5 @@
 const Log4js = require('log4js');
-const logger = Log4js.getLogger("generator-service-enablement");
+const logger = Log4js.getLogger("generator-ibm-service-enablement");
 const Bundle = require("./../../package.json")
 
 let Generator = require('yeoman-generator');
