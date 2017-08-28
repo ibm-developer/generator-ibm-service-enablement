@@ -31,6 +31,17 @@
 			"plan": "accern-plan"
 		}
 	},
+	"alertNotifcation": {
+		"name": "da3c3dad-cd53-4539-aea1-626ab2259af6/fa5ff325-679d-4632-bd81-e63bcee874c3",
+		"password": "XNVdszetg1zL/6pE2CcODBNfGhvFFqmj",
+		"url": "https://ibmnotifybm.mybluemix.net/api/alerts/v1",
+		"swaggerui": "https://ibmnotifybm.mybluemix.net/docs/alerts/v1",
+		"serviceInfo": {
+			"label": "alertNotifcation-label",
+			"name": "alertNotifcation-name",
+			"plan": "alertNotifcation-plan"
+		}
+	},
 	"analytics": {
 		"apiKey": "analytics-api-key",
 		"serviceInfo": {
@@ -295,6 +306,15 @@
 			"label": "Plaid",
 			"name": "plaid-name",
 			"plan": "plaid-plan"
+		}
+	},
+	"portfolioOptimization": {
+		"uri": "https://fss-analytics.stage1.mybluemix.net/",
+		"accessToken": "80542d24a3f7858a7cac6a36a14fb610adb3b805cc7f8e1a24fc90ebf588b12a9400664e081fa109e6402517d6b75610790c5026d45346cfaa57626f17526cda2f29853d52eb7819ddc0f38dfd8adc3539a1d7ac6d159fc18f311d59aa6bb2b1f7082b4e296c2a241062cb3bf606cb6cef98e30634b916cdaaabd406c218f649",
+		"serviceInfo": {
+			"label": "portfolioOptimization",
+			"name": "portfolioOptimization-name",
+			"plan": "plaportfolioOptimization-plan"
 		}
 	},
 	"predictiveMarketScenarios": {

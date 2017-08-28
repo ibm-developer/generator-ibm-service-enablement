@@ -3,7 +3,7 @@
     "searchPatterns": [
       "cloudfoundry:$['alertnotification'][0].credentials.name",
       "env:ibm-alert-notification_name",
-      "file:/server/localdev-config.json:$.ibm-alert-notification_name
+      "file:/server/localdev-config.json:$.ibm-alert-notification_name"
     ]
   },
   "ibm-alert-notification_accesstoken":{
