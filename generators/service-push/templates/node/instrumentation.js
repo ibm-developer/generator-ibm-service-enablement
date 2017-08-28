@@ -1,6 +1,6 @@
 const IBMCloudEnv = require('ibm-cloud-env');
 const PushNotifications = require('bluemix-push-notifications').PushNotifications;
-const Notification = require('bluemix-push-notification').Notification;
+const Notification = require('bluemix-push-notifications').Notification;
 
 module.exports = function(app, serviceManager){
 	let region = IBMCloudEnv.getString("push_region");
