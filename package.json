@@ -1,7 +1,8 @@
 {
 	"name": "generator-ibm-service-enablement",
-	"version": "0.0.7",
-	"description": "This generator adds Cloud Service enablement to applications",
+	"version": "0.0.53",
+	"description": "This generator adds Service enablement to applications",
+	"main": "generators/app/index.js",
 	"files": [
 		"generators"
 	],
@@ -10,7 +11,10 @@
 	],
 	"scripts": {
 		"lint": "eslint .",
-		"test": "nyc mocha --recursive",
+		"test": "npm run lint && nyc mocha test/app-*",
+		"testjava": "mocha test/app-java-test.js",
+		"testnode": "mocha test/app-node-express-test.js",
+		"testpython": "mocha test/app-python-flask-test.js",
 		"coveralls": "nyc report --reporter=text-lcov | coveralls"
 	},
 	"repository": {
@@ -22,7 +26,8 @@
 	"dependencies": {
 		"handlebars": "^4.0.10",
 		"log4js": "^1.1.1",
-		"yeoman-generator": "^1.1.1"
+		"yeoman-generator": "^1.1.1",
+		"lodash": "^4.17.4"
 	},
 	"devDependencies": {
 		"chai": "^4.0.2",

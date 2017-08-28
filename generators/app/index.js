@@ -25,16 +25,16 @@ module.exports = class extends Generator {
 			type: String
 		});
 
+		this.parentContext = opts.parentContext;			//parent context if being composed by another generator
 	}
 
-	configuring(){
+	intializing(){
 		this._sanitizeOption(this.options, OPTION_BLUEMIX);
 		this._sanitizeOption(this.options, OPTION_STARTER);
-	}
 
-	writing(){
-		let context = {};
-		context[OPTION_BLUEMIX] = this.options[OPTION_BLUEMIX];
+		let context = this.parentContext || {};
+		//add bluemix options from this.options to existing bluemix options on parent context
+		context[OPTION_BLUEMIX] = Object.assign(context[OPTION_BLUEMIX] || {}, this.options[OPTION_BLUEMIX]);
 		context[OPTION_STARTER] = this.options[OPTION_STARTER];
 		context.loggerLevel = logger.level;
 		context.language = context.bluemix.backendPlatform.toLowerCase();
@@ -47,25 +47,33 @@ module.exports = class extends Generator {
 			case "python":
 				languageGeneratorPath = '../language-python-flask';
 				break;
+			case "java":
+				languageGeneratorPath = '../language-java';
+				context.language = 'java-liberty';
+				break;
+			case "spring":
+				languageGeneratorPath = '../language-java';
+				context.language = 'java-spring';
+				break;
 		}
 
-		logger.info("Composing with", languageGeneratorPath)
+		logger.info("Composing with", languageGeneratorPath);
 		this.composeWith(require.resolve(languageGeneratorPath), {context: context});
 	}
 
+	writing(){
+
+	}
+
 	_setLoggerLevel(){
-		let level = process.env.GENERATOR_LOG_LEVEL || DEFAULT_LOG_LEVEL;
+		let level = (process.env.GENERATOR_LOG_LEVEL || DEFAULT_LOG_LEVEL).toUpperCase();
 		logger.info("Setting log level to", level);
-		switch (level.toLowerCase()){
-			case "all": logger.setLevel(Log4js.levels.ALL); break;
-			case "trace": logger.setLevel(Log4js.levels.TRACE); break;
-			case "debug": logger.setLevel(Log4js.levels.DEBUG); break;
-			case "info": logger.setLevel(Log4js.levels.INFO); break;
-			case "warn": logger.setLevel(Log4js.levels.WARN); break;
-			case "error": logger.setLevel(Log4js.levels.ERROR); break;
-			case "fatal": logger.setLevel(Log4js.levels.FATAL); break;
-			case "mark": logger.setLevel(Log4js.levels.MARK); break;
-			case "off": logger.setLevel(Log4js.levels.OFF); break;
+		/* istanbul ignore else */      //ignore for code coverage as the else block will set a known valid log level
+		if(Log4js.levels.hasOwnProperty(level)) {
+			logger.setLevel(Log4js.levels[level]);
+		} else {
+			logger.warn("Invalid log level specified (using default) : " + level);
+			logger.setLevel(DEFAULT_LOG_LEVEL.toUpperCase());
 		}
 	}
 

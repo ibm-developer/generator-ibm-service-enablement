@@ -1,0 +1,37 @@
+group = '{{groupId}}'
+version = '{{version}}'
+
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+ext {
+    appName = '{{appName}}'
+    {{#each properties}}
+    {{this.name}} = {{{this.value}}}
+    {{/each}}
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava.options.encoding = 'UTF-8'
+
+jar {
+    baseName = '{{appName}}'
+    version =  '{{version}}'
+}
+
+dependencies {
+    {{#each dependencies}}
+    {{#if scope}}{{this.scope}}Compile{{else}}compile{{/if}} ('{{this.groupId}}:{{this.artifactId}}{{#if version}}:{{this.version}}{{/if}}') {{#if exclusions}}{
+        {{#each exclusions}}
+        exclude group: '{{this.groupId}}', module: '{{this.artifactId}}'
+        {{/each}}
+    } {{/if}}
+    {{/each}}
+}

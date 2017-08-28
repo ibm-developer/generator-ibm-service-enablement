@@ -1,0 +1,31 @@
+{
+	"object_storage_project_id":{
+		"searchPatterns": [
+			"cloudfoundry:$['Object-Storage'][0].credentials.projectId",
+			"env:object_storage_project_id",
+			"file:/server/localdev-config.json:$.object_storage_project_id"
+		]
+	},
+	"object_storage_user_id":{
+		"searchPatterns": [
+			"cloudfoundry:$['Object-Storage'][0].credentials.userId",
+			"env:object_storage_user_id",
+			"file:/server/localdev-config.json:$.object_storage_user_id"
+		]
+	},
+	"object_storage_password":{
+		"searchPatterns": [
+			"cloudfoundry:$['Object-Storage'][0].credentials.password",
+			"env:object_storage_password",
+			"file:/server/localdev-config.json:$.object_storage_password"
+		]
+	},
+	"object_storage_region":{
+		"searchPatterns": [
+			"cloudfoundry:$['Object-Storage'][0].credentials.region",
+			"env:object_storage_region",
+			"file:/server/localdev-config.json:$.object_storage_region"
+		]
+	}
+}
+

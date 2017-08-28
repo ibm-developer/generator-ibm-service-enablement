@@ -1,1 +1,15 @@
-# Docs - https://console.bluemix.net/docs/services/Db2whc/index.html
+from ibm_cloud_env import IBMCloudEnv
+from ibmdbpy import IdaDataBase
+from ibmdbpy import IdaDataFrame
+
+
+def getService(app):
+
+   idadb=IdaDataBase(dsn=IBMCloudEnv.getString('dashdb_jdbcurl'))
+
+   content = {
+        'idadb': idadb,
+        'idadf': IdaDataFrame
+   }
+
+   return 'dashdb-json', content

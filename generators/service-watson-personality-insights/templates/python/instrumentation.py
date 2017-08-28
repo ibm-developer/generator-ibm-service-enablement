@@ -6,5 +6,5 @@ personality_insights = PersonalityInsightsV3(
     password=IBMCloudEnv.getString('watson_personality_insights_password'),
     version='2016-10-20')
 
-def getService():
+def getService(app):
     return 'watson-personality-insights', personality_insights

@@ -4,6 +4,7 @@ const logger = Log4js.getLogger("generator-service-enablement:language-python-fl
 let Generator = require('yeoman-generator');
 
 const GENERATE_HERE = "# GENERATE HERE";
+const GENERATE_IMPORT_HERE = "# GENERATE IMPORT HERE";
 const PATH_MAPPINGS_FILE = "./server/config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "server/localdev-config.json";
 const PATH_REQUIREMENTS_TXT = "./requirements.txt";
@@ -34,20 +35,22 @@ module.exports = class extends Generator {
 		this.fs.copy(
 			this.templatePath() + "/service_manager.py",
 			this.destinationPath("./server/services/service_manager.py")
-		)
+		);
 
 		this.fs.copy(
 			this.templatePath() + "/services_index.py",
 			this.destinationPath("./server/services/" + SERVICES_INIT_FILE)
-		)
+		);
 
 		// Security Services
 		this.composeWith(require.resolve('../service-appid'), {context: this.context});
 
 		// Cloud Data Services
 		this.composeWith(require.resolve('../service-cloudant'), {context: this.context});
+		this.composeWith(require.resolve('../service-object-storage'), {context: this.context});
 		this.composeWith(require.resolve('../service-apache-spark'), {context: this.context});
 		this.composeWith(require.resolve('../service-dashdb'), {context: this.context});
+		this.composeWith(require.resolve('../service-db2'), {context: this.context});
 
 		// Financial Services
 		this.composeWith(require.resolve('../service-finance-instrument-analytics'), {context: this.context});
@@ -73,6 +76,17 @@ module.exports = class extends Generator {
 
 		// Weather Services
 		this.composeWith(require.resolve('../service-weather-company-data'), {context: this.context});
+
+		//Storages
+		this.composeWith(require.resolve('../service-mongodb'), {context: this.context});
+		this.composeWith(require.resolve('../service-redis'), {context: this.context});
+		this.composeWith(require.resolve('../service-postgre'), {context: this.context});
+
+		//Mobile
+		this.composeWith(require.resolve('../service-push'), {context: this.context});
+
+		//Devops
+		this.composeWith(require.resolve('../service-alertnotification'), {context: this.context});
 	}
 
 	_addDependencies(serviceDepdendenciesString){
@@ -112,20 +126,25 @@ module.exports = class extends Generator {
 		let indexFileContent = this.fs.read(servicesInitFilePath);
 
 		let module = options.targetFileName.replace(".py","");
-		let contentToAdd = "\nfrom . import " + module + "\n" +
-			"name, service = " + module + ".getService()\n" +
-			"service_manager.set(name, service)\n" + GENERATE_HERE;
+		let importToAdd = "from . import " + module + "\n" + GENERATE_IMPORT_HERE;
+		let contentToAdd = "\n\tname, service = " + module + ".getService(app)\n" +
+			"\tservice_manager.set(name, service)\n" + GENERATE_HERE;
 
 		indexFileContent = indexFileContent.replace(GENERATE_HERE, contentToAdd);
+		indexFileContent = indexFileContent.replace(GENERATE_IMPORT_HERE, importToAdd);
 		this.fs.write(servicesInitFilePath, indexFileContent);
+
+
 	}
 
 	end(){
-		// Remove GENERATE_HERE from SERVICES_INIT_FILE
+		// Remove GENERATE_HERE and GENERATE_IMPORT_HERE from SERVICES_INIT_FILE
 		let servicesInitFilePath = this.destinationPath("./server/services/" + SERVICES_INIT_FILE);
 		let indexFileContent = this.fs.read(servicesInitFilePath);
-		indexFileContent = indexFileContent.replace(GENERATE_HERE, "");
+		indexFileContent = indexFileContent.replace(GENERATE_HERE, "").replace(GENERATE_IMPORT_HERE, "");
 		this.fs.write(servicesInitFilePath, indexFileContent);
+
+		// Remove GENERATE_IMPORT_HERE from SERVICES_INIT_FILE
 
 		// Add PATH_LOCALDEV_CONFIG_FILE to .gitignore
 		let gitIgnorePath = this.destinationPath(PATH_GIT_IGNORE);

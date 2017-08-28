@@ -1,0 +1,24 @@
+{
+	"push_app_guid":{
+		"searchPatterns": [
+			"cloudfoundry:$['imfpush'][0].credentials.appGuid",
+			"env:push_app_guid",
+			"file:/server/localdev-config.json:$.push_app_guid"
+		]
+	},
+	"push_app_secret":{
+		"searchPatterns": [
+			"cloudfoundry:$['imfpush'][0].credentials.appSecret",
+			"env:push_app_secret",
+			"file:/server/localdev-config.json:$.push_app_secret"
+		]
+	},
+	"push_client_secret":{
+		"searchPatterns": [
+			"cloudfoundry:$['imfpush'][0].credentials.clientSecret",
+			"env:push_client_secret",
+			"file:/server/localdev-config.json:$.push_client_secret"
+		]
+	}
+}
+

@@ -1,15 +1,15 @@
 language: node_js
+
 node_js:
 - '8'
-script:
-- npm run lint
-- npm test
-- npm run coveralls
-- "./npm_patch.sh"
+
+script: npm test && npm run coveralls && ./npm_patch.sh
+
 branches:
   only:
   - development
   - master
+
 notifications:
   email:
     on_success: always

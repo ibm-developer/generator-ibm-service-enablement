@@ -47,7 +47,25 @@ module.exports = JSON.stringify({
 			"plan": "auth-plan"
 		}
 	},
-
+	"dashDb": {
+		"db": "BLUDB",
+		"dsn": "DATABASE=XXX;HOSTNAME=hostnXame.services.dal.bluemix.net;PORT=50000;PROTOCOL=TCPIP;UID=dash105642;PWD=XXX;",
+		"host": "hostname.services.dal.bluemix.net",
+		"hostname": "hostname.services.dal.bluemix.net",
+		"https_url": "https://hostname.services.dal.bluemix.net:8443",
+		"jdbcurl": "jdbc:db2://hostname.services.dal.bluemix.net:50000/BLUDB",
+		"password": "XXXX-password",
+		"port": 50000,
+		"ssldsn": "DATABASE=XXX;HOSTNAME=hostname.services.dal.bluemix.net;PORT=50001;PROTOCOL=TCPIP;UID=dash105642;PWD=XXX;Security=SSL;",
+		"ssljdbcurl": "jdbc:db2://hostname.services.dal.bluemix.net:50001/BLUDB:sslConnection=true;",
+		"uri": "db2://dash105642:password@hostname.services.dal.bluemix.net:50000/BLUDB",
+		"username": "dash105642",
+		"serviceInfo": {
+			"label": "dashDB",
+			"name": "dashdb-name",
+			"plan": "Entry"
+		}
+	},
 	"cloudant": [
 		{
 			"url": "https://account.cloudant.com",
@@ -222,5 +240,20 @@ module.exports = JSON.stringify({
 			"name": "visual-recognition-name",
 			"plan": "visual-recognition-plan"
 		}
+	},
+	"mongodb": {
+		"uri": "mongodb://admin:password@bluemix.net,bluemix.net:20056/compose?ssl=true&authSource=admin"
+	},
+	"postgresql": {
+		"uri": "postgres://admin:password@bluemix.net:20058/compose"
+	},
+	"alertnotification": {
+		"url": "https://bluemix.net",
+		"name": "alertnotification",
+		"password": "alertnotification-password"
+	},
+	"redis": {
+		"uri": "redis://admin:password@bluemix.com:20051"
 	}
+
 });

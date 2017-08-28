@@ -6,5 +6,5 @@ conversation = ConversationV1(
     password=IBMCloudEnv.getString('watson_conversation_password'),
     version='2017-05-26')
 
-def getService():
+def getService(app):
     return 'watson-conversation', conversation

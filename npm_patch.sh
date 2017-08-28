@@ -3,7 +3,7 @@
 set -ev
 
 if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]]; then
-    echo "This is not a PR, proceeding with version increment."
+    echo "Not a Pull Request build. Proceeding."
 
     # on development branch, we want to auto increment package patch version number
     # and push commit back to repo
@@ -34,5 +34,5 @@ if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]]; then
         fi
     fi
 else
-    echo "This is a PR. Doing nothing."
+    echo "This is a Pull Request build. Doing nothing."
 fi

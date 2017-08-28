@@ -1,0 +1,16 @@
+{
+	"db2_dsn":{
+		"searchPatterns": [
+			"cloudfoundry:$['dashDB For Transactions'][0].credentials.dsn",
+			"env:db2_dsn",
+			"file:/server/localdev-config.json:$.db2_dsn"
+		]
+	},
+	"db2_jdbcurl": {
+		"searchPatterns": [
+			"cloudfoundry:$['dashDB For Transactions'].credentials.jdbcurl",
+			"env:db2_jdbcurl",
+			"file:/server/localdev-config.json:$.db2_jdbcurl"
+		]
+	}
+}

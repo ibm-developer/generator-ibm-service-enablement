@@ -5,5 +5,5 @@ natural_language_classifier = NaturalLanguageClassifierV1(
     username=IBMCloudEnv.getString('watson_natural_language_classifier_username'),
     password=IBMCloudEnv.getString('watson_natural_language_classifier_password'))
 
-def getService():
+def getService(app):
     return 'watson-natural-language-classifier', natural_language_classifier

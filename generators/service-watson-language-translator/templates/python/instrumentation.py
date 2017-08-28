@@ -5,5 +5,5 @@ language_translator = LanguageTranslatorV2(
     username=IBMCloudEnv.getString('watson_language_translator_username'),
     password=IBMCloudEnv.getString('watson_language_translator_password'))
 
-def getService():
+def getService(app):
     return 'watson-language-translator', language_translator

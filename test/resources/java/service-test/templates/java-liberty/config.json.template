@@ -1,0 +1,8 @@
+{
+  "jndiEntries" : [
+    {"name" : "testjndiname", "value" : "testjndivalue"}
+  ],
+  "frameworkDependencies" : [
+    {"feature" : "test-1.0"}
+  ]
+}

@@ -3,5 +3,5 @@ from cloudant.client import Cloudant
 
 cloudant = Cloudant(IBMCloudEnv.getString('cloudant_url')
 
-def getService():
+def getService(app):
     return 'cloudant', cloudant

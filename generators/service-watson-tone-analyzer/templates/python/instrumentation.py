@@ -6,5 +6,5 @@ tone_analyzer = ToneAnalyzerV3(
     password=IBMCloudEnv.getString('watson_tone_analyzer_password'),
     version='2016-05-19')
 
-def getService():
+def getService(app):
     return 'watson-tone-analyzer', tone_analyzer

@@ -6,5 +6,5 @@ document_conversion = DocumentConversionV1(
     password=IBMCloudEnv.getString('watson_document_conversion_password'),
     version='2016-02-10')
 
-def getService():
+def getService(app):
     return 'watson-document-conversion', document_conversion
