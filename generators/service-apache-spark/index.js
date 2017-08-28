@@ -9,15 +9,15 @@ module.exports = class extends BaseGenerator {
 		super(args, opts, SERVICE_NAME, SCAFFOLDER_PROJECT_PROPERTY_NAME, localDevConfig);
 	}
 
-		initializing(){
+	initializing() {
 		return super.initializing();
 	}
 
-	configuring(){
+	configuring() {
 		return super.configuring();
 	}
 
-	writing(){
+	writing() {
 		return super.writing();
 	}
 }

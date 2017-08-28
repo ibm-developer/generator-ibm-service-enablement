@@ -9,7 +9,7 @@ const PACKAGE_JSON = 'package.json';
 const SERVER_MAPPINGS_JSON = 'server/config/mappings.json';
 const SERVER_LOCALDEV_CONFIG_JSON = 'server/localdev-config.json';
 
-describe('node-express', function() {
+describe('node-express', function () {
 	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
 
 	before((done) => {
@@ -237,7 +237,7 @@ describe('node-express', function() {
 		});
 	});
 
-		it('Can add Push instrumentation', () => {
+	it('Can add Push instrumentation', () => {
 		testAll('service-push', {
 			push_app_guid: optionsBluemix.push.appGuid,
 			push_app_secret: optionsBluemix.push.appSecret,
@@ -273,10 +273,9 @@ describe('node-express', function() {
 	});
 
 
-
 	it('Can run generation with no services', (done) => {
-		for (let key in optionsBluemix){
-			if (key !== 'name' && key !== 'backendPlatform' && key !== 'server'){
+		for (let key in optionsBluemix) {
+			if (key !== 'name' && key !== 'backendPlatform' && key !== 'server') {
 				delete optionsBluemix[key];
 			}
 		}
@@ -316,7 +315,7 @@ function testServiceDependencies(serviceName) {
 	yassert.jsonFileContent(PACKAGE_JSON, expectedDependencies);
 }
 
-function testServiceInstrumentation(serviceName){
+function testServiceInstrumentation(serviceName) {
 	const expectedRequire = "require('./" + serviceName + "')(app, serviceManager);"
 	yassert.fileContent('server/services/index.js', expectedRequire);
 	yassert.file('server/services/' + serviceName + '.js');
@@ -332,6 +331,6 @@ function testMappings(serviceName) {
 	yassert.jsonFileContent(SERVER_MAPPINGS_JSON, expectedMappings);
 }
 
-function testLocalDevConfig(json){
+function testLocalDevConfig(json) {
 	yassert.jsonFileContent(SERVER_LOCALDEV_CONFIG_JSON, json);
 }
