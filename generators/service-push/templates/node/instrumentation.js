@@ -3,7 +3,7 @@ const PushNotifications = require('bluemix-push-notifications').PushNotification
 const Notification = require('bluemix-push-notifications').Notification;
 
 module.exports = function(app, serviceManager){
-	let region = IBMCloudEnv.getString("push_region");
+	let region = IBMCloudEnv.getString("push_region") || "us_south";
 	switch (region){
 		case "us_south": region = PushNotifications.Region.US_SOUTH; break;
 		case "uk": region = PushNotifications.Region.LONDON; break;
