@@ -235,6 +235,9 @@
 			"plan": "language-translator-plan"
 		}
 	},
+	"mongodb": {
+		"uri": "mongodb://admin:password@bluemix.net,bluemix.net:20056/compose?ssl=true&authSource=admin"
+	},
 	"naturalLanguageClassifier": {
 		"url": "https://gateway.watsonplatform.net/natural-language-classifier/api",
 		"username": "natural-language-classifier-username",
@@ -317,6 +320,9 @@
 			"plan": "plaportfolioOptimization-plan"
 		}
 	},
+	"postgresql": {
+		"uri": "postgres://admin:password@bluemix.net:20058/compose"
+	},
 	"predictiveMarketScenarios": {
 		"uri": "https://fss-analytics.mybluemix.net/",
 		"accessToken": "predictive-market-scenarios-accesstoken",
@@ -345,6 +351,9 @@
 			"name": "quovo-name",
 			"plan": "quovo-plan"
 		}
+	},
+	"redis": {
+		"uri": "redis://admin:password@bluemix.com:20051"
 	},
 	"retrieveAndRank": {
 		"url": "https://gateway.watsonplatform.net/retrieve-and-rank/api",
@@ -434,19 +443,5 @@
 			"name": "xignite-market-data-name",
 			"plan": "xignite-market-data-plan"
 		}
-	},
-	"mongodb": {
-		"uri": "mongodb://admin:password@bluemix.net,bluemix.net:20056/compose?ssl=true&authSource=admin"
-	},
-	"postgresql": {
-		"uri": "postgres://admin:password@bluemix.net:20058/compose"
-	},
-	"alertnotification": {
-		"url": "https://bluemix.net",
-		"name": "alertnotification",
-		"password": "alertnotification-password"
-	},
-	"redis": {
-		"uri": "redis://admin:password@bluemix.com:20051"
 	}
 }

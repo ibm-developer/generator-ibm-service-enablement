@@ -1,1 +1,0 @@
-# API Docs - https://console.bluemix.net/docs/services/AlertNotification/index.html
