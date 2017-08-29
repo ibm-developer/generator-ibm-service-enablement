@@ -1,5 +1,5 @@
 const Log4js = require('log4js');
-const logger = Log4js.getLogger("generator-service-enablement:language-python-flask");
+const logger = Log4js.getLogger("generator-ibm-service-enablement:language-python-flask");
 
 let Generator = require('yeoman-generator');
 
