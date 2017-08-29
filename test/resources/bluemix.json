@@ -31,7 +31,7 @@
 			"plan": "accern-plan"
 		}
 	},
-	"alertNotifcation": {
+	"alertnotifcation": {
 		"name": "da3c3dad-cd53-4539-aea1-626ab2259af6/fa5ff325-679d-4632-bd81-e63bcee874c3",
 		"password": "XNVdszetg1zL/6pE2CcODBNfGhvFFqmj",
 		"url": "https://ibmnotifybm.mybluemix.net/api/alerts/v1",
