@@ -14,7 +14,7 @@ os = None
 initServices(app)
 
 @app.route('/cloudant-test')
-def cloudant():
+def Cloudant():
 	messages = []
 	cloudant = service_manager.get('cloudant')
 	cloudant.delete_database('test')
