@@ -1,4 +1,4 @@
-    {
+{
   "cloudant_username": "{{username}}",
   "cloudant_password": "{{password}}",
   "cloudant_url": "{{url}}"
