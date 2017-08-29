@@ -25,6 +25,7 @@ module.exports = class extends Generator {
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
+		this.context.addReadMe = this._addReadMe(this);
 	}
 
 	writing() {
@@ -33,12 +34,12 @@ module.exports = class extends Generator {
 		this.fs.copy(
 			this.templatePath() + "/service-manager.js",
 			this.destinationPath("./server/services/service-manager.js")
-		)
+		);
 
 		this.fs.copy(
 			this.templatePath() + "/services-index.js",
 			this.destinationPath("./server/services/index.js")
-		)
+		);
 
 		// Security Services
 		this.composeWith(require.resolve('../service-appid'), {context: this.context});
@@ -114,6 +115,13 @@ module.exports = class extends Generator {
 		let contentToAdd = "\trequire('./" + options.targetFileName.replace(".js","") + "')(app, serviceManager);\n" + GENERATE_HERE;
 		indexFileContent = indexFileContent.replace(GENERATE_HERE, contentToAdd);
 		this.fs.write(servicesIndexJsFilePath, indexFileContent);
+	}
+
+	_addReadMe(options){
+		this.fs.copy(
+			options.sourceFilePath,
+			this.destinationPath() + "/docs/" + options.targetFileName
+		);
 	}
 
 	end(){
