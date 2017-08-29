@@ -26,6 +26,7 @@ module.exports = class extends Generator {
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
+		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
 	}
 

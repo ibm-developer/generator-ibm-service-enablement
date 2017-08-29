@@ -23,95 +23,97 @@ const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
 
 module.exports = class extends Generator {
 
-  constructor(args, opts) {
-    super(args, opts);
-    this.context = opts.context;
-    logger.setLevel(this.context.loggerLevel);
-    logger.debug("Constructing");
-  }
+	constructor(args, opts) {
+		super(args, opts);
+		this.context = opts.context;
+		logger.setLevel(this.context.loggerLevel);
+		logger.debug("Constructing");
+	}
 
-  //setup all the values we need to pass in the context
-  initializing() {
+	//setup all the values we need to pass in the context
+	initializing() {
 		this.context.dependenciesFile = "config.json.template";
 		this.context.languageFileExt = "";
 
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
-        this.context.addInstrumentation = this._addInstrumentation.bind(this);
-        this.context.addReadMe = this._addReadMe.bind(this);
-        this.context.srcFolders = [];
-        this.context.instrumentationAdded = false;
+		this.context.addInstrumentation = this._addInstrumentation.bind(this);
+		this.context.addReadMe = this._addReadMe.bind(this);
+		this.context.srcFolders = [];
+		this.context.instrumentationAdded = false;
 
-    //initializing ourselves by composing with the service generators
-    var root = path.join(path.dirname(require.resolve('../app')), '../');
-    var folders = fs.readdirSync(root);
-    folders.forEach(folder => {
-      if(folder.startsWith('service-')) {
-        logger.debug("Composing with service : " + folder);
-        try {
-          this.composeWith(path.join(root, folder), {context: this.context});
-        } catch (err) {
-          /* istanbul ignore next */      //ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
-          logger.warn('Unable to compose with service', folder, err);
-        }
-      }
-    });
-  }
+		//initializing ourselves by composing with the service generators
+		let root = path.join(path.dirname(require.resolve('../app')), '../');
+		let folders = fs.readdirSync(root);
+		folders.forEach(folder => {
+			if (folder.startsWith('service-')) {
+				logger.debug("Composing with service : " + folder);
+				try {
+					this.composeWith(path.join(root, folder), {context: this.context});
+				} catch (err) {
+					/* istanbul ignore next */      //ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
+					logger.warn('Unable to compose with service', folder, err);
+				}
+			}
+		});
+	}
 
-  writing() {
-    if(this.context.instrumentationAdded) {
-      this._writeFiles(this.context.language + "/**", this.conf);
-      this.context.srcFolders.forEach(folder => {
-        if(fs.existsSync(folder)) {
-          this._writeFiles(folder + "/**", this.conf)
-        }
-      })
-    }
-  }
+	writing() {
+		if (this.context.instrumentationAdded) {
+			this._writeFiles(this.context.language + "/**", this.conf);
+			this.context.srcFolders.forEach(folder => {
+				if (fs.existsSync(folder)) {
+					this._writeFiles(folder + "/**", this.conf)
+				}
+			})
+		}
+	}
 
-  _addDependencies(serviceDependenciesString) {
-    logger.debug("Adding dependencies", serviceDependenciesString);
-    this.context._addDependencies(serviceDependenciesString);
-  }
+	_addDependencies(serviceDependenciesString) {
+		logger.debug("Adding dependencies", serviceDependenciesString);
+		this.context._addDependencies(serviceDependenciesString);
+	}
 
-	_addMappings(serviceMappingsJSON){
+	_addMappings(serviceMappingsJSON) {
 		let mappingsFilePath = this.destinationPath(PATH_MAPPINGS_FILE);
 		this.fs.extendJSON(mappingsFilePath, serviceMappingsJSON);
 	}
 
-  _addLocalDevConfig(devconf) {
-    logger.debug("Adding devconf", devconf);
-    this.context._addLocalDevConfig(devconf);
-  }
+	_addLocalDevConfig(devconf) {
+		logger.debug("Adding devconf", devconf);
+		this.context._addLocalDevConfig(devconf);
+	}
 
-  _addInstrumentation(instrumentation) {
-    if(!this.context.instrumentationAdded) {
-      this._addCoreDependencies();
-      this.context.instrumentationAdded = true;
-    }
-    this.context.srcFolders = this.context.srcFolders.concat(instrumentation.sourceFilePath);
-  }
+	_addInstrumentation(instrumentation) {
+		if (!this.context.instrumentationAdded) {
+			this._addCoreDependencies();
+			this.context.instrumentationAdded = true;
+		}
+		this.context.srcFolders = this.context.srcFolders.concat(instrumentation.sourceFilePath);
+	}
 
-  _addCoreDependencies() {
-    let dependenciesString = this.fs.read(this.templatePath() + "/" + this.context.language + "/" + this.context.dependenciesFile);
-    var template = handlebars.compile(dependenciesString);
-    dependenciesString = template(this.context);
-    this.context.addDependencies(dependenciesString);
-  }
+	_addCoreDependencies() {
+		let dependenciesString = this.fs.read(this.templatePath() + "/" + this.context.language + "/" + this.context.dependenciesFile);
+		let template = handlebars.compile(dependenciesString);
+		dependenciesString = template(this.context);
+		this.context.addDependencies(dependenciesString);
+	}
 
-  _addReadMe(options){
+	_addReadMe(options) {
 		this.fs.copy(
 			options.sourceFilePath,
 			this.destinationPath() + "/docs/" + options.targetFileName
 		);
 	}
 
-  _writeFiles(templatePath, data) {
-    this.fs.copy(this.templatePath(templatePath), this.destinationPath(), { process : function (contents, filename) {
-      var compiledTemplate = handlebars.compile(contents.toString());
-      return compiledTemplate(data);
-    }});
-  }
+	_writeFiles(templatePath, data) {
+		this.fs.copy(this.templatePath(templatePath), this.destinationPath(), {
+			process: function (contents) {
+				let compiledTemplate = handlebars.compile(contents.toString());
+				return compiledTemplate(data);
+			}
+		});
+	}
 
 }

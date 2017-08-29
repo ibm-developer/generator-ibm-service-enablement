@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 const log4js = require('log4js');
 const Generator = require('yeoman-generator');
@@ -23,21 +23,21 @@ const lodash = require('lodash/string');
 
 module.exports = class extends Generator {
 	constructor(args, opts, serviceName, scaffolderName, localDevConfig) {
-    super(args, opts);
-    this.scaffolderName = scaffolderName;
-    this.serviceName = serviceName;
-    this.logger = log4js.getLogger("generator-service-enablement:" + serviceName);
+		super(args, opts);
+		this.scaffolderName = scaffolderName;
+		this.serviceName = serviceName;
+		this.logger = log4js.getLogger("generator-service-enablement:" + serviceName);
 		this.context = opts.context;
 		this.logger.setLevel(this.context.loggerLevel);
 		this.languageTemplatePath = this.templatePath() + "/" + this.context.language;
 		this.localDevConfig = localDevConfig;
 	}
 
-	initializing(){
+	initializing() {
 		//do nothing by default
 	}
 
-	configuring(){
+	configuring() {
 		this.shouldProcess = this.context.bluemix.hasOwnProperty(this.scaffolderName) && fs.existsSync(this.languageTemplatePath);
 		if (!this.shouldProcess) {
 			this.logger.info("Nothing to process for " + this.context.language);
@@ -54,36 +54,36 @@ module.exports = class extends Generator {
 		//do nothing by default
 	}
 
-	_addDependencies(){
+	_addDependencies() {
 		this.logger.info("Adding dependencies");
 		let dependenciesString = this.fs.read(this.languageTemplatePath + "/" + this.context.dependenciesFile);
-		if(this.context.dependenciesFile.endsWith('.template')) {			//pass through handlebars if this is a .template file
-			var template = Handlebars.compile(dependenciesString);
+		if (this.context.dependenciesFile.endsWith('.template')) {			//pass through handlebars if this is a .template file
+			let template = Handlebars.compile(dependenciesString);
 			dependenciesString = template(this.context);
 		}
 		this.context.addDependencies(dependenciesString);
 	}
 
-	_addMappings(){
+	_addMappings() {
 		this.logger.info("Adding mappings");
 		let mappings = this.fs.readJSON(this.templatePath() + "/mappings.json");
 		this.context.addMappings(mappings);
 	}
 
-	_addLocalDevConfig(){
+	_addLocalDevConfig() {
 		this.logger.info("Adding local dev config");
 		let templatePath = this.templatePath() + "/localdev-config.json.template";
 		let templateContent = this.fs.read(templatePath);
 		let template = Handlebars.compile(templateContent);
-		var data = {};			//data to use for templating
+		let data = {};			//data to use for templating
 		this.localDevConfig.forEach(item => {
-			var name = lodash.camelCase(item);
-			var bxvalue = this.context.bluemix[this.scaffolderName];
-			if(Array.isArray(bxvalue)) {
+			let name = lodash.camelCase(item);
+			let bxvalue = this.context.bluemix[this.scaffolderName];
+			if (Array.isArray(bxvalue)) {
 				bxvalue = bxvalue[0];		//set to first entry in the array
 			}
-			var path = item.split('.');
-			for(var i = 0; i < path.length - 1; bxvalue = bxvalue[path[i++]]);
+			let path = item.split('.');
+			for (let i = 0; i < path.length - 1; bxvalue = bxvalue[path[i++]]);
 			data[name] = bxvalue[path[path.length - 1]];
 		});
 		this.logger.debug("local dev config", data);
@@ -91,7 +91,7 @@ module.exports = class extends Generator {
 		this.context.addLocalDevConfig(JSON.parse(localDevConfigString));
 	}
 
-	_addInstrumentation(){
+	_addInstrumentation() {
 		this.logger.info("Adding instrumentation");
 		this.context.addInstrumentation({
 			sourceFilePath: this.languageTemplatePath + "/instrumentation" + this.context.languageFileExt,
@@ -99,9 +99,9 @@ module.exports = class extends Generator {
 		});
 	}
 
-	_addReadMe(){
+	_addReadMe() {
 		this.logger.info("Adding Readme");
-		this.fs.copy({
+		this.context.addReadMe({
 			sourceFilePath: this.languageTemplatePath + "/README.md",
 			targetFileName: this.serviceName + ".md"
 		});

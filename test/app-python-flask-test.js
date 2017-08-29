@@ -305,6 +305,7 @@ function testAll(serviceName, localDevConfigJson) {
 	testServiceDependencies(serviceName);
 	testServiceInstrumentation(serviceName);
 	testMappings(serviceName);
+	testReadMe(serviceName);
 	testLocalDevConfig(localDevConfigJson || {})
 }
 
@@ -327,6 +328,13 @@ function testServiceInstrumentation(serviceName) {
 	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "python", "instrumentation.py");
 	const expectedInstrumentation = fs.readFileSync(filePath, 'utf-8')
 	yassert.fileContent('server/services/' + pythonServiceName + '.py', expectedInstrumentation);
+}
+
+function testReadMe(serviceName){
+	yassert.file('docs/' + serviceName + '.md');
+	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "node", "README.md");
+	const expectedReadme = fs.readFileSync(filePath, 'utf-8');
+	yassert.fileContent('docs/' + serviceName + '.md', expectedReadme);
 }
 
 function testMappings(serviceName) {

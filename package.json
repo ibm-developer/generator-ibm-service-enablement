@@ -15,7 +15,8 @@
 		"testjava": "mocha test/app-java-test.js",
 		"testnode": "mocha test/app-node-express-test.js",
 		"testpython": "mocha test/app-python-flask-test.js",
-		"coveralls": "nyc report --reporter=text-lcov | coveralls"
+		"coveralls": "nyc report --reporter=text-lcov | coveralls",
+		"integration": "mocha test/integration-*"
 	},
 	"repository": {
 		"type": "git",
@@ -30,10 +31,12 @@
 		"lodash": "^4.17.4"
 	},
 	"devDependencies": {
+		"axios": "^0.16.2",
 		"chai": "^4.0.2",
 		"coveralls": "^2.13.1",
 		"eslint": "^4.2.0",
 		"eslint-plugin-ejs": "0.0.2",
+		"fs-extra": "^4.0.1",
 		"mocha": "^3.4.2",
 		"nyc": "^11.0.2",
 		"yeoman-assert": "^3.0.0",
