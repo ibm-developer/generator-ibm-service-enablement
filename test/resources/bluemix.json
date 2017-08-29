@@ -353,7 +353,12 @@
 		}
 	},
 	"redis": {
-		"uri": "redis://admin:password@bluemix.com:20051"
+		"uri": "redis://admin:password@bluemix.com:20051",
+		"serviceInfo": {
+			"label": "compose-for-redis",
+			"name": "redis-name",
+			"plan": "redis-plan"
+		}
 	},
 	"retrieveAndRank": {
 		"url": "https://gateway.watsonplatform.net/retrieve-and-rank/api",

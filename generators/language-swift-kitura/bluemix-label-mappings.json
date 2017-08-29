@@ -1,0 +1,10 @@
+{
+  "cloudant": "cloudant",
+  "objectStorage": "object_storage",
+  "auth": "appid",
+  "conversation": "watson_conversation",
+  "redis": "redis",
+  "alertnotification": "alert_notification",
+  "push": "push",
+  "Auto-Scaling": "autoscaling"
+}
