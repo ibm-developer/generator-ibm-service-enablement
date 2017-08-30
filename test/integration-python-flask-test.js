@@ -52,12 +52,12 @@ describe('integration test for services', function() {
 	describe('ObjectStorage', function() {
 		it('should create a container `test` and write content', function() {
 			this.timeout(5000);
-			var expectedMessages = [
+			let expectedMessages = [
 				'test container was created',
 				'ninpocho object was added'
 			];
 
-			var options = {
+			let options = {
 				'method': 'get',
 				'url': 'http://localhost:5000/objectstorage-test'
 			};

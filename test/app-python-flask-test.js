@@ -317,9 +317,9 @@ function testServiceDependencies(serviceName) {
 
 function testServiceInstrumentation(serviceName) {
 	const pythonServiceName = serviceName.replace(/-/g, "_"); // Replace all "-" with "_". Python likes "_".
-	const expectedImport1 = "from . import " + pythonServiceName
-	const expectedImport2 = "from . import " + pythonServiceName
-	const expectedImport3 = "from . import " + pythonServiceName
+	const expectedImport1 = "from . import " + pythonServiceName;
+	const expectedImport2 = "from . import " + pythonServiceName;
+	const expectedImport3 = "from . import " + pythonServiceName;
 	yassert.fileContent('server/services/__init__.py', expectedImport1);
 	yassert.fileContent('server/services/__init__.py', expectedImport2);
 	yassert.fileContent('server/services/__init__.py', expectedImport3);
@@ -332,7 +332,7 @@ function testServiceInstrumentation(serviceName) {
 
 function testReadMe(serviceName){
 	yassert.file('docs/' + serviceName + '.md');
-	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "node", "README.md");
+	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "python", "README.md");
 	const expectedReadme = fs.readFileSync(filePath, 'utf-8');
 	yassert.fileContent('docs/' + serviceName + '.md', expectedReadme);
 }

@@ -27,10 +27,10 @@
 			"file:/server/localdev-config.json:$.object_storage_region"
 		]
 	},
-	"object_storage_authurl": {
+	"object_storage_auth_url": {
 		"searchPatterns": [
 			"cloudfoundry:$['Object-Storage'][0].credentials.auth_url",
-			"env:object_storage_authurl",
+			"env:object_storage_auth_url",
 			"file:/server/localdev-config.json:$.object_storage_auth_url"
 		]
 	}

@@ -16,7 +16,7 @@ import static org.springframework.core.annotation.AnnotationUtils.findAnnotation
 @Configuration
 public class ObjectStorageConfig {
 
-    @Value("${object_storage_authurl:}")
+    @Value("${object_storage_auth_url:}")
     protected String resourceAuthUrl;
 
     @Value("${object_storage_user_id:}")

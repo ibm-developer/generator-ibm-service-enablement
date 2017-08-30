@@ -48,7 +48,7 @@ function serviceObjectStorage(optionsBluemix) {
 			object_storage_user_id: optionsBluemix.objectStorage[0].userId,
 			object_storage_password: optionsBluemix.objectStorage[0].password,
 			object_storage_region: optionsBluemix.objectStorage[0].region,
-			object_storage_authurl: optionsBluemix.objectStorage[0].auth_url,
+			object_storage_auth_url: optionsBluemix.objectStorage[0].auth_url,
 			object_storage_domainName: optionsBluemix.objectStorage[0].domainName
 		},
 		instrumentation: {
