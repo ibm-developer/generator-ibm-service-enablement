@@ -17,38 +17,29 @@ This is where your local configuration is stored for Cloudant.
 
 ## Usages
 
-```javascript
-    const cloudant = serviceManager.get('cloudant');
-    
-    
-	if(!cloudant){
-		res.status(500).send('cloudant is not defined in serviceManager');
-		return;
+```python
+  	messages = []
+	cloudant = service_manager.get('cloudant')
+	cloudant.delete_database('test')
+	messages.append('test destroyed')
+
+
+	data = {
+		'age': 1337
 	}
 
-	cloudant.db.destroy('test', (err) => {
-		if(err && err.statusCode !== 404){
-			res.status(500).send(err.message);
-		} else {
-			messages.push('test destroyed');
-			cloudant.db.create('test', (err) => {
-				if(err){
-					res.status(500).send(err.message);
-				} else {
-					messages.push('test created');
-					const test = cloudant.db.use('test');
-					test.insert({shinobi: true}, 'ninpocho', (err) => {
-						if(err){
-							res.status(500).send(err.message);
-						} else {
-							messages.push('ninpocho was added');
-							res.status(202).json(messages);
-						}
-					});
+	db = cloudant.create_database('test')
 
-				}
-			});
+	if not db.exists():
+		abort(500, 'Database does not exist')
+	else:
+		messages.append('test created')
+		document = db.create_document(data)
 
-		}
+		if not document.exists():
+			abort(500, 'Document does not exist')
+		else:
+			messages.append('document added')
+			return jsonify(messages)
     
 ```

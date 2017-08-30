@@ -50,7 +50,7 @@ app.get('/objectstorage-test', (req, res) => {
 	messages.push('test container was created');
 	objectStorage.getContainer('test')
 		.then((container) => {
-			container.createObject('ninpocho', 'shin')
+			container.createObject('ninpocho', 'HayataShin')
 				.then(() => {
 					messages.push('ninpocho object was added');
 					res.status(200).json(messages);
@@ -63,7 +63,7 @@ app.get('/objectstorage-test', (req, res) => {
 			if(err.name === 'ResourceNotFoundError'){
 				objectStorage.createContainer('test')
 					.then((container) => {
-						container.createObject('ninpocho', 'shin')
+						container.createObject('ninpocho', 'HayataShin')
 							.then(() => {
 								messages.push('ninpocho object was added');
 								res.status(200).json(messages);

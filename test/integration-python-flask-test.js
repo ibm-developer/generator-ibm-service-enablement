@@ -12,15 +12,16 @@ const fs = require('fs-extra');
 const axios = require('axios');
 
 describe('integration test for services', function() {
-	describe('Cloudant', function() {
-		before(function(done) {
-			this.timeout(15000);
-			_setUpApplication(done);
-		});
+	before(function(done) {
+		this.timeout(15000);
+		_setUpApplication(done);
+	});
 
-		after(function(done){
-			_destroyApplication(done);
-		});
+	after(function(done){
+		_destroyApplication(done);
+	});
+	describe('Cloudant', function() {
+
 
 		it('should create a database `test` and add data', function() {
 			this.timeout(5000);
@@ -47,7 +48,7 @@ describe('integration test for services', function() {
 				});
 		});
 	});
-	/*
+
 	describe('ObjectStorage', function() {
 		it('should create a container `test` and write content', function() {
 			this.timeout(5000);
@@ -69,13 +70,16 @@ describe('integration test for services', function() {
 					if(err.response){
 						assert.isNotOk(err.response.data, 'This should not happen');
 					} else {
+						console.log('ERR ' + err.toString());
 						assert.isNotOk(err, 'This should not happen');
 					}
 
 				});
 		});
 	});
-	*/
+
+
+
 });
 
 let _setUpApplication = function(cb){
@@ -83,7 +87,7 @@ let _setUpApplication = function(cb){
 	helpers
 		.run(path.join(__dirname, GENERATOR_PATH))
 		.inTmpDir(function (dir) {
-			console.log('file ' + dir);
+			console.log('dir ' + dir);
 			fs.copySync(path.join(__dirname, '/app/__init__.py'), dir + '/server/__init__.py');
 		})
 		.withOptions({

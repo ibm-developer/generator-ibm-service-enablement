@@ -82,6 +82,7 @@ let _setUpApplication = function(cb){
 	helpers
 		.run(path.join(__dirname, GENERATOR_PATH))
 		.inTmpDir(function (dir) {
+			console.log('dir ' + dir);
 			fs.copySync(path.join(__dirname, '/app/server.js'), dir + '/server/server.js');
 		})
 		.withOptions({
