@@ -52,3 +52,7 @@ This is where your local configuration is stored for Cloudant.
 		}
     
 ```
+
+## Documentation
+
+Other related docuemtation can be found [here](https://github.com/cloudant/nodejs-cloudant)

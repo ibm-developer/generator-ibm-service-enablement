@@ -59,3 +59,7 @@ This is where your local configuration is stored for Cloudant.
 ```
 
 **Note**: Authorization URL will be using `api version 3` and will appended `/v3` at runtime when using service
+
+## Documentation
+
+Other related docuemtation can be found [here](https://www.npmjs.com/package/bluemix-objectstorage)

@@ -43,3 +43,7 @@ This is where your local configuration is stored for Cloudant.
 			return jsonify(messages)
     
 ```
+
+## Documentation
+
+Other related docuemtation can be found [here](http://python-cloudant.readthedocs.io/en/latest/)
