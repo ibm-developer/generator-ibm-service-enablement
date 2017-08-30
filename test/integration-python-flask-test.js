@@ -7,6 +7,7 @@ const GENERATOR_PATH = '../generators/app/index.js';
 const execRun = require('child_process').exec;
 const spawn = require('child_process').spawn;
 let server;
+let initPy;
 
 const fs = require('fs-extra');
 const axios = require('axios');
@@ -24,7 +25,7 @@ describe('integration test for services', function() {
 
 
 		it('should create a database `test` and add data', function() {
-			this.timeout(5000);
+			this.timeout(10000);
 			let expectedMessages = [
 				'test destroyed',
 				'test created',
@@ -51,7 +52,7 @@ describe('integration test for services', function() {
 
 	describe('ObjectStorage', function() {
 		it('should create a container `test` and write content', function() {
-			this.timeout(5000);
+			this.timeout(10000);
 			let expectedMessages = [
 				'test container was created',
 				'ninpocho object was added'
@@ -84,37 +85,40 @@ describe('integration test for services', function() {
 
 let _setUpApplication = function(cb){
 	optionsBluemix.backendPlatform = PLATFORM;
-	helpers
-		.run(path.join(__dirname, GENERATOR_PATH))
-		.inTmpDir(function (dir) {
-			console.log('dir ' + dir);
-			fs.copySync(path.join(__dirname, '/app/__init__.py'), dir + '/server/__init__.py');
-		})
-		.withOptions({
-			bluemix: JSON.stringify(optionsBluemix)
-		})
-		.then((tmpDir) => {
-			execRun('pip install -r requirements.txt', {cwd: tmpDir}, function(error, stdout){
-				if(error){
-					assert.isOk('Could not install dependencies ' + error);
-				} else {
-					console.log(stdout);
-					server = spawn('flask', ['run'], {cmd: tmpDir, env: {PATH: process.env.PATH,
-						'FLASK_APP': 'server/__init__.py'}});
-					setTimeout(function(){
-						cb();
-					},3000);
-					server.stderr.on('data', function(err) {
-						console.error(err.toString('utf-8'));
-						//assert.isNotOk(err.toString('utf-8'), 'This should not happen');
-					});
-					server.stdout.on('data', function(data){
-						console.log(data.toString('utf-8'));
-					});
-				}
-			});
+	_generateApplication(function() {
+		helpers
+			.run(path.join(__dirname, GENERATOR_PATH))
+			.inTmpDir(function (dir) {
+				console.log('dir ' + dir);
+				fs.copySync(path.join(__dirname, '/app/__init__.py'), dir + '/server/__init__.py');
+			})
+			.withOptions({
+				bluemix: JSON.stringify(optionsBluemix)
+			})
+			.then((tmpDir) => {
+				execRun('pip install -r requirements.txt', {cwd: tmpDir}, function(error, stdout){
+					if(error){
+						assert.isOk('Could not install dependencies ' + error);
+					} else {
+						console.log(stdout);
+						server = spawn('flask', ['run'], {cmd: tmpDir, env: {PATH: process.env.PATH,
+							'FLASK_APP': 'server/__init__.py'}});
+						setTimeout(function(){
+							cb();
+						},3000);
+						server.stderr.on('data', function(err) {
+							console.error(err.toString('utf-8'));
+							//assert.isNotOk(err.toString('utf-8'), 'This should not happen');
+						});
+						server.stdout.on('data', function(data){
+							console.log(data.toString('utf-8'));
+						});
+					}
+				});
 
-		});
+			});
+	});
+
 };
 
 
@@ -122,8 +126,40 @@ let _destroyApplication = function(cb){
 	if(server){
 		server.kill();
 	}
+	fs.writeFileSync(path.join(__dirname, '/app/__init__.py'), initPy);
 	cb();
 };
+
+
+let _generateApplication = function(cb) {
+	const serviceNames = ['cloudant', 'object-storage'];
+	const REPLACE_CODE_HERE = '# GENERATE HERE';
+	const REPLACE_SHUTDOWN_CODE_HERE = '# GENERATE SHUTDOWN';
+	let snippetJS;
+	let snippetShutdown;
+
+	initPy = fs.readFileSync(path.join(__dirname, '/app/__init__.py'), 'utf-8');
+	let copyInitPy = initPy;
+
+
+	serviceNames.forEach(function(serviceName){
+		snippetJS = fs.readFileSync(path.join(__dirname, '/app/' + serviceName + '/' + PLATFORM.toLowerCase() + '/__init__.py'), 'utf-8');
+		snippetShutdown = fs.readFileSync(path.join(__dirname, '/app/' + serviceName + '/' + PLATFORM.toLowerCase() + '/shutdown.py'), 'utf-8');
+		snippetJS+=('\n'+ REPLACE_CODE_HERE);
+		snippetShutdown+=('\n' + REPLACE_SHUTDOWN_CODE_HERE);
+		copyInitPy = copyInitPy.replace(REPLACE_CODE_HERE, snippetJS);
+		copyInitPy = copyInitPy.replace(REPLACE_SHUTDOWN_CODE_HERE, snippetShutdown);
+	});
+
+	copyInitPy = copyInitPy.replace(REPLACE_CODE_HERE, "");
+	copyInitPy = copyInitPy.replace(REPLACE_SHUTDOWN_CODE_HERE, "");
+
+
+	fs.writeFileSync(path.join(__dirname, '/app/__init__.py'), copyInitPy);
+	cb();
+};
+
+
 
 
 
