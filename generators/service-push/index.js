@@ -3,7 +3,7 @@ const BaseGenerator = require('../lib/generatorbase');
 
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = "push";
 const SERVICE_NAME = "service-push";
-const localDevConfig = ['appGuid', 'appSecret', 'clientSecret'];
+const localDevConfig = ['appGuid', 'appSecret', 'clientSecret', 'url'];
 
 
 module.exports = class extends BaseGenerator {

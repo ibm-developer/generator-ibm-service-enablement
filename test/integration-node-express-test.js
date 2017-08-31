@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.int.json'));
 const assert = require('chai').assert;
 const path = require('path');
@@ -50,9 +50,10 @@ describe('integration test for services', function () {
 				});
 		});
 	});
-	describe('ObjectStorage', function () {
-		it('should create a container `test` and write content', function () {
-			this.timeout(10000);
+
+	describe('ObjectStorage', function() {
+		it('should create a container `test` and write content', function() {
+			this.timeout(30000);
 			let expectedMessages = [
 				'test container was created',
 				'ninpocho object was added'
@@ -142,6 +143,31 @@ describe('integration test for services', function () {
 		});
 	});
 
+	describe('Push', function() {
+		it('should create a push notification', function() {
+			this.timeout(30000);
+			let expectedMessages = [
+			];
+
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:3000/push-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data.message, { alert: 'Testing BluemixPushNotifications' });
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						assert.isNotOk(JSON.stringify(err), 'This should not happen');
+					}
+
+				});
+		});
+	});
 });
 
 let _setUpApplication = function (cb) {
@@ -193,7 +219,7 @@ let _destroyApplication = function (cb) {
 };
 
 let _generateApplication = function (cb) {
-	const serviceNames = ['cloudant', 'object-storage', 'appId'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId', 'push'];
 	const REPLACE_CODE_HERE = '// GENERATE HERE';
 	let snippetJS;
 

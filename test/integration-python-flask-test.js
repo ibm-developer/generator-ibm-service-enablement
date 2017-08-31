@@ -15,7 +15,7 @@ const axios = require('axios');
 
 describe('integration test for services', function() {
 	before(function(done) {
-		this.timeout(25000);
+		this.timeout(30000);
 		_setUpApplication(done);
 	});
 
@@ -122,7 +122,8 @@ let _setUpApplication = function(cb){
 				bluemix: JSON.stringify(optionsBluemix)
 			})
 			.then((tmpDir) => {
-				execRun('pip install -r requirements.txt', {cwd: tmpDir}, function(error, stdout){
+				execRun('pip install -r requirements.txt', {cwd: tmpDir}, function(error, stdout, stderr){
+					console.log(stderr);
 					if(error){
 						assert.isOk('Could not install dependencies ' + error);
 					} else {
