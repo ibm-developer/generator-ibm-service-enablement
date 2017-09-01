@@ -76,6 +76,12 @@ describe('integration test for services', function () {
 				});
 		});
 	});
+
+	describe('AppID', function() {
+		it('should init appid', function() {
+			
+		})
+	});
 });
 
 let _setUpApplication = function (cb) {
