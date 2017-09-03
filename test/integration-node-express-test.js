@@ -78,9 +78,47 @@ describe('integration test for services', function () {
 	});
 
 	describe('AppID', function() {
-		it('should init appid', function() {
+		it('should init appid for web strategy', function() {
+			this.timeout(10000);
+
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:3000/appid-test-web'
+			};
 			
-		})
+			return axios(options)
+				.then(function(response){
+					assert.equal(response.data, 'done');
+				})
+				.catch(function(err){
+					if (err.response) {
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						assert.isNotOk(JSON.stringify(err), 'This should not happen');
+					}
+				})
+		});
+
+		it('should login for web strategy', function() {
+			this.timeout(10000);
+
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:3000/login-web'
+			};
+			
+			return axios(options)
+				.then(function (response) {
+					console.log('RESPO ' + JSON.stringify(response.data));
+				})
+				.catch(function (err) {
+					if (err.response) {
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						assert.isNotOk(JSON.stringify(err), 'This should not happen');
+					}
+				});
+		});
 	});
 });
 
@@ -102,9 +140,9 @@ let _setUpApplication = function (cb) {
 						assert.isOk('Could not install dependencies ' + error);
 					} else {
 						console.log(stdout);
-						execRun('npm install --save express', {cmd: tmpDir}, function (error, stdout) {
+						execRun('npm install --save express express-session', {cmd: tmpDir}, function (error, stdout) {
 							if (error) {
-								assert.isOk('Could not install express', error);
+								assert.isOk('Could not install express and express-session', error);
 								cb();
 							} else {
 								console.info("tmpDir", tmpDir);
@@ -133,7 +171,7 @@ let _destroyApplication = function (cb) {
 };
 
 let _generateApplication = function (cb) {
-	const serviceNames = ['cloudant', 'object-storage'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId'];
 	const REPLACE_CODE_HERE = '// GENERATE HERE';
 	let snippetJS;
 

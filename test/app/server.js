@@ -1,6 +1,7 @@
 /* eslint-disable */
 const express = require('express');
 const app = express();
+const session = require('express-session');
 const passport = require('passport');
 require('./services/index')(app);
 var serviceManager = require('./services/service-manager');
