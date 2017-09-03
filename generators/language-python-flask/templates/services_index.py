@@ -3,8 +3,9 @@
 
 from ibm_cloud_env import IBMCloudEnv
 from . import service_manager
+IBMCloudEnv.init()
+
 # GENERATE IMPORT HERE
 
 def initServices(app):
-    IBMCloudEnv.init()
     # GENERATE HERE
