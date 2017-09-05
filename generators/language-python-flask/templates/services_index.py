@@ -9,3 +9,4 @@ IBMCloudEnv.init()
 
 def initServices(app):
     # GENERATE HERE
+        return
