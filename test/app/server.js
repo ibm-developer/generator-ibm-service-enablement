@@ -3,8 +3,11 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const passport = require('passport');
-require('./services/index')(app);
+const CALLBACK_URL = "/ibm/bluemix/appid/callback";
+
 var serviceManager = require('./services/service-manager');
+serviceManager.set('appid-redirect-uri', 'http://localhost:3000' + CALLBACK_URL);
+require('./services/index')(app);
 
 // GENERATE HERE
 
