@@ -33,12 +33,16 @@
 	"devDependencies": {
 		"axios": "^0.16.2",
 		"chai": "^4.0.2",
+		"cors": "^2.8.4",
 		"coveralls": "^2.13.1",
 		"eslint": "^4.2.0",
 		"eslint-plugin-ejs": "0.0.2",
 		"fs-extra": "^4.0.1",
+		"htmlparser": "^1.7.7",
+		"http-proxy": "^1.16.2",
 		"mocha": "^3.4.2",
 		"nyc": "^11.0.2",
+		"request-promise": "^4.2.1",
 		"yeoman-assert": "^3.0.0",
 		"yeoman-test": "^1.6.0"
 	}

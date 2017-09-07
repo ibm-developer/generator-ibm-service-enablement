@@ -9,20 +9,20 @@ module.exports = function(app, serviceManager){
 	let apiStrategy = new AppIdAPIStrategy({
 		oauthServerUrl: IBMCloudEnv.getString("appid_oauth_server_url")
 	});
-	
+
+	console.log('redirect' + serviceManager.get('appid-redirect-uri'));
 	let webStrategy = new WebAppStrategy({
 		tenantId: IBMCloudEnv.getString('appid_tenant_id'),
 		clientId: IBMCloudEnv.getString('appid_client_id'),
 		secret: IBMCloudEnv.getString('appid_secret'),
-		oauthServerUrl: IBMCloudEnv.getString("appid_oauth_server_url")
+		oauthServerUrl: IBMCloudEnv.getString("appid_oauth_server_url"),
+		redirectUri: serviceManager.get('appid-redirect-uri')
 	});
-
-	app.use(passport.initialize());
 
 	userAttributeManager.init({profilesUrl: IBMCloudEnv.getString('appid_profiles_url')});
 
 	serviceManager.set('appid-web-strategy', webStrategy);
-	serviceManager.set('appid-web-stategy-name', WebAppStrategy.STRATEGY_NAME);
+	serviceManager.set('appid-web-strategy-name', WebAppStrategy.STRATEGY_NAME);
 	serviceManager.set('appid-web-auth-context', WebAppStrategy.AUTH_CONTEXT);
 	serviceManager.set("appid-api-strategy", apiStrategy);
 	serviceManager.set('appid-api-strategy-name', AppIdAPIStrategy.STRATEGY_NAME);

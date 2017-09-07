@@ -6,15 +6,19 @@ const PLATFORM = 'NODE';
 const GENERATOR_PATH = '../generators/app/index.js';
 const fork = require('child_process').fork;
 const execRun = require('child_process').exec;
+const htmlparser = require('htmlparser');
+let proxy;
+let rawHTML = '';
 let serverJs;
 let server;
 
 const fs = require('fs-extra');
 const axios = require('axios');
+const request = require('request-promise');
 
 describe('integration test for services', function () {
 	before(function (done) {
-		this.timeout(15000);
+		this.timeout(25000);
 		_setUpApplication(done);
 	});
 
@@ -78,48 +82,35 @@ describe('integration test for services', function () {
 	});
 
 	describe('AppID', function() {
-		it('should init appid for web strategy', function() {
+		it('should login anon to web strategy', function() {
 			this.timeout(10000);
+			var expectedMessage = {
+				points : "1337"
+			};
 
 			let options = {
-				'method': 'get',
-				'url': 'http://localhost:3000/appid-test-web'
+				'method': 'GET',
+				'url': 'http://localhost:3000/login-web',
+				'withCredentials': true,
+				withCredentials: true,
+				mode: 'no-cors'
 			};
-			
+			axios.defaults.withCredentials = true;
+			console.log('axios ' + JSON.stringify(axios.defaults));
 			return axios(options)
 				.then(function(response){
-					assert.equal(response.data, 'done');
+					assert.deepEqual(response.data, expectedMessage);
 				})
 				.catch(function(err){
 					if (err.response) {
 						assert.isNotOk(err.response.data, 'This should not happen');
 					} else {
-						assert.isNotOk(JSON.stringify(err), 'This should not happen');
+						assert.isNotOk(err.toString(), 'This should not happen');
 					}
 				})
-		});
-
-		it('should login for web strategy', function() {
-			this.timeout(10000);
-
-			let options = {
-				'method': 'get',
-				'url': 'http://localhost:3000/login-web'
-			};
-			
-			return axios(options)
-				.then(function (response) {
-					console.log('RESPO ' + JSON.stringify(response.data));
-				})
-				.catch(function (err) {
-					if (err.response) {
-						assert.isNotOk(err.response.data, 'This should not happen');
-					} else {
-						assert.isNotOk(JSON.stringify(err), 'This should not happen');
-					}
-				});
-		});
+			});
 	});
+
 });
 
 let _setUpApplication = function (cb) {
@@ -140,9 +131,9 @@ let _setUpApplication = function (cb) {
 						assert.isOk('Could not install dependencies ' + error);
 					} else {
 						console.log(stdout);
-						execRun('npm install --save express express-session', {cmd: tmpDir}, function (error, stdout) {
+						execRun('npm install --save express express-session cors', {cmd: tmpDir}, function (error, stdout) {
 							if (error) {
-								assert.isOk('Could not install express and express-session', error);
+								assert.isOk('Could not install express, cors and express-session', error);
 								cb();
 							} else {
 								console.info("tmpDir", tmpDir);
@@ -150,6 +141,12 @@ let _setUpApplication = function (cb) {
 								server = fork(tmpDir + '/server/server.js');
 								server.on('message', function (msg) {
 									if (msg === 'listening') {
+										var http = require('http'),
+									    httpProxy = require('http-proxy');
+//
+// Create your proxy server and set the target in the options.
+//
+										proxy = httpProxy.createProxyServer({target:'http://localhost:3000'}).listen(8000); // See (†)
 										cb()
 									}
 
@@ -165,6 +162,9 @@ let _setUpApplication = function (cb) {
 let _destroyApplication = function (cb) {
 	if (server) {
 		server.kill();
+	}
+	if(proxy){
+		proxy.close();
 	}
 	fs.writeFileSync(path.join(__dirname, '/app/server.js'), serverJs);
 	cb();
