@@ -14,7 +14,7 @@ require('./services/index')(app);
 
 const port = 3000;
 app.listen(port, function(){
-	console.info(`shin listening on http://localhost:${port}`);
+	console.info(`Hayata Shin listening on http://localhost:${port}`);
 	if(process.send){
 		process.send('listening');
 	}
