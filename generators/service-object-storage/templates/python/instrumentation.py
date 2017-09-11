@@ -14,5 +14,5 @@ os_options = {
 
 def getService(app):
     objectStorage = swiftclient.Connection(authurl=authurl,user=user,key=key,os_options=os_options, auth_version='3')
-    return 'object-storage', objectStorage
 
+    return 'object-storage', objectStorage

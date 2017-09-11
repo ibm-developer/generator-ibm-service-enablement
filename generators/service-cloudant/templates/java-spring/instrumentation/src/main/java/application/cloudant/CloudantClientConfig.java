@@ -6,6 +6,7 @@ import org.springframework.beans.factory.InjectionPoint;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
@@ -16,6 +17,7 @@ import application.bluemix.ServiceName;
 import application.bluemix.VCAPServices;
 
 @Configuration
+@PropertySource("classpath:/application-local.properties")
 public class CloudantClientConfig {
 
     @Value("${cloudant_url:}")
