@@ -46,4 +46,4 @@ This is where your local configuration is stored for Cloudant.
 
 ## Documentation
 
-Other related docuemtation can be found [here](http://python-cloudant.readthedocs.io/en/latest/)
+Other related documentation can be found [here](http://python-cloudant.readthedocs.io/en/latest/)

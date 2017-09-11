@@ -25,7 +25,6 @@ def pemFromModExp(modulus,exponent):
 def base64_to_long(data):
     if isinstance(data, six.text_type):
         data = data.encode("ascii")
-
     # urlsafe_b64decode will happily convert b64encoded data
     _d = base64.urlsafe_b64decode(bytes(data) + b'==')
     return intarr2long(struct.unpack('%sB' % len(_d), _d))
@@ -38,6 +37,7 @@ def getService(app):
     SERVER_URL = IBMCloudEnv.getString('appid_oauth_server_url')
     PUBLIC_KEY_URL = SERVER_URL + "/publickey"
     TOKEN_PATH = SERVER_URL + "/token"
+    INTROSPECTION_URL = SERVER_URL + "/introspect"
     AUTH_URL = SERVER_URL + "/authorization"
     CONTEXT = 'APPID_AUTH_CONTEXT'
 
@@ -53,5 +53,6 @@ def getService(app):
     config['appid-authorization-endpoint'] = AUTH_URL
     config['appid-secret'] = IBMCloudEnv.getString('appid_secret')
     config['appid-token-path'] = TOKEN_PATH
+    config['appid-introspect-path'] = INTROSPECTION_URL
 
     return 'appid', config

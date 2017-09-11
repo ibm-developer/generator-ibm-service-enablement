@@ -82,7 +82,7 @@ describe('integration test for services', function () {
 	describe('AppID', function() {
 		it('should login anon to web strategy', function(done) {
 			this.timeout(12000);
-			var expectedMessage = {
+			let expectedMessage = {
 				points : "1337"
 			};
 

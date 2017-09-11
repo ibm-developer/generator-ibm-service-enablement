@@ -9,8 +9,7 @@ module.exports = function(app, serviceManager){
 	let apiStrategy = new AppIdAPIStrategy({
 		oauthServerUrl: IBMCloudEnv.getString("appid_oauth_server_url")
 	});
-
-	console.log('redirect' + serviceManager.get('appid-redirect-uri'));
+	
 	let webStrategy = new WebAppStrategy({
 		tenantId: IBMCloudEnv.getString('appid_tenant_id'),
 		clientId: IBMCloudEnv.getString('appid_client_id'),

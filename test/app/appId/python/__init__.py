@@ -46,8 +46,6 @@ def protected():
             session[service_manager.get('appid')['appid-context']]=None
             return startAuthorization()
         else:
-            print('idTokenPayload')
-            print (idTokenPayload)
             return 'AUTH'
     else:
         return startAuthorization()
