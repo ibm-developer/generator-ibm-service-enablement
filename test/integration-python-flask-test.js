@@ -14,7 +14,7 @@ const axios = require('axios');
 
 describe('integration test for services', function() {
 	before(function(done) {
-		this.timeout(15000);
+		this.timeout(25000);
 		_setUpApplication(done);
 	});
 
@@ -66,6 +66,31 @@ describe('integration test for services', function() {
 			return axios(options)
 				.then(function(response) {
 					assert.deepEqual(response.data, expectedMessages);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+
+				});
+		});
+	});
+
+	describe('AppID', function() {
+		it('should authorize protected endpoint', function() {
+			this.timeout(10000);
+			let expectedMessage = 'AUTH';
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/protected'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
 				})
 				.catch(function(err){
 					if(err.response){
@@ -132,7 +157,7 @@ let _destroyApplication = function(cb){
 
 
 let _generateApplication = function(cb) {
-	const serviceNames = ['cloudant', 'object-storage'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId'];
 	const REPLACE_CODE_HERE = '# GENERATE HERE';
 	const REPLACE_SHUTDOWN_CODE_HERE = '# GENERATE SHUTDOWN';
 	let snippetJS;

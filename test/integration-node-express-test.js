@@ -6,15 +6,13 @@ const PLATFORM = 'NODE';
 const GENERATOR_PATH = '../generators/app/index.js';
 const fork = require('child_process').fork;
 const execRun = require('child_process').exec;
-const htmlparser = require('htmlparser');
-let proxy;
-let rawHTML = '';
+const request = require('request');
+
 let serverJs;
 let server;
 
 const fs = require('fs-extra');
 const axios = require('axios');
-const request = require('request-promise');
 
 describe('integration test for services', function () {
 	before(function (done) {
@@ -29,7 +27,7 @@ describe('integration test for services', function () {
 
 
 		it('should create a database `test` and add data', function () {
-			this.timeout(10000);
+			this.timeout(12000);
 			let expectedMessages = [
 				'test destroyed',
 				'test created',
@@ -82,33 +80,67 @@ describe('integration test for services', function () {
 	});
 
 	describe('AppID', function() {
-		it('should login anon to web strategy', function() {
-			this.timeout(10000);
+		it('should login anon to web strategy', function(done) {
+			this.timeout(12000);
 			var expectedMessage = {
 				points : "1337"
 			};
 
 			let options = {
-				'method': 'GET',
-				'url': 'http://localhost:3000/login-web',
-				'withCredentials': true,
-				withCredentials: true,
-				mode: 'no-cors'
+				method: 'GET',
+				uri: 'http://localhost:3000/login-web',
+				followRedirect: false //handle redirects manually
 			};
-			axios.defaults.withCredentials = true;
-			console.log('axios ' + JSON.stringify(axios.defaults));
-			return axios(options)
-				.then(function(response){
-					assert.deepEqual(response.data, expectedMessage);
-				})
-				.catch(function(err){
-					if (err.response) {
-						assert.isNotOk(err.response.data, 'This should not happen');
-					} else {
-						assert.isNotOk(err.toString(), 'This should not happen');
-					}
-				})
+			let j = request.jar();
+			let cookie;
+			request(options, function(error, response){
+				if(error){
+					assert.isNotOk(error, 'This should not happen - login web');
+					done();
+
+				} else {
+					//redirect to authorization
+					options.method = 'GET';
+					options.uri = response.headers.location;
+					cookie = request.cookie(response.headers['set-cookie'][0]);
+					j.setCookie(cookie, options.uri);
+					options.jar = j;
+					request(options, function (error, response) {
+						if (error) {
+							assert.isNotOk(error.toString(), 'This should not happen - authorization');
+							done();
+						} else {
+							//redirect to callback
+							options.method = 'GET';
+							options.uri = response.headers.location;
+							options.headers = response.request.headers;
+							request(options, function (error, response) {
+								if (error) {
+									assert.isNotOk(error.toString(), 'This should not happen - callback');
+									done();
+								} else {
+									//redirect to protected resource
+									options.method = 'GET';
+									options.uri = response.headers.location.indexOf('http') > -1 ? response.headers.location : 'http://localhost:3000' + response.headers.location ;
+									options.headers = response.request.headers;
+									request(options, function (error, response) {
+										if (error) {
+											assert.isNotOk(error.toString(), 'This should not happen - protected-web');
+											done();
+										} else {
+											assert.deepEqual(JSON.parse(response.body), expectedMessage);
+											done();
+										}
+									});
+								}
+
+							});
+						}
+					});
+				}
+
 			});
+		});
 	});
 
 });
@@ -131,9 +163,9 @@ let _setUpApplication = function (cb) {
 						assert.isOk('Could not install dependencies ' + error);
 					} else {
 						console.log(stdout);
-						execRun('npm install --save express express-session cors', {cmd: tmpDir}, function (error, stdout) {
+						execRun('npm install --save express express-session', {cmd: tmpDir}, function (error, stdout) {
 							if (error) {
-								assert.isOk('Could not install express, cors and express-session', error);
+								assert.isOk('Could not install express and express-session', error);
 								cb();
 							} else {
 								console.info("tmpDir", tmpDir);
@@ -141,12 +173,6 @@ let _setUpApplication = function (cb) {
 								server = fork(tmpDir + '/server/server.js');
 								server.on('message', function (msg) {
 									if (msg === 'listening') {
-										var http = require('http'),
-									    httpProxy = require('http-proxy');
-//
-// Create your proxy server and set the target in the options.
-//
-										proxy = httpProxy.createProxyServer({target:'http://localhost:3000'}).listen(8000); // See (†)
 										cb()
 									}
 
@@ -162,9 +188,6 @@ let _setUpApplication = function (cb) {
 let _destroyApplication = function (cb) {
 	if (server) {
 		server.kill();
-	}
-	if(proxy){
-		proxy.close();
 	}
 	fs.writeFileSync(path.join(__dirname, '/app/server.js'), serverJs);
 	cb();
