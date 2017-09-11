@@ -1,5 +1,4 @@
 from ibm_cloud_env import IBMCloudEnv
-from flask import session
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicNumbers
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
@@ -39,7 +38,6 @@ def getService(app):
     TOKEN_PATH = SERVER_URL + "/token"
     INTROSPECTION_URL = SERVER_URL + "/introspect"
     AUTH_URL = SERVER_URL + "/authorization"
-    CONTEXT = 'APPID_AUTH_CONTEXT'
 
     content = urllib2.urlopen(PUBLIC_KEY_URL).read()
     publicKeyJson = content
