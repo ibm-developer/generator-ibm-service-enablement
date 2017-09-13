@@ -12,11 +12,12 @@ func initializeServiceWatsonConversation() throws {
     // For version, use today's date for the most recent version
     // https://github.com/watson-developer-cloud/swift-sdk#conversation
     let version = getVersion()
-    let conversation = Conversation(
+    let conversationLocal: Conversation = Conversation(
         username: convCredentials.username,
         password: convCredentials.password,
         version: version
     )
+    conversation = conversationLocal
     Log.info("Found and loaded credentials for Watson conversation.")
 }
 
