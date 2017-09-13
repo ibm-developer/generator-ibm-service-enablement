@@ -8,7 +8,6 @@ const bluemixLabelMappings = require('./bluemix-label-mappings.json');
 
 const PATH_MAPPINGS_FILE = "./config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "./config/localdev-config.json";
-//const PATH_PACKAGE_SWIFT = "./Package.swift";
 const PATH_GIT_IGNORE = "./.gitignore";
 const FILE_SEARCH_PATH_PREFIX = "file:/config/localdev-config.json:"
 
@@ -195,17 +194,15 @@ module.exports = class extends Generator {
 		logger.debug("-----------------------------");
 
 		// Write new mappings.json and localdev-config.json files
-		//fs.unlinkSync(this.destinationPath(PATH_LOCALDEV_CONFIG_FILE));
 		logger.debug("localdev-config.json: " + JSON.stringify(credentials));
 		this.fs.writeJSON(this.destinationPath(PATH_LOCALDEV_CONFIG_FILE), credentials);
-		//fs.unlinkSync(this.destinationPath(PATH_MAPPINGS_FILE));
 		logger.debug("mappings.json: " + JSON.stringify(mappings));
 		this.fs.writeJSON(this.destinationPath(PATH_MAPPINGS_FILE), mappings);
 	}
 
 	writing(){ //end(){
-		//Stopgap solution while we decide between fine-grained vs coarse-grained
-		//approach for laying down credentials
+		//Stopgap solution while we get both approaches for laying down credentials:
+		//fine-grained vs. coarse-grained
 		this._transformCredentialsOutput();
 
 		// Add PATH_LOCALDEV_CONFIG_FILE to .gitignore
