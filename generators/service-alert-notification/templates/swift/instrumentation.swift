@@ -3,7 +3,7 @@ import AlertNotifications
 
 var serviceCredentials: ServiceCredentials!
 
-func initializeServiceAlertnotification() throws {
+func initializeServiceAlertNotification() throws {
     guard let alertNotificationCredentials = cloudEnv.getAlertNotificationCredentials(name: "{{servLookupKey}}") else {
         throw InitializationError("Could not load credentials for Alert Notifications.")
     }

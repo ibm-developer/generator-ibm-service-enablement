@@ -119,7 +119,7 @@ describe('swift-kitura', function() {
 		});
 
 		it('Can add Alert Notification instrumentation', () => {
-			testAll('service-alertnotification', 'alert_notification', optionsBluemix.alertnotification.serviceInfo.name, {
+			testAll('service-alert-notification', 'alert_notification', optionsBluemix.alertnotification.serviceInfo.name, {
 				[optionsBluemix.alertnotification.serviceInfo.name]: {
 					name: optionsBluemix.alertnotification.name,
 					password: optionsBluemix.alertnotification.password,

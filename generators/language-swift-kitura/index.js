@@ -47,7 +47,7 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-push'), {context: this.context});
 
 		// DevOps
-		this.composeWith(require.resolve('../service-alertnotification'), {context: this.context});
+		this.composeWith(require.resolve('../service-alert-notification'), {context: this.context});
 		this.composeWith(require.resolve('../service-autoscaling'), {context: this.context});
 
 		// Other services to add would go here...
