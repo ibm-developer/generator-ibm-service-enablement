@@ -1,3 +1,4 @@
+import LoggerAPI
 import AlertNotifications
 
 var serviceCredentials: ServiceCredentials!
@@ -8,7 +9,7 @@ func initializeServiceAlertnotification() throws {
     }
     serviceCredentials = ServiceCredentials(
         url: alertNotificationCredentials.url,
-        name: alertNotificationCredentials.id,
+        name: alertNotificationCredentials.name,
         password: alertNotificationCredentials.password
     )
     Log.info("Found and loaded credentials for Alert Notifications.")

@@ -1,5 +1,4 @@
 import LoggerAPI
-import CloudEnvironment
 import BluemixAppID
 import Credentials
 

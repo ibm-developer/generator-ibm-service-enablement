@@ -1,3 +1,4 @@
+import LoggerAPI
 import BluemixPushNotifications
 
 var pushNotifications: PushNotifications!

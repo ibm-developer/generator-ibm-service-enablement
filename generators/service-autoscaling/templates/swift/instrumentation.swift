@@ -1,10 +1,9 @@
 import LoggerAPI
-import CloudEnvironment
 import SwiftMetricsBluemix
 
 var autoscaling: SwiftMetricsBluemix?
 
-func initializeServiceAutoscaling() {
+func initializeServiceAutoscaling() throws {
     guard let swiftMetrics = swiftMetrics else {
         Log.warning("Failed to initialize Auto-Scaling because metrics is not initialized.")
         return

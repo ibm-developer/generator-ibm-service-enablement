@@ -201,7 +201,7 @@ module.exports = class extends Generator {
 		this.fs.writeJSON(this.destinationPath(PATH_MAPPINGS_FILE), mappings);
 	}
 
-	end(){
+	writing(){ //end(){
 		//Stopgap solution while we decide between fine-grained vs coarse-grained
 		//approach for laying down credentials
 		this._transformCredentialsOutput();

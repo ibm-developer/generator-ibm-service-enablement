@@ -10,9 +10,10 @@ func initializeServiceObjectStorage() throws {
     guard let storageCredentials = cloudEnv.getObjectStorageCredentials(name: "{{servLookupKey}}") else {
         throw InitializationError("Could not load credentials for Object Storage.")
     }
-    guard objStorage = createObjectStorageAndConnect(credentials: storageCredentials) else {
+    guard let connectedObjectStorage = createObjectStorageAndConnect(credentials: storageCredentials) else {
         throw InitializationError("Could not connect to Object Storage")
     }
+    objStorage = connectedObjectStorage
     Log.info("Found and loaded credentials for Object Storage.")
 }
 
