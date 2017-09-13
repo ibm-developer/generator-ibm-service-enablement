@@ -35,11 +35,13 @@ module.exports = class extends Generator {
 		// Security Services
 		this.composeWith(require.resolve('../service-appid'), {context: this.context});
 
-		// Cloud Data Services
+		// Cloud Data * Storage Services
 		this.composeWith(require.resolve('../service-cloudant'), {context: this.context});
 		this.composeWith(require.resolve('../service-object-storage'), {context: this.context});
 		this.composeWith(require.resolve('../service-redis'), {context: this.context});
-
+		this.composeWith(require.resolve('../service-postgre'), {context: this.context});
+		//this.composeWith(require.resolve('../service-mongodb'), {context: this.context});
+		
 		// Watson Services
 		this.composeWith(require.resolve('../service-watson-conversation'), {context: this.context});
 
@@ -50,7 +52,7 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-alert-notification'), {context: this.context});
 		this.composeWith(require.resolve('../service-autoscaling'), {context: this.context});
 
-		// Other services to add would go here...
+		// Additional services go here...
 		//TODO: Add remaining services here; see: https://ibm.box.com/s/7o7w68ydat8ape2u5dzoid89qdgh56qh
 	}
 
