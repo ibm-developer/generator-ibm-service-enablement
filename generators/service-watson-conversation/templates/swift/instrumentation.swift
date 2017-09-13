@@ -7,7 +7,7 @@ var conversation: Conversation!
 func initializeServiceWatsonConversation() throws {
     // Load credentials for Watson conversation using CloudEnvironment
     guard let convCredentials = cloudEnv.getWatsonConversationCredentials(name: "{{servLookupKey}}") else {
-        throw InitializationError("Could not load credentials for Cloudant.")
+        throw InitializationError("Could not load credentials for Watson conversation.")
     }
     // For version, use today's date for the most recent version
     // https://github.com/watson-developer-cloud/swift-sdk#conversation
