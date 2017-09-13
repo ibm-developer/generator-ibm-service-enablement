@@ -1,7 +1,7 @@
 
 const BaseGenerator = require('../lib/generatorbase');
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = "alertnotification";
-const SERVICE_NAME = "service-alertnotification";
+const SERVICE_NAME = "service-alert-notification";
 const localDevConfig = ['url', 'name', 'password'];
 
 module.exports = class extends BaseGenerator {
