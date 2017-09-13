@@ -127,6 +127,14 @@ describe('swift-kitura', function() {
 				}
 			}, dependencies, codeForServices);
 		});
+
+		it('Can add PostgreSQL instrumentation', () => {
+			testAll('service-postgre', 'postgre', optionsBluemix.postgresql.serviceInfo.name, {
+				[optionsBluemix.postgresql.serviceInfo.name]: {
+					uri: optionsBluemix.postgresql.uri
+				}
+			}, dependencies, codeForServices);
+		});
 	});
 
 	describe('no services', function() {

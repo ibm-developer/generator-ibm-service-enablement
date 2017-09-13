@@ -6,5 +6,6 @@
   "redis": "redis",
   "alertnotification": "alert_notification",
   "push": "push",
-  "Auto-Scaling": "autoscaling"
+  "Auto-Scaling": "autoscaling",
+  "postgresql": "postgre"
 }
