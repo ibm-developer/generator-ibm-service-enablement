@@ -86,7 +86,7 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-push'), {context: this.context});
 
 		//Devops
-		this.composeWith(require.resolve('../service-alertnotification'), {context: this.context});
+		this.composeWith(require.resolve('../service-alert-notification'), {context: this.context});
 	}
 
 	_addDependencies(serviceDepdendenciesString){
