@@ -39,6 +39,7 @@ module.exports = class extends Generator {
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
+		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.srcFolders = [];
 		this.context.instrumentationAdded = false;
 
@@ -46,8 +47,7 @@ module.exports = class extends Generator {
 		let root = path.join(path.dirname(require.resolve('../app')), '../');
 		let folders = fs.readdirSync(root);
 		folders.forEach(folder => {
-			if (folder.startsWith('service-')
-			) {
+			if (folder.startsWith('service-')) {
 				logger.debug("Composing with service : " + folder);
 				try {
 					this.composeWith(path.join(root, folder), {context: this.context});
@@ -56,16 +56,14 @@ module.exports = class extends Generator {
 					logger.warn('Unable to compose with service', folder, err);
 				}
 			}
-		})
-		;
+		});
 	}
 
 	writing() {
 		if (this.context.instrumentationAdded) {
 			this._writeFiles(this.context.language + "/**", this.conf);
 			this.context.srcFolders.forEach(folder => {
-				if (fs.existsSync(folder)
-				) {
+				if (fs.existsSync(folder)) {
 					this._writeFiles(folder + "/**", this.conf)
 				}
 			})
@@ -102,9 +100,16 @@ module.exports = class extends Generator {
 		this.context.addDependencies(dependenciesString);
 	}
 
+	_addReadMe(options) {
+		this.fs.copy(
+			options.sourceFilePath,
+			this.destinationPath() + "/docs/" + options.targetFileName
+		);
+	}
+
 	_writeFiles(templatePath, data) {
 		this.fs.copy(this.templatePath(templatePath), this.destinationPath(), {
-			process: function (contents/*, filename */) {
+			process: function (contents) {
 				let compiledTemplate = handlebars.compile(contents.toString());
 				return compiledTemplate(data);
 			}

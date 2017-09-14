@@ -305,6 +305,7 @@ describe('node-express', function () {
 function testAll(serviceName, localDevConfigJson) {
 	testServiceDependencies(serviceName);
 	testServiceInstrumentation(serviceName);
+	testReadMe(serviceName);
 	testMappings(serviceName);
 	testLocalDevConfig(localDevConfigJson || {})
 }
@@ -316,12 +317,12 @@ function testServiceDependencies(serviceName) {
 }
 
 function testServiceInstrumentation(serviceName) {
-	const expectedRequire = "require('./" + serviceName + "')(app, serviceManager);"
+	const expectedRequire = "require('./" + serviceName + "')(app, serviceManager);";
 	yassert.fileContent('server/services/index.js', expectedRequire);
 	yassert.file('server/services/' + serviceName + '.js');
 
 	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "node", "instrumentation.js");
-	const expectedInstrumentation = fs.readFileSync(filePath, 'utf-8')
+	const expectedInstrumentation = fs.readFileSync(filePath, 'utf-8');
 	yassert.fileContent('server/services/' + serviceName + '.js', expectedInstrumentation);
 }
 
@@ -329,6 +330,13 @@ function testMappings(serviceName) {
 	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "mappings.json");
 	const expectedMappings = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 	yassert.jsonFileContent(SERVER_MAPPINGS_JSON, expectedMappings);
+}
+
+function testReadMe(serviceName){
+	yassert.file('docs/' + serviceName + '.md');
+	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "node", "README.md");
+	const expectedReadme = fs.readFileSync(filePath, 'utf-8');
+	yassert.fileContent('docs/' + serviceName + '.md', expectedReadme);
 }
 
 function testLocalDevConfig(json) {
