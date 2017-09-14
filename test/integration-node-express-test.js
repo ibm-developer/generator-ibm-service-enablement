@@ -24,8 +24,6 @@ describe('integration test for services', function () {
 		_destroyApplication(done);
 	});
 	describe('Cloudant', function () {
-
-
 		it('should create a database `test` and add data', function () {
 			this.timeout(12000);
 			let expectedMessages = [

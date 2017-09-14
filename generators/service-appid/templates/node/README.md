@@ -37,7 +37,7 @@ This is where your local configuration is stored for AppID.
     // storage for production environments. See https://github.com/expressjs/session for additional
     // documentation
     app.use(session({
-        secret: "ninpocho",
+        secret: "******",
         resave: false,
         saveUninitialized: true,
 	    cookie: {
