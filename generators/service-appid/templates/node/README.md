@@ -52,6 +52,9 @@ This is where your local configuration is stored for AppID.
     app.use(passport.session());
 
     let webStrategy = serviceManager.get('appid-web-strategy');
+    
+    //To get apiStrategy
+    let apiStrategy = serviceManager.get('appid-api-strategy');
 
 
     // Configure passportjs with user serialization/deserialization. This is required
@@ -66,6 +69,8 @@ This is where your local configuration is stored for AppID.
     });
 
     passport.use(webStrategy);
+    
+    //passport.use(apiStrategy);
 
     app.get(LOGIN_URL, passport.authenticate(serviceManager.get('appid-web-strategy-name'), {
 	    forceLogin: true
@@ -97,6 +102,29 @@ This is where your local configuration is stored for AppID.
 			        res.status(500).send(err);
 		        });
     });
+    
+    
+  // Declare the API you want to protect
+  app.get("/api/protected",
+ 
+    passport.authenticate(serviceManager.get('appid-api-strategy-name'), {
+        session: false
+    }),
+    function(req, res) {
+        // Get full appIdAuthorizationContext from request object
+        var appIdAuthContext = req.appIdAuthorizationContext;
+ 
+        appIdAuthContext.accessToken; // Raw access_token
+        appIdAuthContext.accessTokenPayload; // Decoded access_token JSON
+        appIdAuthContext.identityToken; // Raw identity_token
+        appIdAuthContext.identityTokenPayload; // Decoded identity_token JSON
+ 
+        // Or use user object provided by passport.js
+        var username = req.user.name || "Anonymous";
+        res.send("Hello from protected resource " + username);
+    }
+);
+ 
     
 ```
 
