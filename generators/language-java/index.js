@@ -20,6 +20,7 @@ const path = require('path');
 const handlebars = require('handlebars');
 
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
+const PATH_LOCALDEV_FILE = "./src/main/resources/localdev-config.json";
 
 module.exports = class extends Generator {
 
@@ -84,7 +85,12 @@ module.exports = class extends Generator {
 
 	_addLocalDevConfig(devconf) {
 		logger.debug("Adding devconf", devconf);
-		this.context._addLocalDevConfig(devconf);
+		if(this.context.bluemix && (this.context.bluemix.backendPlatform === 'SPRING')) {
+			let mappingsFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
+			this.fs.extendJSON(mappingsFilePath, devconf);
+		} else {
+			this.context._addLocalDevConfig(devconf);
+		}
 	}
 
 	_addInstrumentation(instrumentation) {
