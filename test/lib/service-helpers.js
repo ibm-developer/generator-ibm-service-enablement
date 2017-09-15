@@ -125,6 +125,6 @@ module.exports = {
 	serviceObjectStorage: serviceObjectStorage,
 	serviceMongodb: serviceMongodb,
 	serviceWatsonConversation: serviceWatsonConversation,
-	service: serviceMongodb,
+	service: servicePush,
 	serviceTest: serviceTest
 }
