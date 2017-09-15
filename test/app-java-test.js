@@ -134,7 +134,7 @@ class Options {
 				assert.fileContent('src/main/java/application/bluemix/VCAPServices.java', 'import javax.json.Json;');
 			});
 		}
-		it('should not generate mappings.json in ' + LOCALDEV_CONFIG_JSON, function () {
+		it('should not generate ' + LOCALDEV_CONFIG_JSON, function () {
 			assert.noFile(LOCALDEV_CONFIG_JSON);
 		});
 	}
@@ -158,7 +158,7 @@ class Options {
 		it('should generate ServiceMappings.java file', function () {
 			check('src/main/java/application/ibmcloud/ServiceMappings.java');
 		});
-		it('should generate mappings.json in ' + LOCALDEV_CONFIG_JSON, function () {
+		it('should generate ' + LOCALDEV_CONFIG_JSON, function () {
 			assert.file(LOCALDEV_CONFIG_JSON);
 		});
 	}

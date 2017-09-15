@@ -17,9 +17,10 @@ import application.ibmcloud.ServiceMappings;
 
 @Configuration
 public class CloudantClientConfig {
-	
-	@Autowired
-	protected ServiceMappings mappings;	//can use this directly or via @Value annotations as it also provides a property source
+
+    //can use this directly or via @Value annotations as it also provides a property source
+    @Autowired
+    protected ServiceMappings mappings;
 
     @Value("${cloudant_url:}")
     protected String resourceUrl;
@@ -35,10 +36,10 @@ public class CloudantClientConfig {
     public CloudantClient cloudantClient(InjectionPoint ip) throws CloudServicesException {
         URL url = null;
         try {
-			url = new URL(resourceUrl);
-		} catch (MalformedURLException e) {
-			throw new CloudServicesException("Invalid service URL specified", e);
-		}
+            url = new URL(resourceUrl);
+        } catch (MalformedURLException e) {
+            throw new CloudServicesException("Invalid service URL specified", e);
+        }
         CloudantClient client = ClientBuilder.url(url)
             .username(resourceUsername)
             .password(resourcePassword)

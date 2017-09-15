@@ -16,8 +16,9 @@ import application.ibmcloud.ServiceMappings;
 @Configuration
 public class ObjectStorageConfig {
 
+    //can use this directly or via @Value annotations as it also provides a property source
     @Autowired
-	protected ServiceMappings mappings;	//can use this directly or via @Value annotations as it also provides a property source
+    protected ServiceMappings mappings;
 
     @Value("${object_storage_auth_url:}")
     protected String resourceAuthUrl;
