@@ -88,6 +88,22 @@ function serviceWatsonConversation(optionsBluemix) {
 	};
 }
 
+function servicePush(optionsBluemix) {
+	return {
+		location: 'service-push',
+		bluemixName: 'push',
+		localDevConfig: {
+			push_app_guid: optionsBluemix.push.appGuid,
+			push_app_secret: optionsBluemix.push.appSecret,
+			push_client_secret: optionsBluemix.push.clientSecret
+		},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: []
+		}
+	};
+}
+
 function serviceTest(optionsBluemix) {
 	return {
 		location: 'service-test',
@@ -102,13 +118,12 @@ function fromDirName(name, optionsBluemix) {
 	return module.exports[lodash.camelCase(name)](optionsBluemix);
 }
 
-
 module.exports = {
 	fromDirName: fromDirName,
 	serviceCloudant: serviceCloudant,
 	serviceObjectStorage: serviceObjectStorage,
 	serviceMongodb: serviceMongodb,
 	serviceWatsonConversation: serviceWatsonConversation,
-	service: serviceMongodb,
+	servicePush: servicePush,
 	serviceTest: serviceTest
 }
