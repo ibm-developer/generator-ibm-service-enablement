@@ -83,6 +83,10 @@ module.exports = class extends Generator {
 
   }
 
+  _addReadMe() {
+
+  }
+
 	initializing(){
     const filePath = path.join(__dirname, "..", "..", "..", "generators", "app", "index.js");
     this.composeWith(filePath, this.values);
@@ -94,7 +98,8 @@ module.exports = class extends Generator {
         addDependencies : this._addDependencies.bind(this),
         addMappings : this._addMappings.bind(this),
         addLocalDevConfig : this._addLocalDevConfig.bind(this),
-        addInstrumentation : this._addInstrumentation.bind(this)
+        addInstrumentation : this._addInstrumentation.bind(this),
+        addReadMe : this._addReadMe.bind(this)
       }
       var bluemixJson = this.bxoptions;
       bluemixJson.test = {

@@ -1,0 +1,2 @@
+    if os:
+        os.close()
