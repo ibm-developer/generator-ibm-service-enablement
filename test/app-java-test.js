@@ -200,7 +200,7 @@ function testServices(services, framework, backendPlatform) {
 	BUILD_TYPES.forEach(buildType => {
 		services.forEach(dirname => {
 			describe(`java generator : test ${framework}, ${buildType}, ${dirname}   `, function () {
-				this.timeout(10000);
+				this.timeout(25000);
 				let service = svcHelpers.fromDirName(dirname, optionsBluemix);
 				let options = new Options(service, backendPlatform);
 				before(options.before.bind(options));
@@ -214,7 +214,7 @@ function testServices(services, framework, backendPlatform) {
 
 function testTestService() {
 	describe('java generator : test liberty, maven, test service', function () {
-		this.timeout(10000);
+		this.timeout(25000);
 		let testService = {
 			"url": "https://account.test.com",
 			"serviceInfo": {
