@@ -104,6 +104,7 @@ module.exports = class extends Generator {
 		let dependenciesString = this.fs.read(this.templatePath() + "/" + this.context.language + "/" + this.context.dependenciesFile);
 		let template = handlebars.compile(dependenciesString);
 		dependenciesString = template(this.context);
+		console.log("Deps : " + dependenciesString);
 		this.context.addDependencies(dependenciesString);
 	}
 
