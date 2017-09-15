@@ -56,14 +56,11 @@ public class ObjectStorage {
         String userId = services.getValue("userId");
         String password = services.getValue("password");
         String auth_url = services.getValue("auth_url");
-        if(auth_url != null) {
-            auth_url += VERSION;
-        }
         String domainName = services.getValue("domainName");
         String project = services.getValue("project");
 
 		if((userId != null) && (password != null) && (auth_url != null)) {
-			return new ObjectStorageCredentials(auth_url, userId, password, domainName, project);
+			return new ObjectStorageCredentials(auth_url + VERSION, userId, password, domainName, project);
 		} else {
 			//fallback to JNDI/local env mappings
 			return new ObjectStorageCredentials(resourceAuthUrl + VERSION, resourceUserId, resourcePassword, resourceDomainName, resourceProject);
