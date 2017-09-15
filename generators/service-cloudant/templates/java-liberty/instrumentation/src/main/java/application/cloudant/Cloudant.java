@@ -3,16 +3,18 @@ package application.cloudant;
 import javax.annotation.Resource;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
-import javax.json.JsonObject;
 
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
 
 import application.bluemix.InvalidCredentialsException;
 import application.bluemix.VCAPServices;
+import application.ibmcloud.CloudServices;
 import application.bluemix.ServiceName;
 
 public class Cloudant {
+
+    private CloudServices services = CloudServices.fromMappings();
 
     @Resource(lookup="cloudant/url")
     protected String resourceUrl;
@@ -39,23 +41,15 @@ public class Cloudant {
     }
 
     private CloudantCredentials getCloudantCredentials(String serviceName) throws InvalidCredentialsException {
-        CloudantCredentials credentials;
-        try {
-            credentials = getCredentialsFromVCAP(serviceName);
-        } catch (InvalidCredentialsException e) {
-            credentials = new CloudantCredentials(resourceUrl, resourceUsername, resourcePassword);
-        }
-        return credentials;
-    }
-
-    private CloudantCredentials getCredentialsFromVCAP(String serviceName) throws InvalidCredentialsException {
-        VCAPServices vcap = new VCAPServices();
-        JsonObject credentials = vcap.getCredentialsObject("cloudantNoSQLDB", serviceName);
-        String username = credentials.getJsonString("username").getString();
-        String password = credentials.getJsonString("password").getString();
-        String url = credentials.getJsonString("url").getString();
-        CloudantCredentials creds = new CloudantCredentials(url, username, password);
-        return creds;
+		String username = services.getValue("cloudant_username");
+		String password = services.getValue("cloudant_password");
+		String url = services.getValue("cloudant_url");
+		if((username != null) && (password != null) && (url != null)) {
+			return new CloudantCredentials(url, username, password);
+		} else {
+			//fallback to JNDI/local env mappings
+			return new CloudantCredentials(resourceUrl, resourceUsername, resourcePassword);
+		}
     }
 
 }
