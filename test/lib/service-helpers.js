@@ -88,6 +88,22 @@ function serviceWatsonConversation(optionsBluemix) {
 	};
 }
 
+function servicePush(optionsBluemix) {
+	return {
+		location: 'service-push',
+		bluemixName: 'push',
+		localDevConfig: {
+			mongodb_uri: optionsBluemix.push.appGuid,
+			mongodb_uri: optionsBluemix.push.appSecret,
+			mongodb_uri: optionsBluemix.push.clientSecret
+		},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: []
+		}
+	};
+}
+
 function serviceTest(optionsBluemix) {
 	return {
 		location: 'service-test',
