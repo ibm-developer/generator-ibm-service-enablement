@@ -1,0 +1,2 @@
+if cloudant:
+        cloudant.disconnect()

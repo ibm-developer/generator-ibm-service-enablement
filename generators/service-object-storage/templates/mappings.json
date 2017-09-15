@@ -26,6 +26,27 @@
 			"env:object_storage_region",
 			"file:/server/localdev-config.json:$.object_storage_region"
 		]
-	}
+	},
+	"object_storage_auth_url": {
+		"searchPatterns": [
+			"cloudfoundry:$['Object-Storage'][0].credentials.auth_url",
+			"env:object_storage_auth_url",
+			"file:/server/localdev-config.json:$.object_storage_auth_url"
+		]
+	},
+  "object_storage_project": {
+    "searchPatterns": [
+      "cloudfoundry:$['Object-Storage'][0].credentials.project",
+      "env:object_storage_project",
+      "file:/server/localdev-config.json:$.object_storage_project"
+    ]
+  },
+  "object_storage_domainName": {
+    "searchPatterns": [
+      "cloudfoundry:$['Object-Storage'][0].credentials.domainName",
+      "env:object_storage_domainName",
+      "file:/server/localdev-config.json:$.object_storage_domainName"
+    ]
+  }
 }
 

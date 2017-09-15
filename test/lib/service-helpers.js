@@ -33,7 +33,7 @@ function serviceCloudant(optionsBluemix) {
 		},
 		instrumentation: {
 			java_liberty: ["src/main/java/application/cloudant/Cloudant.java", "src/main/java/application/cloudant/CloudantCredentials.java"],
-			java_spring: ["src/main/java/application/cloudant/CloudantClientConfig.java", "src/main/java/application/cloudant/CloudantCredentials.java"]
+			java_spring: ["src/main/java/application/cloudant/CloudantClientConfig.java"]
 		}
 	};
 }
@@ -48,12 +48,12 @@ function serviceObjectStorage(optionsBluemix) {
 			object_storage_user_id: optionsBluemix.objectStorage[0].userId,
 			object_storage_password: optionsBluemix.objectStorage[0].password,
 			object_storage_region: optionsBluemix.objectStorage[0].region,
-			object_storage_authurl: optionsBluemix.objectStorage[0].auth_url,
+			object_storage_auth_url: optionsBluemix.objectStorage[0].auth_url,
 			object_storage_domainName: optionsBluemix.objectStorage[0].domainName
 		},
 		instrumentation: {
 			java_liberty: ["src/main/java/application/objectstorage/ObjectStorage.java", "src/main/java/application/objectstorage/ObjectStorageCredentials.java"],
-			java_spring: ["src/main/java/application/objectstorage/ObjectStorageConfig.java", "src/main/java/application/objectstorage/ObjectStorageCredentials.java"]
+			java_spring: ["src/main/java/application/objectstorage/ObjectStorageConfig.java"]
 		}
 	};
 }
