@@ -1,1 +1,5 @@
-{}
+{
+  "dependencies" : [
+    {"groupId" : "com.jayway.jsonpath", "artifactId" : "json-path"}
+  ]
+}
