@@ -3,16 +3,18 @@ package application.objectstorage;
 import javax.annotation.Resource;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
-import javax.json.JsonObject;
 
 import org.openstack4j.api.OSClient.OSClientV3;
 import org.openstack4j.openstack.OSFactory;
 
 import application.bluemix.InvalidCredentialsException;
 import application.bluemix.VCAPServices;
+import application.ibmcloud.CloudServices;
 import application.bluemix.ServiceName;
 
 public class ObjectStorage {
+
+    private CloudServices services = CloudServices.fromMappings();
 
     @Resource(lookup="objectstorage/auth_url")
     protected String resourceAuthUrl;
@@ -51,25 +53,19 @@ public class ObjectStorage {
     }
 
     private ObjectStorageCredentials getObjectStorageCredentials(String serviceName) throws InvalidCredentialsException {
-    	ObjectStorageCredentials credentials;
-        try {
-            credentials = getCredentialsFromVCAP(serviceName);
-        } catch (InvalidCredentialsException e) {
-            credentials = new ObjectStorageCredentials(resourceAuthUrl + VERSION, resourceUserId, resourcePassword, resourceDomainName, resourceProject);
-        }
-        return credentials;
+        String userId = services.getValue("userId");
+        String password = services.getValue("password");
+        String auth_url = services.getValue("auth_url");
+        String domainName = services.getValue("domainName");
+        String project = services.getValue("project");
+
+		if((userId != null) && (password != null) && (auth_url != null)) {
+			return new ObjectStorageCredentials(auth_url + VERSION, userId, password, domainName, project);
+		} else {
+			//fallback to JNDI/local env mappings
+			return new ObjectStorageCredentials(resourceAuthUrl + VERSION, resourceUserId, resourcePassword, resourceDomainName, resourceProject);
+		}
     }
 
-    private ObjectStorageCredentials getCredentialsFromVCAP(String serviceName) throws InvalidCredentialsException {
-        VCAPServices vcap = new VCAPServices();
-        JsonObject credentials = vcap.getCredentialsObject("Object-Storage", serviceName);
-        String userId = credentials.getJsonString("userId").getString();
-        String password = credentials.getJsonString("password").getString();
-        String auth_url = credentials.getJsonString("auth_url").getString() + VERSION;
-        String domainName = credentials.getJsonString("domainName").getString();
-        String project = credentials.getJsonString("project").getString();
-        ObjectStorageCredentials creds = new ObjectStorageCredentials(auth_url, userId, password, domainName, project);
-        return creds;
-    }
 
 }
