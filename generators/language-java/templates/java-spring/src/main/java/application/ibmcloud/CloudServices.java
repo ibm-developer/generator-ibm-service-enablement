@@ -51,7 +51,7 @@ public class CloudServices {
      * 
      * @return the configured service mapper
      */
-    public static CloudServices MAPPINGS() {
+    public static CloudServices fromMappings() {
     	CloudServices cs = new CloudServices();
     	cs.config = cs.getJson(MAPPINGS_JSON);
     	return cs;
@@ -104,6 +104,9 @@ public class CloudServices {
                             break;
                         case "file":
                             value = getFileValue(token[1]);
+                            break;
+                        default :
+                            LOGGER.warn("Unknown protocol in searchPatterns : " + token[0]);
                             break;
                     }
                 }

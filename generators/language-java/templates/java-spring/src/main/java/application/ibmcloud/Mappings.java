@@ -25,27 +25,29 @@ public class Mappings extends PropertySource<Object> {
 	
 	private CloudServices mappings;
 	
-	{
+	public Mappings() {
+		super("CloudServices");
+		init();
+	}
+	
+	public Mappings(String name) {
+		super(name);
+		init();
+	}
+
+	public Mappings(String name, String source) {
+		super(name, source);
+		init();
+	}
+
+	private void init() {
 		try {
-			mappings = CloudServices.MAPPINGS();
+			mappings = CloudServices.fromMappings();
 		} catch (CloudServicesException e) {
 			LOGGER.warn("Error reading mappings file", e);
 			mappings = null;
 		}
 	}
-	
-	public Mappings() {
-		super("CloudServices");
-	}
-	
-	public Mappings(String name) {
-		super(name);
-	}
-
-	public Mappings(String name, String source) {
-		super(name, source);
-	}
-
 	
 	@Override
 	public Object getProperty(String name) {
