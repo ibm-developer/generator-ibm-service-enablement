@@ -7,5 +7,6 @@
   "alertnotification": "alert_notification",
   "push": "push",
   "Auto-Scaling": "autoscaling",
+  "mongodb": "mongodb",
   "postgresql": "postgre"
 }

@@ -39,7 +39,7 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-object-storage'), {context: this.context});
 		this.composeWith(require.resolve('../service-redis'), {context: this.context});
 		this.composeWith(require.resolve('../service-postgre'), {context: this.context});
-		//this.composeWith(require.resolve('../service-mongodb'), {context: this.context});
+		this.composeWith(require.resolve('../service-mongodb'), {context: this.context});
 		
 		// Watson Services
 		this.composeWith(require.resolve('../service-watson-conversation'), {context: this.context});
