@@ -93,9 +93,9 @@ function servicePush(optionsBluemix) {
 		location: 'service-push',
 		bluemixName: 'push',
 		localDevConfig: {
-			mongodb_uri: optionsBluemix.push.appGuid,
-			mongodb_uri: optionsBluemix.push.appSecret,
-			mongodb_uri: optionsBluemix.push.clientSecret
+			push_app_guid: optionsBluemix.push.appGuid,
+			push_app_secret: optionsBluemix.push.appSecret,
+			push_client_secret: optionsBluemix.push.clientSecret
 		},
 		instrumentation: {
 			java_liberty: [],
@@ -118,13 +118,12 @@ function fromDirName(name, optionsBluemix) {
 	return module.exports[lodash.camelCase(name)](optionsBluemix);
 }
 
-
 module.exports = {
 	fromDirName: fromDirName,
 	serviceCloudant: serviceCloudant,
 	serviceObjectStorage: serviceObjectStorage,
 	serviceMongodb: serviceMongodb,
 	serviceWatsonConversation: serviceWatsonConversation,
-	service: servicePush,
+	servicePush: servicePush,
 	serviceTest: serviceTest
 }
