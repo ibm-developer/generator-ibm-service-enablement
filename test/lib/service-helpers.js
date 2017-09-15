@@ -58,6 +58,21 @@ function serviceObjectStorage(optionsBluemix) {
 	};
 }
 
+function serviceMongodb(optionsBluemix) {
+	return {
+		location: 'service-mongodb',
+		bluemixName: 'mongodb',
+		localDevConfig: {
+			mongodb_uri: optionsBluemix.mongodb.uri
+		},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: []
+		}
+	};
+}
+
+
 function serviceTest(optionsBluemix) {
 	return {
 		location: 'service-test',
@@ -77,5 +92,6 @@ module.exports = {
 	fromDirName: fromDirName,
 	serviceCloudant: serviceCloudant,
 	serviceObjectStorage: serviceObjectStorage,
+	serviceMongodb: serviceMongodb,
 	serviceTest: serviceTest
 }
