@@ -29,6 +29,7 @@ module.exports = class extends Generator {
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
+		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
 
 		// Security Services
@@ -81,6 +82,13 @@ module.exports = class extends Generator {
 
 	_copyHbsTpl(sourceFilePath, destinationFilePath, locals) {
 		this.fs.write(destinationFilePath, handlebars.compile(this.fs.read(sourceFilePath))(locals));
+	}
+
+	_addReadMe(options){
+		this.fs.copy(
+			options.sourceFilePath,
+			this.destinationPath() + "/docs/" + options.targetFileName
+		);
 	}
 
 	_addInstrumentation(options) {
