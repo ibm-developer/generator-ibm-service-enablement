@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 const log4js = require('log4js');
 const Generator = require('yeoman-generator');
@@ -46,6 +46,7 @@ module.exports = class extends Generator {
 		this._addDependencies();
 		this._addMappings();
 		this._addLocalDevConfig();
+		this._addReadMe();
 		this._addInstrumentation();
 	}
 
@@ -73,7 +74,7 @@ module.exports = class extends Generator {
 		this.logger.info("Adding local dev config");
 		let templatePath = this.templatePath() + "/localdev-config.json.template";
 		let templateContent = this.fs.read(templatePath);
-		let template = Handlebars.compile(templateContent)
+		let template = Handlebars.compile(templateContent);
 		let data = {};			//data to use for templating
 		this.localDevConfig.forEach(item => {
 			let name = lodash.camelCase(item);
@@ -82,7 +83,7 @@ module.exports = class extends Generator {
 				bxvalue = bxvalue[0];		//set to first entry in the array
 			}
 			let path = item.split('.');
-			for (let i = 0; i < path.length - 1; bxvalue = bxvalue[path[i++]]) ;
+			for (let i = 0; i < path.length - 1; bxvalue = bxvalue[path[i++]]);
 			data[name] = bxvalue[path[path.length - 1]];
 		});
 		this.logger.debug("local dev config", data);
@@ -98,4 +99,14 @@ module.exports = class extends Generator {
 			servLabel: this.scaffolderName
 		});
 	}
+
+	_addReadMe() {
+		this.logger.info("Adding Readme");
+		this.context.addReadMe({
+			sourceFilePath: this.languageTemplatePath + "/README.md",
+			targetFileName: this.serviceName + ".md"
+		});
+	}
+
+
 };

@@ -4,6 +4,6 @@
   "object_storage_user_id": "{{userId}}",
   "object_storage_password": "{{password}}",
   "object_storage_region": "{{region}}",
-  "object_storage_authurl" : "{{authUrl}}",
+  "object_storage_auth_url" : "{{authUrl}}",
   "object_storage_domainName" : "{{domainName}}"
 }

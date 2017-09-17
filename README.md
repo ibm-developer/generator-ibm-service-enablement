@@ -60,3 +60,54 @@ In a separate directory invoke the generator via
 ```bash
 yo ibm-service-enablement 
 ```
+
+## Testing
+
+To run the unit tests
+
+`npm test`
+
+To run integration tests
+
+`npm run integration`
+
+**Note** You will need to mock the credentials by adding a `bluemix.int.json` file. The file content should look something like the following:
+
+```
+{
+  "cloudant": [
+		{
+			"url": "XXXX",
+			"username": "XXXXX",
+			"password": "XXXX",
+			"serviceInfo": {
+				"label": "cloudant-label",
+				"name": "cloudant-name",
+				"plan": "cloudant-plan"
+			}
+		}
+	],
+
+	"objectStorage": [
+		{
+			"auth_url": "XXXX",
+			"domainId": "XXXXX",
+			"domainName": "XXXX",
+			"password": "XXXX",
+			"project": "XXXXX",
+			"projectId": "XXXX",
+			"region": "dallas",
+			"role": "admin",
+			"userId": "XXXX",
+			"username": "XXXX",
+			"serviceInfo": {
+				"label": "object-storage-label",
+				"name": "object-storage-name",
+				"plan": "object-storage-plan"
+			}
+		}
+	]
+
+}
+```
+

@@ -22,10 +22,11 @@ module.exports = class extends Generator {
 	configuring(){
 		this.context.dependenciesFile = "requirements.txt";
 		this.context.languageFileExt = ".py";
-		
+
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
+		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
 	}
 
@@ -135,6 +136,13 @@ module.exports = class extends Generator {
 		this.fs.write(servicesInitFilePath, indexFileContent);
 
 
+	}
+
+	_addReadMe(options){
+		this.fs.copy(
+			options.sourceFilePath,
+			this.destinationPath() + "/docs/" + options.targetFileName
+		);
 	}
 
 	end(){
