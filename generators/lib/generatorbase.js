@@ -95,7 +95,8 @@ module.exports = class extends Generator {
 		this.logger.info("Adding instrumentation");
 		this.context.addInstrumentation({
 			sourceFilePath: this.languageTemplatePath + "/instrumentation" + this.context.languageFileExt,
-			targetFileName: this.serviceName + this.context.languageFileExt
+			targetFileName: this.serviceName + this.context.languageFileExt,
+			servLabel: this.scaffolderName
 		});
 	}
 
