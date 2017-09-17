@@ -24,7 +24,7 @@ private func connect(conn: PostgreSQLConnection) throws {
     let semaphore = DispatchSemaphore(value: 0)
     Log.verbose("Making network call synchronous...")
     var connected: Bool = false
-    conn.connect() { error in
+    conn.connect { error in
         if let error = error {
             Log.error("Could not establish connection to PostgreSQL: \(error)")
             connected = false
