@@ -1,3 +1,4 @@
+'use strict'
 const BaseGenerator = require('../lib/generatorbase');
 const SERVICE_NAME = "service-dashdb";
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = "dashDb";

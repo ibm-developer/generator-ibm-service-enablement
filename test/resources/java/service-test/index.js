@@ -1,3 +1,4 @@
+'use strict'
 const BaseGenerator = require('../../../../generators/lib/generatorbase');
 
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = "test";

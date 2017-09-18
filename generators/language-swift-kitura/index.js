@@ -1,3 +1,4 @@
+'use strict'
 const logger = require('log4js').getLogger("generator-service-enablement:language-swift-kitura");
 const Generator = require('yeoman-generator');
 const handlebars = require('handlebars');
