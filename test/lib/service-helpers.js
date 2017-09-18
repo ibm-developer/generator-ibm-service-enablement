@@ -20,6 +20,7 @@
 
 'use strict';
 
+const assert = require('assert');
 const lodash = require('lodash/string');
 
 function serviceCloudant(optionsBluemix) {
@@ -115,7 +116,12 @@ function serviceTest(optionsBluemix) {
 }
 
 function fromDirName(name, optionsBluemix) {
-	return module.exports[lodash.camelCase(name)](optionsBluemix);
+	if (lodash.camelCase(name) in module.exports) {
+		return module.exports[lodash.camelCase(name)](optionsBluemix);
+	}
+	else {
+		assert(false, "YOU MUST HAVE A TEST METHOD NAMED: " + lodash.camelCase(name));
+	}
 }
 
 module.exports = {
