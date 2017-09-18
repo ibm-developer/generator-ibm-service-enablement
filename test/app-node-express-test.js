@@ -334,10 +334,10 @@ function testMappings(serviceName) {
 }
 
 function testReadMe(serviceName){
-	yassert.file('docs/' + serviceName + '.md');
+	yassert.file('docs/services/' + serviceName + '.md');
 	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "node", "README.md");
 	const expectedReadme = fs.readFileSync(filePath, 'utf-8');
-	yassert.fileContent('docs/' + serviceName + '.md', expectedReadme);
+	yassert.fileContent('docs/services/' + serviceName + '.md', expectedReadme);
 }
 
 function testLocalDevConfig(json) {
