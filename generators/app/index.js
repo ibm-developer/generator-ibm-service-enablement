@@ -11,10 +11,13 @@ const DEFAULT_LOG_LEVEL = "info";
 module.exports = class extends Generator {
 	constructor(args, opts) {
 		super(args, opts);
-		logger.info("Package info ::", Bundle.name, Bundle.version);
-		this._setLoggerLevel();
+		if (opts.quiet) {
+			logger.setLevel(Log4js.levels.OFF)
+		} else {
+			logger.info("Package info ::", Bundle.name, Bundle.version);
+			this._setLoggerLevel();
+		}
 		logger.debug("Constructing");
-
 		this.option(OPTION_BLUEMIX, {
 			description: "Project configuration received from Scaffolder. Stringified JSON object. In case null the fallback_bluemix.js file will be used instead",
 			type: String
