@@ -1,5 +1,6 @@
 //mock generator to compose with service-enablement generator
 
+'use strict'
 const Generator = require('yeoman-generator');
 const path = require('path');
 const handlebars = require('handlebars');
