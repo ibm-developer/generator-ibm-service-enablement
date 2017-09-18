@@ -121,7 +121,7 @@ module.exports = class extends Generator {
 	_addReadMe(options){
 		this.fs.copy(
 			options.sourceFilePath,
-			this.destinationPath() + "/docs/" + options.targetFileName
+			this.destinationPath() + "/docs/services/" + options.targetFileName
 		);
 	}
 
