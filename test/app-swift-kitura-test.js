@@ -98,6 +98,14 @@ describe('swift-kitura', function() {
 			}, dependencies, codeForServices);
 		});
 
+		it('Can add MongoDB instrumentation', () => {
+			testAll('service-mongodb', 'mongodb', optionsBluemix.mongodb.serviceInfo.name, {
+				[optionsBluemix.mongodb.serviceInfo.name]: {
+					uri: optionsBluemix.mongodb.uri
+				}
+			}, dependencies, codeForServices);
+		});
+
 		it('Can add Conversation instrumentation', () => {
 			testAll('service-watson-conversation', 'watson_conversation', optionsBluemix.conversation.serviceInfo.name, {
 				[optionsBluemix.conversation.serviceInfo.name]: {
@@ -116,6 +124,11 @@ describe('swift-kitura', function() {
 					client_secret: optionsBluemix.push.clientSecret
 				}
 			}, dependencies, codeForServices);
+
+			yassert.fileContent(
+				'Sources/Application/Services/ServicePush.swift',
+				'bluemixRegion: PushNotifications.Region.US_SOUTH'
+			)
 		});
 
 		it('Can add Alert Notification instrumentation', () => {
@@ -174,6 +187,57 @@ describe('swift-kitura', function() {
 			yassert.equal(0, dependencies.length, "expected no injected dependencies");
 			yassert.noFile(SERVER_LOCALDEV_CONFIG_JSON);
 		});
+	})
+
+	describe('push notifications with non-default region', function () {
+		const sdkRegions = {
+			'ng.bluemix.net': 'US_SOUTH',
+			'eu-gb.bluemix.net': 'UK',
+			'au-syd.bluemix.net': 'SYDNEY'
+		};
+		const regionsToTest = Object.keys(sdkRegions)
+		regionsToTest.forEach(region => {
+			describe(region, function () {
+				const optionsBluemix = JSON.parse(fs.readFileSync(require.resolve('./resources/bluemix.json')));
+				const codeForServices = [];
+				const dependencies = [];
+				let runContext;
+
+				before(() => {
+					optionsBluemix.backendPlatform = "SWIFT";
+					optionsBluemix.server.domain = region
+					runContext = helpers
+						.run(path.join(__dirname, GENERATOR_PATH))
+						.withOptions({
+							bluemix: JSON.stringify(optionsBluemix),
+							parentContext: {
+								injectIntoApplication: function(options) {
+									codeForServices.push(options.service);
+								},
+								injectDependency: function(dependency) {
+									dependencies.push(dependency);
+								}
+							}
+						})
+					return runContext.toPromise();
+				});
+
+				it('Can add Push Notifications instrumentation', () => {
+					testAll('service-push', 'push', optionsBluemix.push.serviceInfo.name, {
+						[optionsBluemix.push.serviceInfo.name]: {
+							app_guid: optionsBluemix.push.appGuid,
+							app_secret: optionsBluemix.push.appSecret,
+							client_secret: optionsBluemix.push.clientSecret
+						}
+					}, dependencies, codeForServices);
+
+					yassert.fileContent(
+						'Sources/Application/Services/ServicePush.swift',
+						`bluemixRegion: PushNotifications.Region.${sdkRegions[region]}`
+					)
+				});
+			})
+		})
 	})
 });
 
