@@ -2,7 +2,7 @@
   "jndiEntries" : [
     {"name" : "watson_conversation/url", "value" : "${env.watson_conversation_url}"},
     {"name" : "watson_conversation/username", "value" : "${env.watson_conversation_username}"},
-    {"name" : "watson_conversation/passowrd", "value" : "${env.watson_conversation_username}"}
+    {"name" : "watson_conversation/password", "value" : "${env.watson_conversation_username}"}
   ],
   "dependencies" : [
     {"groupId" : "com.ibm.watson.developer_cloud", "artifactId" : "conversation", "version" : "3.8.0"}
