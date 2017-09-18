@@ -4,10 +4,9 @@ import MongoKitten
 var mongodb: Database!
 
 func initializeServiceMongodb() throws {
-    guard let mongodbCredentials = cloudEnv.getDictionary(name: "{{servLookupKey}}"),
-          let mongodbURI = mongodbCredentials["uri"] as? String else {
+    guard let mongodbCredentials = cloudEnv.getMongoDBCredentials(name: "{{servLookupKey}}") else {
         throw InitializationError("Could not load credentials for MongoDB.")
     }
-    mongodb = try Database(mongodbURI)
+    mongodb = try Database(mongodbCredentials.uri)
     Log.info("Found and loaded credentials for MongoDB.")
 }
