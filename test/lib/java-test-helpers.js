@@ -18,6 +18,7 @@
  * test helpers for java code generation
  */
 
+'use strict'
 const MAVEN_BUILD_FILE = 'pom.xml';
 const GRADLE_BUILD_FILE = 'build.gradle';
 // const SETTINGS_FILE = 'settings.gradle';

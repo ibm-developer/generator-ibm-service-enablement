@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+'use strict'
 const logger = require('log4js').getLogger("generator-ibm-service-enablement:language-java");
 const Generator = require('yeoman-generator');
 const fs = require('fs');

@@ -1,3 +1,4 @@
+'use strict'
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.int.json'));
 const assert = require('chai').assert;
 const path = require('path');
