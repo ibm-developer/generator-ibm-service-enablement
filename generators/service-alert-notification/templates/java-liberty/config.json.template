@@ -1,0 +1,8 @@
+{
+  "jndiEntries" : [
+    {"name" : "alert_notification/url", "value" : "${env.alert_notification_url}"},
+    {"name" : "alert_notification/user", "value" : "${env.alert_notification_user}"},
+    {"name" : "alert_notification/password", "value" : "${env.alert_notification_password}"}
+  ],
+  "dependencies" : []
+}

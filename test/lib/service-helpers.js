@@ -105,6 +105,22 @@ function servicePush(optionsBluemix) {
 	};
 }
 
+function serviceAlertNotification(optionsBluemix) {
+	return {
+		location: 'service-alert-notification',
+		bluemixName: 'alertnotification',
+		localDevConfig: {
+			alert_notification_url: optionsBluemix.alertnotification.url,
+			alert_notification_name: optionsBluemix.alertnotification.name,
+			alert_notification_password: optionsBluemix.alertnotification.password
+		},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: []
+		}
+	};
+}
+
 function serviceTest(optionsBluemix) {
 	return {
 		location: 'service-test',
@@ -131,5 +147,6 @@ module.exports = {
 	serviceMongodb: serviceMongodb,
 	serviceWatsonConversation: serviceWatsonConversation,
 	servicePush: servicePush,
+	serviceAlertNotification: serviceAlertNotification,
 	serviceTest: serviceTest
 }
