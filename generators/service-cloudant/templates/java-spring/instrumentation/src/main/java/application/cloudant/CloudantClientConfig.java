@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
@@ -33,6 +34,7 @@ public class CloudantClientConfig {
     
 
     @Bean(destroyMethod = "")
+    @Lazy
     public CloudantClient cloudantClient(InjectionPoint ip) throws CloudServicesException {
         URL url = null;
         try {
