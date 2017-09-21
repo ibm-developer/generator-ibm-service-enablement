@@ -6,7 +6,7 @@ Object Storage provides you a fully provisioned account, based on the Swift API,
 
 ###  LocalDevConfig
 
-This is where your local configuration is stored for Cloudant.
+This is where your local configuration is stored for Object Storage.
 ```
 {
   "object_storage_project_id": "XXXX", // Object Storage ProjectId
