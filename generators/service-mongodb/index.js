@@ -2,7 +2,7 @@
 const BaseGenerator = require('../lib/generatorbase');
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = "mongodb";
 const SERVICE_NAME = "service-mongodb";
-const localDevConfig = ['uri'];
+const localDevConfig = ['uri', 'ca_certificate_base64'];
 
 module.exports = class extends BaseGenerator {
 	constructor(args, opts) {
