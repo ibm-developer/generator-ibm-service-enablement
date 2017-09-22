@@ -19,6 +19,12 @@
 			"env:push_client_secret",
 			"file:/server/localdev-config.json:$.push_client_secret"
 		]
+	},
+	"push_url": {
+		"searchPatterns": [
+			"cloudfoundry:$['imfpush'][0].credentials.url",
+			"env:push_url",
+			"file:/server/localdev-config.json:$.push_url"
+		]
 	}
 }
-

@@ -6,5 +6,13 @@
 			"file:/server/localdev-config.json:$.mongodb_uri"
 
 		]
+	},
+	"mongodb_ca":{
+		"searchPatterns": [
+			"cloudfoundry:$['compose-for-mongodb'][0].credentials.ca_certificate_base64",
+			"env:mongodb_ca",
+			"file:/server/localdev-config.json:$.mongodb_ca"
+
+		]
 	}
 }

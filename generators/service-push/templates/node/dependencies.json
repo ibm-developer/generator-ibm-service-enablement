@@ -1,5 +1,5 @@
 {
 	"dependencies": {
-		"bluemix-push-notifications": "^0.2.0"
+		"bluemix-push-notifications": "^0.3.1"
 	}
 }

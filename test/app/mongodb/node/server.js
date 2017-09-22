@@ -1,27 +1,15 @@
-# Compose for MongoDB
- 
- 
-IBM Compose for MongoDB for Bluemix uses the powerful indexing and querying, aggregation, and wide driver support of MongoDB that has made it the go-to JSON data store for many startups and enterprises. Compose for MongoDB offers an easy, auto-scaling deployment system. It delivers high availability and redundancy, automated and on-demand no-stop backups, monitoring tools, integration into alert systems, performance analysis views, and much more, all in a clean, simple user interface.
-##  Credentials
+/* eslint-disable */
 
-###  LocalDevConfig
-
-This is where your local configuration is stored for MongoDB.
-```
-{
-  "mongodb_uri": "{{uri}}", // URI/URL of MongoDB in Compose
-  "mongodb_ca": "{{ca}}", // The base 64 CA certificate file for MongoDB 
-}
-```
-
-## Usages
-
-```js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 const TestModel = mongoose.model('Test',  new Schema({message: 'String'}));
 
-let messages = [];
+app.get('/mongodb-test', (req, res) => {
+	let messages = [];
 
 	TestModel.find({message: 'test'}, function (err, doc) {
 		if (err) {
@@ -66,8 +54,4 @@ let messages = [];
 			});
 		}
 	});
-```
-
-## Documentation
-
-Other related documentation can be found [here](https://www.npmjs.com/package/mongoose)
+});

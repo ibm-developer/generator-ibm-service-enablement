@@ -1,3 +1,4 @@
 {
-  "mongodb_uri": "{{{uri}}}"
+  "mongodb_uri": "{{{uri}}}",
+  "mongodb_ca": "{{caCertificateBase64}}"
 }
