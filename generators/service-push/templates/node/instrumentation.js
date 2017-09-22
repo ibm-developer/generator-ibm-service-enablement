@@ -1,6 +1,7 @@
 const IBMCloudEnv = require('ibm-cloud-env');
 const PushNotifications = require('bluemix-push-notifications').PushNotifications;
 const Notification = require('bluemix-push-notifications').Notification;
+const PushMessageBuilder = require('bluemix-push-notifications').PushMessageBuilder;
 
 module.exports = function(app, serviceManager){
 	let push_url = IBMCloudEnv.getString("push_url");
@@ -17,4 +18,5 @@ module.exports = function(app, serviceManager){
 
 	serviceManager.set("push-notifications", PushNotificationInstance);
 	serviceManager.set("notifications-module", Notification);
+	serviceManager.set("message-builder-module", PushMessageBuilder);
 };

@@ -7,7 +7,7 @@
 
 ###  LocalDevConfig
 
-This is where your local configuration is stored for AppID.
+This is where your local configuration is stored for Alert Notification.
 ```
 {
   "alert_notification_url": "{{url}}", // server url for alert notification

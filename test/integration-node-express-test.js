@@ -79,8 +79,35 @@ describe('integration test for services', function () {
 		});
 	});
 
-	describe('AppID', function() {
-		it('should login anon to web strategy', function(done) {
+	describe('Push', function () {
+		it('should create a push notification', function () {
+			this.timeout(30000);
+			let expectedMessages = {
+				alert: 'Testing BluemixPushNotifications'
+			};
+
+
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:3000/push-test'
+			};
+
+			return axios(options)
+				.then(function (response) {
+					assert.deepEqual(response.data.message, expectedMessages);
+				})
+				.catch(function (err) {
+					if (err.response) {
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						assert.isNotOk(JSON.stringify(err), 'This should not happen');
+					}
+
+				});
+		});
+	});
+	describe('AppID', function () {
+		it('should login anon to web strategy', function (done) {
 			this.timeout(12000);
 			let expectedMessage = {
 				points : "1337"
@@ -193,8 +220,8 @@ describe('integration test for services', function () {
 					}
 
 				});
-			});
 		});
+	});
 });
 
 let _setUpApplication = function (cb) {

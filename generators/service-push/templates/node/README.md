@@ -8,7 +8,7 @@ Push Notifications are an universally accepted communication channel across ente
 
 ###  LocalDevConfig
 
-This is where your local configuration is stored for Cloudant.
+This is where your local configuration is stored for Push.
 ```
 {
   "push_app_guid": "XXXX",
