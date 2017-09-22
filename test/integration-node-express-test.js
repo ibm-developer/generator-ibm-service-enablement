@@ -173,9 +173,6 @@ describe('integration test for services', function () {
 	describe('Push', function() {
 		it('should create a push notification', function() {
 			this.timeout(30000);
-			let expectedMessages = [
-			];
-
 			let options = {
 				'method': 'get',
 				'url': 'http://localhost:3000/push-test'
