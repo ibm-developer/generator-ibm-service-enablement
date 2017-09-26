@@ -2,21 +2,21 @@
 	"watson_discovery_url":{
 		"searchPatterns": [
 			"cloudfoundry:$.discovery[0].credentials.url",
-			"env:watson_discovery_url",
+			"env:service_watson_discovery:$.url",
 			"file:/server/localdev-config.json:$.watson_discovery_url"
 		]
 	},
 	"watson_discovery_username":{
 		"searchPatterns": [
 			"cloudfoundry:$.discovery[0].credentials.username",
-			"env:watson_discovery_username",
+			"env:service_watson_discovery:$.username",
 			"file:/server/localdev-config.json:$.watson_discovery_username"
 		]
 	},
 	"watson_discovery_password":{
 		"searchPatterns":[
 			"cloudfoundry:$.discovery[0].credentials.password",
-			"env:watson_discovery_password",
+			"env:service_watson_discovery:$.password",
 			"file:/server/localdev-config.json:$.watson_discovery_password"
 		]
 	}

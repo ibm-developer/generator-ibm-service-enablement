@@ -2,9 +2,8 @@
 	"mongodb_uri":{
 		"searchPatterns": [
 			"cloudfoundry:$['compose-for-mongodb'][0].credentials.uri",
-			"env:mongodb_uri",
+			"env:service_mongodb:$.uri",
 			"file:/server/localdev-config.json:$.mongodb_uri"
-
 		]
 	},
 	"mongodb_ca":{

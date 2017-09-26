@@ -20,6 +20,19 @@ const Generator = require('yeoman-generator');
 const Handlebars = require('handlebars');
 const fs = require('fs');
 const lodash = require('lodash/string');
+const yaml = require('js-yaml');
+
+const REGEX_TWO_SINGLE_QUOTES = /''/g;
+const REGEX_SINGLE_QUOTE = /'/g;
+const REGEX_HYPHEN = /-/g;
+const OPEN_BRACES = ' {{';
+const CLOSE_BRACES = '}}\n';
+const PLACEHOLDER_OPEN = ' xyz_xyz';
+const PLACEHOLDER_CLOSE = 'yzx_yzx\n';
+const REGEX_OPEN_BRACES = new RegExp(OPEN_BRACES, 'g');
+const REGEX_CLOSE_BRACES = new RegExp(CLOSE_BRACES, 'g');
+const REGEX_PLACEHOLDER_OPEN = new RegExp(PLACEHOLDER_OPEN, 'g');
+const REGEX_PLACEHOLDER_CLOSE = new RegExp(PLACEHOLDER_CLOSE, 'g');
 
 module.exports = class extends Generator {
 	constructor(args, opts, serviceName, scaffolderName, localDevConfig) {
@@ -48,10 +61,69 @@ module.exports = class extends Generator {
 		this._addLocalDevConfig();
 		this._addReadMe();
 		this._addInstrumentation();
+		this._addServicesToKubeDeploy();
 	}
 
 	writing() {
 		//do nothing by default
+	}
+
+	_sanitizeServiceName(name) {
+		// Kubernetes env var names must match regex: '[A-Za-z_][A-Za-z0-9_]*'
+		name = name.replace(REGEX_HYPHEN, '_');
+		return name;
+	}
+
+	_addServicesToKubeDeploy() {
+		let deploymentFilePath = `${this.destinationPath()}/chart/${this.context.sanitizedAppName}/templates/deployment.yaml`;
+		this.logger.info(`deployment.yaml path: ${deploymentFilePath}`);
+		let deploymentFileExists = this.fs.exists(`${deploymentFilePath}`);
+		if (deploymentFileExists) {
+			this.logger.info("deployment.yaml exists, adding service env");
+
+			let serviceInfo = {};
+			if (this.context.bluemix[this.scaffolderName]) {
+				let service = this.context.bluemix[this.scaffolderName];
+				if (Array.isArray(service)) {
+					serviceInfo = service[0].serviceInfo;
+				} else {
+					serviceInfo = service.serviceInfo;
+				}
+			}
+
+			let serviceEnv = {
+				name: this._sanitizeServiceName(this.serviceName),
+				valueFrom: {
+					secretKeyRef: {
+						name: `binding-${serviceInfo.name}`,
+						key: 'binding'
+					}
+				}
+			};
+
+			if (!this.context.deploymentFileJson) {
+				// for parsing/converting to/from yaml, need to replace some tags
+				let deploymentFileString = fs.readFileSync(deploymentFilePath, 'utf8')
+					.replace(REGEX_OPEN_BRACES, PLACEHOLDER_OPEN).replace(REGEX_CLOSE_BRACES, PLACEHOLDER_CLOSE);
+				
+				this.context.deploymentFileJson = yaml.safeLoad(deploymentFileString);
+			}
+
+			if (!this.context.deploymentEnv) {
+				this.context.deploymentEnv = this.context.deploymentFileJson.spec.template.spec.containers[0].env;
+			}
+
+			this.context.deploymentEnv.push(serviceEnv);
+			this.context.deploymentFileJson.spec.template.spec.containers[0].env = this.context.deploymentEnv;
+
+			let yamlDump = yaml.safeDump(this.context.deploymentFileJson)
+				.replace(REGEX_TWO_SINGLE_QUOTES, '"')
+				.replace(REGEX_SINGLE_QUOTE, '"')
+				.replace(REGEX_PLACEHOLDER_OPEN, OPEN_BRACES)
+				.replace(REGEX_PLACEHOLDER_CLOSE, CLOSE_BRACES);
+
+			this.fs.write(deploymentFilePath, yamlDump);
+		}
 	}
 
 	_addDependencies() {

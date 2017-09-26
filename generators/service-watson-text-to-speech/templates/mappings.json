@@ -2,21 +2,21 @@
 	"watson_text_to_speech_url":{
 		"searchPatterns": [
 			"cloudfoundry:$.textToSpeech[0].credentials.url",
-			"env:watson_text_to_speech_url",
+			"env:service_watson_text_to_speech:$.url",
 			"file:/server/localdev-config.json:$.watson_text_to_speech_url"
 		]
 	},
 	"watson_text_to_speech_username":{
 		"searchPatterns": [
 			"cloudfoundry:$.textToSpeech[0].credentials.username",
-			"env:watson_text_to_speech_username",
+			"env:service_watson_text_to_speech:$.username",
 			"file:/server/localdev-config.json:$.watson_text_to_speech_username"
 		]
 	},
 	"watson_text_to_speech_password":{
 		"searchPatterns":[
 			"cloudfoundry:$.textToSpeech[0].credentials.password",
-			"env:watson_text_to_speech_password",
+			"env:service_watson_text_to_speech:$.password",
 			"file:/server/localdev-config.json:$.watson_text_to_speech_password"
 		]
 	}
