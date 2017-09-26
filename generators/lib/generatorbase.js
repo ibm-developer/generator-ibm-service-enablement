@@ -105,8 +105,7 @@ module.exports = class extends Generator {
 				// for parsing/converting to/from yaml, need to replace some tags
 				let deploymentFileString = fs.readFileSync(deploymentFilePath, 'utf8')
 					.replace(REGEX_OPEN_BRACES, PLACEHOLDER_OPEN).replace(REGEX_CLOSE_BRACES, PLACEHOLDER_CLOSE);
-
-				this.logger.info(`deployment.yaml file string ${deploymentFileString}`);
+				
 				this.context.deploymentFileJson = yaml.safeLoad(deploymentFileString);
 			}
 
@@ -123,7 +122,6 @@ module.exports = class extends Generator {
 				.replace(REGEX_PLACEHOLDER_OPEN, OPEN_BRACES)
 				.replace(REGEX_PLACEHOLDER_CLOSE, CLOSE_BRACES);
 
-			this.logger.info(`deployment.yaml yamlDump: ${yamlDump}`);
 			this.fs.write(deploymentFilePath, yamlDump);
 		}
 	}
