@@ -2,21 +2,21 @@
 	"alert_notification_url":{
 		"searchPatterns": [
 			"cloudfoundry:$.alertnotification[0].credentials.url",
-			"env:alert_notification_url",
+			"env:service_alert_notification:$.url",
 			"file:/server/localdev-config.json:$.alert_notification_url"
 		]
 	},
 	"alert_notification_name":{
 		"searchPatterns": [
 			"cloudfoundry:$.alertnotification[0].credentials.name",
-			"env:alert_notification_name",
+			"env:service_alert_notification:$.name",
 			"file:/server/localdev-config.json:$.alert_notification_name"
 		]
 	},
 	"alert_notification_password":{
 		"searchPatterns": [
 			"cloudfoundry:$.alertnotification[0].credentials.password",
-			"env:alert_notification_password",
+			"env:service_alert_notification:$.password",
 			"file:/server/localdev-config.json:$.alert_notification_password"
 		]
 	}
