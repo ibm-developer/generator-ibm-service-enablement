@@ -8,7 +8,7 @@ const path = require('path');
 const bluemixLabelMappings = require('./bluemix-label-mappings.json');
 
 const PATH_MAPPINGS_FILE = "./config/mappings.json";
-const PATH_LOCALDEV_CONFIG_FILE = "./config/localdev-config.json";
+const PATH_LOCALDEV_CONFIG_FILE = "./localdev-config.json";
 const PATH_GIT_IGNORE = "./.gitignore";
 const FILE_SEARCH_PATH_PREFIX = "file:/config/localdev-config.json:"
 
