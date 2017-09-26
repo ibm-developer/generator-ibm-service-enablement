@@ -8,7 +8,7 @@ const fs = require('fs');
 
 const GENERATOR_PATH = '../generators/app/index.js';
 const SERVER_MAPPINGS_JSON = "config/mappings.json";
-const SERVER_LOCALDEV_CONFIG_JSON = "config/localdev-config.json";
+const SERVER_LOCALDEV_CONFIG_JSON = "localdev-config.json";
 
 describe('swift-kitura', function() {
 	this.timeout(10 * 1000); // 10 seconds, Travis CI might be slow
