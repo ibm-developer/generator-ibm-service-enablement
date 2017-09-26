@@ -9,6 +9,9 @@ const OPTION_BLUEMIX = "bluemix";
 const OPTION_STARTER = "starter";
 const DEFAULT_LOG_LEVEL = "info";
 
+const REGEX_LEADING_ALPHA = /^[^a-zA-Z]*/;
+const REGEX_ALPHA_NUM = /[^a-zA-Z0-9]/g;
+
 module.exports = class extends Generator {
 	constructor(args, opts) {
 		super(args, opts);
@@ -42,6 +45,7 @@ module.exports = class extends Generator {
 		context[OPTION_STARTER] = this.options[OPTION_STARTER];
 		context.loggerLevel = logger.level;
 		context.language = context.bluemix.backendPlatform.toLowerCase();
+		context.sanitizedAppName = this._sanitizeAppName(context.bluemix.name);
 
 		let languageGeneratorPath;
 		switch (context.language){
@@ -71,6 +75,14 @@ module.exports = class extends Generator {
 
 	writing(){
 
+	}
+
+	_sanitizeAppName(name) {
+		let cleanName = "";
+		if (name !== undefined) {
+			cleanName = name.replace(REGEX_LEADING_ALPHA, '').replace(REGEX_ALPHA_NUM, '');
+		}
+		return (cleanName || 'APP').toLowerCase();
 	}
 
 	_setLoggerLevel(){
