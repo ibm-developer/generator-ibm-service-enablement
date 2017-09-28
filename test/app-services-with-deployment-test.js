@@ -25,8 +25,6 @@ describe('app-services-with-deployment', function () {
 
 		context.bluemix.backendPlatform = 'NODE';
 		context.language = context.bluemix.backendPlatform.toLowerCase();
-		context.dependenciesFile = "dependencies.json";
-		context.languageFileExt = ".js";
 
 		helpers
 			.run(path.join(__dirname, GENERATOR_NODE_PATH))
@@ -51,7 +49,7 @@ describe('app-services-with-deployment', function () {
 		let generatedFilePath = path.join('.', DEPLOYMENT_FILE_PATH);
 		yassert.file(generatedFilePath);
 
-		let expected = fs.readFileSync(path.join(RESOURCES_PATH, '/deployment-result.yaml'), 'utf-8');
+		let expected = fs.readFileSync(path.join(RESOURCES_PATH, `/deployment-result-node.yaml`), 'utf-8');
 		let actual = fs.readFileSync(generatedFilePath, 'utf-8');
 
 		assert.equal(actual, expected);

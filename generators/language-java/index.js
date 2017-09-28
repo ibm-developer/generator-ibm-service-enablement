@@ -20,6 +20,8 @@ const fs = require('fs');
 const path = require('path');
 const handlebars = require('handlebars');
 
+const Utils = require('../lib/Utils');
+
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
 const PATH_LOCALDEV_FILE = "./src/main/resources/localdev-config.json";
 const TEMPLATE_EXT = ".template";
@@ -127,4 +129,8 @@ module.exports = class extends Generator {
 		});
 	}
 
+	end() {
+		// add services env to deployment.yaml
+		Utils.addServicesEnvToDeploymentYaml({context: this.context, destinationPath: this.destinationPath()});
+	}
 }

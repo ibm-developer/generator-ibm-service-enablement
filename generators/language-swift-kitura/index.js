@@ -4,6 +4,8 @@ const Generator = require('yeoman-generator');
 const handlebars = require('handlebars');
 const path = require('path');
 
+const Utils = require('../lib/Utils');
+
 // Load mappings between bluemix/scaffolder labels and the labels generated in the localdev-config.json files
 const bluemixLabelMappings = require('./bluemix-label-mappings.json');
 
@@ -221,5 +223,10 @@ module.exports = class extends Generator {
 		} else {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
+	}
+
+	end() {
+		// add services env to deployment.yaml
+		Utils.addServicesEnvToDeploymentYaml({context: this.context, destinationPath: this.destinationPath()});
 	}
 };
