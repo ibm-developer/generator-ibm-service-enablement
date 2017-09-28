@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: "{{  .Chart.Name }}-deployment"
   labels:
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
@@ -28,8 +28,6 @@ spec:
               cpu: "{{ .Values.image.resources.requests.cpu }}"
               memory: "{{ .Values.image.resources.requests.memory }}"
           env:
-            - name: PORT
-              value: "{{ .Values.service.servicePort }}"
             - name: service_appid
               valueFrom:
                 secretKeyRef:
@@ -180,3 +178,5 @@ spec:
                 secretKeyRef:
                   name: binding-alert-notifcation-name
                   key: binding
+            - name: PORT
+              value: "{{ .Values.service.servicePort }}"

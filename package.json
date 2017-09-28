@@ -1,6 +1,6 @@
 {
 	"name": "generator-ibm-service-enablement",
-	"version": "0.0.84",
+	"version": "0.0.85",
 	"description": "This generator adds Service enablement to applications",
 	"main": "generators/app/index.js",
 	"files": [
@@ -29,8 +29,7 @@
 		"handlebars": "^4.0.10",
 		"log4js": "^1.1.1",
 		"yeoman-generator": "^1.1.1",
-		"lodash": "^4.17.4",
-		"js-yaml": "^3.10.0"
+		"lodash": "^4.17.4"
 	},
 	"devDependencies": {
 		"axios": "^0.16.2",

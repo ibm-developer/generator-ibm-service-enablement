@@ -2,6 +2,8 @@
 const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement:language-node-express");
 
+const Utils = require('../lib/Utils');
+
 let Generator = require('yeoman-generator');
 
 const GENERATE_HERE = "// GENERATE HERE";
@@ -139,5 +141,8 @@ module.exports = class extends Generator {
 		} else {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
+
+		// add services env to deployment.yaml
+		Utils.addServicesEnvToDeploymentYaml({context: this.context, destinationPath: this.destinationPath()});
 	}
 };
