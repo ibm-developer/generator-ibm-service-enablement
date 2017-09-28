@@ -2,6 +2,8 @@
 const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement:language-python-flask");
 
+const Utils = require('../lib/Utils');
+
 let Generator = require('yeoman-generator');
 
 const GENERATE_HERE = "# GENERATE HERE";
@@ -54,14 +56,6 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-dashdb'), {context: this.context});
 		this.composeWith(require.resolve('../service-db2'), {context: this.context});
 
-		// Financial Services
-		this.composeWith(require.resolve('../service-finance-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-simulated-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-historical-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-simulated-historical-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-investment-portfolio'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-predictive-market-scenarios'), {context: this.context});
-
 		// Watson Services
 		this.composeWith(require.resolve('../service-watson-conversation'), {context: this.context});
 		this.composeWith(require.resolve('../service-watson-discovery'), {context: this.context});
@@ -75,6 +69,14 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-watson-text-to-speech'), {context: this.context});
 		this.composeWith(require.resolve('../service-watson-tone-analyzer'), {context: this.context});
 		this.composeWith(require.resolve('../service-watson-visual-recognition'), {context: this.context});
+
+		// Financial Services
+		this.composeWith(require.resolve('../service-finance-instrument-analytics'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-simulated-instrument-analytics'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-historical-instrument-analytics'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-simulated-historical-instrument-analytics'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-investment-portfolio'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-predictive-market-scenarios'), {context: this.context});
 
 		// Weather Services
 		this.composeWith(require.resolve('../service-weather-company-data'), {context: this.context});
@@ -162,5 +164,8 @@ module.exports = class extends Generator {
 		} else {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
+
+		// add services env to deployment.yaml
+		Utils.addServicesEnvToDeploymentYaml({context: this.context, destinationPath: this.destinationPath()});
 	}
 };
