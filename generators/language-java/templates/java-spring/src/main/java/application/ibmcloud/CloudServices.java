@@ -8,34 +8,34 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.logging.Logger;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 public class CloudServices {
 
-    private static final Logger LOGGER  = Logger.getLogger(CloudServices.class.getName());
+    private static final Logger LOGGER  = LoggerFactory.getLogger(CloudServices.class);
     private static final String MAPPINGS_JSON = "/mappings.json";
     private static final String VCAP_SERVICES = "VCAP_SERVICES";
     private static final String CLASSPATH_ID = "/server/";
-
-    /** Internal configuration read from MAPPINGS_JSON */
-    private JsonObject config = null;
-
-    /** used to cache resources loaded during processing */
-    private final ConcurrentMap<String, DocumentContext> resourceCache = new ConcurrentHashMap<>();
+    
+    
+    private JsonNode config = null;			//configuration to be using
+    private final ConcurrentMap<String, DocumentContext> resourceCache = new ConcurrentHashMap<>();	//used to cache resources loaded during processing
 
     private static class SingletonHelper {
-        private static final CloudServices INSTANCE;
+        private static final CloudServices MAPPINGS;
         static {
-            INSTANCE = new CloudServices();
-            INSTANCE.config = INSTANCE.getJson(MAPPINGS_JSON);
+            MAPPINGS = new CloudServices();
+            MAPPINGS.config = MAPPINGS.getJson(MAPPINGS_JSON);
         }
     }
     
@@ -45,27 +45,32 @@ public class CloudServices {
      * @return the configured service mapper
      */
     public static CloudServices fromMappings() {
-        return SingletonHelper.INSTANCE;
+    	return SingletonHelper.MAPPINGS;
     }
-
-    private CloudServices() {};
-
-    private JsonObject getJson(String path) {
-        LOGGER.finest("getMappings()");
-        JsonObject mappings = null;
+    
+    private JsonNode getJson(String path) {
+        LOGGER.debug("getJson() for " + path);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode mappings = null;
         try {
-            InputStream fstream = this.getClass().getResourceAsStream(path);
-            if ( fstream != null ) {
-                mappings = Json.createReader(fstream).readObject();
+            Resource resource = new ClassPathResource(path);
+            if(resource.exists()) {
+                InputStream fstream = resource.getInputStream();
+                if(fstream != null) {
+                    mappings = mapper.readTree(fstream);
+                }
             }
-        } catch (Exception e) {
-            LOGGER.finest("Unexpected exception getting ObjectMapper for mappings.json: " + e);
+        } catch (IOException e) {
+            LOGGER.debug("Unexpected exception getting ObjectMapper for mappings.json: " + e);
             throw new CloudServicesException("Unexpected exception getting ObjectMapper for mappings.json", e);
         }
-        LOGGER.finest("getMappings() returned: " + mappings);
+        LOGGER.debug("getMappings() returned: " + mappings);
+        if(mappings == null) {
+            LOGGER.warn("Mapping resolution failed : No configuration was found at " + path);
+        }
         return mappings;
     }
-
+    
     /**
      * Get the first value found from the provided searchPatterns, which will be
      * processed in the order provided.
@@ -76,32 +81,32 @@ public class CloudServices {
      * @return The value specified by the "src:target" or null if not found
      */
     public String getValue(String name) {
-        JsonObject node = config.getJsonObject(name);
-        if(node == null || node.isEmpty()) {
-            return null;    //specified name could not be located
+        if(config == null) {
+            return null;	//config wasn't initialised for some reason, so cannot resolve anything
+        }
+        JsonNode node = config.get(name);
+        if(node == null || node.isNull()) {
+        return null;		//specified name could not be located	
         }
         String value = null;
-        JsonArray array = node.getJsonArray("searchPatterns");
-        if (array != null) {
-            for (final JsonValue entryNode : array) {
-                String entry = sanitiseString(entryNode.toString());
-                LOGGER.finest("entryNode " + entryNode);
+        ArrayNode array = (ArrayNode) node.get("searchPatterns");
+        if (array.isArray()) {
+            for (final JsonNode entryNode : array) {
+                String entry = entryNode.asText();
+                LOGGER.debug("entryNode " + entryNode);
                 String token[] = parseOnfirst(entry, ":");
-                LOGGER.finest("tokens " + token[0] + " , " + token[1]);
+                LOGGER.debug("tokens " + token[0] + " , " + token[1]);
                 if (!token[0].isEmpty() && !token[1].isEmpty()) {
                     switch (token[0]) {
-                    case "cloudfoundry":
-                        value = getCloudFoundryValue(token[1]);
-                        break;
-                    case "env":
-                        value = getEnvValue(token[1]);
-                        break;
-                    case "file":
-                        value = getFileValue(token[1]);
-                        break;
-                    default :
-                        LOGGER.warning("Unknown protocol in searchPatterns : " + token[0]);
-                        break;
+                        case "cloudfoundry":
+                            value = getCloudFoundryValue(token[1]);
+                            break;
+                        case "env":
+                            value = getEnvValue(token[1]);
+                            break;
+                        case "file":
+                            value = getFileValue(token[1]);
+                            break;
                     }
                 }
                 if (value != null) {
@@ -110,7 +115,7 @@ public class CloudServices {
             }
         }
         else {
-            LOGGER.warning("search patterns in mapping.json is NOT an array, values will not be resolved");
+            LOGGER.warn("search patterns in mapping.json is NOT an array, values will not be resolved");
         }
         return value;
     }
@@ -129,11 +134,10 @@ public class CloudServices {
         String value = null;
         if (jsonPath != null && json != null) {
             value = JsonPath.parse(json).read(jsonPath);
-            value = sanitiseString(value);
         }
         return value;
     }
-
+    
     // Search pattern resolvers
     private String getCloudFoundryValue(String target) {
         if (!target.startsWith("$"))
@@ -145,7 +149,7 @@ public class CloudServices {
         String value = null;
         if (target.contains(":")) {
             String token[] = parseOnfirst(target, ":");
-            LOGGER.finest("envtokens " + token[0] + " , " + token[1]);
+            LOGGER.debug("envtokens " + token[0] + " , " + token[1]);
             if (!token[0].isEmpty() && !token[1].isEmpty() && token[1].startsWith("$") ) {
                 value = getJsonValue(token[1], System.getenv(token[0]));
             }
@@ -170,14 +174,14 @@ public class CloudServices {
             }
         }
         else {
-            //if no location within the file has been specified then assume that the value == the first line of the file contents
+        	//if no location within the file has been specified then assume that the value == the first line of the file contents
             try {
                 BufferedReader file = new BufferedReader(new FileReader(target));
                 value = file.readLine();
                 file.close();
-                LOGGER.finest("Read value from file: " + value);
+                LOGGER.debug("Read value from file: " + value);
             } catch (IOException e) {
-                LOGGER.finest("Unexpected exception reading value from file: " + e);
+                LOGGER.debug("Unexpected exception reading value from file: " + e);
             }
         }
         return value;
@@ -191,28 +195,26 @@ public class CloudServices {
             if(filePath.startsWith(CLASSPATH_ID)) {
                 //treat file:/server as a classpath resource
                 String path = filePath.substring(CLASSPATH_ID.length() - 1);
-
-                LOGGER.finest("Looking for classpath resource : " + path);
-                JsonObject node = getJson(path);
+                LOGGER.debug("Looking for classpath resource : " + path);
+                JsonNode node = getJson(path);
                 if(node != null) {
                     json = node.toString();
-                    LOGGER.finest("Class path json : " + json);
+                    LOGGER.debug("Class path json : " + json);
                 }
             } else {
                 //look for the file specified
                 try {
                     json = new String(Files.readAllBytes(Paths.get(filePath)));
                 } catch (Exception e) {
-                    LOGGER.finest("Unexpected exception reading JSON string from file: " + e);
+                    LOGGER.debug("Unexpected exception reading JSON string from file: " + e);
                 }
-            }
+        	}
         }
         if(json == null) {
-            return JsonPath.parse("{}");//parse an empty object and set that for the context if the file cannot be loaded for some reason
+            return JsonPath.parse("{}");	//parse an empty object and set that for the context if the file cannot be loaded for some reason
         }
         return JsonPath.parse(json);
     }
-
 
     private String sanitiseString(String data) throws CloudServicesException {
         if (data == null || data.isEmpty()) {

@@ -65,9 +65,6 @@ class Options {
 		it('should generate mappings.json in ' + PATH_MAPPINGS_FILE, function () {
 			assert.file(PATH_MAPPINGS_FILE);
 		});
-		it('should generate ' + LOCALDEV_CONFIG_JSON, function () {
-			assert.file(LOCALDEV_CONFIG_JSON);
-		});
 	}
 
 	assertLocalDevConfig(framework, buildType, service) {
@@ -78,9 +75,11 @@ class Options {
 				value: service.localDevConfig[prop]
 			}
 			expected.envEntries.push(entry);
-			it('should generate a local dev entry for ' + entry.name, function() {
-				assert.fileContent(LOCALDEV_CONFIG_JSON, '"' + entry.name + '"' + ': ' + '"' + entry.value + '"');
-			});
+			if(framework === 'spring') {
+				it('should generate a local dev entry for ' + entry.name, function() {
+					assert.fileContent(LOCALDEV_CONFIG_JSON, '"' + entry.name + '"' + ': ' + '"' + entry.value + '"');
+				});
+			}
 		});
 	}
 
@@ -135,6 +134,9 @@ class Options {
 				assert.fileContent('src/main/java/application/bluemix/VCAPServices.java', 'import javax.json.Json;');
 			});
 		}
+		it('should not generate ' + LOCALDEV_CONFIG_JSON, function () {
+			assert.noFile(LOCALDEV_CONFIG_JSON);
+		});
 	}
 
 	assertspringenv() {
@@ -155,6 +157,9 @@ class Options {
 		});
 		it('should generate ServiceMappings.java file', function () {
 			check('src/main/java/application/ibmcloud/ServiceMappings.java');
+		});
+		it('should generate ' + LOCALDEV_CONFIG_JSON, function () {
+			assert.file(LOCALDEV_CONFIG_JSON);
 		});
 	}
 

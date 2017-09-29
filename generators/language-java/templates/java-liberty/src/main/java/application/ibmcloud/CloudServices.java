@@ -76,6 +76,9 @@ public class CloudServices {
      * @return The value specified by the "src:target" or null if not found
      */
     public String getValue(String name) {
+        if(config == null) {
+            return null;    //config wasn't initialised for some reason, so cannot resolve anything
+        }
         JsonObject node = config.getJsonObject(name);
         if(node == null || node.isEmpty()) {
             return null; //specified name could not be located    

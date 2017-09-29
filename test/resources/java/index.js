@@ -74,8 +74,6 @@ module.exports = class extends Generator {
       });
     }
     this.conf.envEntries = this.conf.envEntries.concat(entries);
-		let localDevConfigFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
-		this.fs.extendJSON(localDevConfigFilePath, devconf);
   }
 
   _addMappings(serviceMappingsJSON) {
