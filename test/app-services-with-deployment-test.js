@@ -17,7 +17,7 @@ const DEPLOYMENT_FILE_PATH =  `/chart/${APP_NAME}/templates/deployment.yaml`;
 describe('app-services-with-deployment', function () {
 	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
 
-	before((done) => {
+	before(() => {
 		let context = {};
 		context.bluemix = JSON.parse(JSON.stringify(optionsBluemix));
 		context.loggerLevel = logger.level;
@@ -26,7 +26,7 @@ describe('app-services-with-deployment', function () {
 		context.bluemix.backendPlatform = 'NODE';
 		context.language = context.bluemix.backendPlatform.toLowerCase();
 
-		helpers
+		return helpers
 			.run(path.join(__dirname, GENERATOR_NODE_PATH))
 			.inTmpDir((dir) => {
 				// `dir` is the path to the new temporary directory
@@ -41,7 +41,6 @@ describe('app-services-with-deployment', function () {
 			})
 			.then((tmpDir) => {
 				console.info("tmpDir", tmpDir);
-				done();
 			});
 	});
 

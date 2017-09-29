@@ -13,9 +13,9 @@ const SERVER_LOCALDEV_CONFIG_JSON = 'server/localdev-config.json';
 describe('node-express', function () {
 	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
 
-	before((done) => {
+	before(() => {
 		optionsBluemix.backendPlatform = "NODE";
-		helpers
+		return helpers
 			.run(path.join(__dirname, GENERATOR_PATH))
 			.inTmpDir()
 			.withOptions({
@@ -23,7 +23,6 @@ describe('node-express', function () {
 			})
 			.then((tmpDir) => {
 				console.info("tmpDir", tmpDir);
-				done();
 			});
 	});
 

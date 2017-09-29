@@ -131,6 +131,6 @@ module.exports = class extends Generator {
 
 	end() {
 		// add services env to deployment.yaml
-		Utils.addServicesEnvToDeploymentYaml({context: this.context, destinationPath: this.destinationPath()});
+		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()});
 	}
 }
