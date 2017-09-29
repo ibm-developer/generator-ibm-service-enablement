@@ -3,6 +3,7 @@ package application.ibmcloud;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,32 +28,46 @@ public class CloudServices {
     private static final String CLASSPATH_ID = "/server/";
     
     
-    private JsonNode config = null; //configuration to be using
-    private final ConcurrentMap<String, DocumentContext> resourceCache = new ConcurrentHashMap<>(); //used to cache resources loaded during processing
+    private JsonNode config = null;			//configuration to be using
+    private final ConcurrentMap<String, DocumentContext> resourceCache = new ConcurrentHashMap<>();	//used to cache resources loaded during processing
 
+    private static class SingletonHelper {
+        private static final CloudServices MAPPINGS;
+        static {
+            MAPPINGS = new CloudServices();
+            MAPPINGS.config = MAPPINGS.getJson(MAPPINGS_JSON);
+        }
+    }
+    
     /**
      * Create a cloud services mapping object from mappings.json
      * 
      * @return the configured service mapper
      */
     public static CloudServices fromMappings() {
-    	CloudServices cs = new CloudServices();
-    	cs.config = cs.getJson(MAPPINGS_JSON);
-    	return cs;
+    	return SingletonHelper.MAPPINGS;
     }
     
     private JsonNode getJson(String path) {
-        LOGGER.debug("getMappings()");
+        LOGGER.debug("getJson() for " + path);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode mappings = null;
         try {
-        	Resource resource = new ClassPathResource(path);
-            mappings = mapper.readTree(resource.getInputStream());
+            Resource resource = new ClassPathResource(path);
+            if(resource.exists()) {
+                InputStream fstream = resource.getInputStream();
+                if(fstream != null) {
+                    mappings = mapper.readTree(fstream);
+                }
+            }
         } catch (IOException e) {
             LOGGER.debug("Unexpected exception getting ObjectMapper for mappings.json: " + e);
             throw new CloudServicesException("Unexpected exception getting ObjectMapper for mappings.json", e);
         }
         LOGGER.debug("getMappings() returned: " + mappings);
+        if(mappings == null) {
+            LOGGER.warn("Mapping resolution failed : No configuration was found at " + path);
+        }
         return mappings;
     }
     
@@ -66,10 +81,13 @@ public class CloudServices {
      * @return The value specified by the "src:target" or null if not found
      */
     public String getValue(String name) {
-    	JsonNode node = config.get(name);
-    	if(node == null || node.isNull()) {
-    		return null;		//specified name could not be located	
-    	}
+        if(config == null) {
+            return null;	//config wasn't initialised for some reason, so cannot resolve anything
+        }
+        JsonNode node = config.get(name);
+        if(node == null || node.isNull()) {
+        return null;		//specified name could not be located	
+        }
         String value = null;
         ArrayNode array = (ArrayNode) node.get("searchPatterns");
         if (array.isArray()) {
@@ -142,6 +160,9 @@ public class CloudServices {
         else {
             value = System.getenv(target);
         }
+        if(value != null) {
+            value = sanitiseString(value);
+        }
         return value;
     }
 
@@ -150,9 +171,9 @@ public class CloudServices {
         if (target.contains(":")) {
             String token[] = parseOnfirst(target, ":");
             if (!token[0].isEmpty() && !token[1].isEmpty() && token[1].startsWith("$") ) {
-            	String path = token[0];
-            	DocumentContext context = resourceCache.computeIfAbsent(path, filePath -> getJsonStringFromFile(filePath));
-            	value = context.read(token[1]);
+                String path = token[0];
+                DocumentContext context = resourceCache.computeIfAbsent(path, filePath -> getJsonStringFromFile(filePath));
+                value = context.read(token[1]);
             }
         }
         else {
@@ -168,39 +189,37 @@ public class CloudServices {
         }
         return value;
     }
-    
+
     //end search pattern resolvers
 
     private DocumentContext getJsonStringFromFile(String filePath) { 
         String json = null;
         if (filePath != null && !filePath.isEmpty()) {
-        	if(filePath.startsWith(CLASSPATH_ID)) {
-        		//treat file:/server as a classpath resource
-        		String path = filePath.substring(CLASSPATH_ID.length() - 1);
-        		LOGGER.debug("Looking for classpath resource : " + path);
-        		JsonNode node = getJson(path);
-        		if(node != null) {
-        			json = node.toString();
-        			LOGGER.debug("Class path json : " + json);
-        		}
-        	} else {
-        		//look for the file specified
-	            try {
-	                json = new String(Files.readAllBytes(Paths.get(filePath)));
-	            } catch (Exception e) {
-	                LOGGER.debug("Unexpected exception reading JSON string from file: " + e);
-	            }
+            if(filePath.startsWith(CLASSPATH_ID)) {
+                //treat file:/server as a classpath resource
+                String path = filePath.substring(CLASSPATH_ID.length() - 1);
+                LOGGER.debug("Looking for classpath resource : " + path);
+                JsonNode node = getJson(path);
+                if(node != null) {
+                    json = node.toString();
+                    LOGGER.debug("Class path json : " + json);
+                }
+            } else {
+                //look for the file specified
+                try {
+                    json = new String(Files.readAllBytes(Paths.get(filePath)));
+                } catch (Exception e) {
+                    LOGGER.debug("Unexpected exception reading JSON string from file: " + e);
+                }
         	}
         }
         if(json == null) {
-        	return JsonPath.parse("{}");	//parse an empty object and set that for the context if the file cannot be loaded for some reason
+            return JsonPath.parse("{}");	//parse an empty object and set that for the context if the file cannot be loaded for some reason
         }
         return JsonPath.parse(json);
     }
 
-    
-    @SuppressWarnings("unused")
-	private String sanitiseString(String data) throws CloudServicesException {
+    private String sanitiseString(String data) throws CloudServicesException {
         if (data == null || data.isEmpty()) {
             throw new CloudServicesException("Invalid string [" + data + "]");
         }
