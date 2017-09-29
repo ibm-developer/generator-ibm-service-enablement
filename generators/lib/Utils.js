@@ -9,7 +9,8 @@ const REGEX_ENV = /env:/;
 module.exports = {
 
 	addServicesEnvToDeploymentYaml(args) {
-		let {context, destinationPath} = args;
+		let context = args.context;
+		let destinationPath = args.destinationPath;
 
 		// this deployment.yaml file should've been generated in the generator-ibm-cloud-enablement generator
 		// for deploy to Kubernetes using Helm chart
