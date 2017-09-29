@@ -107,6 +107,9 @@ public class CloudServices {
                         case "file":
                             value = getFileValue(token[1]);
                             break;
+                        default :
+                            LOGGER.warn("Unknown protocol in searchPatterns : " + token[0]);
+                            break;
                     }
                 }
                 if (value != null) {

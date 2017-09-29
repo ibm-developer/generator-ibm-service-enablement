@@ -8,7 +8,6 @@ const javaGenerator = require('../../../generators/language-java/index');
 
 const optionsBluemix = Object.assign({}, require('../bluemix.json'));
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
-const PATH_LOCALDEV_FILE = "./src/main/resources/localdev-config.json";
 
 module.exports = class extends Generator {
 	constructor(args, opts) {
