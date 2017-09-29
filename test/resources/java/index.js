@@ -8,6 +8,7 @@ const javaGenerator = require('../../../generators/language-java/index');
 
 const optionsBluemix = Object.assign({}, require('../bluemix.json'));
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
+const PATH_LOCALDEV_FILE = "./src/main/resources/localdev-config.json";
 
 module.exports = class extends Generator {
 	constructor(args, opts) {
@@ -73,6 +74,8 @@ module.exports = class extends Generator {
       });
     }
     this.conf.envEntries = this.conf.envEntries.concat(entries);
+		let localDevConfigFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
+		this.fs.extendJSON(localDevConfigFilePath, devconf);
   }
 
   _addMappings(serviceMappingsJSON) {
