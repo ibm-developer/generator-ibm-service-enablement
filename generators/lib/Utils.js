@@ -8,62 +8,75 @@ const REGEX_ENV = /env:/;
 
 module.exports = {
 
-	addServicesEnvToDeploymentYaml(args) {
-		let context = args.context;
-		let destinationPath = args.destinationPath;
+	addServicesEnvToDeploymentYamlAsync(args) {
+		return new Promise((resolve, reject) => {
+			let context = args.context;
+			let destinationPath = args.destinationPath;
 
-		// this deployment.yaml file should've been generated in the generator-ibm-cloud-enablement generator
-		// for deploy to Kubernetes using Helm chart
-		let deploymentFilePath = `${destinationPath}/chart/${context.sanitizedAppName}/templates/deployment.yaml`;
-		logger.info(`deployment.yaml path: ${deploymentFilePath}`);
+			// this deployment.yaml file should've been generated in the generator-ibm-cloud-enablement generator
+			// for deploy to Kubernetes using Helm chart
+			let deploymentFilePath = `${destinationPath}/chart/${context.sanitizedAppName}/templates/deployment.yaml`;
+			logger.info(`deployment.yaml path: ${deploymentFilePath}`);
 
-		let deploymentFileExists = fs.existsSync(deploymentFilePath);
-		if (deploymentFileExists) {
+			let deploymentFileExists = fs.existsSync(deploymentFilePath);
+			if (!deploymentFileExists) { return resolve(); }
 			logger.info("deployment.yaml exists, setting service(s) env");
 
 			let hasServices = context.deploymentServicesEnv && context.deploymentServicesEnv.length > 0;
-			if (hasServices) {
-				logger.info(`has ${context.deploymentServicesEnv.length} services, adding to deployment.yaml env`);
+			if (!hasServices) { return resolve(); }
+			logger.info(`has ${context.deploymentServicesEnv.length} services, adding to deployment.yaml env`);
 
-				const rl = readline.createInterface({
-					input: fs.createReadStream(deploymentFilePath)
-				});
+			let readStream = fs.createReadStream(deploymentFilePath);
+			let promiseIsRejected = false;
+			readStream.on('error', (err) => {
+				logger.error('failed to read deployment.yaml from filesystem: ' + err.message);
+				reject(err);
+				promiseIsRejected = true;
+			});
+			let rl = readline.createInterface({ input: readStream });
 
-				let deploymentFileString = '';
-				rl.on('line', (line) => {
-					deploymentFileString += `${line}\n`;
+			let deploymentFileString = '';
+			rl.on('line', (line) => {
+				deploymentFileString += `${line}\n`;
 
-					let envIndex = line.search(REGEX_ENV);
-					if (envIndex > -1) {
-						logger.info(`deployment.yaml env section index: ${envIndex}`);
+				let envIndex = line.search(REGEX_ENV);
+				if (envIndex > -1) {
+					logger.info(`deployment.yaml env section index: ${envIndex}`);
 
-						let spacesPrefix = line.slice(0, envIndex);
+					let spacesPrefix = line.slice(0, envIndex);
 
-						// TODO: more robust check of spaces to prefix
-						// valid to have items under env: section be at same level or indented by two spaces
-						// env:
-						// - name: service_watson_tone_analyzer
-						// also valid to have this ->
-						// env:
-						//   - name: service_watson_tone_analyzer
-						// so check if env: section already has items under it, if so, use same amount of spaces as existing items
+					// TODO: more robust check of spaces to prefix
+					// valid to have items under env: section be at same level or indented by two spaces
+					// env:
+					// - name: service_watson_tone_analyzer
+					// also valid to have this ->
+					// env:
+					//   - name: service_watson_tone_analyzer
+					// so check if env: section already has items under it, if so, use same amount of spaces as existing items
 
-						let servicesEnvString = '';
-						context.deploymentServicesEnv.forEach((serviceEntry) => {
-							servicesEnvString +=
-								`${spacesPrefix}  - name: ${serviceEntry.name}\n` +
-								`${spacesPrefix}    valueFrom:\n` +
-								`${spacesPrefix}      secretKeyRef:\n` +
-								`${spacesPrefix}        name: ${serviceEntry.valueFrom.secretKeyRef.name}\n` +
-								`${spacesPrefix}        key: ${serviceEntry.valueFrom.secretKeyRef.key}\n`;
-						});
-						deploymentFileString += servicesEnvString;
+					let servicesEnvString = '';
+					context.deploymentServicesEnv.forEach((serviceEntry) => {
+						servicesEnvString +=
+							`${spacesPrefix}  - name: ${serviceEntry.name}\n` +
+							`${spacesPrefix}    valueFrom:\n` +
+							`${spacesPrefix}      secretKeyRef:\n` +
+							`${spacesPrefix}        name: ${serviceEntry.valueFrom.secretKeyRef.name}\n` +
+							`${spacesPrefix}        key: ${serviceEntry.valueFrom.secretKeyRef.key}\n`;
+					});
+					deploymentFileString += servicesEnvString;
+				}
+			}).on('close', () => {
+				if (promiseIsRejected) { return; }
+				fs.writeFile(deploymentFilePath, deploymentFileString, (err) => {
+					if (err) {
+						logger.error('failed to write updated deployment.yaml to filesystem: ' + err.message);
+						reject(err);
+					} else {
+						logger.info('finished updating deployment.yaml and wrote to filesystem');
+						resolve();
 					}
-				}).on('close', () => {
-					fs.writeFileSync(deploymentFilePath, deploymentFileString);
-					logger.info('finished updating deployment.yaml and wrote to filesystem');
 				});
-			}
-		}
+			});
+		});
 	}
 };
