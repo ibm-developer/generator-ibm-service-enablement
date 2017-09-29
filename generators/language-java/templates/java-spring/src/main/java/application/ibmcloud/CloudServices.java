@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
 
 public class CloudServices {
 
@@ -171,9 +172,13 @@ public class CloudServices {
         if (target.contains(":")) {
             String token[] = parseOnfirst(target, ":");
             if (!token[0].isEmpty() && !token[1].isEmpty() && token[1].startsWith("$") ) {
-                String path = token[0];
-                DocumentContext context = resourceCache.computeIfAbsent(path, filePath -> getJsonStringFromFile(filePath));
-                value = context.read(token[1]);
+                try {
+                    String path = token[0];
+                    DocumentContext context = resourceCache.computeIfAbsent(path, filePath -> getJsonStringFromFile(filePath));
+                    value = context.read(token[1]);
+                } catch (PathNotFoundException e) {
+                    return null;	//no data matching the specified json path
+                }
             }
         }
         else {
