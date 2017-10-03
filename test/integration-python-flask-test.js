@@ -13,6 +13,10 @@ let initPy;
 const fs = require('fs-extra');
 const axios = require('axios');
 
+// Change these if you're getting SSL-related problems
+const pythonRuntime = 'python';
+const pipRuntime = 'pip'
+
 describe('integration test for services', function() {
 	before(function(done) {
 		this.timeout(30000);
@@ -147,13 +151,13 @@ let _setUpApplication = function(cb){
 				bluemix: JSON.stringify(optionsBluemix)
 			})
 			.then((tmpDir) => {
-				execRun('pip install -r requirements.txt', {cwd: tmpDir}, function(error, stdout, stderr){
+				execRun(pipRuntime + ' install -r requirements.txt', {cwd: tmpDir}, function(error, stdout, stderr){
 					console.log(stderr);
 					if(error){
 						assert.isOk('Could not install dependencies ' + error);
 					} else {
 						console.log(stdout);
-						server = spawn('flask', ['run'], {cmd: tmpDir, env: {PATH: process.env.PATH,
+						server = spawn(pythonRuntime, ['-m', 'flask', 'run'], {cmd: tmpDir, env: {PATH: process.env.PATH,
 							'FLASK_APP': 'server/__init__.py'}});
 						setTimeout(function(){
 							cb();
@@ -210,8 +214,3 @@ let _generateApplication = function(cb) {
 	fs.writeFileSync(path.join(__dirname, '/app/__init__.py'), copyInitPy);
 	cb();
 };
-
-
-
-
-
