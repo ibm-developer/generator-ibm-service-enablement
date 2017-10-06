@@ -1,20 +1,20 @@
 package application.objectstorage;
 
+import java.util.Optional;
+
 import javax.annotation.Resource;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
+import javax.inject.Inject;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.openstack4j.api.OSClient.OSClientV3;
 import org.openstack4j.openstack.OSFactory;
 
 import application.bluemix.InvalidCredentialsException;
-import application.bluemix.VCAPServices;
-import application.ibmcloud.CloudServices;
 import application.bluemix.ServiceName;
 
 public class ObjectStorage {
-
-    private CloudServices services = CloudServices.fromMappings();
 
     @Resource(lookup="objectstorage/auth_url")
     protected String resourceAuthUrl;
@@ -31,41 +31,34 @@ public class ObjectStorage {
     @Resource(lookup="objectstorage/project")
     protected String resourceProject;
 
+    @Inject
+    @ConfigProperty(name="VCAP_SERVICES") 
+    Optional <ObjectStorageCredentials> osc;
+    
     private static final String VERSION = "/v3";
-
+    
     @Produces
     @ServiceName
     public OSClientV3 expose(InjectionPoint ip) throws InvalidCredentialsException {
-        ServiceName config = ip.getAnnotated().getAnnotation(ServiceName.class);
-        String serviceName = config.name();
         ObjectStorageCredentials credentials;
         try {
-          credentials = getObjectStorageCredentials(serviceName);
-          OSClientV3 os = OSFactory.builderV3()
+          credentials = getObjectStorageCredentials();
+          OSClientV3 client = OSFactory.builderV3()
                   .endpoint(credentials.getAuthUrl().toString())
                   .credentials(credentials.getUserId(), credentials.getPassword())
                   .scopeToProject(credentials.getProjectIdent(), credentials.getDomainIdent())
                   .authenticate();
-          return os;
+          return client;
         } catch (InvalidCredentialsException e) {
           return null;
         }
     }
 
-    private ObjectStorageCredentials getObjectStorageCredentials(String serviceName) throws InvalidCredentialsException {
-        String userId = services.getValue("userId");
-        String password = services.getValue("password");
-        String auth_url = services.getValue("auth_url");
-        String domainName = services.getValue("domainName");
-        String project = services.getValue("project");
-
-		if((userId != null) && (password != null) && (auth_url != null)) {
-			return new ObjectStorageCredentials(auth_url + VERSION, userId, password, domainName, project);
-		} else {
-			//fallback to JNDI/local env mappings
-			return new ObjectStorageCredentials(resourceAuthUrl + VERSION, resourceUserId, resourcePassword, resourceDomainName, resourceProject);
-		}
+    private ObjectStorageCredentials getObjectStorageCredentials() throws InvalidCredentialsException {
+    	ObjectStorageCredentials credentials=osc.orElse(null);
+        if (credentials == null) {
+            credentials = new ObjectStorageCredentials(resourceAuthUrl + VERSION, resourceUserId, resourcePassword, resourceDomainName, resourceProject);
+        } 
+        return credentials;
     }
-
-
 }

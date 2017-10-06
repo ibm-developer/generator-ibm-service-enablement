@@ -3,15 +3,20 @@ package application.cloudant;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.enterprise.context.RequestScoped;
+
 import application.bluemix.BluemixCredentials;
 import application.bluemix.InvalidCredentialsException;
 
+@RequestScoped
 public class CloudantCredentials extends BluemixCredentials {
 
     private String username;
     private String password;
     private URL url;
-
+    
+    public CloudantCredentials() {};
+    
     public CloudantCredentials(String url, String username, String password) throws InvalidCredentialsException {
         checkCredentialsValid(url, username, password);
     }
