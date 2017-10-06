@@ -1,1 +1,1 @@
-ibmcloudenv~=0.0
+ibmcloudenv
