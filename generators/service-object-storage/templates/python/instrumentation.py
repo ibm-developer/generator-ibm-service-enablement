@@ -1,4 +1,4 @@
-from ibm_cloud_env import IBMCloudEnv
+from ibmcloudenv import IBMCloudEnv
 import swiftclient
 
 authurl = IBMCloudEnv.getString('object_storage_auth_url')
