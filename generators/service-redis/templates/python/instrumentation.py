@@ -1,5 +1,5 @@
 import redis
-from ibm_cloud_env import IBMCloudEnv
+from ibmcloudenv import IBMCloudEnv
 
 
 uri = IBMCloud.getString('redis_uri')
