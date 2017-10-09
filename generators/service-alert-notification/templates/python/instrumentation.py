@@ -1,4 +1,4 @@
-from ibm_cloud_env import IBMCloudEnv
+from ibmcloudenv import IBMCloudEnv
 
 config = {
     'url' : IBMCloudEnv.getString('alert_notification_url') if True else 'https://ibmnotifybm.mybluemix.net/api/alerts/v1',

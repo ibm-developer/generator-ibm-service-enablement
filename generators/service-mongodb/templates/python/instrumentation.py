@@ -1,4 +1,4 @@
-from ibm_cloud_env import IBMCloudEnv
+from ibmcloudenv import IBMCloudEnv
 from pymongo import MongoClient
 import os, base64
 
