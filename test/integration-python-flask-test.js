@@ -14,8 +14,8 @@ const fs = require('fs-extra');
 const axios = require('axios');
 
 // Change these if you're getting SSL-related problems
-const pythonRuntime = 'python';
-const pipRuntime = 'pip'
+const pythonRuntime = '/usr/local/Cellar/python/2.7.14/bin/python2.7';
+const pipRuntime = '/usr/local/Cellar/python/2.7.14/bin/pip'
 
 describe('integration test for services', function() {
 	before(function(done) {
@@ -110,7 +110,7 @@ describe('integration test for services', function() {
 	});
 
 	describe('Alert-Notification', function() {
-		it('should authorize protected endpoint', function() {
+		it('should create and send an alert-notification', function() {
 			this.timeout(10000);
 			let expectedMessage = ['alert sent'];
 			let options = {
@@ -132,10 +132,31 @@ describe('integration test for services', function() {
 
 				});
 		});
-	})
+	});
 
+	describe('MongoDB', function() {
+		it('should create a collection `test` and write and fetch data from it', function() {
+			this.timeout(10000);
+			let expectedMessage = ['entered and fetched data successfully'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/mongodb-test'
+			};
 
-
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
 });
 
 let _setUpApplication = function(cb){
@@ -188,7 +209,7 @@ let _destroyApplication = function(cb){
 
 
 let _generateApplication = function(cb) {
-	const serviceNames = ['cloudant', 'object-storage', 'appId', 'alertnotification'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId', 'alertnotification', 'mongodb'];
 	const REPLACE_CODE_HERE = '# GENERATE HERE';
 	const REPLACE_SHUTDOWN_CODE_HERE = '# GENERATE SHUTDOWN';
 	let snippetJS;
@@ -209,7 +230,6 @@ let _generateApplication = function(cb) {
 
 	copyInitPy = copyInitPy.replace(REPLACE_CODE_HERE, "");
 	copyInitPy = copyInitPy.replace(REPLACE_SHUTDOWN_CODE_HERE, "");
-
 
 	fs.writeFileSync(path.join(__dirname, '/app/__init__.py'), copyInitPy);
 	cb();
