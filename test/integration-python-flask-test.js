@@ -157,6 +157,30 @@ describe('integration test for services', function() {
 				});
 		});
 	});
+
+	describe('Push-Notifications', function() {
+		it('should send a push notification and receive an id', function() {
+			this.timeout(10000);
+			let expectedMessage = ['message sent', 'message id received'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/push-notifications-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
 });
 
 let _setUpApplication = function(cb){
@@ -209,7 +233,7 @@ let _destroyApplication = function(cb){
 
 
 let _generateApplication = function(cb) {
-	const serviceNames = ['cloudant', 'object-storage', 'appId', 'alertnotification', 'mongodb'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId', 'alertnotification', 'mongodb', 'push'];
 	const REPLACE_CODE_HERE = '# GENERATE HERE';
 	const REPLACE_SHUTDOWN_CODE_HERE = '# GENERATE SHUTDOWN';
 	let snippetJS;
