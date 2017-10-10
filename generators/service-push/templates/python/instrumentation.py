@@ -4,8 +4,10 @@ import json
 
 class Push:
 	def __init__(self, url, appSecret, clientSecret):
-		self.__url = url
-		self.__headers = {
+		self.url = url
+		self.appSecret = appSecret
+		self.clientSecret = clientSecret
+		self.headers = {
 			'accept': 'application/json',
 			'appSecret': appSecret,
 			'clientSecret': clientSecret,
@@ -16,26 +18,22 @@ class Push:
 		return self.post('/messages', payload)
 
 	def get(self, endpoint, payload):
-		data = json.dumps(payload)
-		r = get(self.__url + endpoint, headers=self.__headers, data=data)
+		r = get(self.url + endpoint, headers=self.headers, json=payload)
 		response = r.json()
 		return response
 
 	def post(self, endpoint, payload):
-		data = json.dumps(payload)
-		r = post(self.__url + endpoint, headers=self.__headers, data=data)
+		r = post(self.url + endpoint, headers=self.headers, json=payload)
 		response = r.json()
 		return response
 
 	def put(self, endpoint, payload):
-		data = json.dumps(payload)
-		r = put(self.__url + endpoint, headers=self.__headers, data=data)
+		r = put(self.url + endpoint, headers=self.headers, json=payload)
 		response = r.json()
 		return response
 
 	def delete(self, endpoint, payload):
-		data = json.dumps(payload)
-		r = delete(self.__url + endpoint, headers=self.__headers, data=data)
+		r = delete(self.url + endpoint, headers=self.headers, json=payload)
 		response = r.json()
 		return response
 

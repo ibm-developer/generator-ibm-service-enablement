@@ -110,9 +110,9 @@ describe('integration test for services', function() {
 	});
 
 	describe('Alert-Notification', function() {
-		it('should create and send an alert-notification', function() {
+		it('should create, send, and track an alert-notification', function() {
 			this.timeout(10000);
-			let expectedMessage = ['alert sent'];
+			let expectedMessage = ['alert sent', 'tracked alert'];
 			let options = {
 				'method': 'get',
 				'url': 'http://localhost:5000/alert-notification-test'

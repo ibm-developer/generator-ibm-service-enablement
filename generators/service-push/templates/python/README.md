@@ -24,8 +24,10 @@ There is no official python SDK for working with Push-Notifications. Instead, [t
 ```python
 class Push:
 	def __init__(self, url, appSecret, clientSecret):
-		self.__url = url
-		self.__headers = {
+		self.url = url
+		self.appSecret = appSecret
+		self.clientSecret = clientSecret
+		self.headers = {
 			'accept': 'application/json',
 			'appSecret': appSecret,
 			'clientSecret': clientSecret,
@@ -36,29 +38,25 @@ class Push:
 		return self.post('/messages', payload)
 
 	def get(self, endpoint, payload):
-		data = json.dumps(payload)
-		r = get(self.__url + endpoint, headers=self.__headers, data=data)
+		r = get(self.url + endpoint, headers=self.headers, json=payload)
 		response = r.json()
 		return response
 
 	def post(self, endpoint, payload):
-		data = json.dumps(payload)
-		r = post(self.__url + endpoint, headers=self.__headers, data=data)
+		r = post(self.url + endpoint, headers=self.headers, json=payload)
 		response = r.json()
 		return response
 
 	def put(self, endpoint, payload):
-		data = json.dumps(payload)
-		r = put(self.__url + endpoint, headers=self.__headers, data=data)
+		r = put(self.url + endpoint, headers=self.headers, json=payload)
 		response = r.json()
 		return response
 
 	def delete(self, endpoint, payload):
-		data = json.dumps(payload)
-		r = delete(self.__url + endpoint, headers=self.__headers, data=data)
+		r = delete(self.url + endpoint, headers=self.headers, json=payload)
 		response = r.json()
 		return response
-  ```
+```
 
 The `service_manager` will return an initialized `Push` object pre-populated with the credentials provided that are necessary to work with Push-Notifications. [By referencing the API](https://console-regional.stage1.ng.bluemix.net/apidocs/800-push-notifications?&language=shell_curl#introduction), this object can be used to specify the the type of request, API endpoint, and data payload to make it simpler to work with the API:
 
@@ -89,3 +87,5 @@ response = push.post('/messages', {
   }
 })
 ```
+
+(If you prefer, you can also extract `url`, `appSecret`, and `clientSecret` from the `push` object and manually write your own requests using the python `requests` package)

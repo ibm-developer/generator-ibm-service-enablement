@@ -1,28 +1,27 @@
 # MongoDB
 
-
- App ID is an authentication and profiles service that makes it easy for developers to add authentication to their mobile and web apps, and secure access to cloud native apps and services on Bluemix. It also helps manage end-user data that developers can use to build personalized app experiences.
+MongoDB with its powerful indexing and querying, aggregation and wide driver support, has become the go-to JSON data store for many startups and enterprises. IBM Compose for MongoDB makes MongoDB even better by managing it for you. This includes offering an easy, auto-scaling deployment system which delivers high availability and redundancy, automated no-stop backups and much more.
 
 ##  Credentials
 
 ###  LocalDevConfig
 
-This is where your local configuration is stored for AppID.
+This is where your local configuration is stored for MongoDB.
 ```
 {
-  "appid_tenant_id": "{{tenantId}}", // tenant ID
-  "appid_client_id": "{{clientId}}", // client ID
-  "appid_secret": "{{secret}}", // secret
-  "appid_oauth_server_url": "{{oauthServerUrl}}", // Oauth Server Url
-  "appid_profiles_url": "{{profilesUrl}}" // Profile URL
+	"mongodb_uri": "{{{uri}}}",
+	"mongodb_ca": "{{caCertificateBase64}}"
 }
 ```
 
+When the `service_manager` reads in credentials, it will convert `mongodb_ca`
+into a `mongo-ssl-cert.pem` certificate file that is used for SSL connection to
+the database instance. This file is stored in `server/services/certificates/`.
+
 ## Usage
 
-The service manager returns an instance of a `pymongo` client, which is the
-recommended way to interface with MongoDB using python. The full documentation
-for `pymongo` can [be found here](https://api.mongodb.com/python/current/),
+The `service_manager` returns an instance of a `pymongo` client, which is setup
+already to connect to the database specified in the credentials via SSL. The full documentation for `pymongo` can [be found here](https://api.mongodb.com/python/current/),
 but a small getting started template can be found below:
 
 ```python
@@ -46,24 +45,35 @@ db = client.test_database
 # as roughly the equivalent of a table in a relational database.  
 collection = db.test_collection
 
+# Add new data to the collection
 @app.route('/post/<string:name>/<int:age>')
 def put(name, age):
-    data = {
-    	"username": name,
-    	"age": age
-    }
+	data = {
+		"username": name,
+		"age": age
+	}
 
-    datum_id = collection.insert_one(data).inserted_id
+	datum_id = collection.insert_one(data).inserted_id
 
-    return {'id': str(datum_id)}
+	return {'id': str(datum_id)}
 
-# The web framework gets post_id from the URL and passes it as a string
+# Attempt to fetch and return data from the collection
 @app.route('/get/<string:data_id>')
 def get(data_id):
-    # Convert from string to ObjectId:
-    data = collection.find_one({'_id': ObjectId(data_id)})
-    if data:
-      return data
-  else:
-      return "data not found"
+	# Convert from string to ObjectId:
+	data = collection.find_one({'_id': ObjectId(data_id)})
+	if data:
+		return data
+	else:
+		return "data not found"
+
+# Query the database by username
+@app.route('/get/name/<string:name>')
+def fetch(name):
+	return collection.find({'username': name})
+
+# Fetch the number of entries in the collection
+@app.route('/count')
+def count:
+	return collection.count()
 ```
