@@ -1,6 +1,5 @@
 from ibmcloudenv import IBMCloudEnv
 from requests import get, post, put, delete
-import json
 
 class Push:
 	def __init__(self, url, appSecret, clientSecret):

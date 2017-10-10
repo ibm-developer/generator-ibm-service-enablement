@@ -13,8 +13,8 @@ def alert():
 
 	if res and 'ShortId' in res:
 		messages.append('alert sent')
-		id = res['ShortId']
-		confirmation = alert.getAlert(id)
+		alertID = res['ShortId']
+		confirmation = alert.getAlert(alertID)
 		if res == confirmation:
 			messages.append('tracked alert')
 

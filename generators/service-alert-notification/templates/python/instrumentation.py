@@ -13,13 +13,13 @@ class Alert:
 		response = res.json()
 		return response
 
-	def getAlert(self, id):
-		res = requests.get(self.url + '/' + str(id), auth=self.auth)
+	def getAlert(self, alertID):
+		res = requests.get(self.url + '/' + str(alertID), auth=self.auth)
 		response = res.json()
 		return response
 
-	def deleteAlert(self, id):
-		res = requests.delete(self.url + '/' + str(id), auth=self.auth)
+	def deleteAlert(self, alertID):
+		res = requests.delete(self.url + '/' + str(alertID), auth=self.auth)
 		return res
 
 def getService(app):

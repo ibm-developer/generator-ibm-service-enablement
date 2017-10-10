@@ -1,2 +1,2 @@
-    if client:
-        client.close()
+if client:
+	client.close()
