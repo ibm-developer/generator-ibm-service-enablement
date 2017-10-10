@@ -246,7 +246,7 @@ let _generateApplication = function(cb) {
 	serviceNames.forEach(function(serviceName){
 		snippetJS = fs.readFileSync(path.join(__dirname, '/app/' + serviceName + '/' + PLATFORM.toLowerCase() + '/__init__.py'), 'utf-8');
 		snippetShutdown = '\t' + fs.readFileSync(path.join(__dirname, '/app/' + serviceName + '/' + PLATFORM.toLowerCase() + '/shutdown.py'), 'utf-8');
-		snippetShutdown = snippetShutdown.replace(new RegExp('\n', 'g'), '\n\t');
+		snippetShutdown = snippetShutdown.replace(new RegExp('\n', 'g'), '\n\t'); // eslint-disable-line no-control-regex
 		snippetJS+=('\n'+ REPLACE_CODE_HERE);
 		snippetShutdown+=('\n' + REPLACE_SHUTDOWN_CODE_HERE);
 		copyInitPy = copyInitPy.replace(REPLACE_CODE_HERE, snippetJS);
