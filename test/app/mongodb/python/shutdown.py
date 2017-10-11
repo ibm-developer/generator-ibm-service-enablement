@@ -1,0 +1,2 @@
+if client:
+	client.close()
