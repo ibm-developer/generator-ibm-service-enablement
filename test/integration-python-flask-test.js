@@ -14,8 +14,8 @@ const fs = require('fs-extra');
 const axios = require('axios');
 
 // Change these if you're getting SSL-related problems
-const pythonRuntime = 'python';
-const pipRuntime = 'pip'
+const pythonRuntime = '/usr/local/Cellar/python/2.7.14/bin/python2.7';
+const pipRuntime = '/usr/local/Cellar/python/2.7.14/bin/pip'
 
 describe('integration test for services', function() {
 	before(function(done) {
@@ -110,9 +110,9 @@ describe('integration test for services', function() {
 	});
 
 	describe('Alert-Notification', function() {
-		it('should authorize protected endpoint', function() {
+		it('should create, send, and track an alert-notification', function() {
 			this.timeout(10000);
-			let expectedMessage = ['alert sent'];
+			let expectedMessage = ['alert sent', 'tracked alert'];
 			let options = {
 				'method': 'get',
 				'url': 'http://localhost:5000/alert-notification-test'
@@ -132,10 +132,55 @@ describe('integration test for services', function() {
 
 				});
 		});
-	})
+	});
 
+	describe('MongoDB', function() {
+		it('should create a collection `test` and write and fetch data from it', function() {
+			this.timeout(10000);
+			let expectedMessage = ['entered and fetched data successfully'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/mongodb-test'
+			};
 
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
 
+	describe('Push-Notifications', function() {
+		it('should send a push notification and receive an id', function() {
+			this.timeout(10000);
+			let expectedMessage = ['message sent', 'message id received'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/push-notifications-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
 });
 
 let _setUpApplication = function(cb){
@@ -188,7 +233,7 @@ let _destroyApplication = function(cb){
 
 
 let _generateApplication = function(cb) {
-	const serviceNames = ['cloudant', 'object-storage', 'appId', 'alertnotification'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId', 'alertnotification', 'mongodb', 'push'];
 	const REPLACE_CODE_HERE = '# GENERATE HERE';
 	const REPLACE_SHUTDOWN_CODE_HERE = '# GENERATE SHUTDOWN';
 	let snippetJS;
@@ -200,7 +245,8 @@ let _generateApplication = function(cb) {
 
 	serviceNames.forEach(function(serviceName){
 		snippetJS = fs.readFileSync(path.join(__dirname, '/app/' + serviceName + '/' + PLATFORM.toLowerCase() + '/__init__.py'), 'utf-8');
-		snippetShutdown = fs.readFileSync(path.join(__dirname, '/app/' + serviceName + '/' + PLATFORM.toLowerCase() + '/shutdown.py'), 'utf-8');
+		snippetShutdown = '\t' + fs.readFileSync(path.join(__dirname, '/app/' + serviceName + '/' + PLATFORM.toLowerCase() + '/shutdown.py'), 'utf-8');
+		snippetShutdown = snippetShutdown.replace(new RegExp('\n', 'g'), '\n\t'); // eslint-disable-line no-control-regex
 		snippetJS+=('\n'+ REPLACE_CODE_HERE);
 		snippetShutdown+=('\n' + REPLACE_SHUTDOWN_CODE_HERE);
 		copyInitPy = copyInitPy.replace(REPLACE_CODE_HERE, snippetJS);
@@ -209,7 +255,6 @@ let _generateApplication = function(cb) {
 
 	copyInitPy = copyInitPy.replace(REPLACE_CODE_HERE, "");
 	copyInitPy = copyInitPy.replace(REPLACE_SHUTDOWN_CODE_HERE, "");
-
 
 	fs.writeFileSync(path.join(__dirname, '/app/__init__.py'), copyInitPy);
 	cb();
