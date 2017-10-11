@@ -196,7 +196,7 @@ let _setUpApplication = function(cb){
 				bluemix: JSON.stringify(optionsBluemix)
 			})
 			.then((tmpDir) => {
-				execRun(pipRuntime + ' install -r requirements.txt', {cwd: tmpDir}, function(error, stdout, stderr){
+				execRun(pipRuntime + ' install -r requirements.txt --upgrade', {cwd: tmpDir}, function(error, stdout, stderr){
 					console.log(stderr);
 					if(error){
 						assert.isOk('Could not install dependencies ' + error);
