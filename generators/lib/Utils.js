@@ -13,18 +13,45 @@ module.exports = {
 			let context = args.context;
 			let destinationPath = args.destinationPath;
 
+			let hasServices = context.deploymentServicesEnv && context.deploymentServicesEnv.length > 0;
+			if (!hasServices) {
+				logger.info('No services to add to deployment.yaml');
+				return resolve();
+			}
+
 			// this deployment.yaml file should've been generated in the generator-ibm-cloud-enablement generator
 			// for deploy to Kubernetes using Helm chart
-			let deploymentFilePath = `${destinationPath}/chart/${context.sanitizedAppName}/templates/deployment.yaml`;
+			let chartFolderPath = `${destinationPath}/chart`;
+			if (!fs.existsSync(chartFolderPath)) {
+				logger.info('/chart folder does not exist');
+				return resolve();
+			}
+
+			let deploymentFilePath = `${chartFolderPath}/${context.sanitizedAppName}/templates/deployment.yaml`;
 			logger.info(`deployment.yaml path: ${deploymentFilePath}`);
 
 			let deploymentFileExists = fs.existsSync(deploymentFilePath);
-			if (!deploymentFileExists) { return resolve(); }
-			logger.info("deployment.yaml exists, setting service(s) env");
+			if (!deploymentFileExists) {
+				logger.info(`deployment.yaml does not exist at ${deploymentFilePath}, checking /chart directory`);
+				// chart could've been created with different name than expected
+				let chartFolders = fs.readdirSync(`${chartFolderPath}`);
+				// there should only be one folder under /chart, but just in case
+				for (let i = 0; i < chartFolders.length; i++) {
+					deploymentFilePath = `${chartFolderPath}/${chartFolders[i]}/templates/deployment.yaml`;
+					deploymentFileExists = fs.existsSync(deploymentFilePath);
+					if (deploymentFileExists) {
+						logger.info(`found deployment.yaml file at ${deploymentFilePath}`);
+						break;
+					}
+				}
+			}
 
-			let hasServices = context.deploymentServicesEnv && context.deploymentServicesEnv.length > 0;
-			if (!hasServices) { return resolve(); }
-			logger.info(`has ${context.deploymentServicesEnv.length} services, adding to deployment.yaml env`);
+			if (!deploymentFileExists) {
+				logger.error('deployment.yaml not found, cannot add services to env');
+				return resolve();
+			}
+
+			logger.info(`deployment.yaml exists, adding ${context.deploymentServicesEnv.length} to env` );
 
 			let readStream = fs.createReadStream(deploymentFilePath);
 			let promiseIsRejected = false;
