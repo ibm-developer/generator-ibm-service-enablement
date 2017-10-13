@@ -17,40 +17,85 @@ const DEPLOYMENT_FILE_PATH =  `/chart/${APP_NAME}/templates/deployment.yaml`;
 describe('app-services-with-deployment', function () {
 	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
 
-	before(() => {
-		let context = {};
-		context.bluemix = JSON.parse(JSON.stringify(optionsBluemix));
-		context.loggerLevel = logger.level;
-		context.sanitizedAppName = context.bluemix.name.toLowerCase();
+	let lang = 'NODE';
+	let generatorPath = GENERATOR_NODE_PATH;
 
-		context.bluemix.backendPlatform = 'NODE';
-		context.language = context.bluemix.backendPlatform.toLowerCase();
+	describe(`app-services-with-deployment ${lang}`, () => {
+		before(() => {
+			let context = {};
+			context.bluemix = JSON.parse(JSON.stringify(optionsBluemix));
+			context.loggerLevel = logger.level;
+			context.sanitizedAppName = context.bluemix.name.toLowerCase();
 
-		return helpers
-			.run(path.join(__dirname, GENERATOR_NODE_PATH))
-			.inTmpDir((dir) => {
-				// `dir` is the path to the new temporary directory
-				let deployFile = fs.readFileSync(path.join(RESOURCES_PATH, '/deployment.yaml'));
-				fs.mkdirSync(path.join(dir, `/chart`));
-				fs.mkdirSync(path.join(dir, `/chart/${APP_NAME}`));
-				fs.mkdirSync(path.join(dir, `/chart/${APP_NAME}/templates`));
-				fs.writeFileSync(path.join(dir, DEPLOYMENT_FILE_PATH), deployFile);
-			})
-			.withOptions({
-				context: context
-			})
-			.then((tmpDir) => {
-				console.info("tmpDir", tmpDir);
-			});
+			context.bluemix.backendPlatform = lang;
+			context.language = context.bluemix.backendPlatform.toLowerCase();
+
+			return helpers
+				.run(path.join(__dirname, generatorPath))
+				.inTmpDir((dir) => {
+					// `dir` is the path to the new temporary directory
+					let deployFile = fs.readFileSync(path.join(RESOURCES_PATH, '/deployment.yaml'));
+					fs.mkdirSync(path.join(dir, `/chart`));
+					fs.mkdirSync(path.join(dir, `/chart/${APP_NAME}`));
+					fs.mkdirSync(path.join(dir, `/chart/${APP_NAME}/templates`));
+					fs.writeFileSync(path.join(dir, DEPLOYMENT_FILE_PATH), deployFile);
+				})
+				.withOptions({
+					context: context
+				})
+				.then((tmpDir) => {
+					console.info("tmpDir", tmpDir);
+				});
+		});
+
+		it('appended env for each service to deployment.yaml', () => {
+			let generatedFilePath = path.join('.', DEPLOYMENT_FILE_PATH);
+			yassert.file(generatedFilePath);
+
+			let expected = fs.readFileSync(path.join(RESOURCES_PATH, `/deployment-result-${lang.toLowerCase()}.yaml`), 'utf-8');
+			let actual = fs.readFileSync(generatedFilePath, 'utf-8');
+
+			assert.equal(actual, expected);
+		});
 	});
 
-	it('appended env for each service to deployment.yaml', () => {
-		let generatedFilePath = path.join('.', DEPLOYMENT_FILE_PATH);
-		yassert.file(generatedFilePath);
+	describe(`app-services-with-deployment ${lang}, chart folder different from app name`, () => {
+		const chartFolderName = 'mychart';
+		before(() => {
+			let context = {};
+			context.bluemix = JSON.parse(JSON.stringify(optionsBluemix));
+			context.loggerLevel = logger.level;
+			context.sanitizedAppName = context.bluemix.name.toLowerCase();
 
-		let expected = fs.readFileSync(path.join(RESOURCES_PATH, `/deployment-result-node.yaml`), 'utf-8');
-		let actual = fs.readFileSync(generatedFilePath, 'utf-8');
+			context.bluemix.backendPlatform = lang;
+			context.language = context.bluemix.backendPlatform.toLowerCase();
 
-		assert.equal(actual, expected);
+			return helpers
+				.run(path.join(__dirname, generatorPath))
+				.inTmpDir((dir) => {
+					// `dir` is the path to the new temporary directory
+					let deployFile = fs.readFileSync(path.join(RESOURCES_PATH, '/deployment.yaml'));
+					fs.mkdirSync(path.join(dir, `/chart`));
+					fs.mkdirSync(path.join(dir, `/chart/${chartFolderName}`));
+					fs.mkdirSync(path.join(dir, `/chart/${chartFolderName}/templates`));
+					fs.writeFileSync(path.join(dir, `/chart/${chartFolderName}/templates/deployment.yaml`), deployFile);
+				})
+				.withOptions({
+					context: context
+				})
+				.then((tmpDir) => {
+					console.info("tmpDir", tmpDir);
+				});
+		});
+
+		it('appended env for each service to deployment.yaml', () => {
+			let generatedFilePath = path.join('.', `chart/${chartFolderName}/templates/deployment.yaml`);
+			yassert.file(generatedFilePath);
+
+			let expected = fs.readFileSync(path.join(RESOURCES_PATH, `/deployment-result-${lang.toLowerCase()}.yaml`), 'utf-8');
+			let actual = fs.readFileSync(generatedFilePath, 'utf-8');
+
+			assert.equal(actual, expected);
+		});
 	});
 });
