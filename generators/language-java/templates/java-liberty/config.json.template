@@ -10,6 +10,6 @@
     {"feature" : "jsonp-1.0"},
     {"feature" : "jndi-1.0"},
     {"feature" : "cdi-1.2"},
-    {"feature" : "mpConfig-1.0"}
+    {"feature" : "mpConfig-1.1"}
   ]
 }

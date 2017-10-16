@@ -39,6 +39,7 @@ module.exports = class extends Generator {
 		this._sanitizeOption(this.options, OPTION_BLUEMIX);
 		this._sanitizeOption(this.options, OPTION_STARTER);
 
+
 		let context = this.parentContext || {};
 		//add bluemix options from this.options to existing bluemix options on parent context
 		context[OPTION_BLUEMIX] = Object.assign(context[OPTION_BLUEMIX] || {}, this.options[OPTION_BLUEMIX]);
@@ -68,6 +69,7 @@ module.exports = class extends Generator {
 				context.language = 'swift';
 				break;
 		}
+		console.log(context.language);
 
 		logger.info("Composing with", languageGeneratorPath);
 		this.composeWith(require.resolve(languageGeneratorPath), {context: context});

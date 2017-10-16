@@ -6,5 +6,8 @@
   ],
   "dependencies" : [
     {"groupId" : "com.cloudant", "artifactId" : "cloudant-client", "version" : "2.7.0"}
+  ],
+  "metainf" : [
+    {"filepath" : "services/org.eclipse.microprofile.config.spi.Converter", "data" : ["application.cloudant.CloudantCredentialsConverter"]}
   ]
 }

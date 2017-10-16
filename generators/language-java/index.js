@@ -19,12 +19,14 @@ const Generator = require('yeoman-generator');
 const fs = require('fs');
 const path = require('path');
 const handlebars = require('handlebars');
+const converter = "src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter";
 
 const Utils = require('../lib/Utils');
 
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
 const PATH_LOCALDEV_FILE = "./src/main/resources/localdev-config.json";
 const TEMPLATE_EXT = ".template";
+
 
 module.exports = class extends Generator {
 
@@ -47,6 +49,7 @@ module.exports = class extends Generator {
 		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.srcFolders = [];
 		this.context.instrumentationAdded = false;
+		this.context.metainf = [];
 
 		//initializing ourselves by composing with the service generators
 		let root = path.join(path.dirname(require.resolve('../app')), '../');
@@ -73,10 +76,26 @@ module.exports = class extends Generator {
 				}
 			})
 		}
+		//if(this.context.metainf) {
+			var location = this.templatePath("java-liberty/" + converter);
+			var destination = this.destinationPath(converter);
+			let contents = fs.readFileSync(location, 'utf8');
+			var compiledTemplate = handlebars.compile(contents);
+			var output = compiledTemplate({metainf: this.context.metainf});
+			this.fs.write(destination, output);
+	//	}
+		
 	}
 
 	_addDependencies(serviceDependenciesString) {
-		logger.debug("Adding dependencies", serviceDependenciesString);
+		logger.debug("Adding dependencies", serviceDependenciesString); 
+		
+		//serviceDependenciesString is a string and we can't access metainf. It should be an object.
+		let serviceDependenciesObject = JSON.parse(serviceDependenciesString);
+		if(serviceDependenciesObject.metainf) {
+			this.context.metainf = this.context.metainf.concat(serviceDependenciesObject.metainf);
+		 }
+
 		this.context._addDependencies(serviceDependenciesString);
 	}
 
