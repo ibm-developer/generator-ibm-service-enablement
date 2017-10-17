@@ -1,0 +1,6 @@
+{
+  "import":"CouchDB",
+  "variableName":"couchDBService",
+  "type":"CouchDBClient",
+  "initParams":"cloudEnv: cloudEnv"
+}

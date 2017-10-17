@@ -1,0 +1,6 @@
+{
+  "import":"SwiftKueryPostgreSQL",
+  "variableName":"postgreSQLService",
+  "type":"PostgreSQLConnection",
+  "initParams":"cloudEnv: cloudEnv"
+}

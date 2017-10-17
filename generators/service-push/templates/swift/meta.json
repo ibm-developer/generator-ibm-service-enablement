@@ -1,0 +1,6 @@
+{
+  "import":"BluemixPushNotifications",
+  "variableName":"pushNotificationService",
+  "type":"PushNotifications",
+  "initParams":"cloudEnv: cloudEnv"
+}
