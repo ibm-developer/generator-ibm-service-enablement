@@ -1,15 +1,13 @@
 import LoggerAPI
+import CloudEnvironment
 import BluemixAppID
-import Credentials
+import class Credentials.Credentials
 
 // For more details on AppID usage, see
 // https://github.com/ibm-cloud-security/appid-serversdk-swift#protecting-web-applications-using-webappkituracredentialsplugin
 // Use kituraCredentials to protect your endpoints/routes
 
-var webappKituraCredentialsPlugin: WebAppKituraCredentialsPlugin!
-var kituraCredentials: Credentials!
-
-func initializeServiceAppid() throws {
+func initializeServiceAppid(cloudEnv: CloudEnv) throws -> Credentials {
     guard let appidCredentials = cloudEnv.getAppIDCredentials(name: "{{servLookupKey}}") else {
         throw InitializationError("Could not load credentials for AppID.")
     }
@@ -23,8 +21,9 @@ func initializeServiceAppid() throws {
         "profilesUrl": appidCredentials.profilesUrl,
         "redirectUri": cloudEnv.url + "/api/appid/callback"
     ]
-    webappKituraCredentialsPlugin = WebAppKituraCredentialsPlugin(options: options)
-    kituraCredentials = Credentials()
+    let webappKituraCredentialsPlugin = WebAppKituraCredentialsPlugin(options: options)
+    let kituraCredentials = Credentials()
     kituraCredentials.register(plugin: webappKituraCredentialsPlugin)
     Log.info("Found and loaded credentials for AppID.")
+    return kituraCredentials
 }

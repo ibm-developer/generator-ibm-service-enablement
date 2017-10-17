@@ -1,11 +1,10 @@
 import Foundation
 import Dispatch
 import LoggerAPI
+import CloudEnvironment
 import SwiftKueryPostgreSQL
 
-var postgreSQLConn: PostgreSQLConnection!
-
-func initializeServicePostgre() throws {
+func initializeServicePostgre(cloudEnv: CloudEnv) throws -> PostgreSQLConnection {
     // Load credentials for PostgreSQL db using CloudEnvironment
     guard let credentials = cloudEnv.getPostgreSQLCredentials(name: "{{servLookupKey}}") else {
         throw InitializationError("Could not load credentials for PostgreSQL.")
@@ -13,10 +12,11 @@ func initializeServicePostgre() throws {
     Log.info("Found and loaded credentials for PostgreSQL.")
 
     let connOptions: [ConnectionOptions] = [.userName(credentials.username), .password(credentials.password), .databaseName(credentials.database)]
-    postgreSQLConn = PostgreSQLConnection(host: credentials.host, port: Int32(credentials.port), options: connOptions)
+    let postgreSQLConn = PostgreSQLConnection(host: credentials.host, port: Int32(credentials.port), options: connOptions)
 
     // Establish connection to PostgreSQL database
     try connect(conn: postgreSQLConn)
+    return postgreSQLConn
 }
 
 private func connect(conn: PostgreSQLConnection) throws {

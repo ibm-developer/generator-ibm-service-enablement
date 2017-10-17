@@ -1,0 +1,6 @@
+{
+  "import":"MongoKitten",
+  "variableName":"mongoDBService",
+  "type":"MongoKitten.Database",
+  "initParams":"cloudEnv: cloudEnv"
+}

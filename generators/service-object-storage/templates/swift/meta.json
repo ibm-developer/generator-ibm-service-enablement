@@ -1,0 +1,6 @@
+{
+  "import":"BluemixObjectStorage",
+  "variableName":"objectStorageService",
+  "type":"ObjectStorage",
+  "initParams":"cloudEnv: cloudEnv"
+}

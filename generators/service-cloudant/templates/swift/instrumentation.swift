@@ -1,9 +1,8 @@
 import LoggerAPI
+import CloudEnvironment
 import CouchDB
 
-var couchDBClient: CouchDBClient!
-
-func initializeServiceCloudant() throws {
+func initializeServiceCloudant(cloudEnv: CloudEnv) throws -> CouchDBClient {
     // Load credentials for Cloudant/CouchDB using CloudEnvironment
     guard let cloudantCredentials = cloudEnv.getCloudantCredentials(name: "{{servLookupKey}}") else {
         throw InitializationError("Could not load credentials for Cloudant.")
@@ -15,6 +14,7 @@ func initializeServiceCloudant() throws {
         username: cloudantCredentials.username,
         password: cloudantCredentials.password
     )
-    couchDBClient = CouchDBClient(connectionProperties: connectionProperties)
+    let couchDBClient = CouchDBClient(connectionProperties: connectionProperties)
     Log.info("Found and loaded credentials for Cloudant.")
+    return couchDBClient
 }
