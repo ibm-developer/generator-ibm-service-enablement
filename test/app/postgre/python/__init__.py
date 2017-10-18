@@ -10,7 +10,7 @@ def testPostgre():
 	cur.execute("INSERT INTO test (num, data) VALUES (%s, %s)", pair)
 
 	cur.execute("SELECT * FROM test;")
-	serial, num, data = cur.fetchone()
+	_, num, data = cur.fetchone()
 
 	if (num, data) == pair:
 		messages.append('created and fetched data')

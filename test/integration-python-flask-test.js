@@ -304,7 +304,7 @@ let _destroyApplication = function(cb){
 
 let _generateApplication = function(cb) {
 	const serviceNames = ['cloudant', 'object-storage', 'appId', 'alertnotification',
-	'mongodb', 'push', 'redis', 'postgre', 'watson-conversation'];
+		'mongodb', 'push', 'redis', 'postgre', 'watson-conversation'];
 	const REPLACE_CODE_HERE = '# GENERATE HERE';
 	const REPLACE_SHUTDOWN_CODE_HERE = '# GENERATE SHUTDOWN';
 	let snippetJS;

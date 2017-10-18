@@ -13,7 +13,7 @@ def testWatsonConversation():
 	try:
 		if response['output']['text'][0]:
 			messages.append('received response for conversation')
-	except Exception as e:
-		pass
-	finally:
-		return jsonify(messages)
+	except Exception as _:
+		messages.append('conversation response failure')
+
+	return jsonify(messages)
