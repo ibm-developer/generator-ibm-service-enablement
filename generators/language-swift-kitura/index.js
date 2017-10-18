@@ -108,11 +108,15 @@ module.exports = class extends Generator {
 				targetFilePath,
 				{ servLookupKey: bluemixLabelMappings[options.servLabel], context: this.context }
 			);
+			let metaFile = options.sourceFilePath.substring(0, options.sourceFilePath.lastIndexOf("/")) + '/meta.json';
+			let metaData = this.fs.readJSON(metaFile);
 			// We expect the source file to define a function as an entry point for initialization
 			// The function should be available in the module scope and have a name of the form:
 			// 'initializeMyService()'. For example, if the targetFileName is 'service-appid.swift'
 			// then the function will be 'initializeServiceAppid()'
-			this.context.injectIntoApplication({ service: `try initialize${targetName}()` });
+			this.context.injectIntoApplication({ service_import: `import ${metaData.import}` });
+			this.context.injectIntoApplication({ service_variable: `public let ${metaData.variableName}: ${metaData.type}` });
+			this.context.injectIntoApplication({ service: `${metaData.variableName} = try initialize${targetName}(cloudEnv: cloudEnv)` });
 		} else {
 			throw new Error('Standalone execution of this generator is not supported for Swift');
 		}

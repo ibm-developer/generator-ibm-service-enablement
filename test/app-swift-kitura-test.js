@@ -258,14 +258,26 @@ function testServiceDependencies(serviceName, dependencies) {
 }
 
 function testServiceInstrumentation(serviceName, servLookupKey, codeForServices) {
+	let serviceVariable = {
+		"service-alert-notification": "alertNotificationService",
+		"service-appid": "appidService",
+		"service-cloudant": "couchDBService",
+		"service-object-storage": "objectStorageService",
+		"service-redis": "redisService",
+		"service-mongodb": "mongoDBService",
+		"service-postgre": "postgreSQLService",
+		"service-push": "pushNotificationService",
+		"service-watson-conversation": "watsonConversationService"
+	}
 	function pascalize(name) {
 		return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
 	}
-	let expectedInitFunction = `initialize${pascalize(serviceName)}()`;
-	yassert(codeForServices.indexOf(`try ${expectedInitFunction}`) !== -1);
+	let expectedInitFunctionDeclaration = `initialize${pascalize(serviceName)}(cloudEnv: cloudEnv)`;
+	let expectedInitFunctionTemplate = `initialize${pascalize(serviceName)}(cloudEnv: CloudEnv)`;
+	yassert(codeForServices.indexOf(`${serviceVariable[serviceName]} = try ${expectedInitFunctionDeclaration}`) !== -1);
 
 	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `name: "${servLookupKey}"`);
-	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `func ${expectedInitFunction}`);
+	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `func ${expectedInitFunctionTemplate}`);
 }
 
 function testMappings(servLookupKey, servInstanceName) {
