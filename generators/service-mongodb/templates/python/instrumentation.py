@@ -12,7 +12,7 @@ def getService(app):
 		os.makedirs(certDir)
 
 	certPath = certDir + '/mongo-ssl-cert.pem'
-	with open(certPath, 'w') as out:
+	with open(certPath, 'wb') as out:
 		out.write(base64.b64decode(mongoCert))
 
 	client = MongoClient(mongoConnect, ssl=True, ssl_ca_certs=certPath)
