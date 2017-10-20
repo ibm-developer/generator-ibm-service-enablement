@@ -1,6 +1,6 @@
 # AppID
- 
- 
+
+
  App ID is an authentication and profiles service that makes it easy for developers to add authentication to their mobile and web apps, and secure access to cloud native apps and services on Bluemix. It also helps manage end-user data that developers can use to build personalized app experiences.
 ##  Credentials
 
@@ -35,9 +35,9 @@ from server.services import *
 initServices(app) # Initialize Services
 
 # application secret key. You will need to get this key securely from another source
-app.secret_key = 'A0Zr98j/3yX R~XHH!jm3]LWX/,?RT'v 
+app.secret_key = 'A0Zr98j/3yX R~XHH!jm3]LWX/,?RT'v
 
- # 1. Checking if the user already authenticated, after successful authentication. This code saves the token on the session on APPID_AUTH_CONTEX parameter. 
+ # 1. Checking if the user already authenticated, after successful authentication. This code saves the token on the session on APPID_AUTH_CONTEX parameter.
  # You can get this session key from `service_manager.get('appid')['appid-context']
  # 2. If the user doesn't authenticated or have invalid token, the authorization proccess need to start
  # 3. if the token is valid the user can access the protected resource
@@ -58,7 +58,7 @@ def protected():
             return 'AUTH'
     else:
         return startAuthorization()
-        
+
 #To start the authorization process you need to redirect the user to the AppId endpoint. You can get this endpoint from `service_manager.get('appid')['appid-authorization-endpoint']`
 #with the clientid and redirecturi as query parameters. You can either redirect to an anonyomous user by adding the query parameter `&idp=appid_anon`
 @app.route('/startAuthorization')
@@ -67,7 +67,7 @@ def startAuthorization():
     authorizationEndpoint = service_manager.get('appid')['appid-authorization-endpoint']
     redirectUri = 'http://localhost:5000/redirect'
     return redirect("{}?client_id={}&response_type=code&redirect_uri={}&scope=appid_default&idp=appid_anon".format(authorizationEndpoint,clientId,redirectUri))
-    
+
 # Handles your redirect and will call your callback function if there are no errors
 @app.route('/redirect')
 def redirectCallback():
@@ -84,14 +84,14 @@ def redirectCallback():
 def handleCallback(grantCode):
     tokens=retrieveTokens(grantCode)
     if (type(tokens) is str):
-        return tokens 
+        return tokens
     else:
     if (tokens['access_token']):
         session[service_manager.get('appid')['appid-context']]=tokens
         return protected()
     else:
         return 'fail'
-        
+
 # Retrieve token given the grantCode if request is successful return json token        
 def retrieveTokens(grantCode):
     clientId = service_manager.get('appid')['appid-client-id']
@@ -123,3 +123,15 @@ def verifyToken(token,pemVal):
 ## Documentation
 
 Other related documentation can be found [here](https://github.com/mnsn/appid-python-flask-example)
+
+## Troubleshooting
+
+One known issue that can cause AppID to not work properly is if your version of `python` is using an outdated version of `SSL`:
+```bash
+python -c 'import ssl; print ssl.OPENSSL_VERSION'
+```
+If this command returns a version below `1.0.0`, AppID will throw an error that an insecure version of `SSL` is being used.
+
+There are a few solutions to this issue:
+* Use `bx dev build` and `bx dev run` to execute the code in a containerized image that uses an updated version of `SSL`.
+* Update your own instance of `python` to use an upgraded version of `SSL`.
