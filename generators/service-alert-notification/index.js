@@ -1,6 +1,6 @@
 'use strict'
 const BaseGenerator = require('../lib/generatorbase');
-const SCAFFOLDER_PROJECT_PROPERTY_NAME = "alertnotification";
+const SCAFFOLDER_PROJECT_PROPERTY_NAME = "alertNotification";
 const SERVICE_NAME = "service-alert-notification";
 const localDevConfig = ['url', 'name', 'password'];
 
