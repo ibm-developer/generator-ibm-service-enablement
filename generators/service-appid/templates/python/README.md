@@ -126,11 +126,16 @@ Other related documentation can be found [here](https://github.com/mnsn/appid-py
 
 ## Troubleshooting
 
-One known issue that can cause AppID to not work properly is if your version of `python` is using an outdated version of `SSL`:
-```bash
-python -c 'import ssl; print ssl.OPENSSL_VERSION'
+One known issue that can cause AppID to not work properly is if your version of `python` is using an outdated, insecure version of `SSL`:
 ```
-If this command returns a version below `1.0.0`, AppID will throw an error that an insecure version of `SSL` is being used.
+IOError : [Errno socket error] EOF occurred in violation of protocol (_ssl.c:661)
+```
+
+To check what version of `SSL` your instance of python is using, run the following python command:
+```bash
+python -c 'import ssl; print(ssl.OPENSSL_VERSION)'
+```
+If this command returns a version below `1.0.0`, AppID will throw an error because an insecure version of `SSL` is being used.
 
 There are a few solutions to this issue:
 * Use `bx dev build` and `bx dev run` to execute the code in a containerized image that uses an updated version of `SSL`.
