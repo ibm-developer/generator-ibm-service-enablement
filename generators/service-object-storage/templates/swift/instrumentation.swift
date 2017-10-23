@@ -3,9 +3,7 @@ import CloudEnvironment
 import BluemixObjectStorage
 import Dispatch
 
-var objStorage: ObjectStorage!
-
-func initializeServiceObjectStorage() throws {
+func initializeServiceObjectStorage(cloudEnv: CloudEnv) throws -> ObjectStorage {
     // Load credentials for Object Storage using CloudEnvironment
     guard let storageCredentials = cloudEnv.getObjectStorageCredentials(name: "{{servLookupKey}}") else {
         throw InitializationError("Could not load credentials for Object Storage.")
@@ -13,8 +11,8 @@ func initializeServiceObjectStorage() throws {
     guard let connectedObjectStorage = createObjectStorageAndConnect(credentials: storageCredentials) else {
         throw InitializationError("Could not connect to Object Storage")
     }
-    objStorage = connectedObjectStorage
     Log.info("Found and loaded credentials for Object Storage.")
+    return connectedObjectStorage
 }
 
 private func createObjectStorageAndConnect(credentials: ObjectStorageCredentials) -> ObjectStorage? {

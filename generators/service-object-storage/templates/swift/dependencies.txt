@@ -1,1 +1,1 @@
-.Package(url: "https://github.com/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-swift.git", majorVersion: 0,  minor: 8),
+.package(url: "https://github.com/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-swift.git", .upToNextMinor(from: "0.8.0")),
