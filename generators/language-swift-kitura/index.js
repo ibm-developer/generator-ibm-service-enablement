@@ -59,15 +59,6 @@ module.exports = class extends Generator {
 		//TODO: Add remaining services here; see: https://ibm.box.com/s/7o7w68ydat8ape2u5dzoid89qdgh56qh
 	}
 
-	_getModules(path){
-		let file = this.fs.read(path).toString();
-		let modules = [];
-		file.split('\n').forEach(function(line){
-			modules.push(line);
-		}
-		)
-		return modules;
-	}
 	_addDependencies(serviceDependenciesString) {
 		if (this.context.injectDependency) {
 			// NOTE: Dependencies should be one-per-line
