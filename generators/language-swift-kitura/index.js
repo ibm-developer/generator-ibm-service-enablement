@@ -34,7 +34,6 @@ module.exports = class extends Generator {
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
 		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
-		this.context.modules = '';
 		// Security Services
 		this.composeWith(require.resolve('../service-appid'), {context: this.context});
 
