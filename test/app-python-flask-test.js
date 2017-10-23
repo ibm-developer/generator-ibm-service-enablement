@@ -309,6 +309,7 @@ function testAll(serviceName, localDevConfigJson) {
 	testLocalDevConfig(localDevConfigJson || {})
 }
 
+//use this as a base to test Pipfile
 function testServiceDependencies(serviceName) {
 	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "python", "requirements.txt");
 	const expectedDependencies = fs.readFileSync(filePath, 'utf-8');

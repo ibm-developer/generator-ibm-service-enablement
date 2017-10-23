@@ -14,8 +14,8 @@ const fs = require('fs-extra');
 const axios = require('axios');
 
 // Change these if you're getting SSL-related problems
-const pythonRuntime = 'python';
-const pipRuntime = 'pip'
+const pythonRuntime = '/usr/local/Cellar/python/2.7.13_1/bin/python2.7';
+const pipRuntime = '/usr/local/Cellar/python/2.7.13_1/bin/pip'
 
 describe('integration test for services', function() {
 	before(function(done) {
