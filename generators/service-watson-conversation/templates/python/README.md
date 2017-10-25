@@ -6,7 +6,7 @@ The IBM Watson™ Conversation service combines machine learning, natural langua
 
 ###  LocalDevConfig
 
-This is where your local configuration is stored for MongoDB.
+This is where your local configuration is stored for Watson Conversation.
 ```
 {
   "watson_conversation_url": "{{{url}}}",

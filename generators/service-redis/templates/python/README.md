@@ -6,7 +6,7 @@ Redis is a powerful, in-memory key/value store which can act as a cache, queue o
 
 ###  LocalDevConfig
 
-This is where your local configuration is stored for MongoDB.
+This is where your local configuration is stored for Redis.
 ```
 {
   "redis_uri": "{{{uri}}}"

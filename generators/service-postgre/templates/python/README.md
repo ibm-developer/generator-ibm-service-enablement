@@ -6,7 +6,7 @@ Postgres is a powerful, open source object-relational database that is highly cu
 
 ###  LocalDevConfig
 
-This is where your local configuration is stored for MongoDB.
+This is where your local configuration is stored for Postgre.
 ```
 {
   "postgre_uri": "{{uri}}"
