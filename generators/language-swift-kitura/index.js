@@ -12,7 +12,7 @@ const bluemixLabelMappings = require('./bluemix-label-mappings.json');
 const PATH_MAPPINGS_FILE = "./config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "./config/localdev-config.json";
 const PATH_GIT_IGNORE = "./.gitignore";
-const FILE_SEARCH_PATH_PREFIX = "file:/config/localdev-config.json:"
+const FILE_SEARCH_PATH_PREFIX = "file:/config/localdev-config.json:";
 
 module.exports = class extends Generator {
 	// Expecting:
@@ -34,7 +34,6 @@ module.exports = class extends Generator {
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
 		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
-
 		// Security Services
 		this.composeWith(require.resolve('../service-appid'), {context: this.context});
 
@@ -44,7 +43,7 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-redis'), {context: this.context});
 		this.composeWith(require.resolve('../service-postgre'), {context: this.context});
 		this.composeWith(require.resolve('../service-mongodb'), {context: this.context});
-		
+
 		// Watson Services
 		this.composeWith(require.resolve('../service-watson-conversation'), {context: this.context});
 
@@ -114,9 +113,24 @@ module.exports = class extends Generator {
 			// The function should be available in the module scope and have a name of the form:
 			// 'initializeMyService()'. For example, if the targetFileName is 'service-appid.swift'
 			// then the function will be 'initializeServiceAppid()'
+			// this.context.injectIntoApplication({ service: `try initialize${targetName}()` });
 			this.context.injectIntoApplication({ service_import: `import ${metaData.import}` });
 			this.context.injectIntoApplication({ service_variable: `public let ${metaData.variableName}: ${metaData.type}` });
 			this.context.injectIntoApplication({ service: `${metaData.variableName} = try initialize${targetName}(cloudEnv: cloudEnv)` });
+			// Injecting modules to Package.swift
+			if(this.context.injectModules){
+				if(metaData.variableName === 'appidService'){
+					metaData.import = 'BluemixAppID';
+				}else if(metaData.variableName === 'autoScalingService'){
+					metaData.import = '';
+				}else if(metaData.variableName === 'watsonConversationService'){
+					metaData.import = 'WatsonDeveloperCloud';
+				}
+				if(metaData.import !== ''){
+					metaData.import = "\"" + metaData.import + "\"";
+					this.context.injectModules(metaData.import);
+				}
+			}
 		} else {
 			throw new Error('Standalone execution of this generator is not supported for Swift');
 		}

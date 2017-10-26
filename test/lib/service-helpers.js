@@ -108,11 +108,11 @@ function servicePush(optionsBluemix) {
 function serviceAlertNotification(optionsBluemix) {
 	return {
 		location: 'service-alert-notification',
-		bluemixName: 'alertnotification',
+		bluemixName: 'alertNotification',
 		localDevConfig: {
-			alert_notification_url: optionsBluemix.alertnotification.url,
-			alert_notification_name: optionsBluemix.alertnotification.name,
-			alert_notification_password: optionsBluemix.alertnotification.password
+			alert_notification_url: optionsBluemix.alertNotification.url,
+			alert_notification_name: optionsBluemix.alertNotification.name,
+			alert_notification_password: optionsBluemix.alertNotification.password
 		},
 		instrumentation: {
 			java_liberty: [],

@@ -4,7 +4,7 @@
   "auth": "appid",
   "conversation": "watson_conversation",
   "redis": "redis",
-  "alertnotification": "alert_notification",
+  "alertNotification": "alert_notification",
   "push": "push",
   "Auto-Scaling": "autoscaling",
   "mongodb": "mongodb",

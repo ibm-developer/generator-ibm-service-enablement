@@ -247,7 +247,7 @@ module.exports = JSON.stringify({
 	"postgresql": {
 		"uri": "postgres://admin:password@bluemix.net:20058/compose"
 	},
-	"alertnotification": {
+	"alertNotification": {
 		"url": "https://bluemix.net",
 		"name": "alertnotification",
 		"password": "alertnotification-password"
