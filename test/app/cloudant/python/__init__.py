@@ -1,6 +1,6 @@
 cloudant = None
 @app.route('/cloudant-test')
-def cloudant():
+def testCloudant():
 	messages = []
 	cloudant = service_manager.get('cloudant')
 	if 'test' in cloudant:
