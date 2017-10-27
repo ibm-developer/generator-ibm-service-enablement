@@ -121,6 +121,21 @@ function serviceAlertNotification(optionsBluemix) {
 	};
 }
 
+function serviceRedis(optionsBluemix) {
+	console.log("***** OPTIONSBLUEMIX redis: " + optionsBluemix.redis + "   " + optionsBluemix.redis.uri)
+	return {
+		location: 'service-redis',
+		bluemixName: 'redis',
+		localDevConfig: {
+			redis_uri: optionsBluemix.redis.uri
+		},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: []
+		}
+	};
+}
+
 function serviceTest(optionsBluemix) {
 	return {
 		location: 'service-test',

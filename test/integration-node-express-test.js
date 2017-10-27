@@ -242,6 +242,32 @@ describe('integration test for services', function () {
 					}
 				});
 		});
+
+		describe('Redis', function() {
+			it('should be able to set and get data', function() {
+				this.timeout(30000);
+				let expectedMessage = ['set data', 'got data'];
+				let options = {
+					'method': 'get',
+					'url': 'http://localhost:3000/redis-test'
+				};
+	
+				return axios(options)
+					.then(function(response) {
+						console.log("** " + response.data)
+						assert.deepEqual(response.data, expectedMessage);
+					})
+					.catch(function(err){
+						console.error("** err: " + err)
+						if(err.response){
+							assert.isNotOk(err.response.data, 'This should not happen');
+						} else {
+							console.log('ERR ' + err.toString());
+							assert.isNotOk(err, 'This should not happen');
+						}
+					});
+			});
+		});
 	});
 });
 
@@ -294,7 +320,7 @@ let _destroyApplication = function (cb) {
 };
 
 let _generateApplication = function (cb) {
-	const serviceNames = ['cloudant', 'object-storage', 'appId', 'push', 'mongodb', 'alertnotification', 'watson-conversation'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId', 'push', 'mongodb', 'alertnotification', 'watson-conversation', 'redis'];
 	const REPLACE_CODE_HERE = '// GENERATE HERE';
 	let snippetJS;
 
