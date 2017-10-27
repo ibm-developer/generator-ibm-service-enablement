@@ -1,7 +1,7 @@
 # AppID
  
  
- App ID is an authentication and profiles service that makes it easy for developers to add authentication to their mobile and web apps, and secure access to cloud native apps and services on Bluemix. It also helps manage end-user data that developers can use to build personalized app experiences.
+ App ID is an authentication and profiles service that makes it easy for developers to add authentication to their mobile and web apps, and secure access to cloud native apps and services on IBM Cloud. It also helps manage end-user data that developers can use to build personalized app experiences.
 ##  Credentials
 
 ###  LocalDevConfig
