@@ -1,2 +1,0 @@
-[packages]
-psycopg = "~=2.7.3"

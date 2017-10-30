@@ -11,7 +11,6 @@ const GENERATE_IMPORT_HERE = "# GENERATE IMPORT HERE";
 const PATH_MAPPINGS_FILE = "./server/config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "server/localdev-config.json";
 const PATH_REQUIREMENTS_TXT = "./requirements.txt";
-const PATH_PIPFILE = "./Pipfile"
 const PATH_GIT_IGNORE = "./.gitignore";
 const SERVICES_INIT_FILE = "__init__.py";
 
@@ -93,21 +92,9 @@ module.exports = class extends Generator {
 		//Devops
 		this.composeWith(require.resolve('../service-alert-notification'), {context: this.context});
 	}
-	//use this as a base to add dependencies to pipfile if not already there
+
 	_addDependencies(serviceDepdendenciesString){
 		let requirementsTxtPath = this.destinationPath(PATH_REQUIREMENTS_TXT);
-		let pipfilePath = this.destinationPath(PATH_PIPFILE);
-		if (this.fs.exists(pipfilePath)){
-			// don't add if dependency entry already exists
-			let fileContentString = this.fs.read(pipfilePath);
-			if (fileContentString.indexOf(serviceDepdendenciesString) === -1) {
-				this.fs.append(pipfilePath, serviceDepdendenciesString);
-			} else {
-				logger.debug(`${serviceDepdendenciesString} is already in Pipfile file, not appending`);
-			}
-		} else {
-			this.fs.write(pipfilePath, serviceDepdendenciesString);
-		}
 		if (this.fs.exists(requirementsTxtPath)){
 			// don't add if dependency entry already exists
 			let fileContentString = this.fs.read(requirementsTxtPath);
