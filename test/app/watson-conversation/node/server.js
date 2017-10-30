@@ -7,13 +7,14 @@ app.get('/watson-conversation-test', function (req, res) {
 	 * thus exposing the credential, while not ideal, in this case is okay
 	 */
 
-	var workspace_id = 'bdce14dd-65ce-4e50-91b9-dea4d7445393'
+	var workspace_id = 'df5a2ec4-943d-410e-835f-e85bd63e3a7c';
 	var conversation = serviceManager.get('watson-conversation');
 
 	if (!conversation) {
 		res.status(500).send('watson-conversation is not defined in serviceManager');
 		return;
 	}
+	messages.push("received response for conversation");
 
 	conversation.message({
 		workspace_id: workspace_id,
@@ -24,8 +25,8 @@ app.get('/watson-conversation-test', function (req, res) {
 			res.status(400).json(err);
 		}
 		else {
-			console.log(JSON.stringify(response, null, 2));
-			res.status(200).send('received response for conversation');
+			//console.log(JSON.stringify(response, null, 2));
+			res.status(202).json(messages);
 		}
 	});
 });

@@ -242,31 +242,29 @@ describe('integration test for services', function () {
 					}
 				});
 		});
+	});
 
-		describe('Redis', function() {
-			it('should be able to set and get data', function() {
-				this.timeout(30000);
-				let expectedMessage = ['set data', 'got data'];
-				let options = {
-					'method': 'get',
-					'url': 'http://localhost:3000/redis-test'
-				};
-	
-				return axios(options)
-					.then(function(response) {
-						console.log("** " + response.data)
-						assert.deepEqual(response.data, expectedMessage);
-					})
-					.catch(function(err){
-						console.error("** err: " + err)
-						if(err.response){
-							assert.isNotOk(err.response.data, 'This should not happen');
-						} else {
-							console.log('ERR ' + err.toString());
-							assert.isNotOk(err, 'This should not happen');
-						}
-					});
-			});
+	describe('Redis', function () {
+		it('should be able to set and get data', function () {
+			this.timeout(30000);
+			let expectedMessage = ['set data', 'got data'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:3000/redis-test'
+			};
+
+			return axios(options)
+				.then(function (response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function (err) {
+					if (err.response) {
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
 		});
 	});
 });
