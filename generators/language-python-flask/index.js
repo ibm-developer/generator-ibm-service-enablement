@@ -118,8 +118,9 @@ module.exports = class extends Generator {
 			console.log('pipFileLanguageContent '+JSON.stringify(pipFileLanguageContent));
 			this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, SOURCES);
 			this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, DEV_PACKAGES);
-			this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, PACKAGES);
+			let pipfile =this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, PACKAGES);
 
+			this.fs.write(pipfileUserPath, pipfile);
 		}
 		else if( serviceDepdendenciesString.indexOf('{') === -1 && this.fs.exists(pipfileUserPath)){
 			if (this.fs.exists(requirementsTxtPath)){
@@ -154,35 +155,42 @@ module.exports = class extends Generator {
 			}
 		}
 		else {
-			let pipfileText = '[[source]]\n';
-			let parsedJson = JSON.parse(serviceDepdendenciesString);
-			sourcesContent = parsedJson[SOURCES];
 
-			let keys = Object.keys(sourcesContent);
-			for(let i = 0; i < keys.length; i++){
-				let snippet = `${keys[i]} =\'${sourcesContent[keys[i]]}\'`;
-				pipfileText+= snippet + '\n';
-			}
-			devPackagesContent = parsedJson[DEV_PACKAGES];
-			// add sources from the json
-			pipfileText += '[dev-packages]'+'\n';
-			keys = Object.keys(devPackagesContent);
-			for(let i = 0; i < keys.length; i++){
-				let snippet = `${keys[i]} =\'${devPackagesContent[keys[i]]}\'`;
-				pipfileText+= snippet + '\n';
-			}
-			packagesContent = parsedJson[PACKAGES];
-			pipfileText += '[packages]'+'\n';
-			keys = Object.keys(packagesContent);
-			for(let i = 0; i < keys.length; i++){
-				let snippet = `${keys[i]} =\'${packagesContent[keys[i]]}\'`;
-				pipfileText+= snippet + '\n';
-			}
-			this.fs.write(pipfileUserPath, pipfileText);
+			this.fs.write(pipfileUserPath, this._createPipfile(serviceDepdendenciesString));
 		}
 
 	}
 
+	_createPipfile(serviceDepdendenciesString){
+		let sourcesContent,
+			devPackagesContent,
+			packagesContent;
+		let pipfileText = '[[source]]\n';
+		let parsedJson = JSON.parse(serviceDepdendenciesString);
+		sourcesContent = parsedJson[SOURCES];
+
+		let keys = Object.keys(sourcesContent);
+		for(let i = 0; i < keys.length; i++){
+			let snippet = `${keys[i]} =\'${sourcesContent[keys[i]]}\'`;
+			pipfileText+= snippet + '\n';
+		}
+		devPackagesContent = parsedJson[DEV_PACKAGES];
+		// add sources from the json
+		pipfileText += '[dev-packages]'+'\n';
+		keys = Object.keys(devPackagesContent);
+		for(let i = 0; i < keys.length; i++){
+			let snippet = `${keys[i]} =\'${devPackagesContent[keys[i]]}\'`;
+			pipfileText+= snippet + '\n';
+		}
+		packagesContent = parsedJson[PACKAGES];
+		pipfileText += '[packages]'+'\n';
+		keys = Object.keys(packagesContent);
+		for(let i = 0; i < keys.length; i++){
+			let snippet = `${keys[i]} =\'${packagesContent[keys[i]]}\'`;
+			pipfileText+= snippet + '\n';
+		}
+		return pipfileText;
+	}
 	_addServiceToPipfile( languageJson, serviceJson, userPipfile, packageType){
 		//of the json isn't empty
 		if(serviceJson.length>2) {
@@ -224,7 +232,7 @@ module.exports = class extends Generator {
 			return userPipfile;
 		}
 		else{
-			return languageJson;
+			return userPipfile;
 		}
 	}
 	_addMappings(serviceMappingsJSON){
