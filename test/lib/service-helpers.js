@@ -122,12 +122,27 @@ function serviceAlertNotification(optionsBluemix) {
 }
 
 function serviceRedis(optionsBluemix) {
-	console.log("***** OPTIONSBLUEMIX redis: " + optionsBluemix.redis + "   " + optionsBluemix.redis.uri)
 	return {
 		location: 'service-redis',
 		bluemixName: 'redis',
 		localDevConfig: {
 			redis_uri: optionsBluemix.redis.uri
+		},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: []
+		}
+	};
+}
+
+function servicePostgre(optionsBluemix) {
+	return {
+		location: 'service-postgre',
+		bluemixName: 'postgre',
+		localDevConfig: {
+			postgre_uri: optionsBluemix.postgre.uri,
+			postgre_ca_certificate_base64: optionsBluemix.postgre.ca_certificate_base64,
+			postgre_deployment_id: optionsBluemix.postgre.deployment_id
 		},
 		instrumentation: {
 			java_liberty: [],

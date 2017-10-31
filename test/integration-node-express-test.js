@@ -267,6 +267,30 @@ describe('integration test for services', function () {
 				});
 		});
 	});
+
+	describe('Postgre', function () {
+		it('should be able to set and get data', function () {
+			this.timeout(30000);
+			let expectedMessage = ['created and fetched data'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:3000/postgre-test'
+			};
+
+			return axios(options)
+				.then(function (response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function (err) {
+					if (err.response) {
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+
 });
 
 let _setUpApplication = function (cb) {
@@ -318,7 +342,7 @@ let _destroyApplication = function (cb) {
 };
 
 let _generateApplication = function (cb) {
-	const serviceNames = ['cloudant', 'object-storage', 'appId', 'push', 'mongodb', 'alertnotification', 'watson-conversation', 'redis'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId', 'push', 'mongodb', 'alertnotification', 'watson-conversation', 'redis', 'postgre'];
 	const REPLACE_CODE_HERE = '// GENERATE HERE';
 	let snippetJS;
 
