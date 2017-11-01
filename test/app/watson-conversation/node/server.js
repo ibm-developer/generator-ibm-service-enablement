@@ -14,6 +14,7 @@ app.get('/watson-conversation-test', function (req, res) {
 		res.status(500).send('watson-conversation is not defined in serviceManager');
 		return;
 	}
+
 	messages.push("received response for conversation");
 
 	conversation.message({
@@ -25,7 +26,6 @@ app.get('/watson-conversation-test', function (req, res) {
 			res.status(400).json(err);
 		}
 		else {
-			//console.log(JSON.stringify(response, null, 2));
 			res.status(202).json(messages);
 		}
 	});

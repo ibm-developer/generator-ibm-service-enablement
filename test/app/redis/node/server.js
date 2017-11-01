@@ -1,8 +1,10 @@
 /* eslint-disable */
 app.get('/redis-test', function (req, res) {
+	
 	let messages = [];
 
 	var redis = serviceManager.get('redis');
+	
 	if (!redis) {
 		res.status(500).send('redis is not defined in serviceManager');
 		return;
@@ -17,10 +19,8 @@ app.get('/redis-test', function (req, res) {
 			res.status(400).json(err);
 		}
 		else {
-			// console.log(JSON.stringify(response, null, 2));
 			messages.push("got data");
 			res.status(202).json(messages);
 		}
-	
 	})
 });
