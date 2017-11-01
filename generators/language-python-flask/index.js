@@ -44,8 +44,7 @@ module.exports = class extends Generator {
 
 	writing() {
 		for (let i = 0; i < this.context.dependenciesFile.length; i++) {
-			console.log('39 ' +this.context.dependenciesFile[i]);
-			console.log('40 ' +this.templatePath());
+
 
 			this._addDependencies(this.fs.read(this.templatePath() + "/" + this.context.dependenciesFile[i]));
 		}
@@ -111,7 +110,6 @@ module.exports = class extends Generator {
 		let requirementsTxtPath = this.destinationPath(PATH_REQUIREMENTS_TXT);
 		let pipfileUserPath = this.destinationPath(PATH_PIPFILE);
 		let jsonLanguagePath = this.templatePath() + PATH_PIPFILE_JSON;
-		const fs = require('fs');
 		if ( serviceDepdendenciesString.indexOf('{') >-1 && this.fs.exists(pipfileUserPath)){
 			let userPipfile = this.fs.read( pipfileUserPath);
 			let pipFileLanguageContent = JSON.parse(this.fs.read(jsonLanguagePath));
@@ -174,7 +172,7 @@ module.exports = class extends Generator {
 
 		let keys = Object.keys(sourcesContent);
 		for(let i = 0; i < keys.length; i++){
-			let snippet = `${keys[i]} =\'${sourcesContent[keys[i]]}\'`;
+			let snippet = `${keys[i]} ='${sourcesContent[keys[i]]}'`;
 			pipfileText+= snippet + '\n';
 		}
 		devPackagesContent = parsedJson[DEV_PACKAGES];
@@ -182,14 +180,14 @@ module.exports = class extends Generator {
 		pipfileText += '[dev-packages]'+'\n';
 		keys = Object.keys(devPackagesContent);
 		for(let i = 0; i < keys.length; i++){
-			let snippet = `${keys[i]} =\'${devPackagesContent[keys[i]]}\'`;
+			let snippet = `${keys[i]} ='${devPackagesContent[keys[i]]}'`;
 			pipfileText+= snippet + '\n';
 		}
 		packagesContent = parsedJson[PACKAGES];
 		pipfileText += '[packages]'+'\n';
 		keys = Object.keys(packagesContent);
 		for(let i = 0; i < keys.length; i++){
-			let snippet = `${keys[i]} =\'${packagesContent[keys[i]]}\'`;
+			let snippet = `${keys[i]} ='${packagesContent[keys[i]]}'`;
 			pipfileText+= snippet + '\n';
 		}
 		return pipfileText;
@@ -203,7 +201,7 @@ module.exports = class extends Generator {
 			//go through the json object and check the packageType pipfile snippet in the languageJson
 			for (let i = 0; i < keys.length; i++) {
 				//get the pipfile snippet
-				let snippet = `${keys[i]} =\'${content[keys[i]]}\'`;
+				let snippet = `${keys[i]} ='${content[keys[i]]}'`;
 				//see if that pipfile snippet is in the user's Pipfile.json
 				if (userPipfile.indexOf(snippet) === -1) {
 					//add the snippet to the user's pipfile
@@ -220,7 +218,7 @@ module.exports = class extends Generator {
 			keys = Object.keys(content);
 			for (let i = 0; i < keys.length; i++) {
 
-				let snippet = `${keys[i]} =\'${content[keys[i]]}\'`;
+				let snippet = `${keys[i]} ='${content[keys[i]]}'`;
 				if (userPipfile.indexOf(snippet) === -1) {
 					//add the source to the pipfile
 					let splitArray = userPipfile.split(`${packageType}\n`);
@@ -230,6 +228,7 @@ module.exports = class extends Generator {
 					logger.debug(`${userPipfile} is already in Pipfile file, not appending`);
 				}
 			}
+
 			return userPipfile;
 		}
 		//just use the Pipfile already in the user directory

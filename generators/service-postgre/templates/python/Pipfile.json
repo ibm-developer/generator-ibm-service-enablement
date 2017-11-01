@@ -2,6 +2,6 @@
   "[[source]]": "",
   "[dev-packages]": "",
   "[packages]": {
-    "psycopg": "~=2.7.3"
+    "psycopg2": "~=2.7.3"
   }
 }

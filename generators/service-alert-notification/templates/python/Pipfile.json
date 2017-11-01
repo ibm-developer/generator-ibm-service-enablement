@@ -2,6 +2,6 @@
   "[[source]]": "",
   "[dev-packages]": "",
   "[packages]": {
-    "requests": "2.13.0"
+    "requests": "*"
   }
 }
