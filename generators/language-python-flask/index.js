@@ -19,6 +19,9 @@ const SERVICES_INIT_FILE = "__init__.py";
 const SOURCES = '[[source]]';
 const DEV_PACKAGES = '[dev-packages]';
 const PACKAGES = '[packages]';
+const SOURCES_CONTENT = "url = \"https://pypi.python.org/simple\"\n" +
+	"verify_ssl = true\n" +
+	"name = \"pypi\"";
 
 module.exports = class extends Generator {
 	constructor(args, opts) {
@@ -108,16 +111,13 @@ module.exports = class extends Generator {
 		let requirementsTxtPath = this.destinationPath(PATH_REQUIREMENTS_TXT);
 		let pipfileUserPath = this.destinationPath(PATH_PIPFILE);
 		let jsonLanguagePath = this.templatePath() + PATH_PIPFILE_JSON;
-		let sourcesContent,
-			devPackagesContent,
-			packagesContent;
 		const fs = require('fs');
 		if ( serviceDepdendenciesString.indexOf('{') >-1 && this.fs.exists(pipfileUserPath)){
 			let userPipfile = this.fs.read( pipfileUserPath);
 			let pipFileLanguageContent = JSON.parse(this.fs.read(jsonLanguagePath));
-			console.log('pipFileLanguageContent '+JSON.stringify(pipFileLanguageContent));
-			this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, SOURCES);
-			this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, DEV_PACKAGES);
+			//only adding services to sources content so these calls are unnecessary for now
+			//this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, SOURCES);
+			//this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, DEV_PACKAGES);
 			let pipfile =this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, PACKAGES);
 
 			this.fs.write(pipfileUserPath, pipfile);
@@ -161,11 +161,14 @@ module.exports = class extends Generator {
 
 	}
 
+	//only called when Pipfile doesn't exist
 	_createPipfile(serviceDepdendenciesString){
 		let sourcesContent,
 			devPackagesContent,
 			packagesContent;
-		let pipfileText = '[[source]]\n';
+		//stuff that will go into user's pipfile
+		let pipfileText = SOURCES + '\n' + SOURCES_CONTENT + '\n';
+		//pipfile info from service
 		let parsedJson = JSON.parse(serviceDepdendenciesString);
 		sourcesContent = parsedJson[SOURCES];
 
@@ -191,11 +194,10 @@ module.exports = class extends Generator {
 		}
 		return pipfileText;
 	}
+	//add service info to an existing pipfile
 	_addServiceToPipfile( languageJson, serviceJson, userPipfile, packageType){
-		//of the json isn't empty
+		//if the json isn't empty
 		if(serviceJson.length>2) {
-			console.log('languageJson ' + JSON.stringify(languageJson));
-			console.log('packageType ' + packageType);
 			let content = languageJson[packageType];
 			let keys = Object.keys(content);
 			//go through the json object and check the packageType pipfile snippet in the languageJson
@@ -228,9 +230,9 @@ module.exports = class extends Generator {
 					logger.debug(`${userPipfile} is already in Pipfile file, not appending`);
 				}
 			}
-			console.log('userPipfile '+ userPipfile);
 			return userPipfile;
 		}
+		//just use the Pipfile already in the user directory
 		else{
 			return userPipfile;
 		}
