@@ -35,5 +35,3 @@ app.get('/postgre-test', function (req, res) {
 
     });
 });
-
-

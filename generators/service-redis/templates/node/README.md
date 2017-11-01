@@ -15,9 +15,20 @@ This is where your local configuration is stored for Redis.
 
 ## Usage
 
-The `service_manager` returns an instance of a `redis` instance configured to connect to the supplied database. Database management is done using the `redis` client, whose full documentation can [be found here](https://pypi.python.org/pypi/redis),
+The `service_manager` returns an instance of a `redis` instance configured to connect to the supplied database. Database management is done using the `redis` client, whose full documentation can [be found here](https://www.npmjs.com/package/redis),
 but a small getting started example can be found below:
 
 ```javascript
+  var redis = serviceManager.get('redis');
 
+  redis.set("test-key", "test-val");
+
+  redis.get("test-key", function (err, response) {
+    if (err) {
+      console.log('error:', err);
+    }
+    else {
+      console.log(JSON.stringify(response, null, 2));
+    }
+  }
 ```

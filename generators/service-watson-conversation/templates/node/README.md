@@ -17,11 +17,25 @@ This is where your local configuration is stored for Watson Conversation.
 
 ## Usage
 
-The `service_manager` returns an instance of a `ConversationV1` client which is preconfigured to use the credentials supplied. You will need to specify the `workspace_id` for the conversation workspace you have created, as each service integration can include multiple workspaces. The full documentation for `python ConversationV1` can [be found here](https://www.ibm.com/watson/developercloud/conversation/api/v1/?python),
+The `service_manager` returns an instance of a `ConversationV1` client which is preconfigured to use the credentials supplied. You will need to specify the `workspace_id` for the conversation workspace you have created, as each service integration can include multiple workspaces. The full documentation for the `IBM Watson Conversation` service for Node can [be found here](https://www.ibm.com/watson/developercloud/conversation/api/v1/?node),
 but a small getting started example can be found below:
 
 ```javascript
+  var workspace_id = 'the-workspace-id-from-your-generated-service';
 
+  var serviceManager = require('./services/service-manager');
+
+  var conversation = serviceManager.get('watson-conversation');
+
+  conversation.message({
+    workspace_id: workspace_id,
+    input: { 'text': 'Hello!' }
+  }, function (err, response) {
+    if (err)
+      console.log('error:', err);
+    else
+      console.log(JSON.stringify(response, null, 2));
+  });
 ```
 
 ## Extended Example
