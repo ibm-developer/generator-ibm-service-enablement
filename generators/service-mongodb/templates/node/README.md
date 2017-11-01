@@ -1,7 +1,7 @@
 # Compose for MongoDB
  
  
-IBM Compose for MongoDB for Bluemix uses the powerful indexing and querying, aggregation, and wide driver support of MongoDB that has made it the go-to JSON data store for many startups and enterprises. Compose for MongoDB offers an easy, auto-scaling deployment system. It delivers high availability and redundancy, automated and on-demand no-stop backups, monitoring tools, integration into alert systems, performance analysis views, and much more, all in a clean, simple user interface.
+IBM Compose for MongoDB for IBM Cloud uses the powerful indexing and querying, aggregation, and wide driver support of MongoDB that has made it the go-to JSON data store for many startups and enterprises. Compose for MongoDB offers an easy, auto-scaling deployment system. It delivers high availability and redundancy, automated and on-demand no-stop backups, monitoring tools, integration into alert systems, performance analysis views, and much more, all in a clean, simple user interface.
 ##  Credentials
 
 ###  LocalDevConfig
