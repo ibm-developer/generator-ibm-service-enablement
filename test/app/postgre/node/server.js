@@ -2,7 +2,7 @@
 app.get('/postgre-test', function (req, res) {
 
     let messages = [];
-    pair = (100, "abc'def")
+    var pair = [1, "two"]
 
     var client = serviceManager.get('postgre-client');
 
@@ -11,27 +11,33 @@ app.get('/postgre-test', function (req, res) {
         return;
     }
 
-    client.query('CREATE TABLE IF NOT EXISTS "sch.test" (var1 integer NOT NULL, var2 varchar(256) NOT NULL);', function (err, result) {
+    client.query('CREATE TABLE IF NOT EXISTS "sch.test" (num integer NOT NULL, data varchar(256) NOT NULL);', function (err, result) {
+
         if (err) {
-            res.status(500).send(err);
+            res.status(400).send(err);
             return;
         }
 
-        client.query('INSERT INTO "sch.test" (var1, var2) VALUES ($1, $2)', [pair[0], pair[1]], function (err, result) {
+        client.query('INSERT INTO "sch.test" (num, data) VALUES ($1, $2)', [pair[0], pair[1]], function (err, result) {
             if (err) {
-                res.status(500).send(err);
+                res.status(400).send(err);
                 return;
             }
         });
         client.query('SELECT * FROM "sch.test";', function (err, result) {
             if (err) {
-                res.status(500).send(err);
+                res.status(400).send(err);
             } else {
-                messages.push('created and fetched data')
-                res.status(202).json(messages);
+                
+                if (result.rows[0].num == pair[0] && result.rows[0].data == pair[1]) {
+                    messages.push('created and fetched data')
+                    client.query('DROP TABLE IF EXISTS "sch.test";');
+                    res.status(202).json(messages);
+                }
+                else {
+                    res.status(400).send('error processing data');
+                }
             }
-
         });
-
     });
 });

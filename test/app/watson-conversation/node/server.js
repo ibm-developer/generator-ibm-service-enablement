@@ -22,11 +22,13 @@ app.get('/watson-conversation-test', function (req, res) {
 		input: { 'text': 'Hello' }
 	}, function (err, response) {
 		if (err) {
-			console.log('error:', err);
 			res.status(400).json(err);
 		}
-		else {
+		else if (response.output.text) {
 			res.status(202).json(messages);
+		}
+		else {
+			res.status(400).json('Error processing response')
 		}
 	});
 });

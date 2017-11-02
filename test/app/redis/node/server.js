@@ -2,6 +2,8 @@
 app.get('/redis-test', function (req, res) {
 
 	let messages = [];
+	let key = "test-key";
+	let val = "test-val";
 
 	var redis = serviceManager.get('redis');
 
@@ -10,17 +12,22 @@ app.get('/redis-test', function (req, res) {
 		return;
 	}
 
-	redis.set("test-key", "test-val");
+	redis.set(key, val);
 
 	messages.push("set data");
 
-	redis.get("test-key", function (err, response) {
+	redis.get(key, function (err, response) {
 		if (err) {
 			res.status(400).json(err);
 		}
 		else {
-			messages.push("got data");
-			res.status(202).json(messages);
+			if (response == val) {
+				messages.push("got data");
+				res.status(202).json(messages);
+			}
+			else {
+				res.status(400).send('error processing data');
+			}
 		}
 	})
 });
