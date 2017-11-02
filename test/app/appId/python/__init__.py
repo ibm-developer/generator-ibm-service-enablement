@@ -3,7 +3,7 @@ def verifyToken(token,pemVal):
         payload = jwt.decode(token, pemVal, algorithms=['RS256'],options={'verify_aud':False})
         print('verified')
         return payload
-    except:
+    except Exception as _:
         print ('not verified')
         return False
 

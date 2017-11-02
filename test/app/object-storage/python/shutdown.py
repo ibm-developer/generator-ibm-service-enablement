@@ -1,2 +1,2 @@
-    if os:
-        os.close()
+if os:
+	os.close()

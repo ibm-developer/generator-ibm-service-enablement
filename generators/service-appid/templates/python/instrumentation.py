@@ -1,14 +1,16 @@
-from ibm_cloud_env import IBMCloudEnv
+from ibmcloudenv import IBMCloudEnv
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicNumbers
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
-import urllib2
 import json
 import base64
 import six
 import struct
-
-# AppID Python SDK is not available yet
+import sys
+if sys.version_info[0] == 3:
+    from urllib.request import urlopen
+else:
+    from urllib import urlopen
 
 def pemFromModExp(modulus,exponent):
     exponentlong = base64_to_long(exponent)
@@ -39,7 +41,7 @@ def getService(app):
     INTROSPECTION_URL = SERVER_URL + "/introspect"
     AUTH_URL = SERVER_URL + "/authorization"
 
-    content = urllib2.urlopen(PUBLIC_KEY_URL).read()
+    content = urlopen(PUBLIC_KEY_URL).read()
     publicKeyJson = content
     parsed = json.loads(publicKeyJson)
     pem = pemFromModExp(parsed['n'], parsed['e'])

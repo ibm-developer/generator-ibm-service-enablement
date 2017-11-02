@@ -247,9 +247,9 @@ describe('node-express', function () {
 
 	it('Can add AlertNotification instrumentation', () => {
 		testAll('service-alert-notification', {
-			alert_notification_url: optionsBluemix.alertnotification.url,
-			alert_notification_name: optionsBluemix.alertnotification.name,
-			alert_notification_password: optionsBluemix.alertnotification.password
+			alert_notification_url: optionsBluemix.alertNotification.url,
+			alert_notification_name: optionsBluemix.alertNotification.name,
+			alert_notification_password: optionsBluemix.alertNotification.password
 		});
 	});
 

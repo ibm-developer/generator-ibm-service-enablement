@@ -17,6 +17,7 @@ describe('swift-kitura', function() {
 		const optionsBluemix = JSON.parse(fs.readFileSync(require.resolve('./resources/bluemix.json')));
 		const codeForServices = [];
 		const dependencies = [];
+		const modules = [];
 		let runContext;
 
 		before(() => {
@@ -31,6 +32,9 @@ describe('swift-kitura', function() {
 						},
 						injectDependency: function(dependency) {
 							dependencies.push(dependency);
+						},
+						injectModules: function(module) {
+							modules.push(module);
 						}
 					}
 				})
@@ -67,7 +71,7 @@ describe('swift-kitura', function() {
 					oauth_server_url: optionsBluemix.auth.oauthServerUrl,
 					profiles_url: optionsBluemix.auth.profilesUrl
 				}
-			}, dependencies, codeForServices);
+			}, dependencies, modules, codeForServices);
 		});
 
 		it('Can add Cloudant instrumentation', () => {
@@ -77,7 +81,7 @@ describe('swift-kitura', function() {
 					password: optionsBluemix.cloudant[0].password,
 					url: optionsBluemix.cloudant[0].url
 				}
-			}, dependencies, codeForServices);
+			}, dependencies, modules, codeForServices);
 		});
 
 		it('Can add Object Storage instrumentation', () => {
@@ -88,7 +92,7 @@ describe('swift-kitura', function() {
 					password: optionsBluemix.objectStorage[0].password,
 					region: optionsBluemix.objectStorage[0].region
 				}
-			}, dependencies, codeForServices);
+			}, dependencies, modules, codeForServices);
 		});
 
 		it('Can add Redis instrumentation', () => {
@@ -96,7 +100,7 @@ describe('swift-kitura', function() {
 				[optionsBluemix.redis.serviceInfo.name]: {
 					uri: optionsBluemix.redis.uri
 				}
-			}, dependencies, codeForServices);
+			}, dependencies, modules, codeForServices);
 		});
 
 		it('Can add MongoDB instrumentation', () => {
@@ -104,7 +108,7 @@ describe('swift-kitura', function() {
 				[optionsBluemix.mongodb.serviceInfo.name]: {
 					uri: optionsBluemix.mongodb.uri
 				}
-			}, dependencies, codeForServices);
+			}, dependencies, modules, codeForServices);
 		});
 
 		it('Can add Conversation instrumentation', () => {
@@ -114,7 +118,7 @@ describe('swift-kitura', function() {
 					password: optionsBluemix.conversation.password,
 					url: optionsBluemix.conversation.url
 				}
-			}, dependencies, codeForServices);
+			}, dependencies, modules, codeForServices);
 		});
 
 		it('Can add Push Notifications instrumentation', () => {
@@ -124,7 +128,7 @@ describe('swift-kitura', function() {
 					app_secret: optionsBluemix.push.appSecret,
 					client_secret: optionsBluemix.push.clientSecret
 				}
-			}, dependencies, codeForServices);
+			}, dependencies, modules, codeForServices);
 
 			yassert.fileContent(
 				'Sources/Application/Services/ServicePush.swift',
@@ -133,13 +137,13 @@ describe('swift-kitura', function() {
 		});
 
 		it('Can add Alert Notification instrumentation', () => {
-			testAll('service-alert-notification', 'alert_notification', optionsBluemix.alertnotification.serviceInfo.name, {
-				[optionsBluemix.alertnotification.serviceInfo.name]: {
-					name: optionsBluemix.alertnotification.name,
-					password: optionsBluemix.alertnotification.password,
-					url: optionsBluemix.alertnotification.url
+			testAll('service-alert-notification', 'alert_notification', optionsBluemix.alertNotification.serviceInfo.name, {
+				[optionsBluemix.alertNotification.serviceInfo.name]: {
+					name: optionsBluemix.alertNotification.name,
+					password: optionsBluemix.alertNotification.password,
+					url: optionsBluemix.alertNotification.url
 				}
-			}, dependencies, codeForServices);
+			}, dependencies, modules, codeForServices);
 		});
 
 		it('Can add PostgreSQL instrumentation', () => {
@@ -147,7 +151,7 @@ describe('swift-kitura', function() {
 				[optionsBluemix.postgresql.serviceInfo.name]: {
 					uri: optionsBluemix.postgresql.uri
 				}
-			}, dependencies, codeForServices);
+			}, dependencies, modules, codeForServices);
 		});
 	});
 
@@ -155,6 +159,7 @@ describe('swift-kitura', function() {
 		const optionsBluemix = JSON.parse(fs.readFileSync(require.resolve('./resources/bluemix.json')));
 		const codeForServices = [];
 		const dependencies = [];
+		const modules = [];
 		let runContext;
 
 		before(() => {
@@ -174,6 +179,9 @@ describe('swift-kitura', function() {
 						},
 						injectDependency: function(dependency) {
 							dependencies.push(dependency);
+						},
+						injectModules: function(module) {
+							modules.push(module);
 						}
 					}
 				})
@@ -202,6 +210,7 @@ describe('swift-kitura', function() {
 				const optionsBluemix = JSON.parse(fs.readFileSync(require.resolve('./resources/bluemix.json')));
 				const codeForServices = [];
 				const dependencies = [];
+				const modules = [];
 				let runContext;
 
 				before(() => {
@@ -217,6 +226,9 @@ describe('swift-kitura', function() {
 								},
 								injectDependency: function(dependency) {
 									dependencies.push(dependency);
+								},
+								injectModules: function(module) {
+									modules.push(module);
 								}
 							}
 						})
@@ -230,7 +242,7 @@ describe('swift-kitura', function() {
 							app_secret: optionsBluemix.push.appSecret,
 							client_secret: optionsBluemix.push.clientSecret
 						}
-					}, dependencies, codeForServices);
+					}, dependencies, modules,codeForServices);
 
 					yassert.fileContent(
 						'Sources/Application/Services/ServicePush.swift',
@@ -242,9 +254,10 @@ describe('swift-kitura', function() {
 	})
 });
 
-function testAll(serviceName, servLookupKey, servInstanceName, localDevConfigJson, dependencies, codeForServices) {
+function testAll(serviceName, servLookupKey, servInstanceName, localDevConfigJson, dependencies, modules,codeForServices) {
 	testServiceDependencies(serviceName, dependencies);
 	testServiceInstrumentation(serviceName, servLookupKey, codeForServices);
+	testServiceModules(serviceName , modules);
 	testMappings(servLookupKey, servInstanceName);
 	testLocalDevConfig(localDevConfigJson || {});
 }
@@ -257,15 +270,44 @@ function testServiceDependencies(serviceName, dependencies) {
 	});
 }
 
+function testServiceModules(serviceName, modules) {
+	let serviceVariable = {
+		"service-alert-notification": "AlertNotifications",
+		"service-appid": "BluemixAppID",
+		"service-autoscaling": "",
+		"service-cloudant": "CouchDB",
+		"service-object-storage": "BluemixObjectStorage",
+		"service-redis": "SwiftRedis",
+		"service-mongodb": "MongoKitten",
+		"service-postgre": "SwiftKueryPostgreSQL",
+		"service-push": "BluemixPushNotifications",
+		"service-watson-conversation": "WatsonDeveloperCloud"
+	}
+	const module = "\"" + `${serviceVariable[serviceName]}` + "\""
+	yassert(modules.indexOf(module) !== -1, 'expected module ' + module);
+}
+
 function testServiceInstrumentation(serviceName, servLookupKey, codeForServices) {
+	let serviceVariable = {
+		"service-alert-notification": "alertNotificationService",
+		"service-appid": "appidService",
+		"service-cloudant": "couchDBService",
+		"service-object-storage": "objectStorageService",
+		"service-redis": "redisService",
+		"service-mongodb": "mongoDBService",
+		"service-postgre": "postgreSQLService",
+		"service-push": "pushNotificationService",
+		"service-watson-conversation": "watsonConversationService"
+	}
 	function pascalize(name) {
 		return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
 	}
-	let expectedInitFunction = `initialize${pascalize(serviceName)}()`;
-	yassert(codeForServices.indexOf(`try ${expectedInitFunction}`) !== -1);
+	let expectedInitFunctionDeclaration = `initialize${pascalize(serviceName)}(cloudEnv: cloudEnv)`;
+	let expectedInitFunctionTemplate = `initialize${pascalize(serviceName)}(cloudEnv: CloudEnv)`;
+	yassert(codeForServices.indexOf(`${serviceVariable[serviceName]} = try ${expectedInitFunctionDeclaration}`) !== -1);
 
 	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `name: "${servLookupKey}"`);
-	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `func ${expectedInitFunction}`);
+	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `func ${expectedInitFunctionTemplate}`);
 }
 
 function testMappings(servLookupKey, servInstanceName) {

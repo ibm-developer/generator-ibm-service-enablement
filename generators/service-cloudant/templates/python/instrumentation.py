@@ -1,4 +1,4 @@
-from ibm_cloud_env import IBMCloudEnv
+from ibmcloudenv import IBMCloudEnv
 from cloudant.client import Cloudant
 
 username = IBMCloudEnv.getString('cloudant_username')
