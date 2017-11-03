@@ -119,5 +119,4 @@ Once you are finished with your changes, run `npm test` to make sure all tests p
 Do a pull request against `development`, make sure the build passes. A team member will review and merge your pull request. 
 Once merged to development to master, the version will be auto-incremented and published according to the commit. Please follow the [conventional commit specification](https://conventionalcommits.org/)
 before contributing. To help you with commit a commit template is provide. Run `config.sh` to initialize the commit template to your `.git/config`.
-sdfdsf
 
