@@ -1,0 +1,8 @@
+{
+  "jndiEntries" : [
+    {"name" : "mongodb/uri", "value" : "${env.mongodb_uri}"}
+  ],
+  "dependencies" : [
+    {"groupId" : "org.mongodb", "artifactId" : "mongo-java-driver", "version" : "3.5.0"}
+  ]
+}

@@ -1,3 +1,4 @@
+'use strict'
 const path = require('path');
 const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
@@ -12,9 +13,9 @@ const SERVER_LOCALDEV_CONFIG_JSON = 'server/localdev-config.json';
 describe('node-express', function () {
 	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
 
-	before((done) => {
+	before(() => {
 		optionsBluemix.backendPlatform = "NODE";
-		helpers
+		return helpers
 			.run(path.join(__dirname, GENERATOR_PATH))
 			.inTmpDir()
 			.withOptions({
@@ -22,7 +23,6 @@ describe('node-express', function () {
 			})
 			.then((tmpDir) => {
 				console.info("tmpDir", tmpDir);
-				done();
 			});
 	});
 
@@ -246,10 +246,10 @@ describe('node-express', function () {
 	});
 
 	it('Can add AlertNotification instrumentation', () => {
-		testAll('service-alertnotification', {
-			alert_notification_url: optionsBluemix.alertnotification.url,
-			alert_notification_name: optionsBluemix.alertnotification.name,
-			alert_notification_password: optionsBluemix.alertnotification.password
+		testAll('service-alert-notification', {
+			alert_notification_url: optionsBluemix.alertNotification.url,
+			alert_notification_name: optionsBluemix.alertNotification.name,
+			alert_notification_password: optionsBluemix.alertNotification.password
 		});
 	});
 
@@ -305,6 +305,7 @@ describe('node-express', function () {
 function testAll(serviceName, localDevConfigJson) {
 	testServiceDependencies(serviceName);
 	testServiceInstrumentation(serviceName);
+	testReadMe(serviceName);
 	testMappings(serviceName);
 	testLocalDevConfig(localDevConfigJson || {})
 }
@@ -316,12 +317,12 @@ function testServiceDependencies(serviceName) {
 }
 
 function testServiceInstrumentation(serviceName) {
-	const expectedRequire = "require('./" + serviceName + "')(app, serviceManager);"
+	const expectedRequire = "require('./" + serviceName + "')(app, serviceManager);";
 	yassert.fileContent('server/services/index.js', expectedRequire);
 	yassert.file('server/services/' + serviceName + '.js');
 
 	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "node", "instrumentation.js");
-	const expectedInstrumentation = fs.readFileSync(filePath, 'utf-8')
+	const expectedInstrumentation = fs.readFileSync(filePath, 'utf-8');
 	yassert.fileContent('server/services/' + serviceName + '.js', expectedInstrumentation);
 }
 
@@ -329,6 +330,13 @@ function testMappings(serviceName) {
 	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "mappings.json");
 	const expectedMappings = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 	yassert.jsonFileContent(SERVER_MAPPINGS_JSON, expectedMappings);
+}
+
+function testReadMe(serviceName){
+	yassert.file('docs/services/' + serviceName + '.md');
+	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "node", "README.md");
+	const expectedReadme = fs.readFileSync(filePath, 'utf-8');
+	yassert.fileContent('docs/services/' + serviceName + '.md', expectedReadme);
 }
 
 function testLocalDevConfig(json) {

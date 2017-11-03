@@ -31,15 +31,15 @@
 			"plan": "accern-plan"
 		}
 	},
-	"alertnotification": {
+	"alertNotification": {
 		"name": "da3c3dad-cd53-4539-aea1-626ab2259af6/fa5ff325-679d-4632-bd81-e63bcee874c3",
 		"password": "XNVdszetg1zL/6pE2CcODBNfGhvFFqmj",
 		"url": "https://ibmnotifybm.mybluemix.net/api/alerts/v1",
 		"swaggerui": "https://ibmnotifybm.mybluemix.net/docs/alerts/v1",
 		"serviceInfo": {
-			"label": "alertNotifcation-label",
-			"name": "alertNotifcation-name",
-			"plan": "alertNotifcation-plan"
+			"label": "alert-notifcation-label",
+			"name": "alert-notifcation-name",
+			"plan": "alert-notifcation-plan"
 		}
 	},
 	"analytics": {
@@ -235,9 +235,20 @@
 			"plan": "language-translator-plan"
 		}
 	},
-	"mongodb": {
-		"uri": "mongodb://admin:password@bluemix.net,bluemix.net:20056/compose?ssl=true&authSource=admin"
-	},
+	"mongodb":  {
+      "db_type": "mongodb",
+      "maps": [],
+      "name": "mongdb",
+      "uri_cli": "mongo-cli",
+      "ca_certificate_base64": "ca_certificate-base64",
+      "deployment_id": "59c433eec7bf7c002300ee8f",
+      "uri": "uri",
+      "serviceInfo": {
+		  "label": "mongodb-label",
+		  "name": "mongodb-name",
+		  "plan": "mongodb-plan"
+	  }
+  },
 	"naturalLanguageClassifier": {
 		"url": "https://gateway.watsonplatform.net/natural-language-classifier/api",
 		"username": "natural-language-classifier-username",
@@ -321,8 +332,16 @@
 		}
 	},
 	"postgresql": {
-		"uri": "postgres://admin:password@bluemix.net:20058/compose"
-	},
+		"uri": "postgres://admin:password@bluemix.net:20058/compose",
+    	"ca_certificate_base64": "BASE64-CERT",
+    	"uri": "postgres://admin:password@bluemix.net:20058/compose",
+    	"deployment_id": "1234123412346f001800558a",
+    	"serviceInfo": {
+     		"label": "postgresql-label",
+      		"name": "postgresql-name",
+      		"plan": "postgresql-plan"
+    	}
+  	},
 	"predictiveMarketScenarios": {
 		"uri": "https://fss-analytics.mybluemix.net/",
 		"accessToken": "predictive-market-scenarios-accesstoken",
@@ -353,8 +372,13 @@
 		}
 	},
 	"redis": {
-		"uri": "redis://admin:password@bluemix.com:20051"
-	},
+		"uri": "redis://admin:password@bluemix.com:20051",
+    	"serviceInfo": {
+      		"label": "compose-for-redis",
+      		"name": "redis-name",
+      		"plan": "redis-plan"
+    	}
+  },
 	"retrieveAndRank": {
 		"url": "https://gateway.watsonplatform.net/retrieve-and-rank/api",
 		"username": "retrieve-and-rank-username",

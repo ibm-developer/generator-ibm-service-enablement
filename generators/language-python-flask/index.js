@@ -1,5 +1,8 @@
+'use strict'
 const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement:language-python-flask");
+
+const Utils = require('../lib/Utils');
 
 let Generator = require('yeoman-generator');
 
@@ -22,10 +25,11 @@ module.exports = class extends Generator {
 	configuring(){
 		this.context.dependenciesFile = "requirements.txt";
 		this.context.languageFileExt = ".py";
-		
+
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
+		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
 	}
 
@@ -52,14 +56,6 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-dashdb'), {context: this.context});
 		this.composeWith(require.resolve('../service-db2'), {context: this.context});
 
-		// Financial Services
-		this.composeWith(require.resolve('../service-finance-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-simulated-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-historical-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-simulated-historical-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-investment-portfolio'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-predictive-market-scenarios'), {context: this.context});
-
 		// Watson Services
 		this.composeWith(require.resolve('../service-watson-conversation'), {context: this.context});
 		this.composeWith(require.resolve('../service-watson-discovery'), {context: this.context});
@@ -74,6 +70,14 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-watson-tone-analyzer'), {context: this.context});
 		this.composeWith(require.resolve('../service-watson-visual-recognition'), {context: this.context});
 
+		// Financial Services
+		this.composeWith(require.resolve('../service-finance-instrument-analytics'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-simulated-instrument-analytics'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-historical-instrument-analytics'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-simulated-historical-instrument-analytics'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-investment-portfolio'), {context: this.context});
+		this.composeWith(require.resolve('../service-finance-predictive-market-scenarios'), {context: this.context});
+
 		// Weather Services
 		this.composeWith(require.resolve('../service-weather-company-data'), {context: this.context});
 
@@ -86,7 +90,7 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-push'), {context: this.context});
 
 		//Devops
-		this.composeWith(require.resolve('../service-alertnotification'), {context: this.context});
+		this.composeWith(require.resolve('../service-alert-notification'), {context: this.context});
 	}
 
 	_addDependencies(serviceDepdendenciesString){
@@ -137,6 +141,13 @@ module.exports = class extends Generator {
 
 	}
 
+	_addReadMe(options){
+		this.fs.copy(
+			options.sourceFilePath,
+			this.destinationPath() + "/docs/services/" + options.targetFileName
+		);
+	}
+
 	end(){
 		// Remove GENERATE_HERE and GENERATE_IMPORT_HERE from SERVICES_INIT_FILE
 		let servicesInitFilePath = this.destinationPath("./server/services/" + SERVICES_INIT_FILE);
@@ -153,5 +164,8 @@ module.exports = class extends Generator {
 		} else {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
+
+		// add services env to deployment.yaml
+		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()});
 	}
 };

@@ -1,5 +1,8 @@
+'use strict'
 const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement:language-node-express");
+
+const Utils = require('../lib/Utils');
 
 let Generator = require('yeoman-generator');
 
@@ -24,6 +27,7 @@ module.exports = class extends Generator {
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
+		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
 	}
 
@@ -33,12 +37,12 @@ module.exports = class extends Generator {
 		this.fs.copy(
 			this.templatePath() + "/service-manager.js",
 			this.destinationPath("./server/services/service-manager.js")
-		)
+		);
 
 		this.fs.copy(
 			this.templatePath() + "/services-index.js",
 			this.destinationPath("./server/services/index.js")
-		)
+		);
 
 		// Security Services
 		this.composeWith(require.resolve('../service-appid'), {context: this.context});
@@ -84,7 +88,7 @@ module.exports = class extends Generator {
 		this.composeWith(require.resolve('../service-push'), {context: this.context});
 
 		//Devops
-		this.composeWith(require.resolve('../service-alertnotification'), {context: this.context});
+		this.composeWith(require.resolve('../service-alert-notification'), {context: this.context});
 	}
 
 	_addDependencies(serviceDepdendenciesString){
@@ -116,6 +120,13 @@ module.exports = class extends Generator {
 		this.fs.write(servicesIndexJsFilePath, indexFileContent);
 	}
 
+	_addReadMe(options){
+		this.fs.copy(
+			options.sourceFilePath,
+			this.destinationPath() + "/docs/services/" + options.targetFileName
+		);
+	}
+
 	end(){
 		// Remove GENERATE_HERE from /server/services/index.js
 		let servicesIndexJsFilePath = this.destinationPath("./server/services/index.js");
@@ -130,5 +141,8 @@ module.exports = class extends Generator {
 		} else {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
+
+		// add services env to deployment.yaml
+		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()});
 	}
 };

@@ -1,7 +1,7 @@
-from ibm_cloud_env import IBMCloudEnv
+from ibmcloudenv import IBMCloudEnv
 import swiftclient
 
-authurl = IBMCloudEnv.getString('object_storage_authurl')
+authurl = IBMCloudEnv.getString('object_storage_auth_url')
 if not '/v3' in authurl:
     authurl+='/v3'
 user = IBMCloudEnv.getString('object_storage_user_id')
@@ -14,4 +14,5 @@ os_options = {
 
 def getService(app):
     objectStorage = swiftclient.Connection(authurl=authurl,user=user,key=key,os_options=os_options, auth_version='3')
+
     return 'object-storage', objectStorage

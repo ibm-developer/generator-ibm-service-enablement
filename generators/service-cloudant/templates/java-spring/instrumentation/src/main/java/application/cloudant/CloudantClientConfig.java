@@ -1,24 +1,27 @@
 package application.cloudant;
 
-import static org.springframework.core.annotation.AnnotationUtils.findAnnotation;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.springframework.beans.factory.InjectionPoint;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Lazy;
 
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
-import com.fasterxml.jackson.databind.JsonNode;
 
-import application.bluemix.InvalidCredentialsException;
-import application.bluemix.ServiceName;
-import application.bluemix.VCAPServices;
+import application.ibmcloud.CloudServicesException;
+import application.ibmcloud.ServiceMappings;
 
 @Configuration
-@PropertySource("classpath:/application-local.properties")
 public class CloudantClientConfig {
+
+    //can use this directly or via @Value annotations as it also provides a property source
+    @Autowired
+    protected ServiceMappings mappings;
 
     @Value("${cloudant_url:}")
     protected String resourceUrl;
@@ -28,39 +31,22 @@ public class CloudantClientConfig {
 
     @Value("${cloudant_password:}")
     protected String resourcePassword;
+    
 
     @Bean(destroyMethod = "")
-    public CloudantClient cloudantClient(InjectionPoint ip) throws InvalidCredentialsException {
-        ServiceName config = findAnnotation(ip.getAnnotatedElement(), ServiceName.class);
-        String serviceName = config.name();
-        CloudantClient client = null;
-        CloudantCredentials credentials;
-        credentials = getCloudantCredentials(serviceName);
-        client = ClientBuilder.url(credentials.getUrl())
-            .username(credentials.getUsername())
-            .password(credentials.getPassword())
+    @Lazy
+    public CloudantClient cloudantClient(InjectionPoint ip) throws CloudServicesException {
+        URL url = null;
+        try {
+            url = new URL(resourceUrl);
+        } catch (MalformedURLException e) {
+            throw new CloudServicesException("Invalid service URL specified", e);
+        }
+        CloudantClient client = ClientBuilder.url(url)
+            .username(resourceUsername)
+            .password(resourcePassword)
             .build();
         return client;
-    }
-
-    private CloudantCredentials getCloudantCredentials(String serviceName) throws InvalidCredentialsException {
-        CloudantCredentials credentials;
-        try {
-            credentials = getCredentialsFromVCAP(serviceName);
-        } catch (InvalidCredentialsException e) {
-            credentials = new CloudantCredentials(resourceUrl, resourceUsername, resourcePassword);
-        }
-        return credentials;
-    }
-
-    private CloudantCredentials getCredentialsFromVCAP(String serviceName) throws InvalidCredentialsException {
-        VCAPServices vcap = new VCAPServices();
-        JsonNode credentials = vcap.getCredentialsObject("cloudantNoSQLDB", serviceName);
-        String username = credentials.get("username").asText();
-        String password = credentials.get("password").asText();
-        String url = credentials.get("url").asText();
-        CloudantCredentials creds = new CloudantCredentials(url, username, password);
-        return creds;
     }
 
 }

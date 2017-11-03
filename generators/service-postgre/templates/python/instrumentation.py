@@ -1,4 +1,4 @@
-from ibm_cloud_env import IBMCloudEnv
+from ibmcloudenv import IBMCloudEnv
 import psycopg2
 
 url = IBMCloudEnv.getString('postgre_uri')

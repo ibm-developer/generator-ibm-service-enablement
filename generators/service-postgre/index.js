@@ -1,3 +1,4 @@
+'use strict'
 const BaseGenerator = require('../lib/generatorbase');
 const localDevConfig = ['uri'];
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = "postgresql";

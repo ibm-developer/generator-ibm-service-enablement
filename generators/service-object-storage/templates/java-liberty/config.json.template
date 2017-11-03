@@ -1,6 +1,6 @@
 {
   "jndiEntries" : [
-    {"name" : "objectstorage/auth_url", "value" : "${env.object_storage_authurl}"},
+    {"name" : "objectstorage/auth_url", "value" : "${env.object_storage_auth_url}"},
     {"name" : "objectstorage/userId", "value" : "${env.object_storage_user_id}"},
     {"name" : "objectstorage/password", "value" : "${env.object_storage_password}"},
     {"name" : "objectstorage/domainName", "value" : "${env.object_storage_domainName}"},

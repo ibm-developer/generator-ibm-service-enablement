@@ -29,11 +29,10 @@ const Handlebars = require('handlebars');
 const fs = require('fs');
 
 const assertLiberty = common.test('liberty');
-const assertSpring = common.test('spring');
 
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
-const LOCALDEV_CONFIG_JSON = 'localdev-config.json';
+const LOCALDEV_CONFIG_JSON = './src/main/resources/localdev-config.json';
 
 class Options {
 	constructor(service, backendPlatform) {
@@ -66,20 +65,22 @@ class Options {
 		it('should generate mappings.json in ' + PATH_MAPPINGS_FILE, function () {
 			assert.file(PATH_MAPPINGS_FILE);
 		});
-		it('should not generate mappings.json in ' + LOCALDEV_CONFIG_JSON, function () {
-			assert.noFile(LOCALDEV_CONFIG_JSON);
-		});
 	}
 
 	assertLocalDevConfig(framework, buildType, service) {
 		let expected = {envEntries: []};
 		Object.getOwnPropertyNames(service.localDevConfig).forEach(prop => {
-			expected.envEntries.push({
+			let entry = {
 				name: prop,
 				value: service.localDevConfig[prop]
-			});
+			}
+			expected.envEntries.push(entry);
+			if(framework === 'spring') {
+				it('should generate a local dev entry for ' + entry.name, function() {
+					assert.fileContent(LOCALDEV_CONFIG_JSON, '"' + entry.name + '"' + ': ' + '"' + entry.value + '"');
+				});
+			}
 		});
-		this['assert' + framework + 'env'](expected);
 	}
 
 	assertInstrumentation(framework, buildType, service) {
@@ -133,33 +134,33 @@ class Options {
 				assert.fileContent('src/main/java/application/bluemix/VCAPServices.java', 'import javax.json.Json;');
 			});
 		}
+		it('should not generate ' + LOCALDEV_CONFIG_JSON, function () {
+			assert.noFile(LOCALDEV_CONFIG_JSON);
+		});
 	}
 
-	assertspringenv(expected) {
-		if (expected.envEntries) {
-			expected.envEntries.forEach(entry => {
-				assertSpring.assertEnv(entry.name, entry.value);
-			});
-		}
+	assertspringenv() {
+		//currently no specific env var tests
 	}
 
 	assertspringsrc(exists) {
 		let check = exists ? assert.file : assert.noFile;
 		let desc = exists ? 'should ' : 'should not ';
-		it(desc + 'generate BluemixCredentials.java file', function () {
-			check('src/main/java/application/bluemix/BluemixCredentials.java');
+		it(desc + 'generate CloudServices.java file', function () {
+			check('src/main/java/application/ibmcloud/CloudServices.java');
 		});
-		it(desc + 'generate InvalidCredentialsException.java file', function () {
-			check('src/main/java/application/bluemix/InvalidCredentialsException.java');
+		it(desc + 'generate CloudServicesException.java file', function () {
+			check('src/main/java/application/ibmcloud/CloudServicesException.java');
 		});
-		it(desc + 'generate ServiceName.java file', function () {
-			check('src/main/java/application/bluemix/ServiceName.java');
+		it(desc + 'generate Mappings.java file', function () {
+			check('src/main/java/application/ibmcloud/Mappings.java');
 		});
-		if (exists) {
-			it('should generate VCAPServices.java file', function () {
-				assert.fileContent('src/main/java/application/bluemix/VCAPServices.java', 'import com.fasterxml.jackson.databind.JsonNode;');
-			});
-		}
+		it('should generate ServiceMappings.java file', function () {
+			check('src/main/java/application/ibmcloud/ServiceMappings.java');
+		});
+		it('should generate ' + LOCALDEV_CONFIG_JSON, function () {
+			assert.file(LOCALDEV_CONFIG_JSON);
+		});
 	}
 
 	before() {
@@ -199,7 +200,7 @@ function testServices(services, framework, backendPlatform) {
 	BUILD_TYPES.forEach(buildType => {
 		services.forEach(dirname => {
 			describe(`java generator : test ${framework}, ${buildType}, ${dirname}   `, function () {
-				this.timeout(10000);
+				this.timeout(25000);
 				let service = svcHelpers.fromDirName(dirname, optionsBluemix);
 				let options = new Options(service, backendPlatform);
 				before(options.before.bind(options));
@@ -213,7 +214,7 @@ function testServices(services, framework, backendPlatform) {
 
 function testTestService() {
 	describe('java generator : test liberty, maven, test service', function () {
-		this.timeout(10000);
+		this.timeout(25000);
 		let testService = {
 			"url": "https://account.test.com",
 			"serviceInfo": {

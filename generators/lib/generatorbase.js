@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 const log4js = require('log4js');
 const Generator = require('yeoman-generator');
 const Handlebars = require('handlebars');
 const fs = require('fs');
 const lodash = require('lodash/string');
+
+const REGEX_HYPHEN = /-/g;
 
 module.exports = class extends Generator {
 	constructor(args, opts, serviceName, scaffolderName, localDevConfig) {
@@ -46,11 +48,49 @@ module.exports = class extends Generator {
 		this._addDependencies();
 		this._addMappings();
 		this._addLocalDevConfig();
+		this._addReadMe();
 		this._addInstrumentation();
+		this._addServicesToKubeDeploy();
 	}
 
 	writing() {
 		//do nothing by default
+	}
+
+	_sanitizeServiceName(name) {
+		// Kubernetes env var names must match regex: '[A-Za-z_][A-Za-z0-9_]*'
+		name = name.replace(REGEX_HYPHEN, '_');
+		return name;
+	}
+
+	_addServicesToKubeDeploy() {
+		this.logger.info(`adding Deployment service env info for ${this.serviceName}`);
+
+		let serviceInfo = {};
+		if (this.context.bluemix[this.scaffolderName]) {
+			let service = this.context.bluemix[this.scaffolderName];
+			if (Array.isArray(service)) {
+				serviceInfo = service[0].serviceInfo;
+			} else {
+				serviceInfo = service.serviceInfo;
+			}
+		}
+
+		let serviceEnv = {
+			name: this._sanitizeServiceName(this.serviceName),
+			valueFrom: {
+				secretKeyRef: {
+					name: `binding-${serviceInfo.name}`,
+					key: 'binding'
+				}
+			}
+		};
+
+		if (!this.context.deploymentServicesEnv) {
+			this.context.deploymentServicesEnv = [];
+		}
+
+		this.context.deploymentServicesEnv.push(serviceEnv);
 	}
 
 	_addDependencies() {
@@ -73,7 +113,7 @@ module.exports = class extends Generator {
 		this.logger.info("Adding local dev config");
 		let templatePath = this.templatePath() + "/localdev-config.json.template";
 		let templateContent = this.fs.read(templatePath);
-		let template = Handlebars.compile(templateContent)
+		let template = Handlebars.compile(templateContent);
 		let data = {};			//data to use for templating
 		this.localDevConfig.forEach(item => {
 			let name = lodash.camelCase(item);
@@ -82,7 +122,7 @@ module.exports = class extends Generator {
 				bxvalue = bxvalue[0];		//set to first entry in the array
 			}
 			let path = item.split('.');
-			for (let i = 0; i < path.length - 1; bxvalue = bxvalue[path[i++]]) ;
+			for (let i = 0; i < path.length - 1; bxvalue = bxvalue[path[i++]]);
 			data[name] = bxvalue[path[path.length - 1]];
 		});
 		this.logger.debug("local dev config", data);
@@ -94,7 +134,18 @@ module.exports = class extends Generator {
 		this.logger.info("Adding instrumentation");
 		this.context.addInstrumentation({
 			sourceFilePath: this.languageTemplatePath + "/instrumentation" + this.context.languageFileExt,
-			targetFileName: this.serviceName + this.context.languageFileExt
+			targetFileName: this.serviceName + this.context.languageFileExt,
+			servLabel: this.scaffolderName
 		});
 	}
+
+	_addReadMe() {
+		this.logger.info("Adding Readme");
+		this.context.addReadMe({
+			sourceFilePath: this.languageTemplatePath + "/README.md",
+			targetFileName: this.serviceName + ".md"
+		});
+	}
+
+
 };

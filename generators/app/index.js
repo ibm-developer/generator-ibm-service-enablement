@@ -1,6 +1,7 @@
+'use strict'
 const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement");
-const Bundle = require("./../../package.json")
+const Bundle = require("./../../package.json");
 
 let Generator = require('yeoman-generator');
 
@@ -8,13 +9,19 @@ const OPTION_BLUEMIX = "bluemix";
 const OPTION_STARTER = "starter";
 const DEFAULT_LOG_LEVEL = "info";
 
+const REGEX_LEADING_ALPHA = /^[^a-zA-Z]*/;
+const REGEX_ALPHA_NUM = /[^a-zA-Z0-9]/g;
+
 module.exports = class extends Generator {
 	constructor(args, opts) {
 		super(args, opts);
-		logger.info("Package info ::", Bundle.name, Bundle.version);
-		this._setLoggerLevel();
+		if (opts.quiet) {
+			logger.setLevel(Log4js.levels.OFF)
+		} else {
+			logger.info("Package info ::", Bundle.name, Bundle.version);
+			this._setLoggerLevel();
+		}
 		logger.debug("Constructing");
-
 		this.option(OPTION_BLUEMIX, {
 			description: "Project configuration received from Scaffolder. Stringified JSON object. In case null the fallback_bluemix.js file will be used instead",
 			type: String
@@ -38,6 +45,7 @@ module.exports = class extends Generator {
 		context[OPTION_STARTER] = this.options[OPTION_STARTER];
 		context.loggerLevel = logger.level;
 		context.language = context.bluemix.backendPlatform.toLowerCase();
+		context.sanitizedAppName = this._sanitizeAppName(context.bluemix.name);
 
 		let languageGeneratorPath;
 		switch (context.language){
@@ -55,6 +63,10 @@ module.exports = class extends Generator {
 				languageGeneratorPath = '../language-java';
 				context.language = 'java-spring';
 				break;
+			case "swift":
+				languageGeneratorPath = '../language-swift-kitura';
+				context.language = 'swift';
+				break;
 		}
 
 		logger.info("Composing with", languageGeneratorPath);
@@ -63,6 +75,14 @@ module.exports = class extends Generator {
 
 	writing(){
 
+	}
+
+	_sanitizeAppName(name) {
+		let cleanName = "";
+		if (name !== undefined) {
+			cleanName = name.replace(REGEX_LEADING_ALPHA, '').replace(REGEX_ALPHA_NUM, '');
+		}
+		return (cleanName || 'APP').toLowerCase();
 	}
 
 	_setLoggerLevel(){

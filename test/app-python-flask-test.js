@@ -1,3 +1,4 @@
+'use strict'
 const path = require('path');
 const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
@@ -12,9 +13,9 @@ const SERVER_LOCALDEV_CONFIG_JSON = 'server/localdev-config.json';
 describe('python-flask', function () {
 	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
 
-	before((done) => {
+	before(() => {
 		optionsBluemix.backendPlatform = "PYTHON";
-		helpers
+		return helpers
 			.run(path.join(__dirname, GENERATOR_PATH))
 			.inTmpDir()
 			.withOptions({
@@ -22,7 +23,6 @@ describe('python-flask', function () {
 			})
 			.then((tmpDir) => {
 				console.info(tmpDir);
-				done();
 			});
 	});
 
@@ -246,13 +246,13 @@ describe('python-flask', function () {
 	});
 
 	it('Can add AlertNotification instrumentation', () => {
-		testAll('service-alertnotification', {
-			alert_notification_url: optionsBluemix.alertnotification.url,
-			alert_notification_name: optionsBluemix.alertnotification.name,
-			alert_notification_password: optionsBluemix.alertnotification.password
+		testAll('service-alert-notification', {
+			alert_notification_url: optionsBluemix.alertNotification.url,
+			alert_notification_name: optionsBluemix.alertNotification.name,
+			alert_notification_password: optionsBluemix.alertNotification.password
 		});
 	});
-	
+
 
 	it('Can add MongoDB instrumentation', () => {
 		testAll('service-mongodb', {
@@ -305,6 +305,7 @@ function testAll(serviceName, localDevConfigJson) {
 	testServiceDependencies(serviceName);
 	testServiceInstrumentation(serviceName);
 	testMappings(serviceName);
+	testReadMe(serviceName);
 	testLocalDevConfig(localDevConfigJson || {})
 }
 
@@ -316,9 +317,9 @@ function testServiceDependencies(serviceName) {
 
 function testServiceInstrumentation(serviceName) {
 	const pythonServiceName = serviceName.replace(/-/g, "_"); // Replace all "-" with "_". Python likes "_".
-	const expectedImport1 = "from . import " + pythonServiceName
-	const expectedImport2 = "from . import " + pythonServiceName
-	const expectedImport3 = "from . import " + pythonServiceName
+	const expectedImport1 = "from . import " + pythonServiceName;
+	const expectedImport2 = "from . import " + pythonServiceName;
+	const expectedImport3 = "from . import " + pythonServiceName;
 	yassert.fileContent('server/services/__init__.py', expectedImport1);
 	yassert.fileContent('server/services/__init__.py', expectedImport2);
 	yassert.fileContent('server/services/__init__.py', expectedImport3);
@@ -327,6 +328,13 @@ function testServiceInstrumentation(serviceName) {
 	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "python", "instrumentation.py");
 	const expectedInstrumentation = fs.readFileSync(filePath, 'utf-8')
 	yassert.fileContent('server/services/' + pythonServiceName + '.py', expectedInstrumentation);
+}
+
+function testReadMe(serviceName){
+	yassert.file('docs/services/' + serviceName + '.md');
+	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "python", "README.md");
+	const expectedReadme = fs.readFileSync(filePath, 'utf-8');
+	yassert.fileContent('docs/services/' + serviceName + '.md', expectedReadme);
 }
 
 function testMappings(serviceName) {

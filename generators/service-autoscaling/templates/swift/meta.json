@@ -1,0 +1,6 @@
+{
+  "import":"SwiftMetricsBluemix",
+  "variableName":"autoScalingService",
+  "type":"SwiftMetricsBluemix?",
+  "initParams":""
+}

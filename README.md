@@ -60,3 +60,63 @@ In a separate directory invoke the generator via
 ```bash
 yo ibm-service-enablement 
 ```
+
+## Testing
+
+To run the unit tests
+
+`npm test`
+
+To run integration tests
+
+`npm run integration`
+
+**Note** You will need to mock the credentials by adding a `bluemix.int.json` file. The file content should look something like the following:
+
+```
+{
+  "cloudant": [
+		{
+			"url": "XXXX",
+			"username": "XXXXX",
+			"password": "XXXX",
+			"serviceInfo": {
+				"label": "cloudant-label",
+				"name": "cloudant-name",
+				"plan": "cloudant-plan"
+			}
+		}
+	],
+
+	"objectStorage": [
+		{
+			"auth_url": "XXXX",
+			"domainId": "XXXXX",
+			"domainName": "XXXX",
+			"password": "XXXX",
+			"project": "XXXXX",
+			"projectId": "XXXX",
+			"region": "dallas",
+			"role": "admin",
+			"userId": "XXXX",
+			"username": "XXXX",
+			"serviceInfo": {
+				"label": "object-storage-label",
+				"name": "object-storage-name",
+				"plan": "object-storage-plan"
+			}
+		}
+	]
+
+}
+```
+## Publishing Changes
+
+In order to publish changes, you will need to fork the repository or ask to join the `ibm-developer` org and branch off the development branch.
+
+Once you are finished with your changes, run `npm test` to make sure all tests pass.
+
+Do a pull request against `development`, make sure the build passes. A team member will review and merge your pull request. 
+Once merged to development to master, the version will be auto-incremented and published according to the commit. Please follow the [conventional commit specification](https://conventionalcommits.org/)
+before contributing. To help you with commit a commit template is provide. Run `config.sh` to initialize the commit template to your `.git/config`. 
+
