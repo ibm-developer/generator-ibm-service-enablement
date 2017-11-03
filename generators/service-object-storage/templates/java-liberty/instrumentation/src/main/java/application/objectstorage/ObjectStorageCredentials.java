@@ -3,14 +3,11 @@ package application.objectstorage;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.enterprise.context.RequestScoped;
-
 import org.openstack4j.model.common.Identifier;
 
 import application.bluemix.BluemixCredentials;
 import application.bluemix.InvalidCredentialsException;
 
-@RequestScoped
 public class ObjectStorageCredentials extends BluemixCredentials {
 
 	private String userId;
@@ -19,8 +16,6 @@ public class ObjectStorageCredentials extends BluemixCredentials {
     private Identifier domainIdent;
     private Identifier projectIdent;
 
-    public ObjectStorageCredentials() {};
-    
     public ObjectStorageCredentials(String url, String username, String password, String domain, String project) throws InvalidCredentialsException {
         checkCredentialsValid(url, username, password, domain, project);
     }

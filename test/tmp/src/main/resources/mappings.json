@@ -1,0 +1,9 @@
+{
+  "test_url": {
+    "searchPatterns": [
+      "cloudfoundry:$['test'].credentials.url",
+      "env:test_url",
+      "file:/server/localdev-config.json:$.test_url"
+    ]
+  }
+}

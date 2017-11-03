@@ -21,7 +21,7 @@
 'use strict';
 const path = require('path');
 const assert = require('assert');
-// const yassert = require('yeoman-assert');
+const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const svcHelpers = require('./lib/service-helpers');
 const common = require('./lib/java-test-helpers');
@@ -85,11 +85,23 @@ class Options {
 
 	assertInstrumentation(framework, buildType, service) {
 		if (service.instrumentation) {
+			it('should not generate a config.json.template file', function () {
+				assert.noFile('config.json.template');
+			});
 			let files = service.instrumentation['java_' + framework];
 			files.forEach(file => {
-				it('should generate file ' + file + ' for service ' + service.location, function () {
-					assert.file(file);
+				console.log("file: ", file);
+				console.log("file.name: ", file.name);
+				console.log("file.contents: ", file.contents);
+				console.log("-------------------");
+				it('should generate file ' + file.name + ' for service ' + service.location, function () {
+					assert.file(file.name);
 				});
+				if(file.contents) {
+					it('should generate file ' + file.name + ' for service ' + service.location + ' with contents ' + file.contents, function () {
+						assert.fileContent(file.name, file.contents);
+					});
+				}
 			})
 			this['assert' + framework + 'src'](true, buildType);
 		} else {
@@ -137,6 +149,7 @@ class Options {
 		it('should not generate ' + LOCALDEV_CONFIG_JSON, function () {
 			assert.noFile(LOCALDEV_CONFIG_JSON);
 		});
+		
 	}
 
 	assertspringenv() {
@@ -167,11 +180,12 @@ class Options {
 		const filePath = path.join(__dirname, "resources", "java", "index.js");
 		return helpers.run(filePath)
 			.withOptions(this.values)
+			.inDir(path.join(__dirname, './tmp'))
 			.toPromise();
 	}
 }
 
-// const FRAMEWORKS = ['liberty', 'spring'];
+const FRAMEWORKS = ['liberty', 'spring'];
 const BUILD_TYPES = ['maven', 'gradle'];
 let spring_services = getServices('java-spring');
 let liberty_services = getServices('java-liberty');

@@ -8,9 +8,13 @@
   ],
   "dependencies" : [
     {"groupId" : "org.pacesys", "artifactId" : "openstack4j-core", "version" : "3.0.3"},
-    {"groupId" : "org.pacesys.openstack4j.connectors", "artifactId" : "openstack4j-httpclient", "version" : "3.0.3"}
+    {"groupId" : "org.pacesys.openstack4j.connectors", "artifactId" : "openstack4j-httpclient", "version" : "3.0.3"},
+    {"groupId" : "org.eclipse.microprofile.config", "artifactId" : "microprofile-config-api", "version" : "1.1", "scope" : "provided"}
   ],
-  "metainf" : [
-    {"filepath" : "services/org.eclipse.microprofile.config.spi.Converter", "data" : ["application.objectstorage.ObjectStorageCredentialsConverter"]}
+  "frameworkDependencies" : [
+    {"feature" : "mpConfig-1.1"}
+  ],
+   "metainf" : [
+    {"filepath" : "services/org.eclipse.microprofile.config.spi.Converter.template", "data" : ["application.objectstorage.ObjectStorageCredentialsConverter"]}
   ]
 }

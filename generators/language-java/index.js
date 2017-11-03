@@ -19,7 +19,7 @@ const Generator = require('yeoman-generator');
 const fs = require('fs');
 const path = require('path');
 const handlebars = require('handlebars');
-const converter = "src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter";
+const PATH_METAINF = "src/main/resources/META-INF/";
 
 const Utils = require('../lib/Utils');
 
@@ -76,23 +76,33 @@ module.exports = class extends Generator {
 				}
 			})
 		}
-		//if(this.context.metainf) {
-			var location = this.templatePath("java-liberty/" + converter);
-			var destination = this.destinationPath(converter);
+
+		this.context.metainf.forEach((metainf) => {
+			var location = metainf.absolutePath;
 			let contents = fs.readFileSync(location, 'utf8');
 			var compiledTemplate = handlebars.compile(contents);
-			var output = compiledTemplate({metainf: this.context.metainf});
-			this.fs.write(destination, output);
-	//	}
-		
+			var output = compiledTemplate({data: metainf.data});
+			let destPath = this.destinationPath(PATH_METAINF + metainf.filepath);
+			if(this.fs.exists(destPath)) {
+				this.fs.append(destPath, output);
+			} else {
+				this.fs.write(destPath, output);
+			}
+		})
 	}
 
-	_addDependencies(serviceDependenciesString) {
+
+	_addDependencies(serviceDependenciesString, generator) {
 		logger.debug("Adding dependencies", serviceDependenciesString); 
-		
-		//serviceDependenciesString is a string and we can't access metainf. It should be an object.
 		let serviceDependenciesObject = JSON.parse(serviceDependenciesString);
-		if(serviceDependenciesObject.metainf) {
+		if(serviceDependenciesObject.metainf) {	
+			serviceDependenciesObject.metainf.forEach((metainf) => {
+				let path = this.context.language + "/" + PATH_METAINF + metainf.filepath;
+				metainf.absolutePath = this.templatePath(path); 
+				if (metainf.filepath.endsWith('.template')) {
+					metainf.filepath = metainf.filepath.slice(0, metainf.filepath.length - ('.template').length);
+				}
+			})
 			this.context.metainf = this.context.metainf.concat(serviceDependenciesObject.metainf);
 		 }
 
@@ -137,10 +147,8 @@ module.exports = class extends Generator {
 	}
 
 	_writeFiles(templatePath, data) {
-		if(templatePath.endsWith(TEMPLATE_EXT)) {
-			return;		//do not write out any files that are marked as processing templates
-		}
-		this.fs.copy(this.templatePath(templatePath), this.destinationPath(), {
+		//do not write out any files that are marked as processing templates
+		this.fs.copy([this.templatePath(templatePath), '!**/*.template'], this.destinationPath(), {
 			process: function (contents) {
 				let compiledTemplate = handlebars.compile(contents.toString());
 				return compiledTemplate(data);

@@ -69,8 +69,7 @@ module.exports = class extends Generator {
 				context.language = 'swift';
 				break;
 		}
-		console.log(context.language);
-
+	
 		logger.info("Composing with", languageGeneratorPath);
 		this.composeWith(require.resolve(languageGeneratorPath), {context: context});
 	}
