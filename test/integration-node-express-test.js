@@ -51,8 +51,8 @@ describe('integration test for services', function () {
 		});
 	});
 
-	describe('ObjectStorage', function() {
-		it('should create a container `test` and write content', function() {
+	describe('ObjectStorage', function () {
+		it('should create a container `test` and write content', function () {
 			this.timeout(30000);
 			let expectedMessages = [
 				'test container was created',
@@ -110,7 +110,7 @@ describe('integration test for services', function () {
 		it('should login anon to web strategy', function (done) {
 			this.timeout(12000);
 			let expectedMessage = {
-				points : "1337"
+				points: "1337"
 			};
 
 			let options = {
@@ -120,8 +120,8 @@ describe('integration test for services', function () {
 			};
 			let j = request.jar();
 			let cookie;
-			request(options, function(error, response){
-				if(error){
+			request(options, function (error, response) {
+				if (error) {
 					assert.isNotOk(error, 'This should not happen - login web');
 					done();
 
@@ -148,7 +148,7 @@ describe('integration test for services', function () {
 								} else {
 									//redirect to protected resource
 									options.method = 'GET';
-									options.uri = response.headers.location.indexOf('http') > -1 ? response.headers.location : 'http://localhost:3000' + response.headers.location ;
+									options.uri = response.headers.location.indexOf('http') > -1 ? response.headers.location : 'http://localhost:3000' + response.headers.location;
 									options.headers = response.request.headers;
 									request(options, function (error, response) {
 										if (error) {
@@ -170,8 +170,8 @@ describe('integration test for services', function () {
 		});
 	});
 
-	describe('Push', function() {
-		it('should create a push notification', function() {
+	describe('Push', function () {
+		it('should create a push notification', function () {
 			this.timeout(30000);
 			let options = {
 				'method': 'get',
@@ -179,11 +179,11 @@ describe('integration test for services', function () {
 			};
 
 			return axios(options)
-				.then(function(response) {
+				.then(function (response) {
 					assert.deepEqual(response.data.message, { alert: 'Testing BluemixPushNotifications' });
 				})
-				.catch(function(err){
-					if(err.response){
+				.catch(function (err) {
+					if (err.response) {
 						assert.isNotOk(err.response.data, 'This should not happen');
 					} else {
 						assert.isNotOk(JSON.stringify(err), 'This should not happen');
@@ -193,8 +193,8 @@ describe('integration test for services', function () {
 		});
 	});
 
-	describe('Alert-Notification', function() {
-		it('should send a sample alert', function() {
+	describe('Alert-Notification', function () {
+		it('should send a sample alert', function () {
 			this.timeout(30000);
 			let expectedMessages = [
 				'alert sent'
@@ -219,6 +219,78 @@ describe('integration test for services', function () {
 				});
 		});
 	});
+
+	describe('Watson-Conversation', function () {
+		it('should be able to send input and receive a response', function () {
+			this.timeout(30000);
+
+			let expectedMessage = ['received response for conversation'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:3000/watson-conversation-test'
+			};
+			return axios(options)
+				.then(function (response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function (err) {
+					if (err.response) {
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+
+	describe('Redis', function () {
+		it('should be able to set and get data', function () {
+			this.timeout(30000);
+			let expectedMessage = ['set data', 'got data'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:3000/redis-test'
+			};
+
+			return axios(options)
+				.then(function (response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function (err) {
+					if (err.response) {
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+
+	describe('Postgre', function () {
+		it('should be able to set and get data', function () {
+			this.timeout(30000);
+			let expectedMessage = ['created and fetched data'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:3000/postgre-test'
+			};
+
+			return axios(options)
+				.then(function (response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function (err) {
+					if (err.response) {
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+
 });
 
 let _setUpApplication = function (cb) {
@@ -234,12 +306,12 @@ let _setUpApplication = function (cb) {
 				bluemix: JSON.stringify(optionsBluemix)
 			})
 			.then((tmpDir) => {
-				execRun('npm install', {cwd: tmpDir}, function (error, stdout) {
+				execRun('npm install', { cwd: tmpDir }, function (error, stdout) {
 					if (error) {
 						assert.isOk('Could not install dependencies ' + error);
 					} else {
 						console.log(stdout);
-						execRun('npm install --save express express-session axios body-parser', {cmd: tmpDir}, function (error, stdout) {
+						execRun('npm install --save express express-session axios body-parser', { cmd: tmpDir }, function (error, stdout) {
 							if (error) {
 								assert.isOk('Could not install express, body-parser, axios and express-session', error);
 								cb();
@@ -270,7 +342,7 @@ let _destroyApplication = function (cb) {
 };
 
 let _generateApplication = function (cb) {
-	const serviceNames = ['cloudant', 'object-storage', 'appId', 'push', 'mongodb', 'alertnotification'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId', 'push', 'mongodb', 'alertnotification', 'watson-conversation', 'redis', 'postgre'];
 	const REPLACE_CODE_HERE = '// GENERATE HERE';
 	let snippetJS;
 
