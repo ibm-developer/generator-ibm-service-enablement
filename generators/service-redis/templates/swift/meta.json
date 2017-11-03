@@ -1,0 +1,6 @@
+{
+  "import":"SwiftRedis",
+  "variableName":"redisService",
+  "type":"RedisCredentials",
+  "initParams":"cloudEnv: cloudEnv"
+}

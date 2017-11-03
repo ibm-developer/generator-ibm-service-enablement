@@ -1,1 +1,1 @@
-.Package(url: "https://github.com/watson-developer-cloud/swift-sdk.git", majorVersion: 0, minor: 16),
+.package(url: "https://github.com/watson-developer-cloud/swift-sdk.git", .upToNextMinor(from: "0.18.0")),
