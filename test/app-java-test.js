@@ -90,10 +90,6 @@ class Options {
 			});
 			let files = service.instrumentation['java_' + framework];
 			files.forEach(file => {
-				console.log("file: ", file);
-				console.log("file.name: ", file.name);
-				console.log("file.contents: ", file.contents);
-				console.log("-------------------");
 				it('should generate file ' + file.name + ' for service ' + service.location, function () {
 					assert.file(file.name);
 				});
