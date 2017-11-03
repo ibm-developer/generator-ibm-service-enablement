@@ -235,14 +235,19 @@
 			"plan": "language-translator-plan"
 		}
 	},
-	"mongodb": {
-		"uri": "mongodb://admin:password@bluemix.net,bluemix.net:20056/compose?ssl=true&authSource=admin",
-    	"deployment_id": "1234123412346f001800558a",
-    	"serviceInfo": {
-      		"label": "mongodb-label",
-    	  	"name": "mongodb-name",
-      		"plan": "mongodb-plan"
-    	}
+	"mongodb":  {
+      "db_type": "mongodb",
+      "maps": [],
+      "name": "mongdb",
+      "uri_cli": "mongo-cli",
+      "ca_certificate_base64": "ca_certificate-base64",
+      "deployment_id": "59c433eec7bf7c002300ee8f",
+      "uri": "uri",
+      "serviceInfo": {
+		  "label": "mongodb-label",
+		  "name": "mongodb-name",
+		  "plan": "mongodb-plan"
+	  }
   },
 	"naturalLanguageClassifier": {
 		"url": "https://gateway.watsonplatform.net/natural-language-classifier/api",

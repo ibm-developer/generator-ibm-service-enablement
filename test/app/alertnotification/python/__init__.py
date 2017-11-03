@@ -9,9 +9,13 @@ def alert():
 	}
 
 	alert = service_manager.get('alert-notification')
-	res = requests.post(alert['url'], auth=(alert['user'], alert['password']), json=alertMessage)
+	res = alert.sendAlert(alertMessage)
 
-	if res and res.text:
+	if res and 'ShortId' in res:
 		messages.append('alert sent')
+		alertID = res['ShortId']
+		confirmation = alert.getAlert(alertID)
+		if res == confirmation:
+			messages.append('tracked alert')
 
 	return jsonify(messages)

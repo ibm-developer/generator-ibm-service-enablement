@@ -1,4 +1,4 @@
-from ibm_cloud_env import IBMCloudEnv
+from ibmcloudenv import IBMCloudEnv
 from watson_developer_cloud import RetrieveAndRankV1
 
 retrieve_and_rank = RetrieveAndRankV1(

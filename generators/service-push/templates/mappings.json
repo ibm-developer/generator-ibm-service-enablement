@@ -23,7 +23,7 @@
 	"push_url": {
 		"searchPatterns": [
 			"cloudfoundry:$['imfpush'][0].credentials.url",
-			"env:push_url",
+			"env:service_push:$.push_url",
 			"file:/server/localdev-config.json:$.push_url"
 		]
 	}
