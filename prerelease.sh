@@ -19,6 +19,6 @@ BRANCH="updateTo${PKG_VER_NEXT}"
 git checkout -b $BRANCH
 
 npm run version
-git push --follow-tags origin $BRANCH
+git $GITHUB_URL_SECURED push --follow-tags origin $BRANCH
 hub pull-request -b development -m "chore: Merging CHANGELOG and package.json changes"
 hub pull-request -b master -m "chore: Merging CHANGELOG and package.json changes"
