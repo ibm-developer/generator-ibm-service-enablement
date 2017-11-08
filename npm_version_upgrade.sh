@@ -10,6 +10,10 @@ NPM_VER=`npm show $PKG_NAME version`
 echo "$PKG_NAME : version = $PKG_VER, npm version = $NPM_VER"
 HTML=$(markdown CHANGELOG.md)
 
+if [ $NPM_VER != $PKG_VER ]; then
+    DEPLOY=true
+fi
+
 if [ $TRAVIS_BRANCH = "master" ]; then
     echo "Build targetting master - checking if this is a PR or not"
     if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]]; then
