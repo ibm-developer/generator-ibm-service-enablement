@@ -22,7 +22,7 @@ notifications:
 before_deploy:
   - PKG_NAME=`node -e "console.log(require('./package.json').name);"`
   - PKG_VER=`node -e "console.log(require('./package.json').version);"`
-  - NPM_VER=`npm show $PKG_NAME version
+  - NPM_VER=`npm show $PKG_NAME version`
 deploy:
   provider: npm
   email: "$NPM_EMAIL"
