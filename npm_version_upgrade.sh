@@ -21,6 +21,12 @@ if [ $TRAVIS_BRANCH = "master" ]; then
             if [[ $retval != 0 ]]; then
                 exit $retval
             fi
+        else
+            npm publish
+            node /tmp/changelog-generator-slack-notification/index.js --html "$HTML" --name "$PKG_NAME" --api "$SLACK_WEBHOOK" --v "$PKG_VER"
         fi
+
+
     fi
+
 fi
