@@ -96,13 +96,8 @@ module.exports = class extends Generator {
 
 	_addDependencies() {
 		this.logger.info("Adding dependencies");
-		console.log(this.context.dependenciesFile);
-		console.log(Array.isArray(this.context.dependenciesFile));
 		if (Array.isArray(this.context.dependenciesFile)){
-
 			for (let i = 0; i < this.context.dependenciesFile.length; i++) {
-				console.log('100 ' +this.languageTemplatePath);
-				console.log('101 ' + this.context.dependenciesFile[i]);
 				this.context.addDependencies(this.fs.read(this.languageTemplatePath + "/" + this.context.dependenciesFile[i]));
 			}
 		}else{

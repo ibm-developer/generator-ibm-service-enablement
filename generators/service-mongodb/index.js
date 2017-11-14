@@ -20,4 +20,4 @@ module.exports = class extends BaseGenerator {
 	writing(){
 		return super.writing();
 	}
-}
+};

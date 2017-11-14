@@ -1,10 +1,8 @@
-'use strict'
+'use strict';
 const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement:language-python-flask");
 
 const Utils = require('../lib/Utils');
-
-
 let Generator = require('yeoman-generator');
 
 const GENERATE_HERE = "# GENERATE HERE";
@@ -43,9 +41,7 @@ module.exports = class extends Generator {
 	}
 
 	writing() {
-		for (let i = 0; i < this.context.dependenciesFile.length; i++) {
-
-
+		for(let i = 0; i < this.context.dependenciesFile.length; i++) {
 			this._addDependencies(this.fs.read(this.templatePath() + "/" + this.context.dependenciesFile[i]));
 		}
 
