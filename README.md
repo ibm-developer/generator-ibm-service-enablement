@@ -43,7 +43,7 @@ npm install -g generator-ibm-service-enablement
 ## Usage
 
 Following command line arguments are supported
-* `--bluemix {stringified-json}` -  used by Scaffolder to supply project information from `pman`. This will be referred as `projectConfig` in this document. You can also supply a local file containing compatible JSON object by using `--bluemix file:path/to/file.json`
+* `--bluemix {stringified-json}` -  used by Scaffolder to supply project information from `pman`. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
 
 ## Development
 
@@ -58,7 +58,7 @@ npm link
 In a separate directory invoke the generator via
 
 ```bash
-yo ibm-service-enablement 
+yo ibm-service-enablement --bluemix "{\"name\": \"projectName\", \"backendPlatform\": \"PYTHON\"}"
 ```
 
 ## Testing
@@ -118,5 +118,4 @@ Once you are finished with your changes, run `npm test` to make sure all tests p
 
 Do a pull request against `development`, make sure the build passes. A team member will review and merge your pull request. 
 Once merged to development to master, the version will be auto-incremented and published according to the commit. Please follow the [conventional commit specification](https://conventionalcommits.org/)
-before contributing. To help you with commit a commit template is provide. Run `config.sh` to initialize the commit template to your `.git/config`. 
-
+before contributing. To help you with commit a commit template is provide. Run `config.sh` to initialize the commit template to your `.git/config`.

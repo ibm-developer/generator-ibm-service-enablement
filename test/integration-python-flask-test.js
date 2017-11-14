@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.int.json'));
 const assert = require('chai').assert;
 const path = require('path');
@@ -15,7 +15,7 @@ const axios = require('axios');
 
 // Change these if you're getting SSL-related problems
 const pythonRuntime = 'python3';
-const pipRuntime = 'pip3'
+const pipRuntime = 'pip3';
 
 describe('integration test for services', function() {
 	before(function(done) {
