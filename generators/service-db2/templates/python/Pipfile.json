@@ -1,0 +1,7 @@
+{
+  "[[source]]": "",
+  "[dev-packages]": "",
+  "[packages]": {
+    "ibmdbpy": "~=0.1.4"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "[[source]]": "",
+  "[dev-packages]": "",
+  "[packages]": {
+    "cryptography": "*",
+    "rsa": "==3.4.2",
+    "pyjwt": "==1.5.0",
+    "requests": "*"
+  }
+}

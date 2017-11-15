@@ -1,3 +1,4 @@
+
 /*
  * Copyright IBM Corporation 2017
  *
@@ -95,12 +96,18 @@ module.exports = class extends Generator {
 
 	_addDependencies() {
 		this.logger.info("Adding dependencies");
-		let dependenciesString = this.fs.read(this.languageTemplatePath + "/" + this.context.dependenciesFile);
-		if (this.context.dependenciesFile.endsWith('.template')) {			//pass through handlebars if this is a .template file
-			let template = Handlebars.compile(dependenciesString);
-			dependenciesString = template(this.context);
+		if (Array.isArray(this.context.dependenciesFile)){
+			for (let i = 0; i < this.context.dependenciesFile.length; i++) {
+				this.context.addDependencies(this.fs.read(this.languageTemplatePath + "/" + this.context.dependenciesFile[i]));
+			}
+		}else{
+			let dependenciesString = this.fs.read(this.languageTemplatePath + "/" + this.context.dependenciesFile);
+			if (this.context.dependenciesFile.endsWith('.template')) {			//pass through handlebars if this is a .template file
+				let template = Handlebars.compile(dependenciesString);
+				dependenciesString = template(this.context);
+			}
+			this.context.addDependencies(dependenciesString);
 		}
-		this.context.addDependencies(dependenciesString);
 	}
 
 	_addMappings() {
