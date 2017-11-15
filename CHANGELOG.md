@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.1.0...v0.2.0) (2017-11-15)
+
+
+### Bug Fixes
+
+* **docs:** clarified section for publishing and contributing ([1213563](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/1213563))
+* added serviceInfo to services missing it ([f25338b](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/f25338b))
+* remove deploy script from travis and use custom ([a2a008d](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a2a008d))
+
+
+### Features
+
+* added django for generating services ([ee799cd](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/ee799cd))
+* added pipenv ([e16db08](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/e16db08))
+* added pipfile ([baf780b](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/baf780b))
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.0.105...v0.1.0) (2017-11-07)
 
