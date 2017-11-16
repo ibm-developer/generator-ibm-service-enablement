@@ -106,7 +106,7 @@ module.exports = class extends Generator {
 		let requirementsTxtPath = this.destinationPath(PATH_REQUIREMENTS_TXT);
 		let pipfileUserPath = this.destinationPath(PATH_PIPFILE);
 		let jsonLanguagePath = this.templatePath() + PATH_PIPFILE_JSON;
-		if ( serviceDepdendenciesString.indexOf('{') >-1 && this.fs.exists(pipfileUserPath)){
+		if ( serviceDepdendenciesString.indexOf('{') > -1 && this.fs.exists(pipfileUserPath)){
 			let userPipfile = this.fs.read( pipfileUserPath);
 			let pipFileLanguageContent = JSON.parse(this.fs.read(jsonLanguagePath));
 			//only adding services to sources content so these calls are unnecessary for now
