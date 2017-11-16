@@ -120,4 +120,4 @@ Run `config.sh` to initialize the commit template to your `.git/config`.
 Once you are finished with your changes, run `npm test` to make sure all tests pass.
 
 Do a pull request against `development`, make sure the build passes. A team member will review and merge your pull request. 
-Once merged to `development` to `master` one pull request will be created against development. Merge the pull request then create another pull request from `development` into `master`. Once the final pull request has been merged the generator will be published to npm.  Make sure that the CHANGELOG.md and the package.json is correct before merging the auto generated pull request. 
+Once merged `development` to `master` one pull request will be created against development. Merge the pull request then create another pull request from `development` into `master`. Once the final pull request has been merged the generator will be published to npm.  Make sure that the CHANGELOG.md and the package.json is correct before merging the auto generated pull request. 
