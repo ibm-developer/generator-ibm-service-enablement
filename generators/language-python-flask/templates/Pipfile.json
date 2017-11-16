@@ -2,6 +2,7 @@
   "[[source]]": "",
   "[dev-packages]": "",
   "[packages]": {
-    "ibmcloudenv": "~=0.0"
+    "ibmcloudenv": "~=0.0",
+    "livereload": "*"
   }
 }
