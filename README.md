@@ -59,7 +59,7 @@ npm link
 In a separate directory invoke the generator via
 
 ```bash
-yo ibm-service-enablement --bluemix "{\"name\": \"projectName\", \"backendPlatform\": \"PYTHON\"}"
+yo ibm-service-enablement
 ```
 
 ## Testing
