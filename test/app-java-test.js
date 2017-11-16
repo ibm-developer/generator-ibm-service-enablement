@@ -115,7 +115,7 @@ class Options {
 		let desc = exists ? 'should ' : 'should not ';
 		let buildTest = common.test(buildType);
 		buildTest.assertDependency(exists, 'provided', 'javax.json', 'javax.json-api', '1.0');
-		buildTest.assertDependency(exists, 'provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+		buildTest.assertDependency(exists, 'provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.18');
 		buildTest.assertDependency(exists, 'provided', 'javax.enterprise', 'cdi-api', '1.2');
 		assertLiberty.assertFeature(exists, 'jsonp-1.0');
 		assertLiberty.assertFeature(exists, 'jndi-1.0');
