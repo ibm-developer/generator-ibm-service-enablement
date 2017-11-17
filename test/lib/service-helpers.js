@@ -64,11 +64,12 @@ function serviceMongodb(optionsBluemix) {
 		location: 'service-mongodb',
 		bluemixName: 'mongodb',
 		localDevConfig: {
-			mongodb_uri: optionsBluemix.mongodb.uri
+			mongodb_uri: optionsBluemix.mongodb.uri,
+			mongodb_ca: optionsBluemix.mongodb.ca_certificate_base64
 		},
 		instrumentation: {
 			java_liberty: [],
-			java_spring: []
+			java_spring: ["src/main/java/application/mongo/MongoClientConfig.java"]
 		}
 	};
 }
