@@ -126,7 +126,8 @@ describe('swift-kitura', function() {
 				[optionsBluemix.push.serviceInfo.name]: {
 					app_guid: optionsBluemix.push.appGuid,
 					app_secret: optionsBluemix.push.appSecret,
-					client_secret: optionsBluemix.push.clientSecret
+					client_secret: optionsBluemix.push.clientSecret,
+					url: optionsBluemix.push.url
 				}
 			}, dependencies, modules, codeForServices);
 		});
