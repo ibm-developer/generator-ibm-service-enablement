@@ -69,7 +69,7 @@ function serviceMongodb(optionsBluemix) {
 		},
 		instrumentation: {
 			java_liberty: [],
-			java_spring: ["src/main/java/application/mongo/MongoClientConfig.java"]
+			java_spring: ["src/main/java/application/mongodb/MongoClientConfig.java"]
 		}
 	};
 }
