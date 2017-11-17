@@ -22,6 +22,7 @@ const handlebars = require('handlebars');
 const PATH_METAINF = "src/main/resources/META-INF/";
 
 const Utils = require('../lib/Utils');
+const javaUtils = require('../lib/javautils');
 
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
 const PATH_LOCALDEV_FILE = "./src/main/resources/localdev-config.json";
@@ -78,7 +79,7 @@ module.exports = class extends Generator {
 		}
 
 		this.context.metainf.forEach((metainf) => {
-			let location = metainf.absolutePath;
+			let location = this.templatePath(this.context.language + '/' + PATH_METAINF + metainf.filepath);
 			let contents = fs.readFileSync(location, 'utf8');
 			let compiledTemplate = handlebars.compile(contents);
 			let output = compiledTemplate({data: metainf.data});
@@ -104,29 +105,7 @@ module.exports = class extends Generator {
 	_processDependencyMetainf(dependenciesString) {
 		let dependenciesObject = JSON.parse(dependenciesString);
 		if(dependenciesObject.metainf) {
-			let existingFiles = [];
-			let existingData = {};
-			this.context.metainf.forEach((metainf) => {
-				existingFiles.push(metainf.filepath);
-				existingData[metainf.filepath] = metainf.data;
-			})	
-			dependenciesObject.metainf.forEach((metainf) => {
-				let finalPath = metainf.filepath.endsWith(TEMPLATE_EXT) ? metainf.filepath.slice(0, metainf.filepath.length - (TEMPLATE_EXT).length) : metainf.filepath;
-				if(existingFiles.includes(metainf.filepath)) {
-					metainf.data.forEach((data) => {
-						if(existingData[metainf.filepath].includes(data)) {
-							return; //The data is already being written in this file
-						} else {
-							existingData[metainf.filepath].push(data);
-						}
-					})
-				} else {
-					let path = this.context.language + "/" + PATH_METAINF + metainf.filepath;
-					metainf.absolutePath = this.templatePath(path); 
-					this.context.metainf.push(metainf);
-				}
-				
-			})
+			javaUtils.mergeFileObject(this.context.metainf, dependenciesObject.metainf);
 		}
 	}
 
