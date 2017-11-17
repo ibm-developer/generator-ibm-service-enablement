@@ -355,6 +355,7 @@
 		"appGuid": "push-app-guid",
 		"appSecret": "push-app-secret",
 		"clientSecret": "push-client-secret",
+		"url": "https://imfpush.myregion.bluemix.net/",
 		"serviceInfo": {
 			"label": "push-label",
 			"name": "push-name",
