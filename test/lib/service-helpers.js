@@ -34,9 +34,7 @@ function serviceCloudant(optionsBluemix) {
 		},
 		instrumentation: {
 			java_liberty: [{name : "src/main/java/application/cloudant/Cloudant.java"}, 
-				{name : "src/main/java/application/cloudant/CloudantCredentials.java"}, 
-				{name : "src/main/java/application/cloudant/CloudantCredentialsConverter.java"}, 
-				{name : "src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter", contents : "application.cloudant.CloudantCredentialsConverter"}],
+				{name : "src/main/java/application/cloudant/CloudantCredentials.java"}],
 			java_spring: [{name : "src/main/java/application/cloudant/CloudantClientConfig.java"}]
 		}
 	};
@@ -57,9 +55,7 @@ function serviceObjectStorage(optionsBluemix) {
 		},
 		instrumentation: {
 			java_liberty: [{name : "src/main/java/application/objectstorage/ObjectStorage.java"}, 
-				{name : "src/main/java/application/objectstorage/ObjectStorageCredentials.java"}, 
-				{name : "src/main/java/application/objectstorage/ObjectStorageCredentialsConverter.java"},
-				{name : "src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter", contents : 'application.objectstorage.ObjectStorageCredentialsConverter'}],
+				{name : "src/main/java/application/objectstorage/ObjectStorageCredentials.java"}], 
 			java_spring: [{name : "src/main/java/application/objectstorage/ObjectStorageConfig.java"}]
 		}
 	};

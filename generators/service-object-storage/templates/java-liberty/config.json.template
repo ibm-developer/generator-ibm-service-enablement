@@ -13,8 +13,5 @@
   ],
   "frameworkDependencies" : [
     {"feature" : "mpConfig-1.1"}
-  ],
-   "metainf" : [
-    {"filepath" : "services/org.eclipse.microprofile.config.spi.Converter.template", "data" : ["application.objectstorage.ObjectStorageCredentialsConverter"]}
   ]
 }

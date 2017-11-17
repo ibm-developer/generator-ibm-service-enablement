@@ -100,7 +100,7 @@ module.exports = class extends Generator {
 			let template = Handlebars.compile(dependenciesString);
 			dependenciesString = template(this.context);
 		}
-		this.context.addDependencies(dependenciesString, this);
+		this.context.addDependencies(dependenciesString);
 	}
 
 	_addMappings() {

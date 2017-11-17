@@ -9,5 +9,8 @@
     {"feature" : "jsonp-1.0"},
     {"feature" : "jndi-1.0"},
     {"feature" : "cdi-1.2"}
+  ],
+  "metainf" : [
+    {"filepath" : "services/org.eclipse.microprofile.config.spi.ConfigSource.template", "data" : ["application.ibmcloud.MappingFileConfigSource"]}
   ]
 }

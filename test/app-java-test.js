@@ -21,7 +21,6 @@
 'use strict';
 const path = require('path');
 const assert = require('assert');
-const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const svcHelpers = require('./lib/service-helpers');
 const common = require('./lib/java-test-helpers');
@@ -121,6 +120,7 @@ class Options {
 	assertlibertysrc(exists, buildType) {
 		let check = exists ? assert.file : assert.noFile;
 		let desc = exists ? 'should ' : 'should not ';
+		let checkContent = exists ? assert.fileContent : assert.noFile;
 		let buildTest = common.test(buildType);
 		buildTest.assertDependency(exists, 'provided', 'javax.json', 'javax.json-api', '1.0');
 		buildTest.assertDependency(exists, 'provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
@@ -128,24 +128,21 @@ class Options {
 		assertLiberty.assertFeature(exists, 'jsonp-1.0');
 		assertLiberty.assertFeature(exists, 'jndi-1.0');
 		assertLiberty.assertFeature(exists, 'cdi-1.2');
-		it(desc + 'generate BluemixCredentials.java file', function () {
-			check('src/main/java/application/bluemix/BluemixCredentials.java');
+		it(desc + 'generate CloudServices.java file', function () {
+			check('src/main/java/application/ibmcloud/CloudServices.java');
 		});
-		it(desc + 'generate InvalidCredentialsException.java file', function () {
-			check('src/main/java/application/bluemix/InvalidCredentialsException.java');
+		it(desc + 'generate CloudServicesException.java file', function () {
+			check('src/main/java/application/ibmcloud/CloudServices.java');
 		});
-		it(desc + 'generate ServiceName.java file', function () {
-			check('src/main/java/application/bluemix/ServiceName.java');
+		it(desc + 'generate MappingFileConfigSource.java file', function () {
+			check('src/main/java/application/ibmcloud/CloudServices.java');
 		});
-		if (exists) {
-			it('should generate VCAPServices.java file', function () {
-				assert.fileContent('src/main/java/application/bluemix/VCAPServices.java', 'import javax.json.Json;');
-			});
-		}
 		it('should not generate ' + LOCALDEV_CONFIG_JSON, function () {
 			assert.noFile(LOCALDEV_CONFIG_JSON);
 		});
-		
+		it(desc + 'generate a org.eclipse.microprofile.config.spi.ConfigSource file with contents application.ibmcloud.MappingFileConfigSource', function () {
+			checkContent('src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource', 'application.ibmcloud.MappingFileConfigSource');
+		});	
 	}
 
 	assertspringenv() {
@@ -181,7 +178,6 @@ class Options {
 	}
 }
 
-const FRAMEWORKS = ['liberty', 'spring'];
 const BUILD_TYPES = ['maven', 'gradle'];
 let spring_services = getServices('java-spring');
 let liberty_services = getServices('java-liberty');

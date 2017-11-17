@@ -17,7 +17,8 @@
 		"testpython": "mocha test/app-python-flask-test.js",
 		"testswift": "mocha test/app-swift-kitura-test.js",
 		"coveralls": "nyc report --reporter=text-lcov | coveralls",
-		"integration": "mocha test/integration-*"
+		"integration": "mocha test/integration-*",
+		"test-lib":"mocha test/app-lib-test.js"
 	},
 	"repository": {
 		"type": "git",

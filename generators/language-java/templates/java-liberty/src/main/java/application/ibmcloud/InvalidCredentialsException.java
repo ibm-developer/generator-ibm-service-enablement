@@ -1,4 +1,4 @@
-package application.bluemix;
+package application.ibmcloud;
 
 public class InvalidCredentialsException extends Exception {
 

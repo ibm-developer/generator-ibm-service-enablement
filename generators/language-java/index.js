@@ -78,10 +78,13 @@ module.exports = class extends Generator {
 		}
 
 		this.context.metainf.forEach((metainf) => {
-			var location = metainf.absolutePath;
+			let location = metainf.absolutePath;
 			let contents = fs.readFileSync(location, 'utf8');
-			var compiledTemplate = handlebars.compile(contents);
-			var output = compiledTemplate({data: metainf.data});
+			let compiledTemplate = handlebars.compile(contents);
+			let output = compiledTemplate({data: metainf.data});
+			if (metainf.filepath.endsWith(TEMPLATE_EXT)) {
+				metainf.filepath = metainf.filepath.slice(0, metainf.filepath.length - (TEMPLATE_EXT).length);
+			}
 			let destPath = this.destinationPath(PATH_METAINF + metainf.filepath);
 			if(this.fs.exists(destPath)) {
 				this.fs.append(destPath, output);
@@ -92,21 +95,39 @@ module.exports = class extends Generator {
 	}
 
 
-	_addDependencies(serviceDependenciesString, generator) {
+	_addDependencies(serviceDependenciesString) {
 		logger.debug("Adding dependencies", serviceDependenciesString); 
-		let serviceDependenciesObject = JSON.parse(serviceDependenciesString);
-		if(serviceDependenciesObject.metainf) {	
-			serviceDependenciesObject.metainf.forEach((metainf) => {
-				let path = this.context.language + "/" + PATH_METAINF + metainf.filepath;
-				metainf.absolutePath = this.templatePath(path); 
-				if (metainf.filepath.endsWith('.template')) {
-					metainf.filepath = metainf.filepath.slice(0, metainf.filepath.length - ('.template').length);
-				}
-			})
-			this.context.metainf = this.context.metainf.concat(serviceDependenciesObject.metainf);
-		 }
-
+		this._processDependencyMetainf(serviceDependenciesString);
 		this.context._addDependencies(serviceDependenciesString);
+	}
+
+	_processDependencyMetainf(dependenciesString) {
+		let dependenciesObject = JSON.parse(dependenciesString);
+		if(dependenciesObject.metainf) {
+			let existingFiles = [];
+			let existingData = {};
+			this.context.metainf.forEach((metainf) => {
+				existingFiles.push(metainf.filepath);
+				existingData[metainf.filepath] = metainf.data;
+			})	
+			dependenciesObject.metainf.forEach((metainf) => {
+				let finalPath = metainf.filepath.endsWith(TEMPLATE_EXT) ? metainf.filepath.slice(0, metainf.filepath.length - (TEMPLATE_EXT).length) : metainf.filepath;
+				if(existingFiles.includes(metainf.filepath)) {
+					metainf.data.forEach((data) => {
+						if(existingData[metainf.filepath].includes(data)) {
+							return; //The data is already being written in this file
+						} else {
+							existingData[metainf.filepath].push(data);
+						}
+					})
+				} else {
+					let path = this.context.language + "/" + PATH_METAINF + metainf.filepath;
+					metainf.absolutePath = this.templatePath(path); 
+					this.context.metainf.push(metainf);
+				}
+				
+			})
+		}
 	}
 
 	_addMappings(serviceMappingsJSON) {
@@ -136,14 +157,15 @@ module.exports = class extends Generator {
 		let dependenciesString = this.fs.read(this.templatePath() + "/" + this.context.language + "/" + this.context.dependenciesFile);
 		let template = handlebars.compile(dependenciesString);
 		dependenciesString = template(this.context);
-		this.context.addDependencies(dependenciesString);
+		this._processDependencyMetainf(dependenciesString);
+		this.context._addDependencies(dependenciesString);
 	}
 
 	_addReadMe(options) {
 		this.fs.copy(
 			options.sourceFilePath,
 			this.destinationPath() + "/docs/services/" + options.targetFileName
-		);
+		);	
 	}
 
 	_writeFiles(templatePath, data) {
