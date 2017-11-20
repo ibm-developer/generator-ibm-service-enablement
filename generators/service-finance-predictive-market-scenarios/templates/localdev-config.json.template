@@ -1,4 +1,4 @@
 {
-  "finance_predictive_market_scenarios_uri": "{{uri}}",
-  "finance_predictive_market_scenarios_accesstoken": "{{accessToken}}"
+  "finance_predictive_market_scenarios_uri": "{{{uri}}}",
+  "finance_predictive_market_scenarios_accesstoken": "{{{accessToken}}}"
 }

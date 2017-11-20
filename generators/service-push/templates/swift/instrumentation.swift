@@ -7,7 +7,7 @@ func initializeServicePush(cloudEnv: CloudEnv) throws -> PushNotifications {
         throw InitializationError("Could not load credentials for Push Notifications.")
     }
     let pushNotifications = PushNotifications(
-        bluemixRegion: PushNotifications.Region.{{context.pushNotifications.region}},
+        bluemixRegion: pushNotificationsCredentials.region,
         bluemixAppGuid: pushNotificationsCredentials.appGuid,
         bluemixAppSecret: pushNotificationsCredentials.appSecret
     )

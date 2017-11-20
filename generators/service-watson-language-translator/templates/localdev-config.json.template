@@ -1,5 +1,5 @@
 {
-  "watson_language_translator_url": "{{url}}",
-  "watson_language_translator_username": "{{username}}",
-  "watson_language_translator_password": "{{password}}"
+  "watson_language_translator_url": "{{{url}}}",
+  "watson_language_translator_username": "{{{username}}}",
+  "watson_language_translator_password": "{{{password}}}"
 }
