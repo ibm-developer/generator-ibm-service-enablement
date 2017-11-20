@@ -1,8 +1,7 @@
 package application.objectstorage;
 
-import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -10,23 +9,23 @@ import org.openstack4j.api.OSClient.OSClientV3;
 import org.openstack4j.openstack.OSFactory;
 
 import application.ibmcloud.InvalidCredentialsException;
-import application.ibmcloud.CloudServices;
 
+@RequestScoped
 public class ObjectStorage {
 
-    @Inject @ConfigProperty(name="auth_url")
+    @Inject @ConfigProperty(name="object_storage_auth_url")
     protected String resourceAuthUrl;
 
-    @Inject @ConfigProperty(name="userId")
+    @Inject @ConfigProperty(name="object_storage_user_id")
     protected String resourceUserId;
 
-    @Inject @ConfigProperty(name="password")
+    @Inject @ConfigProperty(name="object_storage_password")
     protected String resourcePassword;
 
-    @Inject @ConfigProperty(name="domainName")
+    @Inject @ConfigProperty(name="object_storage_domainName")
     protected String resourceDomainName;
 
-    @Inject @ConfigProperty(name="project")
+    @Inject @ConfigProperty(name="object_storage_project")
     protected String resourceProject;
 
     private static final String VERSION = "/v3";

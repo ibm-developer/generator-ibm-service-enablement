@@ -1,8 +1,7 @@
 package application.cloudant;
 
-import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -10,8 +9,8 @@ import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
 
 import application.ibmcloud.InvalidCredentialsException;
-import application.ibmcloud.CloudServices;
 
+@RequestScoped
 public class Cloudant {
 
     @Inject @ConfigProperty(name="cloudant_url")
