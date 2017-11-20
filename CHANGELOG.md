@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.3.1...v0.4.0) (2017-11-20)
+
+
+### Bug Fixes
+
+* add push url to bluemix.json and test ([ef613bb](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/ef613bb))
+* correct test location of Mongo config file ([5934a3a](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/5934a3a))
+* retrieve region for PushSDK from CloudEnv ([be5d92d](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/be5d92d))
+* use Mongo CA cert with Spring ([30edda3](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/30edda3))
+
+
+### Features
+
+* add cf create-service to pipeline.yml ([0b61755](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/0b61755))
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.3.0...v0.3.1) (2017-11-16)
 
