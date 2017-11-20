@@ -142,7 +142,7 @@ module.exports = class extends Generator {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
 
-		// add services env to deployment.yaml
-		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()});
+		// add services env to deployment.yaml && cf create-service to pipeline.yaml
+		return [ Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()}) , Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()})];
 	}
 };
