@@ -1,9 +1,4 @@
 {
-  "jndiEntries" : [
-    {"name" : "cloudant/url", "value" : "${env.cloudant_url}"},
-    {"name" : "cloudant/username", "value" : "${env.cloudant_username}"},
-    {"name" : "cloudant/password", "value" : "${env.cloudant_password}"}
-  ],
   "dependencies" : [
     {"groupId" : "com.cloudant", "artifactId" : "cloudant-client", "version" : "2.7.0"},
     {"groupId" : "org.eclipse.microprofile.config", "artifactId" : "microprofile-config-api", "version" : "1.1", "scope" : "provided"}

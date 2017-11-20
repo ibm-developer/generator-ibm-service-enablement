@@ -116,7 +116,7 @@ module.exports = class extends Generator {
 
 	_addLocalDevConfig(devconf) {
 		logger.debug("Adding devconf", devconf);
-		if(this.context.bluemix && (this.context.bluemix.backendPlatform === 'SPRING')) {
+		if(this.context.bluemix) {
 			let mappingsFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
 			this.fs.extendJSON(mappingsFilePath, devconf);
 		} else {

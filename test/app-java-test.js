@@ -74,11 +74,9 @@ class Options {
 				value: service.localDevConfig[prop]
 			}
 			expected.envEntries.push(entry);
-			if(framework === 'spring') {
-				it('should generate a local dev entry for ' + entry.name, function() {
-					assert.fileContent(LOCALDEV_CONFIG_JSON, '"' + entry.name + '"' + ': ' + '"' + entry.value + '"');
-				});
-			}
+			it('should generate a local dev entry for ' + entry.name, function() {
+				assert.fileContent(LOCALDEV_CONFIG_JSON, '"' + entry.name + '"' + ': ' + '"' + entry.value + '"');
+			});
 		});
 	}
 
@@ -105,16 +103,7 @@ class Options {
 	}
 
 	assertlibertyenv(expected) {
-		if (expected.jndiEntries) {
-			expected.jndiEntries.forEach(entry => {
-				assertLiberty.assertJNDI(entry.name, entry.value);
-			});
-		}
-		if (expected.envEntries) {
-			expected.envEntries.forEach(entry => {
-				assertLiberty.assertEnv(entry.name, entry.value);
-			});
-		}
+		//currently no specific env var tests
 	}
 
 	assertlibertysrc(exists, buildType) {
@@ -137,8 +126,8 @@ class Options {
 		it(desc + 'generate MappingFileConfigSource.java file', function () {
 			check('src/main/java/application/ibmcloud/CloudServices.java');
 		});
-		it('should not generate ' + LOCALDEV_CONFIG_JSON, function () {
-			assert.noFile(LOCALDEV_CONFIG_JSON);
+		it('should generate ' + LOCALDEV_CONFIG_JSON, function () {
+			assert.file(LOCALDEV_CONFIG_JSON);
 		});
 		it(desc + 'generate a org.eclipse.microprofile.config.spi.ConfigSource file with contents application.ibmcloud.MappingFileConfigSource', function () {
 			checkContent('src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource', 'application.ibmcloud.MappingFileConfigSource');

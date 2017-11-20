@@ -1,11 +1,4 @@
 {
-  "jndiEntries" : [
-    {"name" : "objectstorage/auth_url", "value" : "${env.object_storage_auth_url}"},
-    {"name" : "objectstorage/userId", "value" : "${env.object_storage_user_id}"},
-    {"name" : "objectstorage/password", "value" : "${env.object_storage_password}"},
-    {"name" : "objectstorage/domainName", "value" : "${env.object_storage_domainName}"},
-    {"name" : "objectstorage/project", "value" : "${env.object_storage_project}"}
-  ],
   "dependencies" : [
     {"groupId" : "org.pacesys", "artifactId" : "openstack4j-core", "version" : "3.0.3"},
     {"groupId" : "org.pacesys.openstack4j.connectors", "artifactId" : "openstack4j-httpclient", "version" : "3.0.3"},
