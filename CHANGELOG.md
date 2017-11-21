@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.4.0...v0.5.0) (2017-11-21)
+
+
+### Features
+
+* **java:** convert javaEE templates to microprofile config ([7483c5e](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/7483c5e))
+* **java:** switch liberty to use localdev-config.json file ([091e28c](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/091e28c))
+* **templates:** Update java templates to use microprofile config api ([f029f38](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/f029f38))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.3.1...v0.4.0) (2017-11-20)
 
