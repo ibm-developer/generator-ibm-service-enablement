@@ -102,7 +102,7 @@ class Options {
 		}
 	}
 
-	assertlibertyenv(expected) {
+	assertlibertyenv() {
 		//currently no specific env var tests
 	}
 
@@ -117,14 +117,20 @@ class Options {
 		assertLiberty.assertFeature(exists, 'jsonp-1.0');
 		assertLiberty.assertFeature(exists, 'jndi-1.0');
 		assertLiberty.assertFeature(exists, 'cdi-1.2');
+		it(desc + 'generate CloudCredentials.java file', function () {
+			check('src/main/java/application/ibmcloud/CloudCredentials.java');
+		});
 		it(desc + 'generate CloudServices.java file', function () {
 			check('src/main/java/application/ibmcloud/CloudServices.java');
 		});
 		it(desc + 'generate CloudServicesException.java file', function () {
-			check('src/main/java/application/ibmcloud/CloudServices.java');
+			check('src/main/java/application/ibmcloud/CloudServicesException.java');
+		});
+		it(desc + 'generate InvalidCredentialsException.java file', function () {
+			check('src/main/java/application/ibmcloud/InvalidCredentialsException.java');
 		});
 		it(desc + 'generate MappingFileConfigSource.java file', function () {
-			check('src/main/java/application/ibmcloud/CloudServices.java');
+			check('src/main/java/application/ibmcloud/MappingFileConfigSource.java');
 		});
 		it('should generate ' + LOCALDEV_CONFIG_JSON, function () {
 			assert.file(LOCALDEV_CONFIG_JSON);

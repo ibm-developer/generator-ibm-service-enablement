@@ -16,28 +16,28 @@
 'use strict'
 
 function mergeFileObject(existingObject, objectToMerge){
-    let existingFiles = [];
-    let existingData = {};
-    existingObject.forEach((obj) => {
-        existingFiles.push(obj.filepath);
-        existingData[obj.filepath] = obj.data;
-    })	
-    objectToMerge.forEach((obj) => {
+	let existingFiles = [];
+	let existingData = {};
+	existingObject.forEach((obj) => {
+		existingFiles.push(obj.filepath);
+		existingData[obj.filepath] = obj.data;
+	})
+	objectToMerge.forEach((obj) => {
 		if(existingFiles.includes(obj.filepath)) {
-            obj.data.forEach((data) => {
-                if(existingData[obj.filepath].includes(data)) {
-                    return; //The data is already being written in this file
-                } else {
-                    existingData[obj.filepath].push(data);
-                }
-            })
-        } else {
-            existingObject.push(obj);
-        }
-    })
+			obj.data.forEach((data) => {
+				if(existingData[obj.filepath].includes(data)) {
+					return; //The data is already being written in this file
+				} else {
+					existingData[obj.filepath].push(data);
+				}
+			})
+		} else {
+			existingObject.push(obj);
+		}
+	})
 }
 
 
 module.exports = {
-    mergeFileObject: mergeFileObject
+	mergeFileObject: mergeFileObject
 }

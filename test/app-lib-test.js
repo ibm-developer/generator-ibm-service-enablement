@@ -21,11 +21,27 @@ const assert = require('assert');
 const utils = require('../generators/lib/javautils');
 
 describe('Test mergeFileObject function', function () {
-    it('should merge different file objects successfully', function() {
-        let object1 = [{filepath : 'filepath1', data : ['string1', 'string2']}, {filepath : 'filepath2', data : ['string3', 'string4']}];
-        const newObject = [{filepath : 'filepath3', data : ['string5', 'string6']}];
-        utils.mergeFileObject(object1, newObject);
-        let expected = [{filepath : 'filepath1', data : ['string1', 'string2']}, {filepath : 'filepath2', data : ['string3', 'string4']}, {filepath : 'filepath3', data : ['string5', 'string6']}];
-        assert.equal(JSON.stringify(object1), JSON.stringify(expected));
-    })
+	it('should merge different file objects successfully', function() {
+		let object1 = [{filepath : 'filepath1', data : ['string1', 'string2']}, {filepath : 'filepath2', data : ['string3', 'string4']}];
+		const newObject = [{filepath : 'filepath3', data : ['string5', 'string6']}];
+		utils.mergeFileObject(object1, newObject);
+		let expected = [{filepath : 'filepath1', data : ['string1', 'string2']}, {filepath : 'filepath2', data : ['string3', 'string4']}, {filepath : 'filepath3', data : ['string5', 'string6']}];
+		assert.equal(JSON.stringify(object1), JSON.stringify(expected));
+	})
+	
+	it('should merge same file objects with different data successfully', function() {
+		let object1 = [{filepath : 'filepath1', data : ['string1', 'string2']}, {filepath : 'filepath2', data : ['string3', 'string4']}];
+		const newObject = [{filepath : 'filepath1', data : ['string5', 'string6']}];
+		utils.mergeFileObject(object1, newObject);
+		let expected = [{filepath : 'filepath1', data : ['string1', 'string2', 'string5', 'string6']}, {filepath : 'filepath2', data : ['string3', 'string4']}];
+		assert.equal(JSON.stringify(object1), JSON.stringify(expected));
+	})
+	
+	it('should merge same file objects with same data without repetition', function() {
+		let object1 = [{filepath : 'filepath1', data : ['string1', 'string2']}, {filepath : 'filepath2', data : ['string3', 'string4']}];
+		const newObject = [{filepath : 'filepath1', data : ['string1', 'string6']}];
+		utils.mergeFileObject(object1, newObject);
+		let expected = [{filepath : 'filepath1', data : ['string1', 'string2', 'string6']}, {filepath : 'filepath2', data : ['string3', 'string4']}];
+		assert.equal(JSON.stringify(object1), JSON.stringify(expected));
+	})
 })

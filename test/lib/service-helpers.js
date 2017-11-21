@@ -33,9 +33,9 @@ function serviceCloudant(optionsBluemix) {
 			cloudant_url: optionsBluemix.cloudant[0].url
 		},
 		instrumentation: {
-			java_liberty: [{name : "src/main/java/application/cloudant/Cloudant.java"}, 
+			java_liberty: [{name : "src/main/java/application/cloudant/Cloudant.java", contents : "@ConfigProperty"}, 
 				{name : "src/main/java/application/cloudant/CloudantCredentials.java"}],
-			java_spring: [{name : "src/main/java/application/cloudant/CloudantClientConfig.java"}]
+			java_spring: [{name : "src/main/java/application/cloudant/CloudantClientConfig.java", contents: "@Autowired"}]
 		}
 	};
 }
@@ -54,9 +54,9 @@ function serviceObjectStorage(optionsBluemix) {
 			object_storage_domainName: optionsBluemix.objectStorage[0].domainName
 		},
 		instrumentation: {
-			java_liberty: [{name : "src/main/java/application/objectstorage/ObjectStorage.java"}, 
+			java_liberty: [{name : "src/main/java/application/objectstorage/ObjectStorage.java", contents : "@ConfigProperty"}, 
 				{name : "src/main/java/application/objectstorage/ObjectStorageCredentials.java"}], 
-			java_spring: [{name : "src/main/java/application/objectstorage/ObjectStorageConfig.java"}]
+			java_spring: [{name : "src/main/java/application/objectstorage/ObjectStorageConfig.java", contents : "@Autowired"}]
 		}
 	};
 }
@@ -71,7 +71,7 @@ function serviceMongodb(optionsBluemix) {
 		},
 		instrumentation: {
 			java_liberty: [],
-			java_spring: ["src/main/java/application/mongodb/MongoClientConfig.java"]
+			java_spring: [{name : "src/main/java/application/mongodb/MongoClientConfig.java"}]
 		}
 	};
 }
