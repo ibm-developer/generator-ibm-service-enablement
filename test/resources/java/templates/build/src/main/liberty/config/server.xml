@@ -10,7 +10,7 @@
       id="defaultHttpEndpoint" host="*" />
 
   {{#each jndiEntries}}
-    <jndiEntry jndiName="{{name}}" value="{{value}}"/>
+      <jndiEntry jndiName="{{name}}" value="{{value}}"/>
   {{/each}}
 
 </server>

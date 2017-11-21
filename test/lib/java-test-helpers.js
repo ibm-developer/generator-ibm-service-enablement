@@ -136,7 +136,7 @@ function test_liberty() {
 }
 
 test_liberty.prototype.assertJNDI = function (name, value) {
-	it('generates a server.xml JDNI entry for ' + name + " = " + value, function () {
+	it('generates a server.xml JNDI entry for ' + name + " = " + value, function () {
 		assert.fileContent(SERVER_XML, '<jndiEntry jndiName="' + name + '" value="' + value + '"/>');
 	});
 }
