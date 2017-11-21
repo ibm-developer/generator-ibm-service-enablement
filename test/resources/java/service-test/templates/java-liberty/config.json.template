@@ -1,4 +1,10 @@
 {
+  "jndiEntries" : [
+    {"name" : "testjndiname", "value" : "testjndivalue"}
+  ],
+  "envEntries" : [
+    {"name" : "testenvname", "value" : "testenvvalue"}
+  ],
   "frameworkDependencies" : [
     {"feature" : "test-1.0"}
   ]

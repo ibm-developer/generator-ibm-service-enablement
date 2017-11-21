@@ -18,7 +18,7 @@
     "testswift": "mocha test/app-swift-kitura-test.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "integration": "mocha test/integration-*",
-    "test-lib": "mocha test/app-lib-test.js",
+    "testlib": "mocha test/app-lib-test.js",
     "version": "standard-version"
   },
   "repository": {

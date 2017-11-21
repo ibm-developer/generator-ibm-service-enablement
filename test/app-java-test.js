@@ -28,6 +28,7 @@ const Handlebars = require('handlebars');
 const fs = require('fs');
 
 const assertLiberty = common.test('liberty');
+const assertSpring= common.test('spring');
 
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
@@ -168,7 +169,6 @@ class Options {
 		const filePath = path.join(__dirname, "resources", "java", "index.js");
 		return helpers.run(filePath)
 			.withOptions(this.values)
-			.inDir(path.join(__dirname, './tmp'))
 			.toPromise();
 	}
 }
@@ -233,5 +233,8 @@ function testTestService() {
 		options.assertConfig('liberty', 'maven', service, configPath);
 		options.assertLocalDevConfig('liberty', 'maven', service);
 		options.assertInstrumentation('liberty', 'maven', service);
+		assertSpring.assertEnv('testenvname', 'testenvvalue');
+		assertLiberty.assertEnv('testenvname', 'testenvvalue');
+		assertLiberty.assertJNDI('testjndiname', 'testjndivalue');
 	});
 }

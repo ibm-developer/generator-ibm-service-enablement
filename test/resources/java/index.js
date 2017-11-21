@@ -55,8 +55,8 @@ module.exports = class extends Generator {
   }
 
   _addLocalDevConfig(devconf) {
-    let mappingsFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
-    this.fs.extendJSON(mappingsFilePath, devconf);
+    let localDevFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
+    this.fs.extendJSON(localDevFilePath, devconf);
   }
 
   _addMappings(serviceMappingsJSON) {
