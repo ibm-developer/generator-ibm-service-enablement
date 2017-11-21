@@ -242,18 +242,38 @@ module.exports = JSON.stringify({
 		}
 	},
 	"mongodb": {
-		"uri": "mongodb://admin:password@bluemix.net,bluemix.net:20056/compose?ssl=true&authSource=admin"
+		"uri": "mongodb://admin:password@bluemix.net,bluemix.net:20056/compose?ssl=true&authSource=admin",
+		"serviceInfo": {
+			"label": "mongodb-name",
+			"name": "mongodb-name",
+			"plan": "mongodb-plan"
+		}
 	},
 	"postgresql": {
-		"uri": "postgres://admin:password@bluemix.net:20058/compose"
+		"uri": "postgres://admin:password@bluemix.net:20058/compose",
+		"serviceInfo": {
+			"label": "postgesql-name",
+			"name": "postgesql-name",
+			"plan": "postgesql-plan"
+		}
 	},
 	"alertNotification": {
 		"url": "https://bluemix.net",
 		"name": "alertnotification",
-		"password": "alertnotification-password"
+		"password": "alertnotification-password",
+		"serviceInfo": {
+			"label": "alertnotification-name",
+			"name": "alertnotification-name",
+			"plan": "alertnotification-plan"
+		}
 	},
 	"redis": {
-		"uri": "redis://admin:password@bluemix.com:20051"
+		"uri": "redis://admin:password@bluemix.com:20051",
+		"serviceInfo": {
+			"label": "redis-name",
+			"name": "redis-name",
+			"plan": "redis-plan"
+		}
 	}
 
 });

@@ -46,6 +46,9 @@ module.exports = class extends Generator {
 		context[OPTION_STARTER] = this.options[OPTION_STARTER];
 		context.loggerLevel = logger.level;
 		context.language = context.bluemix.backendPlatform.toLowerCase();
+		if(context.language === 'django'){
+			context.language = 'python';
+		}
 		context.sanitizedAppName = this._sanitizeAppName(context.bluemix.name);
 
 		let languageGeneratorPath;

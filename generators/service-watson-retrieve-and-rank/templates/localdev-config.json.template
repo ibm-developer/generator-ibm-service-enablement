@@ -1,5 +1,5 @@
 {
-  "watson_retrieve_and_rank_url": "{{url}}",
-  "watson_retrieve_and_rank_username": "{{username}}",
-  "watson_retrieve_and_rank_password": "{{password}}"
+  "watson_retrieve_and_rank_url": "{{{url}}}",
+  "watson_retrieve_and_rank_username": "{{{username}}}",
+  "watson_retrieve_and_rank_password": "{{{password}}}"
 }

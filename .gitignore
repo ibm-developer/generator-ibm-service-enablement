@@ -6,3 +6,4 @@ test/resources/bluemix.int.json
 .settings
 .project
 .vscode
+*.DS_Store

@@ -1,3 +1,4 @@
+
 /*
  * Copyright IBM Corporation 2017
  *
@@ -50,7 +51,12 @@ module.exports = class extends Generator {
 		this._addLocalDevConfig();
 		this._addReadMe();
 		this._addInstrumentation();
-		this._addServicesToKubeDeploy();
+
+		let serviceInfo = this._getServiceInfo();
+		if(serviceInfo !== undefined ){
+			this._addServicesToKubeDeploy(serviceInfo);
+			this._addServicesToPipeline(serviceInfo);
+		}
 	}
 
 	writing() {
@@ -63,9 +69,7 @@ module.exports = class extends Generator {
 		return name;
 	}
 
-	_addServicesToKubeDeploy() {
-		this.logger.info(`adding Deployment service env info for ${this.serviceName}`);
-
+	_getServiceInfo(){
 		let serviceInfo = {};
 		if (this.context.bluemix[this.scaffolderName]) {
 			let service = this.context.bluemix[this.scaffolderName];
@@ -75,6 +79,17 @@ module.exports = class extends Generator {
 				serviceInfo = service.serviceInfo;
 			}
 		}
+		return serviceInfo;
+	}
+	_addServicesToPipeline(serviceInfo){
+		if(!this.context.servicesInfo){
+			this.context.servicesInfo = [];
+		}
+		this.context.servicesInfo.push(serviceInfo);
+	}
+
+	_addServicesToKubeDeploy(serviceInfo) {
+		this.logger.info(`adding Deployment service env info for ${this.serviceName}`);
 
 		let serviceEnv = {
 			name: this._sanitizeServiceName(this.serviceName),
@@ -95,12 +110,18 @@ module.exports = class extends Generator {
 
 	_addDependencies() {
 		this.logger.info("Adding dependencies");
-		let dependenciesString = this.fs.read(this.languageTemplatePath + "/" + this.context.dependenciesFile);
-		if (this.context.dependenciesFile.endsWith('.template')) {			//pass through handlebars if this is a .template file
-			let template = Handlebars.compile(dependenciesString);
-			dependenciesString = template(this.context);
+		if (Array.isArray(this.context.dependenciesFile)){
+			for (let i = 0; i < this.context.dependenciesFile.length; i++) {
+				this.context.addDependencies(this.fs.read(this.languageTemplatePath + "/" + this.context.dependenciesFile[i]));
+			}
+		}else{
+			let dependenciesString = this.fs.read(this.languageTemplatePath + "/" + this.context.dependenciesFile);
+			if (this.context.dependenciesFile.endsWith('.template')) {			//pass through handlebars if this is a .template file
+				let template = Handlebars.compile(dependenciesString);
+				dependenciesString = template(this.context);
+			}
+			this.context.addDependencies(dependenciesString);
 		}
-		this.context.addDependencies(dependenciesString);
 	}
 
 	_addMappings() {

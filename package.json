@@ -1,50 +1,52 @@
 {
-	"name": "generator-ibm-service-enablement",
-	"version": "0.0.105",
-	"description": "This generator adds Service enablement to applications",
-	"main": "generators/app/index.js",
-	"files": [
-		"generators"
-	],
-	"keywords": [
-		"yeoman-generator"
-	],
-	"scripts": {
-		"lint": "eslint .",
-		"test": "npm run lint && nyc mocha test/app-*",
-		"testjava": "mocha test/app-java-test.js",
-		"testnode": "mocha test/app-node-express-test.js",
-		"testpython": "mocha test/app-python-flask-test.js",
-		"testswift": "mocha test/app-swift-kitura-test.js",
-		"coveralls": "nyc report --reporter=text-lcov | coveralls",
-		"integration": "mocha test/integration-*",
-		"test-lib": "mocha test/app-lib-test.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/ibm-developer/generator-ibm-service-enablement.git"
-	},
-	"author": "IBM",
-	"license": "Apache-2.0",
-	"dependencies": {
-		"handlebars": "^4.0.10",
-		"log4js": "^1.1.1",
-		"yeoman-generator": "^1.1.1",
-		"lodash": "^4.17.4"
-	},
-	"devDependencies": {
-		"axios": "^0.16.2",
-		"chai": "^4.0.2",
-		"cors": "^2.8.4",
-		"coveralls": "^2.13.1",
-		"eslint": "^4.2.0",
-		"eslint-plugin-ejs": "0.0.2",
-		"fs-extra": "^4.0.1",
-		"http-proxy": "^1.16.2",
-		"mocha": "^3.4.2",
-		"nyc": "^11.0.2",
-		"request-promise": "^4.2.1",
-		"yeoman-assert": "^3.0.0",
-		"yeoman-test": "^1.7.0"
-	}
+  "name": "generator-ibm-service-enablement",
+  "version": "0.4.0",
+  "description": "This generator adds Service enablement to applications",
+  "main": "generators/app/index.js",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run lint && nyc mocha test/app-*",
+    "testjava": "mocha test/app-java-test.js",
+    "testnode": "mocha test/app-node-express-test.js",
+    "testpython": "mocha test/app-python-flask-test.js",
+    "testswift": "mocha test/app-swift-kitura-test.js",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "integration": "mocha test/integration-*",
+    "test-lib": "mocha test/app-lib-test.js",
+    "version": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ibm-developer/generator-ibm-service-enablement.git"
+  },
+  "author": "IBM",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "handlebars": "^4.0.10",
+    "log4js": "^1.1.1",
+    "yeoman-generator": "^1.1.1",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "axios": "^0.16.2",
+    "chai": "^4.0.2",
+    "cors": "^2.8.4",
+    "coveralls": "^2.13.1",
+    "eslint": "^4.2.0",
+    "eslint-plugin-ejs": "0.0.2",
+    "fs-extra": "^4.0.1",
+    "http-proxy": "^1.16.2",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.2",
+    "request-promise": "^4.2.1",
+    "standard-version": "^4.2.0",
+    "yeoman-assert": "^3.0.0",
+    "yeoman-test": "^1.7.0"
+  }
 }
