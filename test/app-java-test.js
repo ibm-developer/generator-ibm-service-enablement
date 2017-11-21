@@ -21,7 +21,6 @@
 'use strict';
 const path = require('path');
 const assert = require('assert');
-// const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const svcHelpers = require('./lib/service-helpers');
 const common = require('./lib/java-test-helpers');
@@ -29,6 +28,7 @@ const Handlebars = require('handlebars');
 const fs = require('fs');
 
 const assertLiberty = common.test('liberty');
+const assertSpring= common.test('spring');
 
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
@@ -75,21 +75,27 @@ class Options {
 				value: service.localDevConfig[prop]
 			}
 			expected.envEntries.push(entry);
-			if(framework === 'spring') {
-				it('should generate a local dev entry for ' + entry.name, function() {
-					assert.fileContent(LOCALDEV_CONFIG_JSON, '"' + entry.name + '"' + ': ' + '"' + entry.value + '"');
-				});
-			}
+			it('should generate a local dev entry for ' + entry.name, function() {
+				assert.fileContent(LOCALDEV_CONFIG_JSON, '"' + entry.name + '"' + ': ' + '"' + entry.value + '"');
+			});
 		});
 	}
 
 	assertInstrumentation(framework, buildType, service) {
 		if (service.instrumentation) {
+			it('should not generate a config.json.template file', function () {
+				assert.noFile('config.json.template');
+			});
 			let files = service.instrumentation['java_' + framework];
 			files.forEach(file => {
-				it('should generate file ' + file + ' for service ' + service.location, function () {
-					assert.file(file);
+				it('should generate file ' + file.name + ' for service ' + service.location, function () {
+					assert.file(file.name);
 				});
+				if(file.contents) {
+					it('should generate file ' + file.name + ' for service ' + service.location + ' with contents ' + file.contents, function () {
+						assert.fileContent(file.name, file.contents);
+					});
+				}
 			})
 			this['assert' + framework + 'src'](true, buildType);
 		} else {
@@ -97,22 +103,14 @@ class Options {
 		}
 	}
 
-	assertlibertyenv(expected) {
-		if (expected.jndiEntries) {
-			expected.jndiEntries.forEach(entry => {
-				assertLiberty.assertJNDI(entry.name, entry.value);
-			});
-		}
-		if (expected.envEntries) {
-			expected.envEntries.forEach(entry => {
-				assertLiberty.assertEnv(entry.name, entry.value);
-			});
-		}
+	assertlibertyenv() {
+		//currently no specific env var tests
 	}
 
 	assertlibertysrc(exists, buildType) {
 		let check = exists ? assert.file : assert.noFile;
 		let desc = exists ? 'should ' : 'should not ';
+		let checkContent = exists ? assert.fileContent : assert.noFile;
 		let buildTest = common.test(buildType);
 		buildTest.assertDependency(exists, 'provided', 'javax.json', 'javax.json-api', '1.0');
 		buildTest.assertDependency(exists, 'provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.18');
@@ -120,23 +118,27 @@ class Options {
 		assertLiberty.assertFeature(exists, 'jsonp-1.0');
 		assertLiberty.assertFeature(exists, 'jndi-1.0');
 		assertLiberty.assertFeature(exists, 'cdi-1.2');
-		it(desc + 'generate BluemixCredentials.java file', function () {
-			check('src/main/java/application/bluemix/BluemixCredentials.java');
+		it(desc + 'generate CloudCredentials.java file', function () {
+			check('src/main/java/application/ibmcloud/CloudCredentials.java');
+		});
+		it(desc + 'generate CloudServices.java file', function () {
+			check('src/main/java/application/ibmcloud/CloudServices.java');
+		});
+		it(desc + 'generate CloudServicesException.java file', function () {
+			check('src/main/java/application/ibmcloud/CloudServicesException.java');
 		});
 		it(desc + 'generate InvalidCredentialsException.java file', function () {
-			check('src/main/java/application/bluemix/InvalidCredentialsException.java');
+			check('src/main/java/application/ibmcloud/InvalidCredentialsException.java');
 		});
-		it(desc + 'generate ServiceName.java file', function () {
-			check('src/main/java/application/bluemix/ServiceName.java');
+		it(desc + 'generate MappingFileConfigSource.java file', function () {
+			check('src/main/java/application/ibmcloud/MappingFileConfigSource.java');
 		});
-		if (exists) {
-			it('should generate VCAPServices.java file', function () {
-				assert.fileContent('src/main/java/application/bluemix/VCAPServices.java', 'import javax.json.Json;');
-			});
-		}
-		it('should not generate ' + LOCALDEV_CONFIG_JSON, function () {
-			assert.noFile(LOCALDEV_CONFIG_JSON);
+		it('should generate ' + LOCALDEV_CONFIG_JSON, function () {
+			assert.file(LOCALDEV_CONFIG_JSON);
 		});
+		it(desc + 'generate a org.eclipse.microprofile.config.spi.ConfigSource file with contents application.ibmcloud.MappingFileConfigSource', function () {
+			checkContent('src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource', 'application.ibmcloud.MappingFileConfigSource');
+		});	
 	}
 
 	assertspringenv() {
@@ -171,7 +173,6 @@ class Options {
 	}
 }
 
-// const FRAMEWORKS = ['liberty', 'spring'];
 const BUILD_TYPES = ['maven', 'gradle'];
 let spring_services = getServices('java-spring');
 let liberty_services = getServices('java-liberty');
@@ -232,5 +233,8 @@ function testTestService() {
 		options.assertConfig('liberty', 'maven', service, configPath);
 		options.assertLocalDevConfig('liberty', 'maven', service);
 		options.assertInstrumentation('liberty', 'maven', service);
+		assertSpring.assertEnv('testenvname', 'testenvvalue');
+		assertLiberty.assertEnv('testenvname', 'testenvvalue');
+		assertLiberty.assertJNDI('testjndiname', 'testjndivalue');
 	});
 }

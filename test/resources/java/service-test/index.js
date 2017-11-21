@@ -7,8 +7,7 @@ const localDevConfig = ['url'];
 
 module.exports = class extends BaseGenerator {
 	constructor(args, opts) {
-        opts.context = opts.parentContext;
-        console.log('***opts.context._addDependencies : ' + opts.context._addDependencies)
+		opts.context = opts.parentContext;
 		super(args, opts, SERVICE_NAME, SCAFFOLDER_PROJECT_PROPERTY_NAME, localDevConfig);
 	}
 

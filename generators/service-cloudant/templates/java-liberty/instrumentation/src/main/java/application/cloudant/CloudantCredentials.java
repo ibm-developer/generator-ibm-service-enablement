@@ -3,10 +3,10 @@ package application.cloudant;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import application.bluemix.BluemixCredentials;
-import application.bluemix.InvalidCredentialsException;
+import application.ibmcloud.CloudCredentials;
+import application.ibmcloud.InvalidCredentialsException;
 
-public class CloudantCredentials extends BluemixCredentials {
+public class CloudantCredentials extends CloudCredentials {
 
     private String username;
     private String password;

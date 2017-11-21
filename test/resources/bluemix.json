@@ -334,7 +334,6 @@
 	"postgresql": {
 		"uri": "postgres://admin:password@bluemix.net:20058/compose",
     	"ca_certificate_base64": "BASE64-CERT",
-    	"uri": "postgres://admin:password@bluemix.net:20058/compose",
     	"deployment_id": "1234123412346f001800558a",
     	"serviceInfo": {
      		"label": "postgresql-label",

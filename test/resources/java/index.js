@@ -8,6 +8,7 @@ const javaGenerator = require('../../../generators/language-java/index');
 
 const optionsBluemix = Object.assign({}, require('../bluemix.json'));
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
+const PATH_LOCALDEV_FILE = "./src/main/resources/localdev-config.json";
 
 module.exports = class extends Generator {
 	constructor(args, opts) {
@@ -54,25 +55,8 @@ module.exports = class extends Generator {
   }
 
   _addLocalDevConfig(devconf) {
-    var entries = [];
-    if(Array.isArray(devconf)) {
-      devconf.forEach(conf => {
-        Object.getOwnPropertyNames(conf).forEach(prop => {
-          entries.push({
-            name : prop,
-            value : conf[prop]
-          });
-        })
-      });
-    } else {
-      Object.getOwnPropertyNames(devconf).forEach(prop => {
-        entries.push({
-          name : prop,
-          value : devconf[prop]
-        });
-      });
-    }
-    this.conf.envEntries = this.conf.envEntries.concat(entries);
+    let localDevFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
+    this.fs.extendJSON(localDevFilePath, devconf);
   }
 
   _addMappings(serviceMappingsJSON) {

@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
+import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -65,6 +66,14 @@ public class CloudServices {
         }
         LOGGER.finest("getMappings() returned: " + mappings);
         return mappings;
+    }
+
+    public Set<String> getKeys() {
+        if(config == null) {
+            return null;    //config wasn't initialised for some reason, so cannot resolve anything
+        }
+        Set<String> keys = config.keySet();
+        return keys;
     }
     
     /**

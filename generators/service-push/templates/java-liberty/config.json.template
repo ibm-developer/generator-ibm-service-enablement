@@ -1,9 +1,4 @@
 {
-  "jndiEntries" : [
-    {"name" : "push/appGuid", "value" : "${env.push_app_guid}"},
-    {"name" : "push/appSecret", "value" : "${env.push_app_secret}"},
-    {"name" : "push/clientSecret", "value" : "${env.push_client_secret}"}
-  ],
   "dependencies" : [
     {"groupId" : "com.ibm.mobilefirstplatform.serversdk.java", "artifactId" : "push", "version" : "1.0.1"}
   ]

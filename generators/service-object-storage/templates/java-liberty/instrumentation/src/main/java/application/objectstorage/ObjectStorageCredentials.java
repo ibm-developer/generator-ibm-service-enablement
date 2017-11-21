@@ -5,10 +5,10 @@ import java.net.URL;
 
 import org.openstack4j.model.common.Identifier;
 
-import application.bluemix.BluemixCredentials;
-import application.bluemix.InvalidCredentialsException;
+import application.ibmcloud.CloudCredentials;
+import application.ibmcloud.InvalidCredentialsException;
 
-public class ObjectStorageCredentials extends BluemixCredentials {
+public class ObjectStorageCredentials extends CloudCredentials {
 
 	private String userId;
     private String password;
@@ -48,8 +48,8 @@ public class ObjectStorageCredentials extends BluemixCredentials {
         }
         this.userId = sanitiseString(userId);
         this.password = sanitiseString(password);
-        domainIdent = Identifier.byName(sanitiseString(domain));
-        projectIdent = Identifier.byName(sanitiseString(project));
+        this.domainIdent = Identifier.byName(sanitiseString(domain));
+        this.projectIdent = Identifier.byName(sanitiseString(project));
     }
 
 }

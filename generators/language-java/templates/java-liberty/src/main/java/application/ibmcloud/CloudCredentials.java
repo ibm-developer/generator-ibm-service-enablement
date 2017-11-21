@@ -1,6 +1,6 @@
-package application.bluemix;
+package application.ibmcloud;
 
-public abstract class BluemixCredentials {
+public abstract class CloudCredentials {
 
     protected String sanitiseString(String data) throws InvalidCredentialsException {
         if (data == null || data.isEmpty()) {
