@@ -12,6 +12,7 @@ const PATH_LOCALDEV_CONFIG_FILE = "server/localdev-config.json";
 const PATH_REQUIREMENTS_TXT = "./requirements.txt";
 const PATH_PIPFILE_JSON = "/Pipfile.json";
 const PATH_GIT_IGNORE = "./.gitignore";
+const PATH_PIPFILE = 'Pipfile';
 const SERVICES_INIT_FILE = "__init__.py";
 const SOURCES = '[[source]]';
 const DEV_PACKAGES = '[dev-packages]';
@@ -103,7 +104,7 @@ module.exports = class extends Generator {
 
 	_addDependencies(serviceDepdendenciesString){
 		let requirementsTxtPath = this.destinationPath(PATH_REQUIREMENTS_TXT);
-		let pipfileUserPath = this.destinationPath('Pipfile');
+		let pipfileUserPath = this.destinationPath(PATH_PIPFILE);
 		let jsonLanguagePath = this.templatePath() + PATH_PIPFILE_JSON;
 		if ( serviceDepdendenciesString.indexOf('{') > -1 && this.fs.exists(pipfileUserPath)){
 			let userPipfile = this.fs.read( pipfileUserPath);
