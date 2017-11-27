@@ -116,7 +116,7 @@ module.exports = class extends Generator {
 
 			this.fs.write(pipfileUserPath, pipfile);
 		}
-		else if( serviceDepdendenciesString.indexOf('{') === -1 && this.fs.exists(this.destinationPath('Pipfile'))){
+		else if( serviceDepdendenciesString.indexOf('{') === -1 && this.fs.exists(pipfileUserPath)){
 			if (this.fs.exists(requirementsTxtPath)){
 				// don't add if dependency entry already exists
 				let fileContentString = this.fs.read(requirementsTxtPath);
@@ -132,7 +132,7 @@ module.exports = class extends Generator {
 				this.fs.write(requirementsTxtPath, serviceDepdendenciesString);
 			}
 		}
-		else if( serviceDepdendenciesString.indexOf('{') === -1 && !this.fs.exists(this.destinationPath('Pipfile'))){
+		else if( serviceDepdendenciesString.indexOf('{') === -1 && !this.fs.exists(pipfileUserPath)){
 			if ( this.fs.exists(requirementsTxtPath)){
 				// don't add if dependency entry already exists
 				let fileContentString = this.fs.read(requirementsTxtPath);

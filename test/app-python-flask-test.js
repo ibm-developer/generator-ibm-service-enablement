@@ -32,9 +32,6 @@ describe('python-flask', function () {
 					'Flask = \'==0.11.1\'\n' +
 					'gunicorn = \'==19.7.1\'';
 
-				//let pipfileInitFilePath = this.destinationPath(".");
-				//this.fs.writeFile('Pipfile', pipfileInitFilePath, pipfile);
-				//console.log(dir);
 				fs.writeFileSync(dir + '/Pipfile', pipfile);
 				console.log(dir);
 			})
