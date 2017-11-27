@@ -10,7 +10,6 @@ const GENERATE_IMPORT_HERE = "# GENERATE IMPORT HERE";
 const PATH_MAPPINGS_FILE = "./server/config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "server/localdev-config.json";
 const PATH_REQUIREMENTS_TXT = "./requirements.txt";
-const PATH_PIPFILE = "Pipfile.txt";
 const PATH_PIPFILE_JSON = "/Pipfile.json";
 const PATH_GIT_IGNORE = "./.gitignore";
 const SERVICES_INIT_FILE = "__init__.py";
@@ -104,11 +103,12 @@ module.exports = class extends Generator {
 
 	_addDependencies(serviceDepdendenciesString){
 		let requirementsTxtPath = this.destinationPath(PATH_REQUIREMENTS_TXT);
-		let pipfileUserPath = this.destinationPath(PATH_PIPFILE);
+		let pipfileUserPath = this.destinationPath('Pipfile');
 		let jsonLanguagePath = this.templatePath() + PATH_PIPFILE_JSON;
-		if ( serviceDepdendenciesString.indexOf('{') >-1 && this.fs.exists(pipfileUserPath)){
+		if ( serviceDepdendenciesString.indexOf('{') >-1 && this.fs.exists(this.destinationPath('Pipfile'))){
 			let userPipfile = this.fs.read( pipfileUserPath);
 			let pipFileLanguageContent = JSON.parse(this.fs.read(jsonLanguagePath));
+
 			//only adding services to sources content so these calls are unnecessary for now
 			//this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, SOURCES);
 			//this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, DEV_PACKAGES);
@@ -116,7 +116,7 @@ module.exports = class extends Generator {
 
 			this.fs.write(pipfileUserPath, pipfile);
 		}
-		else if( serviceDepdendenciesString.indexOf('{') === -1 && this.fs.exists(pipfileUserPath)){
+		else if( serviceDepdendenciesString.indexOf('{') === -1 && this.fs.exists(this.destinationPath('Pipfile'))){
 			if (this.fs.exists(requirementsTxtPath)){
 				// don't add if dependency entry already exists
 				let fileContentString = this.fs.read(requirementsTxtPath);
@@ -132,7 +132,7 @@ module.exports = class extends Generator {
 				this.fs.write(requirementsTxtPath, serviceDepdendenciesString);
 			}
 		}
-		else if( serviceDepdendenciesString.indexOf('{') === -1 && !this.fs.exists(pipfileUserPath)){
+		else if( serviceDepdendenciesString.indexOf('{') === -1 && !this.fs.exists(this.destinationPath('Pipfile'))){
 			if ( this.fs.exists(requirementsTxtPath)){
 				// don't add if dependency entry already exists
 				let fileContentString = this.fs.read(requirementsTxtPath);
@@ -149,7 +149,6 @@ module.exports = class extends Generator {
 			}
 		}
 		else {
-
 			this.fs.write(pipfileUserPath, this._createPipfile(serviceDepdendenciesString));
 		}
 
@@ -203,7 +202,8 @@ module.exports = class extends Generator {
 				if (userPipfile.indexOf(snippet) === -1) {
 					//add the snippet to the user's pipfile
 					let splitArray = userPipfile.split(`${packageType}\n`);
-					userPipfile = splitArray[0] + `${snippet}` + splitArray[1];
+
+					userPipfile = splitArray[0] + '[packages]\n' + `${snippet}\n` + splitArray[1];
 
 
 				} else {
@@ -216,6 +216,7 @@ module.exports = class extends Generator {
 			for (let i = 0; i < keys.length; i++) {
 
 				let snippet = `${keys[i]} ='${content[keys[i]]}'`;
+
 				if (userPipfile.indexOf(snippet) === -1) {
 					//add the source to the pipfile
 					let splitArray = userPipfile.split(`${packageType}\n`);
@@ -290,7 +291,7 @@ module.exports = class extends Generator {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
 
-		this.fs.move(this.destinationPath() + '/Pipfile.txt', this.destinationPath() + '/Pipfile', {nodir: true});
+		//this.fs.move(this.destinationPath() + '/Pipfile.txt', this.destinationPath() + '/Pipfile', {nodir: true});
 		// add services env to deployment.yaml
 		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()});
 	}

@@ -17,18 +17,38 @@ describe('python-flask', function () {
 		optionsBluemix.backendPlatform = "PYTHON";
 		return helpers
 			.run(path.join(__dirname, GENERATOR_PATH))
-			.inTmpDir()
+			.inTmpDir(function(dir){
+				const pipfile = '[[source]]\n' +
+					'\n' +
+					'url = "https://pypi.python.org/simple"\n' +
+					'verify_ssl = true\n' +
+					'name = "pypi"\n' +
+					'\n' +
+					'\n' +
+					'[dev-packages]\n' +
+					'\n' +
+					'\n' +
+					'[packages]\n' +
+					'Flask = \'==0.11.1\'\n' +
+					'gunicorn = \'==19.7.1\'';
+
+				//let pipfileInitFilePath = this.destinationPath(".");
+				//this.fs.writeFile('Pipfile', pipfileInitFilePath, pipfile);
+				//console.log(dir);
+				fs.writeFileSync(dir + '/Pipfile', pipfile);
+				console.log(dir);
+			})
 			.withOptions({
 				bluemix: JSON.stringify(optionsBluemix)
 			})
-			.then((tmpDir) => {
-				console.info(tmpDir);
-			});
+
 	});
 
 	it('Can run successful generation and create files', () => {
 		yassert.file(REQUIREMENTS_TXT);
 		yassert.file('.gitignore');
+		yassert.file('Pipfile');
+		yassert.fileContent('Pipfile', 'Flask');
 		yassert.file('server');
 		yassert.file('server/config');
 		yassert.file(SERVER_MAPPINGS_JSON);
