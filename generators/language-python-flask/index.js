@@ -105,7 +105,7 @@ module.exports = class extends Generator {
 		let requirementsTxtPath = this.destinationPath(PATH_REQUIREMENTS_TXT);
 		let pipfileUserPath = this.destinationPath('Pipfile');
 		let jsonLanguagePath = this.templatePath() + PATH_PIPFILE_JSON;
-		if ( serviceDepdendenciesString.indexOf('{') >-1 && this.fs.exists(this.destinationPath('Pipfile'))){
+		if ( serviceDepdendenciesString.indexOf('{') > -1 && this.fs.exists(pipfileUserPath)){
 			let userPipfile = this.fs.read( pipfileUserPath);
 			let pipFileLanguageContent = JSON.parse(this.fs.read(jsonLanguagePath));
 
@@ -291,8 +291,9 @@ module.exports = class extends Generator {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
 
-		//this.fs.move(this.destinationPath() + '/Pipfile.txt', this.destinationPath() + '/Pipfile', {nodir: true});
-		// add services env to deployment.yaml
-		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()});
+
+		this.fs.move(this.destinationPath() + '/Pipfile.txt', this.destinationPath() + '/Pipfile', {nodir: true});
+		return [ Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()}) , Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()})];
+
 	}
 };

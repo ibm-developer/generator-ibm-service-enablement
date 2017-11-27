@@ -126,14 +126,10 @@ describe('swift-kitura', function() {
 				[optionsBluemix.push.serviceInfo.name]: {
 					app_guid: optionsBluemix.push.appGuid,
 					app_secret: optionsBluemix.push.appSecret,
-					client_secret: optionsBluemix.push.clientSecret
+					client_secret: optionsBluemix.push.clientSecret,
+					url: optionsBluemix.push.url
 				}
 			}, dependencies, modules, codeForServices);
-
-			yassert.fileContent(
-				'Sources/Application/Services/ServicePush.swift',
-				'bluemixRegion: PushNotifications.Region.US_SOUTH'
-			)
 		});
 
 		it('Can add Alert Notification instrumentation', () => {
@@ -215,7 +211,7 @@ describe('swift-kitura', function() {
 
 				before(() => {
 					optionsBluemix.backendPlatform = "SWIFT";
-					optionsBluemix.server.domain = region
+					optionsBluemix.push.url = "http://imfpush." + region
 					runContext = helpers
 						.run(path.join(__dirname, GENERATOR_PATH))
 						.withOptions({
@@ -240,14 +236,10 @@ describe('swift-kitura', function() {
 						[optionsBluemix.push.serviceInfo.name]: {
 							app_guid: optionsBluemix.push.appGuid,
 							app_secret: optionsBluemix.push.appSecret,
-							client_secret: optionsBluemix.push.clientSecret
+							client_secret: optionsBluemix.push.clientSecret,
+							url: ("http://imfpush." + region)
 						}
 					}, dependencies, modules,codeForServices);
-
-					yassert.fileContent(
-						'Sources/Application/Services/ServicePush.swift',
-						`bluemixRegion: PushNotifications.Region.${sdkRegions[region]}`
-					)
 				});
 			})
 		})

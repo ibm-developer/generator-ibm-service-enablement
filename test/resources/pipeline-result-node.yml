@@ -1,0 +1,126 @@
+stages:
+- name: Build Stage
+  inputs:
+  - type: git
+    branch: master
+    service: ${REPO}
+{{#if config.triggersType}}
+  triggers:
+    - type: {{config.triggersType}}
+{{/if}}
+  jobs:
+  - name: Build
+    type: builder
+    {{#missing deployment.type 'Kube'}}
+    {{#each config.buildJobProps}}
+    {{@key}}: {{{this}}}
+    {{/each}}
+    {{/missing}}
+    {{#has deployment.type 'Kube'}}
+    extension_id: ibm.devops.services.pipeline.container.builder
+    target:
+      region_id: ${CF_REGION_ID}
+      organization: ${CF_ORGANIZATION}
+      space: ${CF_SPACE}
+    IMAGE_NAME: {{deployment.name}}
+    USE_CACHED_LAYERS: 'true'
+    COMMAND: |
+      #!/bin/bash
+      {{#if config.javaBuildScriptContent}}
+      echo "Doing Java build..."
+      {{{config.javaBuildScriptContent}}}
+      {{/if}}
+      echo "source the container_build script to run in current shell"
+      source {{{deployment.containerScriptPath}}}
+    {{/has}}
+  - name: Post Build
+    type: builder
+    artifact_dir: ''
+    build_type: shell
+    script: |-
+      #!/bin/bash
+      if  [[ -f post_build.sh ]]; then
+        chmod +x post_build.sh;
+        echo "executing the post_build script";
+        sh post_build.sh;
+      else
+        echo "the post_build script does not exist";
+      fi
+- name: Deploy Stage
+  inputs:
+  - type: job
+    stage: Build Stage
+    job: Build
+  {{#has deployment.type 'Kube'}}
+  properties:
+  - name: buildProperties
+    value: build.properties
+    type: file
+  - name: CLUSTER_NAMESPACE
+    value: {{deployment.kubeClusterNamespace}}
+    type: text
+  - name: IMAGE_PULL_SECRET_NAME
+    value: ${IMAGE_PULL_SECRET_NAME}
+    type: text
+  - name: IMAGE_REGISTRY_TOKEN
+    value: ${IMAGE_REGISTRY_TOKEN}
+    type: text
+  {{/has}}
+  triggers:
+  - type: stage
+  jobs:
+  - name: Deploy
+    type: deployer
+    target:
+      region_id: ${CF_REGION_ID}
+      organization: ${CF_ORGANIZATION}
+      space: ${CF_SPACE}
+      application: ${CF_APP}
+    {{#has deployment.type 'Kube'}}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${KUBE_CLUSTER_NAME}
+    script: |-
+      #!/bin/bash
+      echo "source the kube_deploy script to run in current shell"
+      source {{{deployment.kubeDeployScriptName}}}
+    {{/has}}
+    {{#has deployment.type 'CF'}}
+    script: |-
+      #!/bin/bash
+      cf create-service auth-label auth-plan auth-name
+      cf create-service cloudant-label cloudant-plan cloudant-name
+      cf create-service spark ibm.SparkService.PayGoPersonal apache-spark-name
+      cf create-service dashDB Entry dashdb-name
+      cf create-service db2 Entry db2-name
+      cf create-service object-storage-label object-storage-plan object-storage-name
+      cf create-service conversation-label conversation-plan conversation-name
+      cf create-service discovery-label discovery-plan discovery-name
+      cf create-service document-conversion-label document-conversion-plan document-conversion-name
+      cf create-service language-translator-label language-translator-plan language-translator-name
+      cf create-service natural-language-classifier-label natural-language-classifier-plan natural-language-classifier-name
+      cf create-service natural-language-understanding-label natural-language-understanding-plan natural-language-understanding-name
+      cf create-service personality-insights-label personality-insights-plan personality-insights-name
+      cf create-service retrieve-and-rank-label retrieve-and-rank-plan retrieve-and-rank-name
+      cf create-service speech-to-text-label speech-to-text-plan speech-to-text-name
+      cf create-service text-to-speech-label text-to-speech-plan text-to-speech-name
+      cf create-service tone-analyzer-label tone-analyzer-plan tone-analyzer-name
+      cf create-service visual-recognition-label visual-recognition-plan visual-recognition-name
+      cf create-service fss-instrument-analytics-service fss-instrument-analytics-service-free-plan instrument-analytics-label
+      cf create-service fss-scenario-analytics-service fss-scenario-analytics-service-free-plan simulated-instrument-analytics-name
+      cf create-service fss-historical-instrument-analytics-service fss-historical-instrument-analytics-service-free-plan historical-instrument-analytics-name
+      cf create-service fss-historical-scenario-analytics-service fss-historical-scenario-analytics-service-free-plan simulated-historical-instrument-analytics-name
+      cf create-service fss-portfolio-service fss-portfolio-service-free-plan investment-portfolio-name
+      cf create-service fss-predictive-scenario-analytics-service fss-predictive-scenario-analytics-service-free-plan predictive-market-scenarios-name
+      cf create-service weather-insights-label weather-insights-plan weather-insights-name
+      cf create-service mongodb-label mongodb-plan mongodb-name
+      cf create-service compose-for-redis redis-plan redis-name
+      cf create-service postgresql-label postgresql-plan postgresql-name
+      cf create-service push-label push-plan push-name
+      cf create-service alert-notifcation-label alert-notifcation-plan alert-notifcation-name
+      {{#if config.pushCommand}}
+      {{{config.pushCommand}}}
+      {{else}}
+      cf push "${CF_APP}"
+      {{/if}}
+      # cf logs "${CF_APP}" --recent
+    {{/has}}

@@ -19,12 +19,15 @@ const Generator = require('yeoman-generator');
 const fs = require('fs');
 const path = require('path');
 const handlebars = require('handlebars');
+const PATH_METAINF = "src/main/resources/META-INF/";
 
 const Utils = require('../lib/Utils');
+const javaUtils = require('../lib/javautils');
 
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
 const PATH_LOCALDEV_FILE = "./src/main/resources/localdev-config.json";
 const TEMPLATE_EXT = ".template";
+
 
 module.exports = class extends Generator {
 
@@ -47,6 +50,7 @@ module.exports = class extends Generator {
 		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.srcFolders = [];
 		this.context.instrumentationAdded = false;
+		this.context.metainf = [];
 
 		//initializing ourselves by composing with the service generators
 		let root = path.join(path.dirname(require.resolve('../app')), '../');
@@ -73,11 +77,36 @@ module.exports = class extends Generator {
 				}
 			})
 		}
+
+		this.context.metainf.forEach((metainf) => {
+			let location = this.templatePath(this.context.language + '/' + PATH_METAINF + metainf.filepath);
+			let contents = fs.readFileSync(location, 'utf8');
+			let compiledTemplate = handlebars.compile(contents);
+			let output = compiledTemplate({data: metainf.data});
+			if (metainf.filepath.endsWith(TEMPLATE_EXT)) {
+				metainf.filepath = metainf.filepath.slice(0, metainf.filepath.length - (TEMPLATE_EXT).length);
+			}
+			let destPath = this.destinationPath(PATH_METAINF + metainf.filepath);
+			if(this.fs.exists(destPath)) {
+				this.fs.append(destPath, output);
+			} else {
+				this.fs.write(destPath, output);
+			}
+		})
 	}
 
+
 	_addDependencies(serviceDependenciesString) {
-		logger.debug("Adding dependencies", serviceDependenciesString);
+		logger.debug("Adding dependencies", serviceDependenciesString); 
+		this._processDependencyMetainf(serviceDependenciesString);
 		this.context._addDependencies(serviceDependenciesString);
+	}
+
+	_processDependencyMetainf(dependenciesString) {
+		let dependenciesObject = JSON.parse(dependenciesString);
+		if(dependenciesObject.metainf) {
+			javaUtils.mergeFileObject(this.context.metainf, dependenciesObject.metainf);
+		}
 	}
 
 	_addMappings(serviceMappingsJSON) {
@@ -87,9 +116,9 @@ module.exports = class extends Generator {
 
 	_addLocalDevConfig(devconf) {
 		logger.debug("Adding devconf", devconf);
-		if(this.context.bluemix && (this.context.bluemix.backendPlatform === 'SPRING')) {
-			let mappingsFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
-			this.fs.extendJSON(mappingsFilePath, devconf);
+		if(this.context.bluemix) {
+			let localDevFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
+			this.fs.extendJSON(localDevFilePath, devconf);
 		} else {
 			this.context._addLocalDevConfig(devconf);
 		}
@@ -107,21 +136,20 @@ module.exports = class extends Generator {
 		let dependenciesString = this.fs.read(this.templatePath() + "/" + this.context.language + "/" + this.context.dependenciesFile);
 		let template = handlebars.compile(dependenciesString);
 		dependenciesString = template(this.context);
-		this.context.addDependencies(dependenciesString);
+		this._processDependencyMetainf(dependenciesString);
+		this.context._addDependencies(dependenciesString);
 	}
 
 	_addReadMe(options) {
 		this.fs.copy(
 			options.sourceFilePath,
 			this.destinationPath() + "/docs/services/" + options.targetFileName
-		);
+		);	
 	}
 
 	_writeFiles(templatePath, data) {
-		if(templatePath.endsWith(TEMPLATE_EXT)) {
-			return;		//do not write out any files that are marked as processing templates
-		}
-		this.fs.copy(this.templatePath(templatePath), this.destinationPath(), {
+		//do not write out any files that are marked as processing templates
+		this.fs.copy([this.templatePath(templatePath), '!**/*.template'], this.destinationPath(), {
 			process: function (contents) {
 				let compiledTemplate = handlebars.compile(contents.toString());
 				return compiledTemplate(data);
@@ -130,7 +158,7 @@ module.exports = class extends Generator {
 	}
 
 	end() {
-		// add services env to deployment.yaml
-		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()});
+		// add services env to deployment.yaml && cf create-service to pipeline.yaml
+		return [ Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()}) , Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()})];
 	}
 }
