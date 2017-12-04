@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.5.0...v0.6.0) (2017-12-04)
+
+
+### Features
+
+* update Swift AlertNotifications to v2 ([3a1862e](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/3a1862e))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.4.0...v0.5.0) (2017-11-21)
 
