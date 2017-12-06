@@ -291,6 +291,7 @@ module.exports = class extends Generator {
 		}
 
 		this.fs.move(this.destinationPath() + '/Pipfile.txt', this.destinationPath() + '/Pipfile', {nodir: true});
-		return [ Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()}) , Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()})];
+		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()})
+			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}));
 	}
 };
