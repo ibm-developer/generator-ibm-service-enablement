@@ -5,7 +5,10 @@ const logger = Log4js.getLogger("generator-ibm-service-enablement:language-pytho
 const Utils = require('../lib/Utils');
 let Generator = require('yeoman-generator');
 
+const nativeFS = require('fs');
+const path = require('path');
 const GENERATE_HERE = "# GENERATE HERE";
+const GENERATOR_LOCATION = 'server';
 const GENERATE_IMPORT_HERE = "# GENERATE IMPORT HERE";
 const PATH_MAPPINGS_FILE = "./server/config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "server/localdev-config.json";
@@ -29,10 +32,10 @@ module.exports = class extends Generator {
 		logger.debug("Constructing");
 	}
 
-	configuring(){
+	configuring() {
 		this.context.dependenciesFile = ["requirements.txt", "Pipfile.json"];
 		this.context.languageFileExt = ".py";
-
+		this.context.generatorLocation = GENERATOR_LOCATION;
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
@@ -41,7 +44,10 @@ module.exports = class extends Generator {
 	}
 
 	writing() {
-		for(let i = 0; i < this.context.dependenciesFile.length; i++) {
+		let bluemixKeys,
+			serviceCredentials,
+			key;
+		for (let i = 0; i < this.context.dependenciesFile.length; i++) {
 			this._addDependencies(this.fs.read(this.templatePath() + "/" + this.context.dependenciesFile[i]));
 		}
 
@@ -57,71 +63,37 @@ module.exports = class extends Generator {
 
 		// Add an empty mappings.json file in case there are no binding services
 		this._addMappings({});
+		bluemixKeys = Object.keys(this.context.bluemix);
 
-		// Security Services
-		this.composeWith(require.resolve('../service-appid'), {context: this.context});
+		for(let i = 0; i < bluemixKeys.length; i++){
+			key = bluemixKeys[i];
+			serviceCredentials = Array.isArray(this.context.bluemix[key]) ? this.context.bluemix[key][0] : this.context.bluemix[key];
+			if(typeof(serviceCredentials) === 'object' && serviceCredentials.serviceInfo
+					&& nativeFS.existsSync(path.join(__dirname, '..', `service-${key}`))){
+				this.context.cloudLabel = serviceCredentials.serviceInfo.cloudLabel;
+				this.composeWith(require.resolve(`../service-${key}`), {context: this.context});
+			}
+		}
 
-		// Cloud Data Services
-		this.composeWith(require.resolve('../service-cloudant'), {context: this.context});
-		this.composeWith(require.resolve('../service-object-storage'), {context: this.context});
-		this.composeWith(require.resolve('../service-apache-spark'), {context: this.context});
-		this.composeWith(require.resolve('../service-dashdb'), {context: this.context});
-		this.composeWith(require.resolve('../service-db2'), {context: this.context});
-
-		// Watson Services
-		this.composeWith(require.resolve('../service-watson-conversation'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-discovery'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-document-conversion'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-language-translator'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-natural-language-classifier'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-natural-language-understanding'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-personality-insights'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-retrieve-and-rank'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-speech-to-text'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-text-to-speech'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-tone-analyzer'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-visual-recognition'), {context: this.context});
-
-		// Financial Services
-		this.composeWith(require.resolve('../service-finance-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-simulated-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-historical-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-simulated-historical-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-investment-portfolio'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-predictive-market-scenarios'), {context: this.context});
-
-		// Weather Services
-		this.composeWith(require.resolve('../service-weather-company-data'), {context: this.context});
-
-		//Storages
-		this.composeWith(require.resolve('../service-mongodb'), {context: this.context});
-		this.composeWith(require.resolve('../service-redis'), {context: this.context});
-		this.composeWith(require.resolve('../service-postgre'), {context: this.context});
-
-		//Mobile
-		this.composeWith(require.resolve('../service-push'), {context: this.context});
-
-		//Devops
-		this.composeWith(require.resolve('../service-alert-notification'), {context: this.context});
 	}
 
-	_addDependencies(serviceDepdendenciesString){
+	_addDependencies(serviceDepdendenciesString) {
 		let requirementsTxtPath = this.destinationPath(PATH_REQUIREMENTS_TXT);
 		let pipfileUserPath = this.destinationPath(PATH_PIPFILE);
 		let jsonLanguagePath = this.templatePath() + PATH_PIPFILE_JSON;
-		if ( serviceDepdendenciesString.indexOf('{') > -1 && this.fs.exists(pipfileUserPath)){
-			let userPipfile = this.fs.read( pipfileUserPath);
+		if (serviceDepdendenciesString.indexOf('{') > -1 && this.fs.exists(pipfileUserPath)) {
+			let userPipfile = this.fs.read(pipfileUserPath);
 			let pipFileLanguageContent = JSON.parse(this.fs.read(jsonLanguagePath));
 
 			//only adding services to sources content so these calls are unnecessary for now
 			//this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, SOURCES);
 			//this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, DEV_PACKAGES);
-			let pipfile =this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, PACKAGES);
+			let pipfile = this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, PACKAGES);
 
 			this.fs.write(pipfileUserPath, pipfile);
 		}
-		else if( serviceDepdendenciesString.indexOf('{') === -1 && this.fs.exists(pipfileUserPath)){
-			if (this.fs.exists(requirementsTxtPath)){
+		else if (serviceDepdendenciesString.indexOf('{') === -1 && this.fs.exists(pipfileUserPath)) {
+			if (this.fs.exists(requirementsTxtPath)) {
 				// don't add if dependency entry already exists
 				let fileContentString = this.fs.read(requirementsTxtPath);
 				//-1 doesn't exist
@@ -136,8 +108,8 @@ module.exports = class extends Generator {
 				this.fs.write(requirementsTxtPath, serviceDepdendenciesString);
 			}
 		}
-		else if( serviceDepdendenciesString.indexOf('{') === -1 && !this.fs.exists(pipfileUserPath)){
-			if ( this.fs.exists(requirementsTxtPath)){
+		else if (serviceDepdendenciesString.indexOf('{') === -1 && !this.fs.exists(pipfileUserPath)) {
+			if (this.fs.exists(requirementsTxtPath)) {
 				// don't add if dependency entry already exists
 				let fileContentString = this.fs.read(requirementsTxtPath);
 				//-1 doesn't exist
@@ -159,7 +131,7 @@ module.exports = class extends Generator {
 	}
 
 	//only called when Pipfile doesn't exist
-	_createPipfile(serviceDepdendenciesString){
+	_createPipfile(serviceDepdendenciesString) {
 		let sourcesContent,
 			devPackagesContent,
 			packagesContent;
@@ -170,32 +142,32 @@ module.exports = class extends Generator {
 		sourcesContent = parsedJson[SOURCES];
 
 		let keys = Object.keys(sourcesContent);
-		for(let i = 0; i < keys.length; i++){
+		for (let i = 0; i < keys.length; i++) {
 			let snippet = `${keys[i]} ='${sourcesContent[keys[i]]}'`;
-			pipfileText+= snippet + '\n';
+			pipfileText += snippet + '\n';
 		}
 		devPackagesContent = parsedJson[DEV_PACKAGES];
 		// add sources from the json
-		pipfileText += '[dev-packages]'+'\n';
+		pipfileText += '[dev-packages]' + '\n';
 		keys = Object.keys(devPackagesContent);
-		for(let i = 0; i < keys.length; i++){
+		for (let i = 0; i < keys.length; i++) {
 			let snippet = `${keys[i]} ='${devPackagesContent[keys[i]]}'`;
-			pipfileText+= snippet + '\n';
+			pipfileText += snippet + '\n';
 		}
 		packagesContent = parsedJson[PACKAGES];
-		pipfileText += '[packages]'+'\n';
+		pipfileText += '[packages]' + '\n';
 		keys = Object.keys(packagesContent);
-		for(let i = 0; i < keys.length; i++){
+		for (let i = 0; i < keys.length; i++) {
 			let snippet = `${keys[i]} ='${packagesContent[keys[i]]}'`;
-			pipfileText+= snippet + '\n';
+			pipfileText += snippet + '\n';
 		}
 		return pipfileText;
 	}
 
 	//add service info to an existing pipfile
-	_addServiceToPipfile( languageJson, serviceJson, userPipfile, packageType){
+	_addServiceToPipfile(languageJson, serviceJson, userPipfile, packageType) {
 		//if the json isn't empty
-		if(serviceJson.length>2) {
+		if (serviceJson.length > 2) {
 			let content = languageJson[packageType];
 			let keys = Object.keys(content);
 			//go through the json object and check the packageType pipfile snippet in the languageJson
@@ -224,7 +196,7 @@ module.exports = class extends Generator {
 				if (userPipfile.indexOf(snippet) === -1) {
 					//add the source to the pipfile
 					let splitArray = userPipfile.split(`${packageType}\n`);
-					userPipfile = splitArray[0] + '[packages]\n' +`${snippet}\n` + splitArray[1];
+					userPipfile = splitArray[0] + '[packages]\n' + `${snippet}\n` + splitArray[1];
 
 				} else {
 					logger.debug(`${userPipfile} is already in Pipfile file, not appending`);
@@ -234,21 +206,22 @@ module.exports = class extends Generator {
 			return userPipfile;
 		}
 		//just use the Pipfile already in the user directory
-		else{
+		else {
 			return userPipfile;
 		}
 	}
-	_addMappings(serviceMappingsJSON){
+
+	_addMappings(serviceMappingsJSON) {
 		let mappingsFilePath = this.destinationPath(PATH_MAPPINGS_FILE);
 		this.fs.extendJSON(mappingsFilePath, serviceMappingsJSON);
 	}
 
-	_addLocalDevConfig(serviceLocalDevConfigJSON){
+	_addLocalDevConfig(serviceLocalDevConfigJSON) {
 		let localDevConfigFilePath = this.destinationPath(PATH_LOCALDEV_CONFIG_FILE);
 		this.fs.extendJSON(localDevConfigFilePath, serviceLocalDevConfigJSON);
 	}
 
-	_addInstrumentation(options){
+	_addInstrumentation(options) {
 		options.targetFileName = options.targetFileName.replace(/-/g, "_");
 
 		this.fs.copyTpl(
@@ -260,7 +233,7 @@ module.exports = class extends Generator {
 		let servicesInitFilePath = this.destinationPath("./server/services/" + SERVICES_INIT_FILE);
 		let indexFileContent = this.fs.read(servicesInitFilePath);
 
-		let module = options.targetFileName.replace(".py","");
+		let module = options.targetFileName.replace(".py", "");
 		let importToAdd = "from . import " + module + "\n" + GENERATE_IMPORT_HERE;
 
 		if (this.context.bluemix.backendPlatform.toLowerCase() === 'django'){
@@ -281,14 +254,14 @@ module.exports = class extends Generator {
 
 	}
 
-	_addReadMe(options){
+	_addReadMe(options) {
 		this.fs.copy(
 			options.sourceFilePath,
 			this.destinationPath() + "/docs/services/" + options.targetFileName
 		);
 	}
 
-	end(){
+	end() {
 		// Remove GENERATE_HERE and GENERATE_IMPORT_HERE from SERVICES_INIT_FILE
 		let servicesInitFilePath = this.destinationPath("./server/services/" + SERVICES_INIT_FILE);
 		let indexFileContent = this.fs.read(servicesInitFilePath);
@@ -299,12 +272,11 @@ module.exports = class extends Generator {
 
 		// Add PATH_LOCALDEV_CONFIG_FILE to .gitignore
 		let gitIgnorePath = this.destinationPath(PATH_GIT_IGNORE);
-		if (this.fs.exists(gitIgnorePath)){
+		if (this.fs.exists(gitIgnorePath)) {
 			this.fs.append(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		} else {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
-
 
 		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()})
 			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}));

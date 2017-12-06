@@ -38,9 +38,9 @@ class Push:
 
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
-	url = IBMCloudEnv.getString('push_url')
-	appSecret = IBMCloudEnv.getString('push_app_secret')
-	clientSecret = IBMCloudEnv.getString('push_client_secret')
+	url = IBMCloudEnv.getDictionary('push')['url']
+	appSecret = IBMCloudEnv.getDictionary('push')['appSecret']
+	clientSecret = IBMCloudEnv.getDictionary('push')['clientSecret']
 	return 'push-notifications', Push(url, appSecret, clientSecret)
 <% } else { %>
 def getService():

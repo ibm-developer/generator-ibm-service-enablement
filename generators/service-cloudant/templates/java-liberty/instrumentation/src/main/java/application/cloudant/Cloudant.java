@@ -13,13 +13,13 @@ import application.ibmcloud.InvalidCredentialsException;
 @RequestScoped
 public class Cloudant {
 
-    @Inject @ConfigProperty(name="cloudant_url")
+    @Inject @ConfigProperty(name="cloudant.url")
     protected String resourceUrl;
 
-    @Inject @ConfigProperty(name="cloudant_username")
+    @Inject @ConfigProperty(name="cloudant.username")
     protected String resourceUsername;
 
-    @Inject @ConfigProperty(name="cloudant_password")
+    @Inject @ConfigProperty(name="cloudant.password")
     protected String resourcePassword;
 
     @Produces
@@ -34,3 +34,4 @@ public class Cloudant {
     }
 
 }
+

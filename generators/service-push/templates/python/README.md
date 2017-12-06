@@ -9,9 +9,9 @@ The Push Notifications service provides a unified push service to send real-time
 This is where your local configuration is stored for Push-Notifications.
 ```
 {
-  "push_app_guid": "{{appGuid}}",
-  "push_app_secret": "{{appSecret}}",
-  "push_client_secret": "{{clientSecret}}",
+  "push_appGuid": "{{appGuid}}",
+  "push_appSecret": "{{appSecret}}",
+  "push_clientSecret": "{{clientSecret}}",
   "push_url": "{{url}}"
 }
 

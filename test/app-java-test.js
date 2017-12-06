@@ -73,7 +73,7 @@ class Options {
 			let entry = {
 				name: prop,
 				value: service.localDevConfig[prop]
-			}
+			};
 			expected.envEntries.push(entry);
 			it('should generate a local dev entry for ' + entry.name, function() {
 				assert.fileContent(LOCALDEV_CONFIG_JSON, '"' + entry.name + '"' + ': ' + '"' + entry.value + '"');
@@ -96,7 +96,7 @@ class Options {
 						assert.fileContent(file.name, file.contents);
 					});
 				}
-			})
+			});
 			this['assert' + framework + 'src'](true, buildType);
 		} else {
 			this['assert' + framework + 'src'](false, buildType);
@@ -200,7 +200,7 @@ function getServices(subFolder) {
 function testServices(services, framework, backendPlatform) {
 	BUILD_TYPES.forEach(buildType => {
 		services.forEach(dirname => {
-			describe(`java generator : test ${framework}, ${buildType}, ${dirname}   `, function () {
+			describe(`java generator : test ${framework}, ${buildType}, ${dirname}`, function () {
 				this.timeout(25000);
 				let service = svcHelpers.fromDirName(dirname, optionsBluemix);
 				let options = new Options(service, backendPlatform);
@@ -223,10 +223,10 @@ function testTestService() {
 				"name": "test-name",
 				"plan": "test-plan"
 			}
-		}
+		};
 		let bluemixJson = optionsBluemix;
 		bluemixJson.test = testService;
-		let service = svcHelpers.serviceTest(bluemixJson)
+		let service = svcHelpers.serviceTest(bluemixJson);
 		let options = new Options(service, 'JAVA');
 		before(options.before.bind(options));
 		let configPath = path.join(__dirname, "..", "test", "resources", "java", "service-test", "templates", 'java-liberty', "config.json.template");

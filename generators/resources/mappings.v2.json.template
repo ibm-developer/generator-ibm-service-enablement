@@ -1,0 +1,27 @@
+{
+    "version": 2,
+    "{{serviceName}}" : {
+        {{#each keys}}
+        "{{this}}": {
+            "searchPatterns": [
+                {{#if ../cloudFoundryIsArray}}
+                "cloudfoundry:$['{{../cloudFoundryKey}}'][0].credentials.{{this}}",
+                {{else}}
+                "cloudfoundry:$['{{{../cloudFoundryKey}}}'].credentials.{{this}}",
+                {{/if}}
+                "env:service_{{../serviceName}}",
+                "env:{{../serviceName}}_{{this}}",
+                "file:/{{../generatorLocation}}/localdev-config.json:$.{{../serviceName}}_{{this}}"
+            ]
+        },
+        {{/each}}
+        "credentials": {
+            "searchPatterns": [
+               "cloudfoundry:{{serviceName}}",
+               "env:{{serviceName}}_credentials",
+               "file:/{{generatorLocation}}/localdev-config.json:{{serviceName}}_credentials"
+
+            ]
+        }
+    }
+}

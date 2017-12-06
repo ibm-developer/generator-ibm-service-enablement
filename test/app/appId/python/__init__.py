@@ -8,9 +8,9 @@ def verifyToken(token,pemVal):
         return False
 
 def retrieveTokens(grantCode):
-    clientId = service_manager.get('appid')['appid-client-id']
-    secret = service_manager.get('appid')['appid-secret']
-    tokenEndpoint = service_manager.get('appid')['appid-token-path']
+    clientId = service_manager.get('auth')['clientId']
+    secret = service_manager.get('auth')['secret']
+    tokenEndpoint = service_manager.get('auth')['tokenPath']
     redirectUri = "http://localhost:5000/redirect"
     r = requests.post(tokenEndpoint, data={"client_id": clientId,"grant_type": "authorization_code","redirect_uri": redirectUri,"code": grantCode
 		}, auth=HTTPBasicAuth(clientId, secret))
@@ -26,7 +26,7 @@ def handleCallback(grantCode):
         return tokens
     else:
         if (tokens['access_token']):
-            session[service_manager.get('appid')['appid-context']]=tokens
+            session[service_manager.get('auth')['context']]=tokens
             return protected()
         else:
             return 'fail'
@@ -34,16 +34,16 @@ def handleCallback(grantCode):
 app.secret_key = 'A0Zr98j/3yX R~XHH!jm3]LWX/,?RT'
 @app.route('/protected')
 def protected():
-    tokens = session.get(service_manager.get('appid')['appid-context'])
+    tokens = session.get(service_manager.get('auth')['context'])
     if (tokens):
-        publickey = service_manager.get('appid')['appid-context']
-        pem = service_manager.get('appid')['appid-pem']
+        publickey = service_manager.get('auth')['context']
+        pem = service_manager.get('auth')['pem']
         idToken = tokens.get('id_token')
         accessToken = tokens.get('access_token')
         idTokenPayload = verifyToken(idToken,pem)
         accessTokenPayload =verifyToken(accessToken,pem)
         if (not idTokenPayload or not accessTokenPayload):
-            session[service_manager.get('appid')['appid-context']]=None
+            session[service_manager.get('auth')['context']]=None
             return startAuthorization()
         else:
             return 'AUTH'
@@ -53,9 +53,9 @@ def protected():
 
 @app.route('/startAuthorization')
 def startAuthorization():
-    clientId = service_manager.get('appid')['appid-client-id']
+    clientId = service_manager.get('auth')['clientId']
 
-    authorizationEndpoint = service_manager.get('appid')['appid-authorization-endpoint']
+    authorizationEndpoint = service_manager.get('auth')['authorizationEndpoint']
     redirectUri = 'http://localhost:5000/redirect'
     return redirect("{}?client_id={}&response_type=code&redirect_uri={}&scope=appid_default&idp=appid_anon".format(authorizationEndpoint,clientId,redirectUri))
 @app.route('/redirect')

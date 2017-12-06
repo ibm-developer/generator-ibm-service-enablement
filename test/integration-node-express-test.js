@@ -170,25 +170,30 @@ describe('integration test for services', function () {
 		});
 	});
 
-	describe('Push', function () {
-		it('should create a push notification', function () {
-			this.timeout(30000);
+	describe('MongoDB', function () {
+		it('should create a collection `test` and write and fetch data from it', function () {
+			this.timeout(10000);
+			let expectedMessage = [
+				'test document removed',
+				'test document added',
+				'test document found'
+			];
 			let options = {
 				'method': 'get',
-				'url': 'http://localhost:3000/push-test'
+				'url': 'http://localhost:3000/mongodb-test'
 			};
 
 			return axios(options)
 				.then(function (response) {
-					assert.deepEqual(response.data.message, { alert: 'Testing BluemixPushNotifications' });
+					assert.deepEqual(response.data, expectedMessage);
 				})
 				.catch(function (err) {
 					if (err.response) {
 						assert.isNotOk(err.response.data, 'This should not happen');
 					} else {
-						assert.isNotOk(JSON.stringify(err), 'This should not happen');
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
 					}
-
 				});
 		});
 	});
@@ -306,12 +311,13 @@ let _setUpApplication = function (cb) {
 				bluemix: JSON.stringify(optionsBluemix)
 			})
 			.then((tmpDir) => {
-				execRun('npm install', { cwd: tmpDir }, function (error, stdout) {
+				execRun('npm install', {cwd: tmpDir}, function (error, stdout, stderr) {
+					console.log(stderr)
 					if (error) {
 						assert.isOk('Could not install dependencies ' + error);
 					} else {
 						console.log(stdout);
-						execRun('npm install --save express express-session axios body-parser', { cmd: tmpDir }, function (error, stdout) {
+						execRun('npm install --save express express-session axios body-parser', {cmd: tmpDir}, function (error, stdout) {
 							if (error) {
 								assert.isOk('Could not install express, body-parser, axios and express-session', error);
 								cb();

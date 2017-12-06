@@ -10,7 +10,7 @@ This is where your local configuration is stored for MongoDB.
 ```
 {
   "mongodb_uri": "{{uri}}", // URI/URL of MongoDB in Compose
-  "mongodb_ca": "{{ca}}", // The base 64 CA certificate file for MongoDB 
+  "mongodb_ca_certificate_base64": "{{ca}}", // The base 64 CA certificate file for MongoDB 
 }
 ```
 

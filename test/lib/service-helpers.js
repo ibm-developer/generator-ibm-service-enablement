@@ -42,12 +42,12 @@ function serviceCloudant(optionsBluemix) {
 
 function serviceObjectStorage(optionsBluemix) {
 	return {
-		location: 'service-object-storage',
+		location: 'service-objectStorage',
 		bluemixName: 'objectStorage',
 		localDevConfig: {
-			object_storage_project_id: optionsBluemix.objectStorage[0].projectId,
+			object_storage_projectId: optionsBluemix.objectStorage[0].projectId,
 			object_storage_project: optionsBluemix.objectStorage[0].project,
-			object_storage_user_id: optionsBluemix.objectStorage[0].userId,
+			object_storage_userId: optionsBluemix.objectStorage[0].userId,
 			object_storage_password: optionsBluemix.objectStorage[0].password,
 			object_storage_region: optionsBluemix.objectStorage[0].region,
 			object_storage_auth_url: optionsBluemix.objectStorage[0].auth_url,
@@ -67,7 +67,7 @@ function serviceMongodb(optionsBluemix) {
 		bluemixName: 'mongodb',
 		localDevConfig: {
 			mongodb_uri: optionsBluemix.mongodb.uri,
-			mongodb_ca: optionsBluemix.mongodb.ca_certificate_base64
+			mongodb_ca_certificate_base64: optionsBluemix.mongodb.ca_certificate_base64
 		},
 		instrumentation: {
 			java_liberty: [],
@@ -76,9 +76,9 @@ function serviceMongodb(optionsBluemix) {
 	};
 }
 
-function serviceWatsonConversation(optionsBluemix) {
+function serviceConversation(optionsBluemix) {
 	return {
-		location: 'service-watson-conversation',
+		location: 'service-conversation',
 		bluemixName: 'conversation',
 		localDevConfig: {
 			watson_conversation_url: optionsBluemix.conversation.url,
@@ -97,9 +97,9 @@ function servicePush(optionsBluemix) {
 		location: 'service-push',
 		bluemixName: 'push',
 		localDevConfig: {
-			push_app_guid: optionsBluemix.push.appGuid,
-			push_app_secret: optionsBluemix.push.appSecret,
-			push_client_secret: optionsBluemix.push.clientSecret
+			push_appGuid: optionsBluemix.push.appGuid,
+			push_appSecret: optionsBluemix.push.appSecret,
+			push_clientSecret: optionsBluemix.push.clientSecret
 		},
 		instrumentation: {
 			java_liberty: [],
@@ -110,7 +110,7 @@ function servicePush(optionsBluemix) {
 
 function serviceAlertNotification(optionsBluemix) {
 	return {
-		location: 'service-alert-notification',
+		location: 'service-alertNotification',
 		bluemixName: 'alertNotification',
 		localDevConfig: {
 			alert_notification_url: optionsBluemix.alertNotification.url,
@@ -148,8 +148,8 @@ module.exports = {
 	serviceCloudant: serviceCloudant,
 	serviceObjectStorage: serviceObjectStorage,
 	serviceMongodb: serviceMongodb,
-	serviceWatsonConversation: serviceWatsonConversation,
+	serviceConversation: serviceConversation,
 	servicePush: servicePush,
 	serviceAlertNotification: serviceAlertNotification,
 	serviceTest: serviceTest
-}
+};

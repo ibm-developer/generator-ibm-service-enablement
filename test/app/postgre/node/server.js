@@ -2,7 +2,7 @@
 app.get('/postgre-test', function (req, res) {
 
     let messages = [];
-    var pair = [1, "two"]
+    var pair = [1, "two"];
 
     var client = serviceManager.get('postgre-client');
 

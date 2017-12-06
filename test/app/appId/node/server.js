@@ -15,7 +15,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-let webStrategy = serviceManager.get('appid-web-strategy');
+let webStrategy = serviceManager.get('auth-web-strategy');
 
 passport.serializeUser(function(user, cb) {
 	cb(null, user);
@@ -27,22 +27,22 @@ passport.deserializeUser(function(obj, cb) {
 
 passport.use(webStrategy);
 
-app.get(LOGIN_URL, passport.authenticate(serviceManager.get('appid-web-strategy-name'), {
+app.get(LOGIN_URL, passport.authenticate(serviceManager.get('auth-web-strategy-name'), {
 	forceLogin: true
 }));
 
-app.get(CALLBACK_URL, passport.authenticate(serviceManager.get('appid-web-strategy-name'), {allowAnonymousLogin: true}));
+app.get(CALLBACK_URL, passport.authenticate(serviceManager.get('auth-web-strategy-name'), {allowAnonymousLogin: true}));
 
-app.get("/login-web", passport.authenticate(serviceManager.get('appid-web-strategy-name'), {allowAnonymousLogin: true, successRedirect : '/protected-web', forceLogin: true}));
+app.get("/login-web", passport.authenticate(serviceManager.get('auth-web-strategy-name'), {allowAnonymousLogin: true, successRedirect : '/protected-web', forceLogin: true}));
 
 
-app.get('/protected-web', passport.authenticate(serviceManager.get('appid-web-strategy-name')), (req, res) => {
-	let accessToken = req.session[serviceManager.get('appid-web-auth-context')].accessToken;
+app.get('/protected-web', passport.authenticate(serviceManager.get('auth-web-strategy-name')), (req, res) => {
+	let accessToken = req.session[serviceManager.get('auth-web-auth-context')].accessToken;
 	if(!accessToken){
 		res.status(500).send('accessToken is undefined');
 	}
 	
-	let userAttributeManager = serviceManager.get('appid-user-attribute-manager');
+	let userAttributeManager = serviceManager.get('auth-user-attribute-manager');
 	userAttributeManager.setAttribute(accessToken, "points", "1337")
 		.then((attr) => {
 			return userAttributeManager.getAllAttributes(accessToken);

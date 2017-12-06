@@ -1,3 +1,5 @@
+cur = None
+conn = None
 @app.route('/postgre-test')
 def testPostgre():
 	messages = []

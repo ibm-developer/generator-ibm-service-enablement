@@ -10,11 +10,11 @@ This is where your local configuration is stored for MongoDB.
 ```
 {
 	"mongodb_uri": "{{{uri}}}",
-	"mongodb_ca": "{{caCertificateBase64}}"
+	"mongodb_ca_certificate_base64": "{{caCertificateBase64}}"
 }
 ```
 
-When the `service_manager` reads in credentials, it will convert `mongodb_ca`
+When the `service_manager` reads in credentials, it will convert `mongodb_ca_certificate_base64`
 into a `mongo-ssl-cert.pem` certificate file that is used for SSL connection to
 the database instance. This file is stored in `server/services/certificates/`.
 

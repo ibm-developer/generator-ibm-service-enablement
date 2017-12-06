@@ -14,8 +14,8 @@ const fs = require('fs-extra');
 const axios = require('axios');
 
 // Change these if you're getting SSL-related problems
-const pythonRuntime = 'python3';
-const pipRuntime = 'pip3';
+const pythonRuntime = 'python';
+const pipRuntime = 'pip';
 
 describe('integration test for services', function() {
 	before(function(done) {
@@ -277,7 +277,7 @@ let _setUpApplication = function(cb){
 							'FLASK_APP': 'server/__init__.py', 'LC_ALL':'en_US.UTF-8', 'LANG':'en_US.UTF-8'}});
 						setTimeout(function(){
 							cb();
-						},3000);
+						},5000);
 						server.stderr.on('data', function(err) {
 							console.error(err.toString('utf-8'));
 							//assert.isNotOk(err.toString('utf-8'), 'This should not happen');

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 const logger = require('log4js').getLogger("generator-ibm-service-enablement:language-java");
 const Generator = require('yeoman-generator');
 const fs = require('fs');
@@ -57,8 +57,12 @@ module.exports = class extends Generator {
 		let folders = fs.readdirSync(root);
 		folders.forEach(folder => {
 			if (folder.startsWith('service-')) {
+				let key = folder.substring(folder.indexOf('-') + 1);
+				let serviceCredentials = Array.isArray(this.context.bluemix[key])
+					? this.context.bluemix[key][0] : this.context.bluemix[key];
 				logger.debug("Composing with service : " + folder);
 				try {
+					this.context.cloudLabel = serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
 					this.composeWith(path.join(root, folder), {context: this.context});
 				} catch (err) {
 					/* istanbul ignore next */      //ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
@@ -87,7 +91,7 @@ module.exports = class extends Generator {
 				metainf.filepath = metainf.filepath.slice(0, metainf.filepath.length - (TEMPLATE_EXT).length);
 			}
 			let destPath = this.destinationPath(PATH_METAINF + metainf.filepath);
-			if(this.fs.exists(destPath)) {
+			if (this.fs.exists(destPath)) {
 				this.fs.append(destPath, output);
 			} else {
 				this.fs.write(destPath, output);
@@ -97,14 +101,14 @@ module.exports = class extends Generator {
 
 
 	_addDependencies(serviceDependenciesString) {
-		logger.debug("Adding dependencies", serviceDependenciesString); 
+		logger.debug("Adding dependencies", serviceDependenciesString);
 		this._processDependencyMetainf(serviceDependenciesString);
 		this.context._addDependencies(serviceDependenciesString);
 	}
 
 	_processDependencyMetainf(dependenciesString) {
 		let dependenciesObject = JSON.parse(dependenciesString);
-		if(dependenciesObject.metainf) {
+		if (dependenciesObject.metainf) {
 			javaUtils.mergeFileObject(this.context.metainf, dependenciesObject.metainf);
 		}
 	}
@@ -116,7 +120,7 @@ module.exports = class extends Generator {
 
 	_addLocalDevConfig(devconf) {
 		logger.debug("Adding devconf", devconf);
-		if(this.context.bluemix) {
+		if (this.context.bluemix) {
 			let localDevFilePath = this.destinationPath(PATH_LOCALDEV_FILE);
 			this.fs.extendJSON(localDevFilePath, devconf);
 		} else {
@@ -144,7 +148,7 @@ module.exports = class extends Generator {
 		this.fs.copy(
 			options.sourceFilePath,
 			this.destinationPath() + "/docs/services/" + options.targetFileName
-		);	
+		);
 	}
 
 	_writeFiles(templatePath, data) {
@@ -160,6 +164,9 @@ module.exports = class extends Generator {
 	end() {
 		// add services env to deployment.yaml && cf create-service to pipeline.yaml
 		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()})
-			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}));
+			.then(() => Utils.addServicesToPipelineYamlAsync({
+				context: this.context,
+				destinationPath: this.destinationPath()
+			}));
 	}
-}
+};

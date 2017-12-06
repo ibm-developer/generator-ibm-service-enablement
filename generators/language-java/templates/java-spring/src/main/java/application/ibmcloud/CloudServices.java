@@ -26,8 +26,6 @@ public class CloudServices {
     private static final Logger LOGGER  = LoggerFactory.getLogger(CloudServices.class);
     private static final String MAPPINGS_JSON = "/mappings.json";
     private static final String VCAP_SERVICES = "VCAP_SERVICES";
-    private static final String CLASSPATH_ID = "/server/";
-    
     
     private JsonNode config = null;			//configuration to be using
     private final ConcurrentMap<String, DocumentContext> resourceCache = new ConcurrentHashMap<>();	//used to cache resources loaded during processing
@@ -85,41 +83,47 @@ public class CloudServices {
         if(config == null) {
             return null;	//config wasn't initialised for some reason, so cannot resolve anything
         }
-        JsonNode node = config.get(name);
-        if(node == null || node.isNull()) {
-        return null;		//specified name could not be located	
-        }
         String value = null;
-        ArrayNode array = (ArrayNode) node.get("searchPatterns");
-        if (array.isArray()) {
-            for (final JsonNode entryNode : array) {
-                String entry = entryNode.asText();
-                LOGGER.debug("entryNode " + entryNode);
-                String token[] = parseOnfirst(entry, ":");
-                LOGGER.debug("tokens " + token[0] + " , " + token[1]);
-                if (!token[0].isEmpty() && !token[1].isEmpty()) {
-                    switch (token[0]) {
-                        case "cloudfoundry":
-                            value = getCloudFoundryValue(token[1]);
-                            break;
-                        case "env":
-                            value = getEnvValue(token[1]);
-                            break;
-                        case "file":
-                            value = getFileValue(token[1]);
-                            break;
-                        default :
-                            LOGGER.warn("Unknown protocol in searchPatterns : " + token[0]);
-                            break;
+        String keySegment[] = parseOnfirst(name, ".");
+        if (!keySegment[0].isEmpty() && !keySegment[1].isEmpty()) {
+            JsonNode node = config.get(keySegment[0]);
+            if (node == null || node.isNull()) {
+                return null;        // 1st segment could not be located
+            }
+            node = node.get(keySegment[1]);
+            if (node == null || node.isNull()) {
+                return null;        // 2nd segment could not be located
+            }
+            ArrayNode array = (ArrayNode) node.get("searchPatterns");
+            if (array.isArray()) {
+                for (final JsonNode entryNode : array) {
+                    String entry = entryNode.asText();
+                    LOGGER.debug("entryNode " + entryNode);
+                    String token[] = parseOnfirst(entry, ":");
+                    LOGGER.debug("tokens " + token[0] + " , " + token[1]);
+                    if (!token[0].isEmpty() && !token[1].isEmpty()) {
+                        switch (token[0]) {
+                            case "cloudfoundry":
+                                value = getCloudFoundryValue(token[1]);
+                                break;
+                            case "env":
+                                value = getEnvValue(token[1]);
+                                break;
+                            case "file":
+                                value = getFileValue(token[1]);
+                                break;
+                            default:
+                                LOGGER.warn("Unknown protocol in searchPatterns : " + token[0]);
+                                break;
+                        }
+                    }
+                    if (value != null) {
+                        break;
                     }
                 }
-                if (value != null) {
-                    break;
-                }
+            } else {
+                LOGGER.warn("search patterns in mapping.json is NOT an array, values will not be resolved");
             }
-        }
-        else {
-            LOGGER.warn("search patterns in mapping.json is NOT an array, values will not be resolved");
         }
         return value;
     }
@@ -200,17 +204,16 @@ public class CloudServices {
     private DocumentContext getJsonStringFromFile(String filePath) { 
         String json = null;
         if (filePath != null && !filePath.isEmpty()) {
-            if(filePath.startsWith(CLASSPATH_ID)) {
-                //treat file:/server as a classpath resource
-                String path = filePath.substring(CLASSPATH_ID.length() - 1);
-                LOGGER.debug("Looking for classpath resource : " + path);
-                JsonNode node = getJson(path);
+            if(!filePath.startsWith("/")) {
+                // Relative path means it's a classpath resource
+                LOGGER.debug("Looking for classpath resource : " + filePath);
+                JsonNode node = getJson(filePath);
                 if(node != null) {
                     json = node.toString();
                     LOGGER.debug("Class path json : " + json);
                 }
             } else {
-                //look for the file specified
+                // look for the file specified
                 try {
                     json = new String(Files.readAllBytes(Paths.get(filePath)));
                 } catch (Exception e) {
@@ -237,4 +240,5 @@ public class CloudServices {
     }
 
 }
+
 

@@ -1,13 +1,15 @@
-'use strict'
+'use strict';
 const BaseGenerator = require('../lib/generatorbase');
-
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = "redis";
-const SERVICE_NAME = "service-redis";
-const localDevConfig = ['uri'];
+const CLOUD_FOUNDRY_SERVICE_NAME = "compose-for-redis";
+const config = {
+	cloudFoundryIsArray: true,
+	mappingVersion: 2
+};
 
 module.exports = class extends BaseGenerator {
 	constructor(args, opts) {
-		super(args, opts, SERVICE_NAME, SCAFFOLDER_PROJECT_PROPERTY_NAME, localDevConfig);
+		super(args, opts, SCAFFOLDER_PROJECT_PROPERTY_NAME, CLOUD_FOUNDRY_SERVICE_NAME);
 	}
 
 	initializing(){
@@ -15,7 +17,7 @@ module.exports = class extends BaseGenerator {
 	}
 
 	configuring(){
-		return super.configuring();
+		return super.configuring(config);
 	}
 
 	writing(){

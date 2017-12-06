@@ -1,7 +1,0 @@
-{
-  "finance_investment_portfolio_url": "{{{url}}}",
-  "finance_investment_portfolio_writer_userid": "{{{writerUserid}}}",
-  "finance_investment_portfolio_writer_password": "{{{writerPassword}}}",
-  "finance_investment_portfolio_reader_userid": "{{{readerUserid}}}",
-  "finance_investment_portfolio_reader_password": "{{{readerPassword}}}"
-}

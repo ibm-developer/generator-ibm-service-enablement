@@ -1,7 +1,0 @@
-{
-  "appid_tenant_id": "{{{tenantId}}}",
-  "appid_client_id": "{{{clientId}}}",
-  "appid_secret": "{{{secret}}}",
-  "appid_oauth_server_url": "{{{oauthServerUrl}}}",
-  "appid_profiles_url": "{{{profilesUrl}}}"
-}

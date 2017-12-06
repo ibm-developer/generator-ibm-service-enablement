@@ -28,6 +28,16 @@ spec:
               cpu: "{{ .Values.image.resources.requests.cpu }}"
               memory: "{{ .Values.image.resources.requests.memory }}"
           env:
+            - name: service_alert_notification
+              valueFrom:
+                secretKeyRef:
+                  name: binding-alert-notification-name
+                  key: binding
+            - name: service_apache_spark
+              valueFrom:
+                secretKeyRef:
+                  name: binding-apache-spark-name
+                  key: binding
             - name: service_appid
               valueFrom:
                 secretKeyRef:
@@ -38,15 +48,10 @@ spec:
                 secretKeyRef:
                   name: binding-cloudant-name
                   key: binding
-            - name: service_object_storage
+            - name: service_watson_conversation
               valueFrom:
                 secretKeyRef:
-                  name: binding-object-storage-name
-                  key: binding
-            - name: service_apache_spark
-              valueFrom:
-                secretKeyRef:
-                  name: binding-apache-spark-name
+                  name: binding-conversation-name
                   key: binding
             - name: service_dashdb
               valueFrom:
@@ -58,11 +63,6 @@ spec:
                 secretKeyRef:
                   name: binding-db2-name
                   key: binding
-            - name: service_watson_conversation
-              valueFrom:
-                secretKeyRef:
-                  name: binding-conversation-name
-                  key: binding
             - name: service_watson_discovery
               valueFrom:
                 secretKeyRef:
@@ -73,10 +73,30 @@ spec:
                 secretKeyRef:
                   name: binding-document-conversion-name
                   key: binding
+            - name: service_finance_historical_instrument_analytics
+              valueFrom:
+                secretKeyRef:
+                  name: binding-historical-instrument-analytics-name
+                  key: binding
+            - name: service_finance_instrument_analytics
+              valueFrom:
+                secretKeyRef:
+                  name: binding-instrument-analytics-label
+                  key: binding
+            - name: service_finance_investment_portfolio
+              valueFrom:
+                secretKeyRef:
+                  name: binding-investment-portfolio-name
+                  key: binding
             - name: service_watson_language_translator
               valueFrom:
                 secretKeyRef:
                   name: binding-language-translator-name
+                  key: binding
+            - name: service_mongodb
+              valueFrom:
+                secretKeyRef:
+                  name: binding-mongodb-name
                   key: binding
             - name: service_watson_natural_language_classifier
               valueFrom:
@@ -88,15 +108,55 @@ spec:
                 secretKeyRef:
                   name: binding-natural-language-understanding-name
                   key: binding
+            - name: service_object_storage
+              valueFrom:
+                secretKeyRef:
+                  name: binding-object-storage-name
+                  key: binding
             - name: service_watson_personality_insights
               valueFrom:
                 secretKeyRef:
                   name: binding-personality-insights-name
                   key: binding
+            - name: service_finance_portfolio_optimization
+              valueFrom:
+                secretKeyRef:
+                  name: binding-portfolio-optimization-name
+                  key: binding
+            - name: service_postgre
+              valueFrom:
+                secretKeyRef:
+                  name: binding-postgresql-name
+                  key: binding
+            - name: service_finance_predictive_market_scenarios
+              valueFrom:
+                secretKeyRef:
+                  name: binding-predictive-market-scenarios-name
+                  key: binding
+            - name: service_push
+              valueFrom:
+                secretKeyRef:
+                  name: binding-push-name
+                  key: binding
+            - name: service_redis
+              valueFrom:
+                secretKeyRef:
+                  name: binding-redis-name
+                  key: binding
             - name: service_watson_retrieve_and_rank
               valueFrom:
                 secretKeyRef:
                   name: binding-retrieve-and-rank-name
+                  key: binding
+            - name: service_finance_simulated_historical_instrument_analytics
+              valueFrom:
+                secretKeyRef:
+                  name: binding-simulated-historical-instrument-analytics-name
+                  key: binding
+            - name: service_finance_simulated_instrument_analytics
+              valueFrom:
+                secretKeyRef:
+                  name: binding-simulated-instrument-analytics-name
                   key: binding
             - name: service_watson_speech_to_text
               valueFrom:
@@ -118,65 +178,11 @@ spec:
                 secretKeyRef:
                   name: binding-visual-recognition-name
                   key: binding
-            - name: service_finance_instrument_analytics
-              valueFrom:
-                secretKeyRef:
-                  name: binding-instrument-analytics-label
-                  key: binding
-            - name: service_finance_simulated_instrument_analytics
-              valueFrom:
-                secretKeyRef:
-                  name: binding-simulated-instrument-analytics-name
-                  key: binding
-            - name: service_finance_historical_instrument_analytics
-              valueFrom:
-                secretKeyRef:
-                  name: binding-historical-instrument-analytics-name
-                  key: binding
-            - name: service_finance_simulated_historical_instrument_analytics
-              valueFrom:
-                secretKeyRef:
-                  name: binding-simulated-historical-instrument-analytics-name
-                  key: binding
-            - name: service_finance_investment_portfolio
-              valueFrom:
-                secretKeyRef:
-                  name: binding-investment-portfolio-name
-                  key: binding
-            - name: service_finance_predictive_market_scenarios
-              valueFrom:
-                secretKeyRef:
-                  name: binding-predictive-market-scenarios-name
-                  key: binding
             - name: service_weather_company_data
               valueFrom:
                 secretKeyRef:
                   name: binding-weather-insights-name
                   key: binding
-            - name: service_mongodb
-              valueFrom:
-                secretKeyRef:
-                  name: binding-mongodb-name
-                  key: binding
-            - name: service_redis
-              valueFrom:
-                secretKeyRef:
-                  name: binding-redis-name
-                  key: binding
-            - name: service_postgre
-              valueFrom:
-                secretKeyRef:
-                  name: binding-postgresql-name
-                  key: binding
-            - name: service_push
-              valueFrom:
-                secretKeyRef:
-                  name: binding-push-name
-                  key: binding
-            - name: service_alert_notification
-              valueFrom:
-                secretKeyRef:
-                  name: binding-alert-notifcation-name
-                  key: binding
             - name: PORT
               value: "{{ .Values.service.servicePort }}"
+

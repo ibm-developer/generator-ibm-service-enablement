@@ -1,6 +1,6 @@
 //https://github.com/yeoman/yeoman-assert
 
-'use strict'
+'use strict';
 const path = require('path');
 const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
@@ -37,7 +37,7 @@ describe('swift-kitura', function() {
 							modules.push(module);
 						}
 					}
-				})
+				});
 			return runContext.toPromise();
 		});
 
@@ -65,11 +65,11 @@ describe('swift-kitura', function() {
 		it('Can add AppID instrumentation', () => {
 			testAll('service-appid', 'appid', optionsBluemix.auth.serviceInfo.name, {
 				[optionsBluemix.auth.serviceInfo.name]: {
-					tenant_id: optionsBluemix.auth.tenantId,
-					client_id: optionsBluemix.auth.clientId,
+					tenantId: optionsBluemix.auth.tenantId,
+					clientId: optionsBluemix.auth.clientId,
 					secret: optionsBluemix.auth.secret,
-					oauth_server_url: optionsBluemix.auth.oauthServerUrl,
-					profiles_url: optionsBluemix.auth.profilesUrl
+					oauthServerUrl: optionsBluemix.auth.oauthServerUrl,
+					profilesUrl: optionsBluemix.auth.profilesUrl
 				}
 			}, dependencies, modules, codeForServices);
 		});
@@ -85,10 +85,10 @@ describe('swift-kitura', function() {
 		});
 
 		it('Can add Object Storage instrumentation', () => {
-			testAll('service-object-storage', 'object_storage', optionsBluemix.objectStorage[0].serviceInfo.name, {
+			testAll('service-objectStorage', 'objectStorage', optionsBluemix.objectStorage[0].serviceInfo.name, {
 				[optionsBluemix.objectStorage[0].serviceInfo.name]: {
-					project_id: optionsBluemix.objectStorage[0].projectId,
-					user_id: optionsBluemix.objectStorage[0].userId,
+					projectId: optionsBluemix.objectStorage[0].projectId,
+					userId: optionsBluemix.objectStorage[0].userId,
 					password: optionsBluemix.objectStorage[0].password,
 					region: optionsBluemix.objectStorage[0].region
 				}
@@ -124,9 +124,9 @@ describe('swift-kitura', function() {
 		it('Can add Push Notifications instrumentation', () => {
 			testAll('service-push', 'push', optionsBluemix.push.serviceInfo.name, {
 				[optionsBluemix.push.serviceInfo.name]: {
-					app_guid: optionsBluemix.push.appGuid,
-					app_secret: optionsBluemix.push.appSecret,
-					client_secret: optionsBluemix.push.clientSecret,
+					appGuid: optionsBluemix.push.appGuid,
+					appSecret: optionsBluemix.push.appSecret,
+					clientSecret: optionsBluemix.push.clientSecret,
 					url: optionsBluemix.push.url
 				}
 			}, dependencies, modules, codeForServices);
@@ -160,8 +160,8 @@ describe('swift-kitura', function() {
 
 		before(() => {
 			optionsBluemix.backendPlatform = "SWIFT";
-			for (let key in optionsBluemix){
-				if (key !== 'name' && key !== 'backendPlatform' && key !== 'server'){
+			for (let key in optionsBluemix) {
+				if (key !== 'name' && key !== 'backendPlatform' && key !== 'server') {
 					delete optionsBluemix[key];
 				}
 			}
@@ -176,7 +176,7 @@ describe('swift-kitura', function() {
 						injectDependency: function(dependency) {
 							dependencies.push(dependency);
 						},
-						injectModules: function(module) {
+						injectModules: function (module) {
 							modules.push(module);
 						}
 					}
@@ -200,7 +200,7 @@ describe('swift-kitura', function() {
 			'eu-gb.bluemix.net': 'UK',
 			'au-syd.bluemix.net': 'SYDNEY'
 		};
-		const regionsToTest = Object.keys(sdkRegions)
+		const regionsToTest = Object.keys(sdkRegions);
 		regionsToTest.forEach(region => {
 			describe(region, function () {
 				const optionsBluemix = JSON.parse(fs.readFileSync(require.resolve('./resources/bluemix.json')));
@@ -234,22 +234,22 @@ describe('swift-kitura', function() {
 				it('Can add Push Notifications instrumentation', () => {
 					testAll('service-push', 'push', optionsBluemix.push.serviceInfo.name, {
 						[optionsBluemix.push.serviceInfo.name]: {
-							app_guid: optionsBluemix.push.appGuid,
-							app_secret: optionsBluemix.push.appSecret,
-							client_secret: optionsBluemix.push.clientSecret,
+							appGuid: optionsBluemix.push.appGuid,
+							appSecret: optionsBluemix.push.appSecret,
+							clientSecret: optionsBluemix.push.clientSecret,
 							url: ("http://imfpush." + region)
 						}
-					}, dependencies, modules,codeForServices);
+					}, dependencies, modules, codeForServices);
 				});
 			})
 		})
 	})
 });
 
-function testAll(serviceName, servLookupKey, servInstanceName, localDevConfigJson, dependencies, modules,codeForServices) {
+function testAll(serviceName, servLookupKey, servInstanceName, localDevConfigJson, dependencies, modules, codeForServices) {
 	testServiceDependencies(serviceName, dependencies);
 	testServiceInstrumentation(serviceName, servLookupKey, codeForServices);
-	testServiceModules(serviceName , modules);
+	testServiceModules(serviceName, modules);
 	testMappings(servLookupKey, servInstanceName);
 	testLocalDevConfig(localDevConfigJson || {});
 }
@@ -271,28 +271,33 @@ function testServiceModules(serviceName, modules) {
 		"service-object-storage": "BluemixObjectStorage",
 		"service-redis": "SwiftRedis",
 		"service-mongodb": "MongoKitten",
-		"service-postgre": "SwiftKueryPostgreSQL",
-		"service-push": "IBMPushNotifications",
-		"service-watson-conversation": "WatsonDeveloperCloud"
-	}
-	const module = "\"" + `${serviceVariable[serviceName]}` + "\""
+		"service-postgresql": "SwiftKueryPostgreSQL",
+		"service-push": "BluemixPushNotifications",
+		"service-conversation": "WatsonDeveloperCloud"
+	};
+	const module = "\"" + `${serviceVariable[serviceName]}` + "\"";
 	yassert(modules.indexOf(module) !== -1, 'expected module ' + module);
 }
 
 function testServiceInstrumentation(serviceName, servLookupKey, codeForServices) {
 	let serviceVariable = {
-		"service-alert-notification": "alertNotificationService",
-		"service-appid": "appidService",
+		"service-object-storage": "BluemixObjectStorage",
+		"service-redis": "SwiftRedis",
+		"service-mongodb": "MongoKitten",
+		"service-alertNotification": "alertNotificationService",
+		"service-auth": "appidService",
 		"service-cloudant": "couchDBService",
-		"service-object-storage": "objectStorageService",
-		"service-redis": "redisService",
-		"service-mongodb": "mongoDBService",
-		"service-postgre": "postgreSQLService",
+		"service-objectStorage": "objectStorageService",
+		"service-postgresql": "postgreSQLService",
 		"service-push": "pushNotificationService",
-		"service-watson-conversation": "watsonConversationService"
-	}
+		"service-conversation": "watsonConversationService"
+	};
+
 	function pascalize(name) {
-		return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
+		if (name.indexOf('-') > -1) {
+			name = name.substring(0, name.indexOf('-')) + name[name.indexOf('-') + 1].toUpperCase() + name.substring(name.indexOf('-') + 2);
+		}
+		return name[0].toUpperCase() + name.substring(1); //return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
 	}
 	let expectedInitFunctionDeclaration = `initialize${pascalize(serviceName)}(cloudEnv: cloudEnv)`;
 	let expectedInitFunctionTemplate = `initialize${pascalize(serviceName)}(cloudEnv: CloudEnv)`;
@@ -302,26 +307,28 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 		yassert(codeForServices.indexOf(`${serviceVariable[serviceName]} = try ${expectedInitFunctionDeclaration}`) !== -1);
 	}
 
-	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `name: "${servLookupKey}"`);
-	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `func ${expectedInitFunctionTemplate}`);
+	yassert.fileContent(`Sources/Application/Services/Service${pascalize(servLookupKey)}.swift`, `name: "${servLookupKey}"`);
+	yassert.fileContent(`Sources/Application/Services/Service${pascalize(servLookupKey)}.swift`, `func ${expectedInitFunctionTemplate}`);
+
 }
 
 function testMappings(servLookupKey, servInstanceName) {
 	const envVariableName = 'service_' + servLookupKey;
 	const expectedMappings = {
 		[servLookupKey]: {
-			searchPatterns: [
-				"cloudfoundry:" + servInstanceName,
-				"env:" + envVariableName,
-				"file:/config/localdev-config.json:" + servInstanceName
-			]
+			credentials: {
+				searchPatterns: [
+					"cloudfoundry:" + servInstanceName,
+					"env:" + envVariableName,
+					"file:/config/localdev-config.json:" + servInstanceName
+				]
+			}
 		}
 	};
 
-	//logger.debug("expectedMappings: " + JSON.stringify(expectedMappings));
 	yassert.jsonFileContent(SERVER_MAPPINGS_JSON, expectedMappings);
 }
 
-function testLocalDevConfig(json){
+function testLocalDevConfig(json) {
 	yassert.jsonFileContent(SERVER_LOCALDEV_CONFIG_JSON, json);
 }

@@ -1,0 +1,18 @@
+{
+    "version": 1,
+    {{#each keys}}
+    "{{../serviceName}}_{{this}}" : {
+        "searchPatterns": [
+            {{#if ../cloudFoundryIsArray}}
+            "cloudfoundry:$['{{../cloudFoundryKey}}'][0].credentials.{{this}}",
+            {{else}}
+            "cloudfoundry:$['{{{../cloudFoundryKey}}}'].credentials.{{this}}",
+            {{/if}}
+            "env:service_{{../serviceName}}",
+            "env:{{../serviceName}}_{{this}}",
+            "file:/{{../generatorLocation}}/localdev-config.json:$.{{../serviceName}}_{{this}}"
+        ]
+    }{{#ifNotLastItem len @index}},{{/if}}
+    {{/each}}
+
+}
