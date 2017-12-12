@@ -248,9 +248,10 @@ module.exports = class extends Generator {
 	_addInstrumentation(options){
 		options.targetFileName = options.targetFileName.replace(/-/g, "_");
 
-		this.fs.copy(
+		this.fs.copyTpl(
 			options.sourceFilePath,
-			this.destinationPath() + "/server/services/" + options.targetFileName
+			this.destinationPath() + "/server/services/" + options.targetFileName,
+			this.context
 		);
 
 		let servicesInitFilePath = this.destinationPath("./server/services/" + SERVICES_INIT_FILE);
@@ -258,13 +259,22 @@ module.exports = class extends Generator {
 
 		let module = options.targetFileName.replace(".py","");
 		let importToAdd = "from . import " + module + "\n" + GENERATE_IMPORT_HERE;
-		let contentToAdd = "\n\tname, service = " + module + ".getService(app)\n" +
-			"\tservice_manager.set(name, service)\n" + GENERATE_HERE;
 
-		indexFileContent = indexFileContent.replace(GENERATE_HERE, contentToAdd);
-		indexFileContent = indexFileContent.replace(GENERATE_IMPORT_HERE, importToAdd);
-		this.fs.write(servicesInitFilePath, indexFileContent);
+		if (this.context.bluemix.backendPlatform.toLowerCase() === 'django'){
+			let contentToAdd = "\n\tname, service = " + module + ".getService()\n" +
+				"\tservice_manager.set(name, service)\n" + GENERATE_HERE;
 
+			indexFileContent = indexFileContent.replace(GENERATE_HERE, contentToAdd);
+			indexFileContent = indexFileContent.replace(GENERATE_IMPORT_HERE, importToAdd);
+			this.fs.write(servicesInitFilePath, indexFileContent);
+		}else{
+			let contentToAdd = "\n\tname, service = " + module + ".getService(app)\n" +
+				"\tservice_manager.set(name, service)\n" + GENERATE_HERE;
+
+			indexFileContent = indexFileContent.replace(GENERATE_HERE, contentToAdd);
+			indexFileContent = indexFileContent.replace(GENERATE_IMPORT_HERE, importToAdd);
+			this.fs.write(servicesInitFilePath, indexFileContent);
+		}
 
 	}
 
@@ -293,8 +303,7 @@ module.exports = class extends Generator {
 		}
 
 
-
-		return [ Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()}) , Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()})];
-
+		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()})
+			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}));
 	}
 };

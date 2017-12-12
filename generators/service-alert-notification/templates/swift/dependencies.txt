@@ -1,1 +1,1 @@
-.package(url: "https://github.com/IBM-Swift/alert-notification-sdk.git", from: "1.0.0"),
+.package(url: "https://github.com/IBM-Swift/alert-notification-sdk.git", from: "2.0.0"),
