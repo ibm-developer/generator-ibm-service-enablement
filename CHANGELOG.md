@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.3"></a>
+## [0.6.3](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.2...v0.6.3) (2017-12-13)
+
+
+### Bug Fixes
+
+* **build:** make base for auto pull request to be against master ([636c544](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/636c544))
+
+
+
 <a name="0.6.2"></a>
 ## [0.6.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.1...v0.6.2) (2017-12-13)
 
