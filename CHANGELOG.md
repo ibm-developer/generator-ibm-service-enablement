@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.2"></a>
+## [0.6.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.1...v0.6.2) (2017-12-13)
+
+
+### Bug Fixes
+
+* fixed flask and gunicorn not generating in project and ran tests for them ([f445c50](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/f445c50))
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.0...v0.6.1) (2017-12-06)
 
