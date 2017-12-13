@@ -4,6 +4,7 @@ const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const fs = require('fs');
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
+const ejs = require('ejs');
 
 const GENERATOR_PATH = '../generators/app/index.js';
 const REQUIREMENTS_TXT = 'requirements.txt';
@@ -17,18 +18,35 @@ describe('python-flask', function () {
 		optionsBluemix.backendPlatform = "PYTHON";
 		return helpers
 			.run(path.join(__dirname, GENERATOR_PATH))
-			.inTmpDir()
+			.inTmpDir(function(dir){
+				const pipfile = '[[source]]\n' +
+					'\n' +
+					'url = "https://pypi.python.org/simple"\n' +
+					'verify_ssl = true\n' +
+					'name = "pypi"\n' +
+					'\n' +
+					'\n' +
+					'[dev-packages]\n' +
+					'\n' +
+					'\n' +
+					'[packages]\n' +
+					'Flask = \'==0.11.1\'\n' +
+					'gunicorn = \'==19.7.1\'';
+
+				fs.writeFileSync(dir + '/Pipfile', pipfile);
+				console.log(dir);
+			})
 			.withOptions({
 				bluemix: JSON.stringify(optionsBluemix)
 			})
-			.then((tmpDir) => {
-				console.info(tmpDir);
-			});
+
 	});
 
 	it('Can run successful generation and create files', () => {
 		yassert.file(REQUIREMENTS_TXT);
 		yassert.file('.gitignore');
+		yassert.file('Pipfile');
+		yassert.fileContent('Pipfile', 'Flask');
 		yassert.file('server');
 		yassert.file('server/config');
 		yassert.file(SERVER_MAPPINGS_JSON);
@@ -326,7 +344,10 @@ function testServiceInstrumentation(serviceName) {
 	yassert.file('server/services/' + pythonServiceName + '.py');
 
 	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "python", "instrumentation.py");
-	const expectedInstrumentation = fs.readFileSync(filePath, 'utf-8')
+	let expectedInstrumentation = fs.readFileSync(filePath, 'utf-8');
+	expectedInstrumentation = ejs.render(expectedInstrumentation, {bluemix: optionsBluemix});
+	// let template = HandleBars.compile(expectedInstrumentation);
+	// expectedInstrumentation = template.compile({
 	yassert.fileContent('server/services/' + pythonServiceName + '.py', expectedInstrumentation);
 }
 

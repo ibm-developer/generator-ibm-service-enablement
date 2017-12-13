@@ -32,7 +32,7 @@ def base64_to_long(data):
 
 def intarr2long(arr):
     return int(''.join(["%02x" % byte for byte in arr]), 16)
-
+<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
     config = {}
     SERVER_URL = IBMCloudEnv.getString('appid_oauth_server_url')
@@ -56,3 +56,28 @@ def getService(app):
     config['appid-introspect-path'] = INTROSPECTION_URL
 
     return 'appid', config
+<% } else { %>
+def getService():
+    config = {}
+    SERVER_URL = IBMCloudEnv.getString('appid_oauth_server_url')
+    PUBLIC_KEY_URL = SERVER_URL + "/publickey"
+    TOKEN_PATH = SERVER_URL + "/token"
+    INTROSPECTION_URL = SERVER_URL + "/introspect"
+    AUTH_URL = SERVER_URL + "/authorization"
+    
+    content = urlopen(PUBLIC_KEY_URL).read()
+    publicKeyJson = content
+    parsed = json.loads(publicKeyJson)
+    pem = pemFromModExp(parsed['n'], parsed['e'])
+    
+    config['appid-public-key'] = publicKeyJson
+    config['appid-pem'] = pem
+    config['appid-context'] = 'APPID_AUTH_CONTEXT'
+    config['appid-client-id'] = IBMCloudEnv.getString('appid_client_id')
+    config['appid-authorization-endpoint'] = AUTH_URL
+    config['appid-secret'] = IBMCloudEnv.getString('appid_secret')
+    config['appid-token-path'] = TOKEN_PATH
+    config['appid-introspect-path'] = INTROSPECTION_URL
+    
+    return 'appid', config
+<% } %>

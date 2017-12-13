@@ -10,9 +10,9 @@ const GENERATE_IMPORT_HERE = "# GENERATE IMPORT HERE";
 const PATH_MAPPINGS_FILE = "./server/config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "server/localdev-config.json";
 const PATH_REQUIREMENTS_TXT = "./requirements.txt";
-const PATH_PIPFILE = "Pipfile.txt";
 const PATH_PIPFILE_JSON = "/Pipfile.json";
 const PATH_GIT_IGNORE = "./.gitignore";
+const PATH_PIPFILE = 'Pipfile';
 const SERVICES_INIT_FILE = "__init__.py";
 const SOURCES = '[[source]]';
 const DEV_PACKAGES = '[dev-packages]';
@@ -109,6 +109,7 @@ module.exports = class extends Generator {
 		if ( serviceDepdendenciesString.indexOf('{') > -1 && this.fs.exists(pipfileUserPath)){
 			let userPipfile = this.fs.read( pipfileUserPath);
 			let pipFileLanguageContent = JSON.parse(this.fs.read(jsonLanguagePath));
+
 			//only adding services to sources content so these calls are unnecessary for now
 			//this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, SOURCES);
 			//this._addServiceToPipfile(pipFileLanguageContent, serviceDepdendenciesString, userPipfile, DEV_PACKAGES);
@@ -149,7 +150,6 @@ module.exports = class extends Generator {
 			}
 		}
 		else {
-
 			this.fs.write(pipfileUserPath, this._createPipfile(serviceDepdendenciesString));
 		}
 
@@ -203,7 +203,8 @@ module.exports = class extends Generator {
 				if (userPipfile.indexOf(snippet) === -1) {
 					//add the snippet to the user's pipfile
 					let splitArray = userPipfile.split(`${packageType}\n`);
-					userPipfile = splitArray[0] + `${snippet}` + splitArray[1];
+
+					userPipfile = splitArray[0] + '[packages]\n' + `${snippet}\n` + splitArray[1];
 
 
 				} else {
@@ -216,6 +217,7 @@ module.exports = class extends Generator {
 			for (let i = 0; i < keys.length; i++) {
 
 				let snippet = `${keys[i]} ='${content[keys[i]]}'`;
+
 				if (userPipfile.indexOf(snippet) === -1) {
 					//add the source to the pipfile
 					let splitArray = userPipfile.split(`${packageType}\n`);
@@ -246,9 +248,10 @@ module.exports = class extends Generator {
 	_addInstrumentation(options){
 		options.targetFileName = options.targetFileName.replace(/-/g, "_");
 
-		this.fs.copy(
+		this.fs.copyTpl(
 			options.sourceFilePath,
-			this.destinationPath() + "/server/services/" + options.targetFileName
+			this.destinationPath() + "/server/services/" + options.targetFileName,
+			this.context
 		);
 
 		let servicesInitFilePath = this.destinationPath("./server/services/" + SERVICES_INIT_FILE);
@@ -256,13 +259,22 @@ module.exports = class extends Generator {
 
 		let module = options.targetFileName.replace(".py","");
 		let importToAdd = "from . import " + module + "\n" + GENERATE_IMPORT_HERE;
-		let contentToAdd = "\n\tname, service = " + module + ".getService(app)\n" +
-			"\tservice_manager.set(name, service)\n" + GENERATE_HERE;
 
-		indexFileContent = indexFileContent.replace(GENERATE_HERE, contentToAdd);
-		indexFileContent = indexFileContent.replace(GENERATE_IMPORT_HERE, importToAdd);
-		this.fs.write(servicesInitFilePath, indexFileContent);
+		if (this.context.bluemix.backendPlatform.toLowerCase() === 'django'){
+			let contentToAdd = "\n\tname, service = " + module + ".getService()\n" +
+				"\tservice_manager.set(name, service)\n" + GENERATE_HERE;
 
+			indexFileContent = indexFileContent.replace(GENERATE_HERE, contentToAdd);
+			indexFileContent = indexFileContent.replace(GENERATE_IMPORT_HERE, importToAdd);
+			this.fs.write(servicesInitFilePath, indexFileContent);
+		}else{
+			let contentToAdd = "\n\tname, service = " + module + ".getService(app)\n" +
+				"\tservice_manager.set(name, service)\n" + GENERATE_HERE;
+
+			indexFileContent = indexFileContent.replace(GENERATE_HERE, contentToAdd);
+			indexFileContent = indexFileContent.replace(GENERATE_IMPORT_HERE, importToAdd);
+			this.fs.write(servicesInitFilePath, indexFileContent);
+		}
 
 	}
 
@@ -290,7 +302,7 @@ module.exports = class extends Generator {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
 
-		this.fs.move(this.destinationPath() + '/Pipfile.txt', this.destinationPath() + '/Pipfile', {nodir: true});
+
 		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()})
 			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}));
 	}

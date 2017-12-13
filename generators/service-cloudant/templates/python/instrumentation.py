@@ -7,5 +7,10 @@ url = IBMCloudEnv.getString('cloudant_url')
 
 cloudant = Cloudant(username, password, url=url, connect=True, auto_renew=True)
 
+<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
     return 'cloudant', cloudant
+<% } else { %>
+def getService():
+    return 'cloudant', cloudant
+<% } %>
