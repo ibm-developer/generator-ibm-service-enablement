@@ -155,7 +155,7 @@ function addServicesToPipelineYamlAsync(args) {
 					logger.info(`pipeline.yaml cf section index: ${bashIndex}`);
 					let spacesPrefix = line.slice(0, bashIndex);
 					context.servicesInfo.forEach( function(service) {
-						pipelineFileString += spacesPrefix + "cf create-service " + service.label + " " + service.plan + " " + service.name + "\n";
+						pipelineFileString += spacesPrefix + `cf create-service "${service.label}" "${service.plan}" "${service.name}"\n`;
 					})
 				}
 			}
