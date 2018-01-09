@@ -55,6 +55,9 @@ module.exports = class extends Generator {
 			this.destinationPath("./server/services/" + SERVICES_INIT_FILE)
 		);
 
+		// Add an empty mappings.json file in case there are no binding services
+		this._addMappings({});
+
 		// Security Services
 		this.composeWith(require.resolve('../service-appid'), {context: this.context});
 

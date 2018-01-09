@@ -11,6 +11,25 @@ const REQUIREMENTS_TXT = 'requirements.txt';
 const SERVER_MAPPINGS_JSON = 'server/config/mappings.json';
 const SERVER_LOCALDEV_CONFIG_JSON = 'server/localdev-config.json';
 
+describe('python-flask without services', function() {
+	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
+
+	before(() => {
+		return helpers
+			.run(path.join(__dirname, GENERATOR_PATH))
+			.withOptions({
+				bluemix: JSON.stringify({
+					"name": "AcmeProject",
+					"backendPlatform": "PYTHON"
+				})
+			})
+	});
+
+	it('creates an empty mappings.json file', () => {
+		yassert.file(SERVER_MAPPINGS_JSON);
+	});
+});
+
 describe('python-flask', function () {
 	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
 
