@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.5"></a>
+## [0.6.5](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.4...v0.6.5) (2018-01-09)
+
+
+### Bug Fixes
+
+* Python generates empty mappings file when no services are added ([faf651b](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/faf651b))
+
+
+
 <a name="0.6.4"></a>
 ## [0.6.4](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.3...v0.6.4) (2017-12-21)
 
