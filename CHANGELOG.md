@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.6"></a>
+## [0.6.6](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.5...v0.6.6) (2018-01-11)
+
+
+### Bug Fixes
+
+* **docs:** remove development branch from contribution section ([5a02ed7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/5a02ed7))
+
+
+
 <a name="0.6.5"></a>
 ## [0.6.5](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.4...v0.6.5) (2018-01-09)
 
