@@ -40,7 +40,7 @@ workspace_id = 'bdce14dd-65ce-4e50-91b9-dea4d7445393'
 # Add new data to the collection
 @app.route('/sendMessage/<string:message>')
 def sendMessage(message):
-	response = conversation.message(workspace_id=workspace_id, message_input={
+	response = conversation.message(workspace_id=workspace_id, input={
 		'text': message
 	})
 
