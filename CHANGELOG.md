@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.7...v0.7.0) (2018-01-23)
+
+
+### Features
+
+* **templates:** Update Spring Cloudant templates with new library ([9fa7d90](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/9fa7d90))
+
+
+
 <a name="0.6.7"></a>
 ## [0.6.7](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.6...v0.6.7) (2018-01-12)
 
