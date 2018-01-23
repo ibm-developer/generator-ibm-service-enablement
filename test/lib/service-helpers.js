@@ -35,7 +35,7 @@ function serviceCloudant(optionsBluemix) {
 		instrumentation: {
 			java_liberty: [{name : "src/main/java/application/cloudant/Cloudant.java", contents : "@ConfigProperty"}, 
 				{name : "src/main/java/application/cloudant/CloudantCredentials.java"}],
-			java_spring: [{name : "src/main/java/application/cloudant/CloudantClientConfig.java", contents: "@Autowired"}]
+			java_spring: []
 		}
 	};
 }
