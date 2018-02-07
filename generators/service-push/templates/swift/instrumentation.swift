@@ -1,15 +1,15 @@
 import LoggerAPI
 import CloudEnvironment
-import BluemixPushNotifications
+import IBMPushNotifications
 
 func initializeServicePush(cloudEnv: CloudEnv) throws -> PushNotifications {
     guard let pushNotificationsCredentials = cloudEnv.getPushSDKCredentials(name: "{{servLookupKey}}") else {
         throw InitializationError("Could not load credentials for Push Notifications.")
     }
     let pushNotifications = PushNotifications(
-        bluemixRegion: pushNotificationsCredentials.region,
-        bluemixAppGuid: pushNotificationsCredentials.appGuid,
-        bluemixAppSecret: pushNotificationsCredentials.appSecret
+        pushRegion: pushNotificationsCredentials.region,
+        pushAppGuid: pushNotificationsCredentials.appGuid,
+        pushAppSecret: pushNotificationsCredentials.appSecret
     )
     Log.info("Found and loaded credentials for Push Notifications.")
     return pushNotifications

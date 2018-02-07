@@ -272,7 +272,7 @@ function testServiceModules(serviceName, modules) {
 		"service-redis": "SwiftRedis",
 		"service-mongodb": "MongoKitten",
 		"service-postgre": "SwiftKueryPostgreSQL",
-		"service-push": "BluemixPushNotifications",
+		"service-push": "IBMPushNotifications",
 		"service-watson-conversation": "WatsonDeveloperCloud"
 	}
 	const module = "\"" + `${serviceVariable[serviceName]}` + "\""
