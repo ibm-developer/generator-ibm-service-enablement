@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.7.0...v0.8.0) (2018-02-07)
+
+
+### Features
+
+* update Swift services for Kitura 2.1.x ([#188](https://github.com/ibm-developer/generator-ibm-service-enablement/issues/188)) ([3ce715f](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/3ce715f))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.6.7...v0.7.0) (2018-01-23)
 
