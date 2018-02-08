@@ -15,6 +15,8 @@ function addServicesEnvToDeploymentYamlAsync(args) {
 		let context = args.context;
 		let destinationPath = args.destinationPath;
 
+		logger.setLevel(context.loggerLevel);
+
 		let hasServices = context.deploymentServicesEnv && context.deploymentServicesEnv.length > 0;
 		if (!hasServices) {
 			logger.info('No services to add to deployment.yaml');
