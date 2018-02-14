@@ -3,13 +3,12 @@ const logger = require('log4js').getLogger("generator-service-enablement:languag
 const Generator = require('yeoman-generator');
 const handlebars = require('handlebars');
 const path = require('path');
-
-
+const fs = require('fs');
 const Utils = require('../lib/Utils');
+const scaffolderMapping = require('../resources/scaffolderMapping.json');
 
 // Load mappings between bluemix/scaffolder labels and the labels generated in the localdev-config.json files
 const bluemixLabelMappings = require('./bluemix-label-mappings.json');
-const nativeFS = require('fs');
 
 const PATH_MAPPINGS_FILE = "./config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "./config/localdev-config.json";
@@ -28,6 +27,9 @@ module.exports = class extends Generator {
 	}
 
 	initializing() {
+		let serviceCredentials,
+			scaffolderKey,
+			serviceKey;
 		this.context.dependenciesFile = "dependencies.txt";
 		this.context.languageFileExt = ".swift";
 
@@ -37,19 +39,26 @@ module.exports = class extends Generator {
 		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
 
-		let bluemixKeys = Object.keys(this.context.bluemix),
-			key,
-			serviceCredentials;
 
-		for (let i = 0; i < bluemixKeys.length; i++) {
-			key = bluemixKeys[i];
-			serviceCredentials = Array.isArray(this.context.bluemix[key]) ? this.context.bluemix[key][0] : this.context.bluemix[key];
-			if (typeof(serviceCredentials) === 'object' && serviceCredentials.serviceInfo
-				&& nativeFS.existsSync(path.join(__dirname, '..', `service-${key}`))) {
-				this.context.cloudLabel = serviceCredentials.serviceInfo.cloudLabel;
-				this.composeWith(require.resolve(`../service-${key}`), {context: this.context});
+		let root = path.join(path.dirname(require.resolve('../app')), '../');
+		let folders = fs.readdirSync(root);
+		folders.forEach(folder => {
+			if (folder.startsWith('service-')) {
+				serviceKey = folder.substring(folder.indexOf('-') + 1);
+				scaffolderKey = scaffolderMapping[serviceKey];
+				serviceCredentials = Array.isArray(this.context.bluemix[scaffolderKey])
+					? this.context.bluemix[scaffolderKey][0] : this.context.bluemix[scaffolderKey];
+				logger.debug("Composing with service : " + folder);
+				try {
+					this.context.cloudLabel = serviceCredentials && serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
+					this.composeWith(path.join(root, folder), {context: this.context});
+				} catch (err) {
+					/* istanbul ignore next */      //ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
+					logger.warn('Unable to compose with service', folder, err);
+				}
 			}
-		}
+		});
+		
 	}
 
 	_addDependencies(serviceDependenciesString) {
@@ -91,16 +100,17 @@ module.exports = class extends Generator {
 
 	_addInstrumentation(options) {
 		function pascalize(name) {
-			if (name.indexOf('-') > -1) {
+			return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
+		/*	if (name.indexOf('-') > -1) {
 				name = name.substring(0, name.indexOf('-')) + name[name.indexOf('-') + 1].toUpperCase() + name.substring(name.indexOf('-') + 2);
 			}
 			return name[0].toUpperCase() + name.substring(1);
-
+*/
 		}
 
 		if (this.context.injectIntoApplication) {
-
-			let targetName = `Service${pascalize(options.servLabel)}`//pascalize(path.basename(options.targetFileName, extension));
+			let extension = path.extname(options.targetFileName);
+			let targetName = pascalize(path.basename(options.targetFileName, extension));
 
 			// Copy source file
 			let targetFilePath = this.destinationPath('Sources', 'Application', 'Services', targetName + this.context.languageFileExt);
@@ -156,6 +166,10 @@ module.exports = class extends Generator {
 	_getServiceInstanceName(bluemixKey) {
 		// Lookup metadata object using bluemix/scaffolder key
 		const serviceMetaData = this.context.bluemix[bluemixKey];
+
+		if(!serviceMetaData){
+			return null;
+		}
 		//logger.info("stringfy: " + JSON.stringify(this.context.bluemix[bluemixKey]));
 		const instanceName = Array.isArray(serviceMetaData) ?
 			serviceMetaData[0].serviceInfo.name : serviceMetaData.serviceInfo.name;
@@ -186,6 +200,7 @@ module.exports = class extends Generator {
 		// Load the generated localdev-config.json
 		// We will "massage" this file so it is compatible with CloudEnvironment
 		const localDevConfig = this.fs.readJSON(this.destinationPath(PATH_LOCALDEV_CONFIG_FILE), {});
+
 		// Get all keys from localdev-config.json
 		const credentialItems = Object.keys(localDevConfig);
 		// Initialize structure for storing credentials
@@ -203,7 +218,7 @@ module.exports = class extends Generator {
 		for (let index in credentialItems) {
 			const credentialItem = credentialItems[index];
 			logger.debug("-----------------------------");
-			logger.debug(credentialItem + ": " + localDevConfig[credentialItem]);
+			logger.log(credentialItem + ": " + localDevConfig[credentialItem]);
 
 			// Look up prefix and bluemix key for current credentials item
 			let currentPrefix;
@@ -227,6 +242,11 @@ module.exports = class extends Generator {
 
 			// Generate entry for mappings.json
 			const instanceName = this._getServiceInstanceName(bluemixKey);
+
+			if(!instanceName){
+				logger.error(`Service ${bluemixKey} was not provisioned`);
+				continue;
+			}
 
 			// Are we processing a new credentials set or an existing one?
 			let serviceCredentials;

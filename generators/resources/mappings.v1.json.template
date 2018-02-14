@@ -1,18 +1,29 @@
 {
     "version": 1,
-    {{#each keys}}
-    "{{../serviceName}}_{{this}}" : {
+    {{#each credentialKeys}}
+    "{{../serviceKey}}_{{this}}" : {
         "searchPatterns": [
             {{#if ../cloudFoundryIsArray}}
-            "cloudfoundry:$['{{../cloudFoundryKey}}'][0].credentials.{{this}}",
+            "cloudfoundry:$['{{../cloudFoundryKey}}'][0].credentials.{{access ../map this ../nestedJSON}}",
             {{else}}
-            "cloudfoundry:$['{{{../cloudFoundryKey}}}'].credentials.{{this}}",
+            "cloudfoundry:$['{{../cloudFoundryKey}}'].credentials.{{access ../map this ../nestedJSON}}",
             {{/if}}
-            "env:service_{{../serviceName}}",
-            "env:{{../serviceName}}_{{this}}",
-            "file:/{{../generatorLocation}}/localdev-config.json:$.{{../serviceName}}_{{this}}"
+            "env:service_{{../serviceKey}}:$.{{access ../map this ../nestedJSON}}",
+            "env:{{../serviceKey}}_{{access ../map this ../nestedJSON}}",
+            "file:/{{../generatorLocation}}/localdev-config.json:$.{{../serviceKey}}_{{access ../map this false}}",
+            "file:/localdev-config.json$.{{../serviceKey}}_{{access ../map this false}}"
         ]
-    }{{#ifNotLastItem len @index}},{{/if}}
+    },
+    "{{../serviceKey}}": {
+            "credentials": {
+                 "searchPatterns": [
+                    "cloudfoundry:{{../serviceKey}}",
+                    "env:{{../serviceKey}}_credentials",
+                    "file:/{{generatorLocation}}/localdev-config.json:{{../serviceKey}}_credentials"
+                 ]
+            }
+        },
+    
     {{/each}}
 
 }

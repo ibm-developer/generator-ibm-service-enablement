@@ -43,6 +43,7 @@
     "eslint-plugin-ejs": "0.0.2",
     "fs-extra": "^4.0.1",
     "http-proxy": "^1.16.2",
+    "js-yaml": "^3.10.0",
     "mem-fs-editor": "^3.0.2",
     "mocha": "^3.4.2",
     "nyc": "^11.0.2",

@@ -1,0 +1,10 @@
+{
+	"postgre_uri":{
+		"searchPatterns": [
+			"cloudfoundry:$['compose-for-postgresql'][0].credentials.uri",
+			"env:service_postgre:$.uri",
+			"file:/server/localdev-config.json:$.postgre_uri"
+		]
+	}
+}
+

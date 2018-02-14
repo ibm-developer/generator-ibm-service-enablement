@@ -4,11 +4,13 @@ const logger = Log4js.getLogger("generator-ibm-service-enablement:language-node-
 const path = require('path');
 
 const Utils = require('../lib/Utils');
-const nativeFS = require('fs');
+const fs = require('fs');
 
 let Generator = require('yeoman-generator');
 
 const GENERATE_HERE = "// GENERATE HERE";
+
+const scaffolderMapping = require('../resources/scaffolderMapping.json');
 const GENERATOR_LOCATION = 'server';
 const PATH_MAPPINGS_FILE = "./server/config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "server/localdev-config.json";
@@ -36,9 +38,9 @@ module.exports = class extends Generator {
 	}
 
 	writing() {
-		let bluemixKeys,
-			serviceCredentials,
-			key;
+		let serviceCredentials,
+			scaffolderKey,
+			serviceKey;
 		this._addDependencies(this.fs.read(this.templatePath() + "/" + this.context.dependenciesFile));
 
 		this.fs.copy(
@@ -51,17 +53,26 @@ module.exports = class extends Generator {
 			this.destinationPath("./server/services/index.js")
 		);
 
-		bluemixKeys = Object.keys(this.context.bluemix);
-
-		for(let i = 0; i < bluemixKeys.length; i++){
-			key = bluemixKeys[i];
-			serviceCredentials = Array.isArray(this.context.bluemix[key]) ? this.context.bluemix[key][0] : this.context.bluemix[key];
-			if(typeof(serviceCredentials) === 'object' && serviceCredentials.serviceInfo
-					&& nativeFS.existsSync(path.join(__dirname, '..', `service-${key}`))){
-				this.context.cloudLabel = serviceCredentials.serviceInfo.cloudLabel;
-				this.composeWith(require.resolve(`../service-${key}`), {context: this.context});
+		//initializing ourselves by composing with the service generators
+		let root = path.join(path.dirname(require.resolve('../app')), '../');
+		let folders = fs.readdirSync(root);
+		folders.forEach(folder => {
+			if (folder.startsWith('service-')) {
+				serviceKey = folder.substring(folder.indexOf('-') + 1);
+				scaffolderKey = scaffolderMapping[serviceKey];
+				serviceCredentials = Array.isArray(this.context.bluemix[scaffolderKey])
+					? this.context.bluemix[scaffolderKey][0] : this.context.bluemix[scaffolderKey];
+				logger.debug("Composing with service : " + folder);
+				try {
+					this.context.cloudLabel = serviceCredentials && serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
+					this.composeWith(path.join(root, folder), {context: this.context});
+				} catch (err) {
+					/* istanbul ignore next */	//ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
+					logger.warn('Unable to compose with service', folder, err);
+				}
 			}
-		}
+		});
+
 	}
 
 	_addDependencies(serviceDepdendenciesString){

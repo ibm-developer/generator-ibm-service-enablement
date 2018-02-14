@@ -3,7 +3,7 @@ const Redis = require('redis');
 const URL = require('url').URL;
 
 module.exports = function(app, serviceManager){
-	const uri = IBMCloudEnv.getDictionary('redis').uri;
+	const uri = IBMCloudEnv.getString('redis_uri');
 	let client = null;
 
 	/**

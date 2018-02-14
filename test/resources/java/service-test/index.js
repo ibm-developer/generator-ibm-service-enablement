@@ -4,7 +4,7 @@ const SCAFFOLDER_PROJECT_PROPERTY_NAME = "test";
 const CLOUD_FOUNDRY_SERVICE_NAME = "test";
 const config = {
 	cloudFoundryIsArray: true,
-	mappingVersion: 2
+	mappingVersion: 1
 };
 
 module.exports = class extends BaseGenerator {

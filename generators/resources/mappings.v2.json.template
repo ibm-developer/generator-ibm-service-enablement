@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "{{serviceName}}" : {
+    "{{serviceKey}}" : {
         {{#each keys}}
         "{{this}}": {
             "searchPatterns": [
@@ -9,19 +9,20 @@
                 {{else}}
                 "cloudfoundry:$['{{{../cloudFoundryKey}}}'].credentials.{{this}}",
                 {{/if}}
-                "env:service_{{../serviceName}}",
-                "env:{{../serviceName}}_{{this}}",
-                "file:/{{../generatorLocation}}/localdev-config.json:$.{{../serviceName}}_{{this}}"
+                "env:service_{{../serviceKey}}",
+                "env:{{../serviceKey}}_{{this}}",
+                "file:/{{../generatorLocation}}/localdev-config.json:$.{{../serviceKey}}_{{this}}"
             ]
         },
-        {{/each}}
-        "credentials": {
-            "searchPatterns": [
-               "cloudfoundry:{{serviceName}}",
-               "env:{{serviceName}}_credentials",
-               "file:/{{generatorLocation}}/localdev-config.json:{{serviceName}}_credentials"
+    },
 
-            ]
-        }
-    }
+	{{/each}}
+	"credentials": {
+		"searchPatterns": [
+		   "cloudfoundry:{{serviceKey}}",
+		   "env:{{serviceKey}}_credentials",
+		   "file:/{{generatorLocation}}/localdev-config.json:{{serviceKey}}_credentials"
+
+		]
+	}
 }

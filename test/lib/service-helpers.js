@@ -42,7 +42,7 @@ function serviceCloudant(optionsBluemix) {
 
 function serviceObjectStorage(optionsBluemix) {
 	return {
-		location: 'service-objectStorage',
+		location: 'service-object-storage',
 		bluemixName: 'objectStorage',
 		localDevConfig: {
 			object_storage_projectId: optionsBluemix.objectStorage[0].projectId,
@@ -76,9 +76,9 @@ function serviceMongodb(optionsBluemix) {
 	};
 }
 
-function serviceConversation(optionsBluemix) {
+function serviceWatsonConversation(optionsBluemix) {
 	return {
-		location: 'service-conversation',
+		location: 'service-watson-conversation',
 		bluemixName: 'conversation',
 		localDevConfig: {
 			watson_conversation_url: optionsBluemix.conversation.url,
@@ -110,7 +110,7 @@ function servicePush(optionsBluemix) {
 
 function serviceAlertNotification(optionsBluemix) {
 	return {
-		location: 'service-alertNotification',
+		location: 'service-alert-notification',
 		bluemixName: 'alertNotification',
 		localDevConfig: {
 			alert_notification_url: optionsBluemix.alertNotification.url,
@@ -148,7 +148,7 @@ module.exports = {
 	serviceCloudant: serviceCloudant,
 	serviceObjectStorage: serviceObjectStorage,
 	serviceMongodb: serviceMongodb,
-	serviceConversation: serviceConversation,
+	serviceWatsonConversation: serviceWatsonConversation,
 	servicePush: servicePush,
 	serviceAlertNotification: serviceAlertNotification,
 	serviceTest: serviceTest

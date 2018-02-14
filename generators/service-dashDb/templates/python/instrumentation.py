@@ -6,7 +6,7 @@ from ibmdbpy import IdaDataFrame
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
 
-   idadb=IdaDataBase(dsn=IBMCloudEnv.getDictionary('dashdb')['jdbcurl'])
+   idadb=IdaDataBase(dsn=IBMCloudEnv.getString('dashdb_jdbcurl')
 
    content = {
         'idadb': idadb,

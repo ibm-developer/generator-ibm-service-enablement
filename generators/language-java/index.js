@@ -20,6 +20,7 @@ const fs = require('fs');
 const path = require('path');
 const handlebars = require('handlebars');
 const PATH_METAINF = "src/main/resources/META-INF/";
+const scaffolderMapping = require('../resources/scaffolderMapping.json');
 
 const Utils = require('../lib/Utils');
 const javaUtils = require('../lib/javautils');
@@ -40,6 +41,9 @@ module.exports = class extends Generator {
 
 	//setup all the values we need to pass in the context
 	initializing() {
+		let serviceCredentials,
+			scaffolderKey,
+			serviceKey;
 		this.context.dependenciesFile = "config.json.template";
 		this.context.languageFileExt = "";
 
@@ -57,12 +61,13 @@ module.exports = class extends Generator {
 		let folders = fs.readdirSync(root);
 		folders.forEach(folder => {
 			if (folder.startsWith('service-')) {
-				let key = folder.substring(folder.indexOf('-') + 1);
-				let serviceCredentials = Array.isArray(this.context.bluemix[key])
-					? this.context.bluemix[key][0] : this.context.bluemix[key];
+				serviceKey = folder.substring(folder.indexOf('-') + 1);
+				scaffolderKey = scaffolderMapping[serviceKey];
+				serviceCredentials = Array.isArray(this.context.bluemix[scaffolderKey])
+					? this.context.bluemix[scaffolderKey][0] : this.context.bluemix[scaffolderKey];
 				logger.debug("Composing with service : " + folder);
 				try {
-					this.context.cloudLabel = serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
+					this.context.cloudLabel = serviceCredentials && serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
 					this.composeWith(path.join(root, folder), {context: this.context});
 				} catch (err) {
 					/* istanbul ignore next */      //ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail

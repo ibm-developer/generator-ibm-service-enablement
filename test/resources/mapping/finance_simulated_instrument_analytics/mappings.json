@@ -1,0 +1,16 @@
+{
+	"finance_simulated_instrument_analytics_uri":{
+		"searchPatterns": [
+			"cloudfoundry:$['fss-scenario-analytics-service'][0].credentials.uri",
+			"env:service_finance_simulated_instrument_analytics:$.uri",
+			"file:/server/localdev-config.json:$.finance_simulated_instrument_analytics_uri"
+		]
+	},
+	"finance_simulated_instrument_analytics_accesstoken":{
+		"searchPatterns": [
+			"cloudfoundry:$['fss-scenario-analytics-service'][0].credentials.accessToken",
+			"env:service_finance_simulated_instrument_analytics:$.accessToken",
+			"file:/server/localdev-config.json:$.finance_simulated_instrument_analytics_accessToken"
+		]
+	}
+}

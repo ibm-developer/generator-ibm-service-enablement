@@ -85,7 +85,7 @@ describe('swift-kitura', function() {
 		});
 
 		it('Can add Object Storage instrumentation', () => {
-			testAll('service-objectStorage', 'objectStorage', optionsBluemix.objectStorage[0].serviceInfo.name, {
+			testAll('service-object-storage', 'object_storage', optionsBluemix.objectStorage[0].serviceInfo.name, {
 				[optionsBluemix.objectStorage[0].serviceInfo.name]: {
 					projectId: optionsBluemix.objectStorage[0].projectId,
 					userId: optionsBluemix.objectStorage[0].userId,
@@ -94,7 +94,6 @@ describe('swift-kitura', function() {
 				}
 			}, dependencies, modules, codeForServices);
 		});
-
 		it('Can add Redis instrumentation', () => {
 			testAll('service-redis', 'redis', optionsBluemix.redis.serviceInfo.name, {
 				[optionsBluemix.redis.serviceInfo.name]: {
@@ -271,9 +270,9 @@ function testServiceModules(serviceName, modules) {
 		"service-object-storage": "BluemixObjectStorage",
 		"service-redis": "SwiftRedis",
 		"service-mongodb": "MongoKitten",
-		"service-postgresql": "SwiftKueryPostgreSQL",
-		"service-push": "BluemixPushNotifications",
-		"service-conversation": "WatsonDeveloperCloud"
+		"service-postgre": "SwiftKueryPostgreSQL",
+		"service-push": "IBMPushNotifications",
+		"service-watson-conversation": "WatsonDeveloperCloud"
 	};
 	const module = "\"" + `${serviceVariable[serviceName]}` + "\"";
 	yassert(modules.indexOf(module) !== -1, 'expected module ' + module);
@@ -281,23 +280,19 @@ function testServiceModules(serviceName, modules) {
 
 function testServiceInstrumentation(serviceName, servLookupKey, codeForServices) {
 	let serviceVariable = {
-		"service-object-storage": "BluemixObjectStorage",
-		"service-redis": "SwiftRedis",
-		"service-mongodb": "MongoKitten",
-		"service-alertNotification": "alertNotificationService",
-		"service-auth": "appidService",
+		"service-alert-notification": "alertNotificationService",
+		"service-appid": "appidService",
 		"service-cloudant": "couchDBService",
-		"service-objectStorage": "objectStorageService",
-		"service-postgresql": "postgreSQLService",
+		"service-object-storage": "objectStorageService", 
+		"service-redis": "redisService",
+		"service-mongodb": "mongoDBService",
+		"service-postgre": "postgreSQLService",
 		"service-push": "pushNotificationService",
-		"service-conversation": "watsonConversationService"
+		"service-watson-conversation": "watsonConversationService"
 	};
 
 	function pascalize(name) {
-		if (name.indexOf('-') > -1) {
-			name = name.substring(0, name.indexOf('-')) + name[name.indexOf('-') + 1].toUpperCase() + name.substring(name.indexOf('-') + 2);
-		}
-		return name[0].toUpperCase() + name.substring(1); //return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
+		return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
 	}
 	let expectedInitFunctionDeclaration = `initialize${pascalize(serviceName)}(cloudEnv: cloudEnv)`;
 	let expectedInitFunctionTemplate = `initialize${pascalize(serviceName)}(cloudEnv: CloudEnv)`;
@@ -307,8 +302,8 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 		yassert(codeForServices.indexOf(`${serviceVariable[serviceName]} = try ${expectedInitFunctionDeclaration}`) !== -1);
 	}
 
-	yassert.fileContent(`Sources/Application/Services/Service${pascalize(servLookupKey)}.swift`, `name: "${servLookupKey}"`);
-	yassert.fileContent(`Sources/Application/Services/Service${pascalize(servLookupKey)}.swift`, `func ${expectedInitFunctionTemplate}`);
+	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `name: "${servLookupKey}"`);
+	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `func ${expectedInitFunctionTemplate}`);
 
 }
 

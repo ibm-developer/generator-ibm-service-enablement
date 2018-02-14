@@ -1,0 +1,23 @@
+{
+	"apache_spark_cluster_master_url":{
+		"searchPatterns": [
+			"cloudfoundry:$['spark'][0].credentials.cluster_master_url",
+			"env:service_apache_spark:$.cluster_master_url",
+			"file:/server/localdev-config.json:$.apache_spark_cluster_master_url"
+		]
+	},
+	"apache_spark_tenant_id":{
+		"searchPatterns": [
+			"cloudfoundry:$['spark'][0].credentials.tenant_id",
+			"env:service_apache_spark:$.tenant_id",
+			"file:/server/localdev-config.json:$.apache_spark_tenant_id"
+		]
+	},
+	"apache_spark_tenant_secret":{
+		"searchPatterns": [
+			"cloudfoundry:$['spark'][0].credentials.tenant_secret",
+			"env:service_apache_spark:$.tenant_secret",
+			"file:/server/localdev-config.json:$.apache_spark_tenant_secret"
+		]
+	}
+}

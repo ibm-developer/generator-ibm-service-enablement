@@ -37,6 +37,7 @@
 		"url": "https://ibmnotifybm.mybluemix.net/api/alerts/v1",
 		"swaggerui": "https://ibmnotifybm.mybluemix.net/docs/alerts/v1",
 		"serviceInfo": {
+            "cloudLabel": "alertnotification",
 			"label": "alert-notification-label",
 			"name": "alert-notification-name",
 			"plan": "alert-notification-plan"
@@ -45,9 +46,17 @@
 	"analytics": {
 		"apiKey": "analytics-api-key",
 		"serviceInfo": {
+            "cloudLabel": "analytics",
 			"label": "analytics-label",
 			"name": "analytics-name",
 			"plan": "analytics-plan"
+		}
+	},
+
+	"autoScaling": {
+		"key": "scale-key",
+		"serviceInfo": {
+			"cloudLabel": "auto-scaling"
 		}
 	},
 	"apacheSpark": {
@@ -58,6 +67,7 @@
 		"tenant_id_full": "apache-spark-tenant-id-full",
 		"tenant_secret": "apache-spark-tenant-secret",
 		"serviceInfo": {
+                        "cloudLabel": "spark",
 			"label": "spark",
 			"name": "apache-spark-name",
 			"plan": "ibm.SparkService.PayGoPersonal"
@@ -71,6 +81,7 @@
 		"tenantId": "auth-tenantId",
 		"version": "3",
 		"serviceInfo": {
+            "cloudLabel": "AppID",
 			"label": "auth-label",
 			"name": "auth-name",
 			"plan": "auth-plan"
@@ -106,6 +117,7 @@
 			}
 		],
 		"serviceInfo": {
+                        "cloudLabel": "blockchain",
 			"label": "ibm-blockchain-5-prod",
 			"name": "blockchain-name",
 			"plan": "ibm-blockchain-plan-5-prod"
@@ -117,6 +129,7 @@
 			"username": "cloudant-username",
 			"password": "cloudant-password",
 			"serviceInfo": {
+                                "cloudLabel": "cloudantNoSQLDB",
 				"label": "cloudant-label",
 				"name": "cloudant-name",
 				"plan": "cloudant-plan"
@@ -128,6 +141,7 @@
 		"username": "conversation-username",
 		"password": "conversation-password",
 		"serviceInfo": {
+                        "cloudLabel": "conversation",
 			"label": "conversation-label",
 			"name": "conversation-name",
 			"plan": "conversation-plan"
@@ -147,6 +161,7 @@
 		"uri": "db2://dash105642:password@hostname.services.dal.bluemix.net:50000/BLUDB",
 		"username": "dash105642",
 		"serviceInfo": {
+                        "cloudLabel": "dashDB",
 			"label": "dashDB",
 			"name": "dashdb-name",
 			"plan": "Entry"
@@ -166,6 +181,7 @@
 		"uri": "db2://dash105642:password@hostname.services.dal.bluemix.net:50000/BLUDB",
 		"username": "dash105642",
 		"serviceInfo": {
+                        "cloudLabel": "dashDB For Transactions",
 			"label": "db2",
 			"name": "db2-name",
 			"plan": "Entry"
@@ -176,6 +192,7 @@
 		"username": "discovery-username",
 		"password": "discovery-password",
 		"serviceInfo": {
+                        "cloudLabel": "discovery",
 			"label": "discovery-label",
 			"name": "discovery-name",
 			"plan": "discovery-plan"
@@ -186,6 +203,7 @@
 		"username": "document-conversion-username",
 		"password": "document-conversion-password",
 		"serviceInfo": {
+            "cloudLabel": "documentConversion",
 			"label": "document-conversion-label",
 			"name": "document-conversion-name",
 			"plan": "document-conversion-plan"
@@ -195,6 +213,7 @@
 		"uri": "https://fss-analytics.mybluemix.net/",
 		"accessToken": "historical-instrument-analytics-accesstoken",
 		"serviceInfo": {
+                        "cloudLabel": "fss-historical-instrument-analytics-service",
 			"label": "fss-historical-instrument-analytics-service",
 			"name": "historical-instrument-analytics-name",
 			"plan": "fss-historical-instrument-analytics-service-free-plan"
@@ -204,9 +223,20 @@
 		"uri": "https://fss-analytics.mybluemix.net/",
 		"accessToken": "instrument-analytics-accesstoken",
 		"serviceInfo": {
+                        "cloudLabel": "fss-instrument-analytics-service",
 			"label": "fss-instrument-analytics-service",
 			"name": "instrument-analytics-label",
 			"plan": "fss-instrument-analytics-service-free-plan"
+		}
+	},
+	"autoscaling": {
+		"uri": "https://autoscaling.mybluemix.net/",
+		"accessToken": "autoscalingtoken",
+		"serviceInfo": {
+            "cloudLabel": "autoscaling",
+			"label": "autoscaling",
+			"name": "autoscaling",
+			"plan": "autoscaling"
 		}
 	},
 	"investmentPortfolio": {
@@ -220,6 +250,7 @@
 			"userid": "investment-portfolio-writer-userid"
 		},
 		"serviceInfo": {
+            "cloudLabel": "fss-portfolio-service",
 			"label": "fss-portfolio-service",
 			"name": "investment-portfolio-name",
 			"plan": "fss-portfolio-service-free-plan"
@@ -230,6 +261,7 @@
 		"username": "language-translator-username",
 		"password": "language-translator-password",
 		"serviceInfo": {
+                        "cloudLabel": "languageTranslator",
 			"label": "language-translator-label",
 			"name": "language-translator-name",
 			"plan": "language-translator-plan"
@@ -244,6 +276,7 @@
       "deployment_id": "59c433eec7bf7c002300ee8f",
       "uri": "uri",
       "serviceInfo": {
+                  "cloudLabel": "compose-for-mongodb",
 		  "label": "mongodb-label",
 		  "name": "mongodb-name",
 		  "plan": "mongodb-plan"
@@ -254,6 +287,7 @@
 		"username": "natural-language-classifier-username",
 		"password": "natural-language-classifier-password",
 		"serviceInfo": {
+                        "cloudLabel": "naturalLanguageClassifier",
 			"label": "natural-language-classifier-label",
 			"name": "natural-language-classifier-name",
 			"plan": "natural-language-classifier-plan"
@@ -264,6 +298,7 @@
 		"username": "natural-language-understanding-username",
 		"password": "natural-language-understanding-password",
 		"serviceInfo": {
+                        "cloudLabel": "naturalLanguageUnderstanding",
 			"label": "natural-language-understanding-label",
 			"name": "natural-language-understanding-name",
 			"plan": "natural-language-understanding-plan"
@@ -282,6 +317,7 @@
 			"userId": "object-storage-userid",
 			"username": "object-storage-username",
 			"serviceInfo": {
+                                "cloudLabel": "Object-Storage",
 				"label": "object-storage-label",
 				"name": "object-storage-name",
 				"plan": "object-storage-plan"
@@ -295,6 +331,7 @@
 		"secret": "payeezy-secret",
 		"token": "payeezy-token",
 		"serviceInfo": {
+                        "cloudLabel": "payeezy",
 			"label": "Payeezy",
 			"name": "payeezy-name",
 			"plan": "payeezy-plan"
@@ -305,6 +342,7 @@
 		"username": "personality-insights-username",
 		"password": "personality-insights-password",
 		"serviceInfo": {
+                        "cloudLabel": "personalityInsights",
 			"label": "personality-insights-label",
 			"name": "personality-insights-name",
 			"plan": "personality-insights-plan"
@@ -317,6 +355,7 @@
 		"production_url": "https://production.plaid.com",
 		"sandbox_url": "https://sandbox.plaid.com",
 		"serviceInfo": {
+                        "cloudLabel": "plaid",
 			"label": "Plaid",
 			"name": "plaid-name",
 			"plan": "plaid-plan"
@@ -326,6 +365,7 @@
 		"uri": "https://fss-analytics.stage1.mybluemix.net/",
 		"accessToken": "80542d24a3f7858a7cac6a36a14fb610adb3b805cc7f8e1a24fc90ebf588b12a9400664e081fa109e6402517d6b75610790c5026d45346cfaa57626f17526cda2f29853d52eb7819ddc0f38dfd8adc3539a1d7ac6d159fc18f311d59aa6bb2b1f7082b4e296c2a241062cb3bf606cb6cef98e30634b916cdaaabd406c218f649",
 		"serviceInfo": {
+                        "cloudLabel": "fss-portfolio-optimization-service",
 			"label": "portfolio-optimization",
 			"name": "portfolio-optimization-name",
 			"plan": "portfolio-optimization-plan"
@@ -336,6 +376,7 @@
     	"ca_certificate_base64": "BASE64-CERT",
     	"deployment_id": "1234123412346f001800558a",
     	"serviceInfo": {
+                "cloudLabel": "compose-for-postgresql",
      		"label": "postgresql-label",
       		"name": "postgresql-name",
       		"plan": "postgresql-plan"
@@ -345,6 +386,7 @@
 		"uri": "https://fss-analytics.mybluemix.net/",
 		"accessToken": "predictive-market-scenarios-accesstoken",
 		"serviceInfo": {
+                        "cloudLabel": "fss-predictive-scenario-analytics-service",
 			"label": "fss-predictive-scenario-analytics-service",
 			"name": "predictive-market-scenarios-name",
 			"plan": "fss-predictive-scenario-analytics-service-free-plan"
@@ -356,6 +398,7 @@
 		"clientSecret": "push-client-secret",
 		"url": "https://imfpush.myregion.bluemix.net/",
 		"serviceInfo": {
+            "cloudLabel": "imfpush",
 			"label": "push-label",
 			"name": "push-name",
 			"plan": "push-plan"
@@ -366,6 +409,7 @@
 		"username": "quovo-username",
 		"password": "quovo-password",
 		"serviceInfo": {
+                        "cloudLabel": "quovo",  
 			"label": "Quovo",
 			"name": "quovo-name",
 			"plan": "quovo-plan"
@@ -374,6 +418,7 @@
 	"redis": {
 		"uri": "redis://admin:password@bluemix.com:20051",
     	"serviceInfo": {
+                "cloudLabel": "",
       		"label": "compose-for-redis",
       		"name": "redis-name",
       		"plan": "redis-plan"
@@ -384,6 +429,7 @@
 		"username": "retrieve-and-rank-username",
 		"password": "retrieve-and-rank-password",
 		"serviceInfo": {
+                        "cloudLabel": "retrieveAndRank",
 			"label": "retrieve-and-rank-label",
 			"name": "retrieve-and-rank-name",
 			"plan": "retrieve-and-rank-plan"
@@ -393,6 +439,7 @@
 		"uri": "https://fss-analytics.mybluemix.net/",
 		"accessToken": "simulated-historical-instrument-analytics-accesstoken",
 		"serviceInfo": {
+                        "cloudLabel": "fss-historical-scenario-analytics-service",
 			"label": "fss-historical-scenario-analytics-service",
 			"name": "simulated-historical-instrument-analytics-name",
 			"plan": "fss-historical-scenario-analytics-service-free-plan"
@@ -402,6 +449,7 @@
 		"uri": "https://fss-analytics.mybluemix.net/",
 		"accessToken": "simulated-instrument-analytics-accesstoken",
 		"serviceInfo": {
+                        "cloudLabel": "fss-scenario-analytics-service",
 			"label": "fss-scenario-analytics-service",
 			"name": "simulated-instrument-analytics-name",
 			"plan": "fss-scenario-analytics-service-free-plan"
@@ -412,6 +460,7 @@
 		"username": "speech-to-text-username",
 		"password": "speech-to-text-password",
 		"serviceInfo": {
+                        "cloudLabel": "speechToText",
 			"label": "speech-to-text-label",
 			"name": "speech-to-text-name",
 			"plan": "speech-to-text-plan"
@@ -422,6 +471,7 @@
 		"username": "text-to-speech-username",
 		"password": "text-to-speech-password",
 		"serviceInfo": {
+                        "cloudLabel": "textToSpeech",
 			"label": "text-to-speech-label",
 			"name": "text-to-speech-name",
 			"plan": "text-to-speech-plan"
@@ -432,6 +482,7 @@
 		"username": "tone-analyzer-username",
 		"password": "tone-analyzer-password",
 		"serviceInfo": {
+                        "cloudLabel": "toneAnalyzer",
 			"label": "tone-analyzer-label",
 			"name": "tone-analyzer-name",
 			"plan": "tone-analyzer-plan"
@@ -442,6 +493,7 @@
 		"api_key": "visual-recognition-api-key",
 		"note": "It may take up to 5 minutes for this key to become active",
 		"serviceInfo": {
+                        "cloudLabel": "visualRecognition",
 			"label": "visual-recognition-label",
 			"name": "visual-recognition-name",
 			"plan": "visual-recognition-plan"
@@ -454,6 +506,7 @@
 		"url": "https://username:password@twcservice.mybluemix.net",
 		"username": "weather-insights-username",
 		"serviceInfo": {
+                        "cloudLabel": "weatherinsights",
 			"label": "weather-insights-label",
 			"name": "weather-insights-name",
 			"plan": "weather-insights-plan"
@@ -463,6 +516,7 @@
 		"token": "xignite-market-data-token",
 		"url": "https://xignite.com",
 		"serviceInfo": {
+                        "cloudLabel": "XigniteMarketData",  
 			"label": "Xignite Market Data APIs",
 			"name": "xignite-market-data-name",
 			"plan": "xignite-market-data-plan"

@@ -1,0 +1,37 @@
+{
+	"finance_investment_portfolio_url":{
+		"searchPatterns": [
+			"cloudfoundry:$['fss-portfolio-service'][0].credentials.url",
+			"env:service_finance_investment_portfolio:$.url",
+			"file:/server/localdev-config.json:$.finance_investment_portfolio_url"
+		]
+	},
+	"finance_investment_portfolio_writer_userid":{
+		"searchPatterns": [
+			"cloudfoundry:$['fss-portfolio-service'][0].credentials.writer.userid",
+			"env:service_finance_investment_portfolio:$.writer.userid",
+			"file:/server/localdev-config.json:$.finance_investment_portfolio_writer_userid"
+		]
+	},
+	"finance_investment_portfolio_writer_password":{
+		"searchPatterns": [
+			"cloudfoundry:$['fss-portfolio-service'][0].credentials.writer.password",
+			"env:service_finance_investment_portfolio:$.writer.password",
+			"file:/server/localdev-config.json:$.finance_investment_portfolio_writer_password"
+		]
+	},
+	"finance_investment_portfolio_reader_userid":{
+		"searchPatterns": [
+			"cloudfoundry:$['fss-portfolio-service'][0].credentials.reader.userid",
+			"env:service_finance_investment_portfolio:$.reader.userid",
+			"file:/server/localdev-config.json:$.finance_investment_portfolio_reader_userid"
+		]
+	},
+	"finance_investment_portfolio_reader_password":{
+		"searchPatterns": [
+			"cloudfoundry:$['fss-portfolio-service'][0].credentials.reader.password",
+			"env:service_finance_investment_portfolio:$.reader.password",
+			"file:/server/localdev-config.json:$.finance_investment_portfolio_reader_password"
+		]
+	}
+}

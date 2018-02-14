@@ -2,11 +2,10 @@ from ibmcloudenv import IBMCloudEnv
 from pymongo import MongoClient
 import os, base64
 
-
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
-	mongoConnect = IBMCloudEnv.getDictionary('mongodb')['uri']
-	mongoCert = IBMCloudEnv.getDictionary('mongodb')['ca_certificate_base64']
+	mongoConnect = IBMCloudEnv.getString('mongodb_uri')
+	mongoCert = IBMCloudEnv.getString('mongodb_ca')
 
 	fileDir = os.path.dirname(os.path.realpath(__file__))
 	certDir = fileDir + '/certificates'
@@ -22,8 +21,8 @@ def getService(app):
 	return 'mongodb', client
 <% } else { %>
 def getService():
-    mongoConnect = IBMCloudEnv.getDictionary('mongodb')['uri']
-	mongoCert = IBMCloudEnv.getDictionary('mongodb')['ca_certificate_base64']
+    mongoConnect = IBMCloudEnv.getString('mongodb_uri')
+    mongoCert = IBMCloudEnv.getString('mongodb_ca')
         
     fileDir = os.path.dirname(os.path.realpath(__file__))
     certDir = fileDir + '/certificates'

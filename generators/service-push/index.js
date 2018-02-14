@@ -2,14 +2,16 @@
 const BaseGenerator = require('../lib/generatorbase');
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = 'push';
 const CLOUD_FOUNDRY_SERVICE_NAME = 'imfpush';
+const CUSTOM_SERVICE_KEY = null;
+const CUSTOM_CRED_KEYS = ['app_guid', 'app_secret', 'client_secret', 'url'];
 const config = {
 	cloudFoundryIsArray: true,
-	mappingVersion: 2
+	mappingVersion: 1
 };
 
 module.exports = class extends BaseGenerator {
 	constructor(args, opts) {
-		super(args, opts, SCAFFOLDER_PROJECT_PROPERTY_NAME, CLOUD_FOUNDRY_SERVICE_NAME);
+		super(args, opts, SCAFFOLDER_PROJECT_PROPERTY_NAME, CLOUD_FOUNDRY_SERVICE_NAME, CUSTOM_SERVICE_KEY, CUSTOM_CRED_KEYS);
 	}
 
 	initializing(){

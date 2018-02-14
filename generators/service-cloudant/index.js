@@ -6,7 +6,7 @@ const CLOUD_FOUNDRY_SERVICE_NAME = "cloudantNoSQLDB";
 
 const config = {
 	cloudFoundryIsArray: true,
-	mappingVersion: 2
+	mappingVersion: 1
 };
 
 module.exports = class extends BaseGenerator {

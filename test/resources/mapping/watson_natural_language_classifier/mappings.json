@@ -1,0 +1,23 @@
+{
+	"watson_natural_language_classifier_url":{
+		"searchPatterns": [
+			"cloudfoundry:$['naturalLanguageClassifier'][0].credentials.url",
+			"env:service_watson_natural_language_classifier:$.url",
+			"file:/server/localdev-config.json:$.watson_natural_language_classifier_url"
+		]
+	},
+	"watson_natural_language_classifier_username":{
+		"searchPatterns": [
+			"cloudfoundry:$['naturalLanguageClassifier'][0].credentials.username",
+			"env:service_watson_natural_language_classifier:$.username",
+			"file:/server/localdev-config.json:$.watson_natural_language_classifier_username"
+		]
+	},
+	"watson_natural_language_classifier_password":{
+		"searchPatterns":[
+			"cloudfoundry:$['naturalLanguageClassifier'][0].credentials.password",
+			"env:service_watson_natural_language_classifier:$.password",
+			"file:/server/localdev-config.json:$.watson_natural_language_classifier_password"
+		]
+	}
+}

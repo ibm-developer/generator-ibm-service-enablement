@@ -18,16 +18,18 @@
 const log4js = require('log4js');
 const Generator = require('yeoman-generator');
 const fs = require('fs');
+const camelCase = require('lodash/camelCase');
 const path = require('path');
 const Handlebars = require('handlebars');
 
 const REGEX_HYPHEN = /-/g;
 
 module.exports = class extends Generator {
-	constructor(args, opts, scaffolderName, cloudFoundryName, customServiceKey) {
+	constructor(args, opts, scaffolderName, cloudFoundryName, customServiceKey = null, customCredKeys = []) {
 		super(args, opts);
 		this.scaffolderName = scaffolderName;
 		this.serviceKey = customServiceKey || scaffolderName;
+		this.customCredKeys= customCredKeys
 		this.logger = log4js.getLogger("generator-ibm-service-enablement:" + scaffolderName);
 		this.context = opts.context;
 		this.cloudFoundryName = this.context.cloudLabel || cloudFoundryName;
@@ -67,6 +69,18 @@ module.exports = class extends Generator {
 		// Kubernetes env var names must match regex: '[A-Za-z_][A-Za-z0-9_]*'
 		name = name.replace(REGEX_HYPHEN, '_');
 		return name;
+	}
+	
+	_sanitizeJSONString(dirtyJSONString){
+	
+		const lastIndexOfComma = dirtyJSONString.lastIndexOf(',');
+
+		const prunedJSONString = dirtyJSONString.split("").filter((value, idx) => {
+			if(idx !== lastIndexOfComma){return value;}}).join("");
+		
+		const invalidEndComma = '}';
+
+		return dirtyJSONString[lastIndexOfComma-1] === invalidEndComma && dirtyJSONString[dirtyJSONString.length-2] === invalidEndComma ? prunedJSONString : dirtyJSONString;
 	}
 
 	_getServiceInfo() {
@@ -125,25 +139,70 @@ module.exports = class extends Generator {
 		}
 	}
 
+	_mapCredentialKeysToScaffolderKeys(credentialKeys, scaffolderKeys){
+		let map= {}; 
+		for(let i = 0;  i < credentialKeys.length; i++) {
+			let key = credentialKeys[i];
+			let scaffolderKey =	scaffolderKeys.find(value => {
+				let cleanScaffolderKey = camelCase(value).toLowerCase().replace(/ /g, '');
+				let cleanCredKey = camelCase(key).toLowerCase().replace(/ /g, '');
+				return cleanScaffolderKey.length >= cleanCredKey.length && cleanScaffolderKey.startsWith(cleanCredKey);
+			});
+
+			if(!map[key]){
+				map[key] = scaffolderKey;
+			}
+		}
+
+		return map;
+	}
+
 	_addMappings(config) {
 		this.logger.info("Adding mappings");
 
 		let serviceCredentials = Array.isArray(this.context.bluemix[this.scaffolderName])
 			? this.context.bluemix[this.scaffolderName][0] : this.context.bluemix[this.scaffolderName];
-		let credentialKeys = Object.keys(serviceCredentials);
+		let scaffolderKeys = this._setCredentialMapping({}, serviceCredentials, this.serviceKey);
+		scaffolderKeys = Object.keys(scaffolderKeys).map(key => {
+			let scaffolderKey = key.split(`${this.serviceKey.replace(/-/g, '_')}_`);
+			if(Array.isArray(scaffolderKey) && scaffolderKey.length > 1){
+				return scaffolderKey[1];
+			}
+		});
+
 		let version = config.mappingVersion ? config.mappingVersion : 1;
+		let credentialKeys = this.customCredKeys.length > 0 ? this.customCredKeys : scaffolderKeys.filter(key => { return key !== 'serviceInfo'});
+		let credKeysToScaffolderKeysMap = {};
 
+		scaffolderKeys.sort();
+		credentialKeys.sort();
+
+		credKeysToScaffolderKeysMap = this._mapCredentialKeysToScaffolderKeys(credentialKeys, scaffolderKeys);
+
+		
 		let mapping = fs.readFileSync(path.join(__dirname, '..', 'resources', `mappings.v${version}.json.template`), 'utf-8');
+	
+		Handlebars.registerHelper('access', (map, key, nestedJSON) => {
+			return nestedJSON ? map[key].replace('_', '.') : map[key];
+			
+		});
+	
 		let template = Handlebars.compile(mapping);
-
+	
 		let context = {
-			serviceName: this.serviceKey.replace(/-/g, '_'),
-			keys: credentialKeys.filter(key => key !== 'serviceInfo'),
+			serviceKey: this.serviceKey.replace(/-/g, '_'),
+			credentialKeys: credentialKeys, 
+			map: credKeysToScaffolderKeysMap,	
 			cloudFoundryKey: this.cloudFoundryName,
 			generatorLocation: this.context.generatorLocation,
-			cloudFoundryIsArray : config.cloudFoundryIsArray
+			cloudFoundryIsArray : config.cloudFoundryIsArray,
+			nestedJSON: config.nestedJSON
 		};
-		let mappings = JSON.parse(template(context));
+
+		let generatedMappingString = this._sanitizeJSONString(template(context));
+		let mappings = JSON.parse(generatedMappingString);
+
+
 
 		this.context.addMappings(mappings);
 	}
@@ -153,9 +212,11 @@ module.exports = class extends Generator {
 		this.logger.info("Adding local dev config");
 		let templateContent;
 
+
 		let serviceCredentials = Array.isArray(this.context.bluemix[this.scaffolderName])
 			? this.context.bluemix[this.scaffolderName][0] : this.context.bluemix[this.scaffolderName];
 		templateContent = this._setCredentialMapping({}, serviceCredentials, this.serviceKey);
+
 
 		this.context.addLocalDevConfig(templateContent);
 	}
@@ -165,7 +226,7 @@ module.exports = class extends Generator {
 		this.logger.info("Adding instrumentation");
 		this.context.addInstrumentation({
 			sourceFilePath: this.languageTemplatePath + "/instrumentation" + this.context.languageFileExt,
-			targetFileName: `service-${this.scaffolderName}` + this.context.languageFileExt,
+			targetFileName: `service-${this.serviceKey}` + this.context.languageFileExt,
 			servLabel: this.scaffolderName
 		});
 	}
@@ -174,7 +235,7 @@ module.exports = class extends Generator {
 		this.logger.info("Adding Readme");
 		this.context.addReadMe({
 			sourceFilePath: this.languageTemplatePath + "/README.md",
-			targetFileName: this.serviceName + ".md"
+			targetFileName: `service-${this.serviceKey}` + ".md"
 		});
 	}
 
@@ -196,6 +257,5 @@ module.exports = class extends Generator {
 
 		return templateContent;
 	}
-
 
 };
