@@ -1,0 +1,4 @@
+{
+  "mongodb_uri": "{{{url}}}",
+  "mongodb_ca": "{{{cert}}}"
+}

@@ -1,0 +1,16 @@
+{
+	"mongodb_uri":{
+		"searchPatterns": [
+			"cloudfoundry:$['hsdbaas-for-mongodb'][0].credentials.url",
+			"env:service_hypersecure_dbaas_mongodb:$.url",
+			"file:/server/localdev-config.json:$.mongodb_uri"
+		]
+	},
+	"mongodb_ca":{
+		"searchPatterns": [
+			"cloudfoundry:$['hsdbaas-for-mongodb'][0].credentials.cert",
+			"env:service_hypersecure_dbaas_mongodb:$.cert",
+			"file:/server/localdev-config.json:$.mongodb_ca"
+		]
+	}
+}
