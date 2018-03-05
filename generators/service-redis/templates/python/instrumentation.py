@@ -1,7 +1,7 @@
 import redis
 from ibmcloudenv import IBMCloudEnv
 
-uri = IBMCloudEnv.getDictionary('redis')['uri']
+uri = IBMCloudEnv.getString('redis_uri')
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
     return 'redis', redis.from_url(uri)

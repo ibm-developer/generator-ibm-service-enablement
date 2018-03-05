@@ -1,0 +1,11 @@
+{
+  "hypersecure_dbaas_mongodb": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:hypersecure-dbaas-mongodb-name",
+        "env:service_hypersecure_dbaas_mongodb",
+        "file:/config/localdev-config.json:hypersecure-dbaas-mongodb-name"
+      ]
+    }
+  }
+}

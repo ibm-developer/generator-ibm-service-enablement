@@ -5,8 +5,7 @@ mongoose.Promise = global.Promise;
 
 module.exports = function(app, serviceManager){
 	const mongoConnect  = IBMCloudEnv.getString('mongodb_uri');
-	const mongoCA = [new Buffer(IBMCloudEnv.getString('mongodb_ca'))];
-	console.log('CA ' + mongoConnect)
+	const mongoCA = [new Buffer(IBMCloudEnv.getString('mongodb_ca'), 'base64')];
 	const options = {
 		mongos: {
 			ssl: true,

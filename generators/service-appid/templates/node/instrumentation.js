@@ -7,13 +7,16 @@ module.exports = function(app, serviceManager){
 	let apiStrategy = new AppIdAPIStrategy({
 		oauthServerUrl: IBMCloudEnv.getString('appid_oauth_server_url')
 	});
+
+	const PORT = process.env.PORT || 3000;
+	const defaultRedirectUri = `http://localhost:${PORT}/ibm/bluemix/appid/callback`;
 	
 	let webStrategy = new WebAppStrategy({
 		tenantId: IBMCloudEnv.getString('appid_tenant_id'),
 		clientId: IBMCloudEnv.getString('appid_client_id'),
 		secret: IBMCloudEnv.getString('appid_secret'),
 		oauthServerUrl: IBMCloudEnv.getString('appid_oauth_server_url'),
-		redirectUri: serviceManager.get('auth-redirect-uri')
+		redirectUri: serviceManager.get('auth-redirect-uri') || defaultRedirectUri
 	});
 
 	userAttributeManager.init({profilesUrl: IBMCloudEnv.getString('appid_profiles_url')});

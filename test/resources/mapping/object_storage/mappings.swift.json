@@ -1,0 +1,11 @@
+{
+  "object_storage": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:object-storage-name",
+        "env:service_object_storage",
+        "file:/config/localdev-config.json:object-storage-name"
+      ]
+    }
+  }
+}

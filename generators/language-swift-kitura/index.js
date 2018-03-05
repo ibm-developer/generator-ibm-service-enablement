@@ -32,7 +32,6 @@ module.exports = class extends Generator {
 			serviceKey;
 		this.context.dependenciesFile = "dependencies.txt";
 		this.context.languageFileExt = ".swift";
-
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
@@ -101,11 +100,6 @@ module.exports = class extends Generator {
 	_addInstrumentation(options) {
 		function pascalize(name) {
 			return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
-		/*	if (name.indexOf('-') > -1) {
-				name = name.substring(0, name.indexOf('-')) + name[name.indexOf('-') + 1].toUpperCase() + name.substring(name.indexOf('-') + 2);
-			}
-			return name[0].toUpperCase() + name.substring(1);
-*/
 		}
 
 		if (this.context.injectIntoApplication) {
@@ -170,10 +164,8 @@ module.exports = class extends Generator {
 		if(!serviceMetaData){
 			return null;
 		}
-		//logger.info("stringfy: " + JSON.stringify(this.context.bluemix[bluemixKey]));
 		const instanceName = Array.isArray(serviceMetaData) ?
 			serviceMetaData[0].serviceInfo.name : serviceMetaData.serviceInfo.name;
-		//logger.info("instanceName: " + instanceName);
 		return instanceName;
 	}
 

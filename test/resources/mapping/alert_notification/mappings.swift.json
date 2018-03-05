@@ -1,0 +1,11 @@
+{
+  "alert_notification": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:alert-notification-name",
+        "env:service_alert_notification",
+        "file:/config/localdev-config.json:alert-notification-name"
+      ]
+    }
+  }
+}

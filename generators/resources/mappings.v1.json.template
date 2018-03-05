@@ -11,7 +11,7 @@
             "env:service_{{../serviceKey}}:$.{{access ../map this ../nestedJSON}}",
             "env:{{../serviceKey}}_{{access ../map this ../nestedJSON}}",
             "file:/{{../generatorLocation}}/localdev-config.json:$.{{../serviceKey}}_{{access ../map this false}}",
-            "file:/localdev-config.json$.{{../serviceKey}}_{{access ../map this false}}"
+            "file:localdev-config.json$.{{../serviceKey}}_{{access ../map this false}}"
         ]
     },
     "{{../serviceKey}}": {

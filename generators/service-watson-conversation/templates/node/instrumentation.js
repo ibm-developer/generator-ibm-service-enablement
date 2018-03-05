@@ -1,9 +1,6 @@
 const IBMCloudEnv = require('ibm-cloud-env');
 const ConversationV1 = require('watson-developer-cloud/conversation/v1');
 
-'url'
-'username'
-'password'
 module.exports = function(app, serviceManager){
 	const conversation = new ConversationV1({
 		url: IBMCloudEnv.getString('watson_conversation_url'),

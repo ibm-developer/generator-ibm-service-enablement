@@ -25,6 +25,8 @@ This is where your local configuration is stored for AppID.
     /**
         Note: You will need to see the appid-redirect-ui property prior to requring the service module.
         This will ensure that your redirect url will be correct prior to initalizing the AppID SDK.
+		If it is not set 'http://localhost:$PORT/ibm/bluemix/appid/callback will be used. $PORT is the 
+		environment variable set but if is is not set the port used will be 3000.
     */
     serviceManager.set('auth-redirect-uri', 'http://localhost:3000' + CALLBACK_URL);
    

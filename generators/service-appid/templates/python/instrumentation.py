@@ -69,8 +69,6 @@ def getService():
     parsed = json.loads(publicKeyJson)
     pem = pemFromModExp(parsed['n'], parsed['e'])
    
-    'client_id' 
-    'secret'
     config['publicKey'] = publicKeyJson
     config['pem'] = pem
     config['context'] = 'APPID_AUTH_CONTEXT'
