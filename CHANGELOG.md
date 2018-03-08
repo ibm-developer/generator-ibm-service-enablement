@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.1"></a>
+## [0.9.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.0...v0.9.1) (2018-03-08)
+
+
+### Bug Fixes
+
+* Cloudant version to not pick up 1.9.0 ([4eb3548](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/4eb3548))
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.8.0...v0.9.0) (2018-03-06)
 
