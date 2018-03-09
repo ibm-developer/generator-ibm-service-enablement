@@ -73,6 +73,9 @@ module.exports = class extends Generator {
 	}
 
 	_addMappings(serviceMappingsJSON) {
+		// Swift overwrites theses mappings and the local dev config file in the _transformCredentialsOutput() function below,
+		// while we are awaiting fine-grained vs. coarse-grained approaches for laying down credential.
+		console.log("Language swift kitura mappings")
 		let mappingsFilePath = this.destinationPath(PATH_MAPPINGS_FILE);
 		this.fs.extendJSON(mappingsFilePath, serviceMappingsJSON);
 	}
@@ -150,7 +153,7 @@ module.exports = class extends Generator {
 		let serviceCredentials = {};
 		credentials[instanceName] = serviceCredentials;
 		// Note that environment variables should not use the '-' character
-		const envVariableName = instanceName.replace(/-/g, "_");
+		const envVariableName = 'service_' + prefix
 		mappings[prefix] = {
 			"searchPatterns": [
 				"cloudfoundry:" + instanceName,
