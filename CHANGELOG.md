@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.2"></a>
+## [0.9.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.1...v0.9.2) (2018-03-12)
+
+
+### Bug Fixes
+
+* hypersecure instrumentation ([15283ff](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/15283ff))
+* hypersecure instrumentation ([2ad3365](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/2ad3365))
+
+
+
 <a name="0.9.1"></a>
 ## [0.9.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.0...v0.9.1) (2018-03-08)
 
