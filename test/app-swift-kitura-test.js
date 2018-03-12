@@ -303,7 +303,7 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 }
 
 function testMappings(servLookupKey, servInstanceName) {
-	const envVariableName = servInstanceName.replace(/-/g, "_");
+	const envVariableName = 'service_' + servLookupKey;
 	const expectedMappings = {
 		[servLookupKey]: {
 			searchPatterns: [
