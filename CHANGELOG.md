@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.3"></a>
+## [0.9.3](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.2...v0.9.3) (2018-03-12)
+
+
+### Bug Fixes
+
+* **swift mappings:** corrects kube mappings service name ([a7a31e0](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a7a31e0))
+
+
+
 <a name="0.9.2"></a>
 ## [0.9.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.1...v0.9.2) (2018-03-12)
 
