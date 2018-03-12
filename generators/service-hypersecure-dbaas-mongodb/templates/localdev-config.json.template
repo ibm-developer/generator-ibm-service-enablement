@@ -1,4 +1,4 @@
 {
-  "mongodb_uri": "{{{url}}}",
-  "mongodb_ca": "{{{cert}}}"
+  "hypersecuredb_uri": "{{{url}}}",
+  "hypersecuredb_ca": "{{{cert}}}"
 }

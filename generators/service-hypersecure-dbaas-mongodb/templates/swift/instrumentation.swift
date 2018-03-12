@@ -2,11 +2,16 @@ import LoggerAPI
 import CloudEnvironment
 import MongoKitten
 
-func initializeServiceMongodb(cloudEnv: CloudEnv) throws -> Database {
+func initializeHypersecureDbaasMongodb(cloudEnv: CloudEnv) throws -> Database {
     guard let mongodbCredentials = cloudEnv.getMongoDBCredentials(name: "{{servLookupKey}}") else {
-        throw InitializationError("Could not load credentials for MongoDB.")
+        throw InitializationError("Could not load credentials for HyperSecure MongoDB.")
     }
-    let mongodb = try Database(mongodbCredentials.url)
-    Log.info("Found and loaded credentials for MongoDB.")
+
+    // Add SSL Certificate parameters
+    let mongodbUri = mongodbCredentials.uri.components(separatedBy: "?")[0]
+    let mongodbSsl = mongodbUri + "?ssl=true&ssl_ca_certs=/Sources/Application/Services/cert.pem"
+
+    let mongodb = try Database(mongodbSsl)
+    Log.info("Found and loaded credentials for HyperSecure MongoDB.")
     return mongodb
 }
