@@ -7,7 +7,7 @@ func initializeHypersecureDbaasMongodb(cloudEnv: CloudEnv) throws -> Database {
         throw InitializationError("Could not load credentials for HyperSecure MongoDB.")
     }
 
-    //Add SSL Cert support
+    // Add SSL Certificate parameters
     let mongodbUri = mongodbCredentials.uri.components(separatedBy: "?")[0]
     let mongodbSsl = mongodbUri + "?ssl=true&ssl_ca_certs=/Sources/Application/Services/cert.pem"
 
