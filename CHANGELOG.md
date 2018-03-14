@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.5"></a>
+## [0.9.5](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.4...v0.9.5) (2018-03-14)
+
+
+### Bug Fixes
+
+* resolve circular dependencies with swift and new cloud environment ([b90aacc](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/b90aacc))
+
+
+
 <a name="0.9.4"></a>
 ## [0.9.4](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.3...v0.9.4) (2018-03-14)
 
