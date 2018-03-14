@@ -1,1 +1,1 @@
-.package(url: "https://github.com/IBM-Swift/CloudEnvironment.git", from: "3.0.0"),
+.package(url: "https://github.com/IBM-Swift/CloudEnvironment.git", from: "7.1.0"),

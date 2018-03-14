@@ -1,4 +1,4 @@
 {
-  "hypersecuredb_uri": "{{{url}}}",
-  "hypersecuredb_ca": "{{{cert}}}"
+  "hypersecuredb_url": "{{{url}}}",
+  "hypersecuredb_cert": "{{{cert}}}"
 }
