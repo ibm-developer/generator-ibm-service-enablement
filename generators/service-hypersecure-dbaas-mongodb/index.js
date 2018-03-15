@@ -1,7 +1,7 @@
 'use strict'
 const BaseGenerator = require('../lib/generatorbase');
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = "hypersecuredb";
-const SERVICE_NAME = "hypersecure-dbaas-mongodb";
+const SERVICE_NAME = "service-hypersecure-dbaas-mongodb";
 const localDevConfig = ['url', 'cert'];
 
 module.exports = class extends BaseGenerator {
