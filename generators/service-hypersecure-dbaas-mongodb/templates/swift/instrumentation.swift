@@ -2,7 +2,7 @@ import LoggerAPI
 import CloudEnvironment
 import MongoKitten
 
-func initializeHypersecureDbaasMongodb(cloudEnv: CloudEnv) throws -> Database {
+func initializeServiceHypersecureDbaasMongodb(cloudEnv: CloudEnv) throws -> Database {
     guard let mongodbCredentials = cloudEnv.getHyperSecureDBaaSCredentials(name: "{{servLookupKey}}") else {
         throw InitializationError("Could not load credentials for HyperSecure MongoDB.")
     }
