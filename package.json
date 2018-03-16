@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-service-enablement",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "This generator adds Service enablement to applications",
   "main": "generators/app/index.js",
   "files": [
