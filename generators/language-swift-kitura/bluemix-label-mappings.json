@@ -9,5 +9,5 @@
   "Auto-Scaling": "autoscaling",
   "mongodb": "mongodb",
   "postgresql": "postgre",
-  "hypersecuredb": "hypersecuredb"
+  "hypersecuredb": "hypersecure_dbaas_mongodb"
 }
