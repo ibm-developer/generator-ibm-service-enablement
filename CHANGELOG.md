@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.7...v0.10.0) (2018-03-19)
+
+
+### Bug Fixes
+
+* **swift label mappings:** Updates hypersecuredb label mappings ([be578fd](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/be578fd))
+* modification for kubernetes binding names in swift chart and mappings ([494af48](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/494af48))
+
+
+### Features
+
+* Add orm to Postgre Service ([9387407](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/9387407))
+
+
+
 <a name="0.9.8"></a>
 ## [0.9.8](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.7...v0.9.8) (2018-03-16)
 
