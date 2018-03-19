@@ -144,7 +144,7 @@ module.exports = class extends Generator {
 						importStatement = "\"" + importStatement + "\"";
 						injectModules(importStatement);
 					});
-				}else if(metaData.import !== ''){
+				}else if(metaImport !== ''){
 					metaImport = "\"" + metaImport + "\"";
 					this.context.injectModules(metaImport);
 				}
