@@ -112,26 +112,41 @@ module.exports = class extends Generator {
 			);
 			let metaFile = options.sourceFilePath.substring(0, options.sourceFilePath.lastIndexOf("/")) + '/meta.json';
 			let metaData = this.fs.readJSON(metaFile);
+			let metaImport = metaData.import
 			// We expect the source file to define a function as an entry point for initialization
 			// The function should be available in the module scope and have a name of the form:
 			// 'initializeMyService()'. For example, if the targetFileName is 'service-appid.swift'
 			// then the function will be 'initializeServiceAppid()'
 			// this.context.injectIntoApplication({ service: `try initialize${targetName}()` });
-			this.context.injectIntoApplication({ service_import: `import ${metaData.import}` });
-			this.context.injectIntoApplication({ service_variable: `public let ${metaData.variableName}: ${metaData.type}` });
-			this.context.injectIntoApplication({ service: `${metaData.variableName} = try initialize${targetName}(cloudEnv: cloudEnv)` });
+			if (metaImport !== undefined) {
+				this.context.injectIntoApplication({ service_import: `import ${metaImport}` });
+			}
+			if (metaData.variableName !== undefined  && metaData.type !== undefined && targetName !== undefined) {
+				this.context.injectIntoApplication({ service_variable: `public let ${metaData.variableName}: ${metaData.type}` });
+				this.context.injectIntoApplication({ service: `${metaData.variableName} = try initialize${targetName}(cloudEnv: cloudEnv)` }); 
+			} else if (targetName !== undefined) {
+				this.context.injectIntoApplication({ service: `try initialize${targetName}(cloudEnv: cloudEnv)` });
+			}
 			// Injecting modules to Package.swift
 			if(this.context.injectModules){
 				if(metaData.variableName === 'appidService'){
-					metaData.import = 'BluemixAppID';
+					metaImport = 'BluemixAppID';
 				}else if(metaData.variableName === 'autoScalingService'){
-					metaData.import = '';
+					metaImport = '';
 				}else if(metaData.variableName === 'watsonConversationService'){
-					metaData.import = 'WatsonDeveloperCloud';
+					metaImport = 'WatsonDeveloperCloud';
+				}else if(targetName === "ServicePostgre"){
+					metaImport = ['SwiftKueryPostgreSQL', 'SwiftKueryORM']
 				}
-				if(metaData.import !== ''){
-					metaData.import = "\"" + metaData.import + "\"";
-					this.context.injectModules(metaData.import);
+				if(Array.isArray(metaImport)){
+					const injectModules = this.context.injectModules
+					metaImport.forEach(function(importStatement) {
+						importStatement = "\"" + importStatement + "\"";
+						injectModules(importStatement);
+					});
+				}else if(metaData.import !== ''){
+					metaImport = "\"" + metaImport + "\"";
+					this.context.injectModules(metaImport);
 				}
 			}
 		} else {

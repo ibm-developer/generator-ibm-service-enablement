@@ -296,7 +296,11 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 	}
 	let expectedInitFunctionDeclaration = `initialize${pascalize(serviceName)}(cloudEnv: cloudEnv)`;
 	let expectedInitFunctionTemplate = `initialize${pascalize(serviceName)}(cloudEnv: CloudEnv)`;
-	yassert(codeForServices.indexOf(`${serviceVariable[serviceName]} = try ${expectedInitFunctionDeclaration}`) !== -1);
+	if (serviceName === 'service-postgre') {
+		yassert(codeForServices.indexOf(`try ${expectedInitFunctionDeclaration}`) !== -1);
+	} else {
+		yassert(codeForServices.indexOf(`${serviceVariable[serviceName]} = try ${expectedInitFunctionDeclaration}`) !== -1);
+	}
 
 	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `name: "${servLookupKey}"`);
 	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `func ${expectedInitFunctionTemplate}`);
