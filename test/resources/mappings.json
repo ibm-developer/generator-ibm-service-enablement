@@ -1,6 +1,5 @@
 {
-  "version": 1,
-  {
+	"version": 1,
 	"alert_notification_url":{
 		"searchPatterns": [
 			"cloudfoundry:$.alertnotification[0].credentials.url",

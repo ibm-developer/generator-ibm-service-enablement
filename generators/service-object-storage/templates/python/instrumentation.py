@@ -1,12 +1,6 @@
 from ibmcloudenv import IBMCloudEnv
 import swiftclient
 
-'auth_url'
-'user_id'
-'password'
-'project_id'
-'user_id'
-'region'
 authurl = IBMCloudEnv.getString('object_storage_auth_url')
 if not '/v3' in authurl:
     authurl+='/v3'

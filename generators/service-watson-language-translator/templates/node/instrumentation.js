@@ -5,7 +5,7 @@ module.exports = function(app, serviceManager){
 	const languageTranslator = new LanguageTranslatorV2({
 		url: IBMCloudEnv.getString('watson_language_translator_url'),
 		username: IBMCloudEnv.getString('watson_language_translator_username'),
-		password: IBMCloudEnv.getString('watson-language_translator_password')
+		password: IBMCloudEnv.getString('watson_language_translator_password')
 	});
 	serviceManager.set("watson-language-translator", languageTranslator);
 };

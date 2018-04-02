@@ -43,7 +43,8 @@ npm install -g generator-ibm-service-enablement
 ## Usage
 
 Following command line arguments are supported
-* `--bluemix {stringified-json}` -  used by Scaffolder to supply project information from `pman`. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
+
+* `--bluemix {stringified-json}` -  used by a microservice that orchestrates the creation of cloud enabled applications to supply project information from `pman`. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
 
 ## Development
 
@@ -74,7 +75,7 @@ Add an index.js file using the following structure:
 ```
 'use strict';
 const BaseGenerator = require('../lib/generatorbase');
-const SCAFFOLDER_PROJECT_PROPERTY_NAME = ''; //the key name for your service provided to you by IBM Project Scaffolder team
+const SCAFFOLDER_PROJECT_PROPERTY_NAME = ''; //the key name for your service provided to you by the `ibm-developer` team
 const CLOUD_FOUNDRY_SERVICE_NAME = ''; // the key name for your service provided to you by Cloud Foundry
 const CUSTOM_SERVICE_KEY = '' // a custom key name for your service that will be used if you prefer not to use the SCAFFOLDER_PROJECT_PROPERTY_NAME
 const CUSTOM_CRED_KEYS = []; // an array of custom credential key names for a service
@@ -110,10 +111,10 @@ from **VCAP_SERVICES** (e.g `cloudantNoSQLDB`).
 * The **CLOUD_FOUNDRY_SERVICE_NAME** is provided by **CLOUD FOUNDRY** via the **VCAP_SERVICES** when you 
 provision a service. 
 
-* The **CUSTOM_SERVICE_KEY** is the service key that can be used in place of the keys provided by IBM Project Scaffolder. An example of these keys can be 
+* The **CUSTOM_SERVICE_KEY** is the service key that can be used in place of the keys provided by `ibm-developer`. An example of these keys can be 
 found under `test/resources/mappings.json` Note 
 
-* The **CUSTOM_CRED_KEYS** is an array of credential keys for each service. If this is left empty, the service will use the credentials keys given by Scaffolder. 
+* The **CUSTOM_CRED_KEYS** is an array of credential keys for each service. If this is left empty, the service will use the credentials keys given by `ibm-developer`. 
 These credentials keys can be found under test/resources/mappings.json
 
 ### Mappings

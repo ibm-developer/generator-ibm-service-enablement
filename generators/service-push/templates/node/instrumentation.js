@@ -6,9 +6,10 @@ const PushMessageBuilder = require('bluemix-push-notifications').PushMessageBuil
 module.exports = function(app, serviceManager){
 	let push_url = IBMCloudEnv.getString('push_url');
 	const regionRegex = /\/\/imfpush(.+)\/imfpush\//;
-	const region = regionRegex.exec(push_url)[1];
+	const executedRegionExpression = regionRegex.exec(push_url);
+	const region = executedRegionExpression && executedRegionExpression.length > 1 && executedRegionExpression[1];
 	if(!region || region.indexOf('.bluemix.net') < 0) {
-		throw "Invalid Push Service Region: " + region;
+		throw 'Invalid Push Service Region: ' + region;
 	}
 
 	const appGuid = IBMCloudEnv.getString('push_app_guid');
@@ -16,7 +17,7 @@ module.exports = function(app, serviceManager){
 
 	let PushNotificationInstance = new PushNotifications(region, appGuid, appSecret);
 
-	serviceManager.set("push-notifications", PushNotificationInstance);
-	serviceManager.set("notifications-module", Notification);
-	serviceManager.set("message-builder-module", PushMessageBuilder);
+	serviceManager.set('push-notifications', PushNotificationInstance);
+	serviceManager.set('notifications-module', Notification);
+	serviceManager.set('message-builder-module', PushMessageBuilder);
 };
