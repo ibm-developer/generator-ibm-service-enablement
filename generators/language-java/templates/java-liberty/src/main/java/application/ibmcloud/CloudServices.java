@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
@@ -25,8 +26,7 @@ public class CloudServices {
     private static final Logger LOGGER  = Logger.getLogger(CloudServices.class.getName());
     private static final String MAPPINGS_JSON = "/mappings.json";
     private static final String VCAP_SERVICES = "VCAP_SERVICES";
-    private static final String CLASSPATH_ID = "/server/";
-    
+
     /** Internal configuration read from MAPPINGS_JSON */
     private JsonObject config = null;
 
@@ -72,7 +72,22 @@ public class CloudServices {
         if(config == null) {
             return null;    //config wasn't initialised for some reason, so cannot resolve anything
         }
-        Set<String> keys = config.keySet();
+        Set<String> services = config.keySet();
+        Set<String> keys = new HashSet<String>();
+        for (String serviceName: services) {
+            JsonObject service = null;
+            if (!serviceName.equals("version")) {
+                try {
+                    service = config.getJsonObject(serviceName);
+                    Set<String> serviceProperties = service.keySet();
+                    for (String property : serviceProperties) {
+                        keys.add(serviceName + "." + property);
+                    }
+                } catch (Exception e) {
+                    LOGGER.finest("Unexpected exception getting config keys for service: " + serviceName + " : " + e);
+                }
+            }
+        }
         return keys;
     }
     
@@ -86,44 +101,50 @@ public class CloudServices {
      * @return The value specified by the "src:target" or null if not found
      */
     public String getValue(String name) {
-        if(config == null) {
+        if (config == null) {
             return null;    //config wasn't initialised for some reason, so cannot resolve anything
         }
-        JsonObject node = config.getJsonObject(name);
-        if(node == null || node.isEmpty()) {
-            return null; //specified name could not be located    
-        }
         String value = null;
-        JsonArray array = node.getJsonArray("searchPatterns");
-        if (array != null) {
-            for (final JsonValue entryNode : array) {
-                String entry = sanitiseString(entryNode.toString());
-                LOGGER.finest("entryNode " + entryNode);
-                String token[] = parseOnfirst(entry, ":");
-                LOGGER.finest("tokens " + token[0] + " , " + token[1]);
-                if (!token[0].isEmpty() && !token[1].isEmpty()) {
-                    switch (token[0]) {
-                        case "cloudfoundry":
-                            value = getCloudFoundryValue(token[1]);
-                            break;
-                        case "env":
-                            value = getEnvValue(token[1]);
-                            break;
-                        case "file":
-                            value = getFileValue(token[1]);
-                            break;
-                        default :
-                            LOGGER.warning("Unknown protocol in searchPatterns : " + token[0]);
-                            break;
+        String keySegment[] = parseOnfirst(name, ".");
+        if (!keySegment[0].isEmpty() && !keySegment[1].isEmpty()) {
+            JsonObject node = config.getJsonObject(keySegment[0]);
+            if (node == null || node.isEmpty()) {
+                return null;        // 1st segment could not be located
+            }
+            node = node.getJsonObject(keySegment[1]);
+            if (node == null || node.isEmpty()) {
+                return null;        // 2nd segment could not be located
+            }
+            JsonArray array = node.getJsonArray("searchPatterns");
+            if (array != null) {
+                for (final JsonValue entryNode : array) {
+                    String entry = sanitiseString(entryNode.toString());
+                    LOGGER.finest("entryNode " + entryNode);
+                    String token[] = parseOnfirst(entry, ":");
+                    LOGGER.finest("tokens " + token[0] + " , " + token[1]);
+                    if (!token[0].isEmpty() && !token[1].isEmpty()) {
+                        switch (token[0]) {
+                            case "cloudfoundry":
+                                value = getCloudFoundryValue(token[1]);
+                                break;
+                            case "env":
+                                value = getEnvValue(token[1]);
+                                break;
+                            case "file":
+                                value = getFileValue(token[1]);
+                                break;
+                            default:
+                                LOGGER.warning("Unknown protocol in searchPatterns : " + token[0]);
+                                break;
+                        }
+                    }
+                    if (value != null) {
+                        break;
                     }
                 }
-                if (value != null) {
-                    break;
-                }
+            } else {
+                LOGGER.warning("search patterns in mapping.json is NOT an array, values will not be resolved");
             }
-        }
-        else {
-            LOGGER.warning("search patterns in mapping.json is NOT an array, values will not be resolved");
         }
         return value;
     }
@@ -205,18 +226,17 @@ public class CloudServices {
     private DocumentContext getJsonStringFromFile(String filePath) { 
         String json = null;
         if (filePath != null && !filePath.isEmpty()) {
-            if(filePath.startsWith(CLASSPATH_ID)) {
-                //treat file:/server as a classpath resource
-                String path = filePath.substring(CLASSPATH_ID.length() - 1);
-
-                LOGGER.finest("Looking for classpath resource : " + path);
-                JsonObject node = getJson(path);
+            if(!filePath.startsWith("/")) {
+                // Relative path means it's a classpath resource
+                filePath = "/" + filePath;
+                LOGGER.finest("Looking for classpath resource : " + filePath);
+                JsonObject node = getJson(filePath);
                 if(node != null) {
                     json = node.toString();
                     LOGGER.finest("Class path json : " + json);
                 }
             } else {
-                //look for the file specified
+                // look for the file specified
                 try {
                     json = new String(Files.readAllBytes(Paths.get(filePath)));
                 } catch (Exception e) {
@@ -244,4 +264,5 @@ public class CloudServices {
     }
 
 }
+
 

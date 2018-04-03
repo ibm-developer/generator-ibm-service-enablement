@@ -1,4 +1,0 @@
-{
-  "hypersecure_dbaas_mongodb_url": "{{{url}}}",
-  "hypersecure_dbaas_mongodb_cert": "{{{cert}}}"
-}

@@ -1,13 +1,17 @@
-'use strict'
+'use strict';
 const BaseGenerator = require('../lib/generatorbase');
+const SCAFFOLDER_PROJECT_PROPERTY_NAME = 'toneAnalyzer';
+const CLOUD_FOUNDRY_SERVICE_NAME = 'toneAnalyzer';
+const CUSTOM_SERVICE_KEY = 'watson-tone-analyzer';
+const config = {
+	cloudFoundryIsArray: true,
+	mappingVersion: 1
+};
 
-const SCAFFOLDER_PROJECT_PROPERTY_NAME = "toneAnalyzer";
-const SERVICE_NAME = "service-watson-tone-analyzer";
-const localDevConfig = ['url', 'username', 'password'];
 
 module.exports = class extends BaseGenerator {
 	constructor(args, opts) {
-		super(args, opts, SERVICE_NAME, SCAFFOLDER_PROJECT_PROPERTY_NAME, localDevConfig);
+		super(args, opts, SCAFFOLDER_PROJECT_PROPERTY_NAME, CLOUD_FOUNDRY_SERVICE_NAME, CUSTOM_SERVICE_KEY);
 	}
 
 	initializing(){
@@ -15,7 +19,7 @@ module.exports = class extends BaseGenerator {
 	}
 
 	configuring(){
-		return super.configuring();
+		return super.configuring(config);
 	}
 	
 	writing(){

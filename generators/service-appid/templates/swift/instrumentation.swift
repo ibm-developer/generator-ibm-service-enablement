@@ -3,7 +3,7 @@ import CloudEnvironment
 import BluemixAppID
 import class Credentials.Credentials
 
-// For more details on AppID usage, see
+// For more details on AppID/Auth usage, see
 // https://github.com/ibm-cloud-security/appid-serversdk-swift#protecting-web-applications-using-webappkituracredentialsplugin
 // Use kituraCredentials to protect your endpoints/routes
 

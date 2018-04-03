@@ -30,7 +30,7 @@ def getService(app):
 <% } else { %>
 def getService():
     url = IBMCloudEnv.getString('alert_notification_url')
-    user = IBMCloudEnv.getString('alert_notification_name')
-    password = IBMCloudEnv.getString('alert_notification_password')
+	user = IBMCloudEnv.getString('alert_notification_name')
+	password = IBMCloudEnv.getString('alert_notification_password')
     return 'alert-notification', Alert(url, user, password)
 <% } %>

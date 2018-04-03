@@ -9,9 +9,9 @@ Object Storage provides you a fully provisioned account, based on the Swift API,
 This is where your local configuration is stored for Object Storage.
 ```
 {
-  "object_storage_project_id": "XXXX", // Object Storage ProjectId
+  "object_storage_projectId": "XXXX", // Object Storage ProjectId
   "object_storage_project": "object_storage_XXXXX", // Object Storage Project
-  "object_storage_user_id": "XXXX", //Object Storage UserId
+  "object_storage_userId": "XXXX", //Object Storage UserId
   "object_storage_password": "XXX", //Object Storage password
   "object_storage_region": "dallas", //Object Storage region
   "object_storage_authurl" : "https://object_storage.com/", //Object Storage Authorization Url
@@ -62,4 +62,4 @@ This is where your local configuration is stored for Object Storage.
 
 ## Documentation
 
-Other related docuemtation can be found [here](https://www.npmjs.com/package/bluemix-objectstorage)
+Other related documentation can be found [here](https://www.npmjs.com/package/bluemix-objectstorage)

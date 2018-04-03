@@ -1,0 +1,37 @@
+{
+	"appid_tenant_id":{
+		"searchPatterns": [
+			"cloudfoundry:$['AppID'][0].credentials.tenantId",
+			"env:service_appid:$.tenantId",
+			"file:/server/localdev-config.json:$.appid_tenantId"
+		]
+	},
+	"appid_client_id":{
+		"searchPatterns": [
+			"cloudfoundry:$['AppID'][0].credentials.clientId",
+			"env:service_appid:$.clientId",
+			"file:/server/localdev-config.json:$.appid_clientId"
+		]
+	},
+	"appid_secret":{
+		"searchPatterns": [
+			"cloudfoundry:$['AppID'][0].credentials.secret",
+			"env:service_appid:$.secret",
+			"file:/server/localdev-config.json:$.appid_secret"
+		]
+	},
+	"appid_oauth_server_url":{
+		"searchPatterns": [
+			"cloudfoundry:$['AppID'][0].credentials.oauthServerUrl",
+			"env:service_appid:$.oauthServerUrl",
+			"file:/server/localdev-config.json:$.appid_oauthServerUrl"
+		]
+	},
+	"appid_profiles_url":{
+		"searchPatterns": [
+			"cloudfoundry:$['AppID'][0].credentials.profilesUrl",
+			"env:service_appid:$.profilesUrl",
+			"file:/server/localdev-config.json:$.appid_profilesUrl"
+		]
+	}
+}

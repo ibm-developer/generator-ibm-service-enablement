@@ -1,6 +1,0 @@
-{
-  "push_app_guid": "{{{appGuid}}}",
-  "push_app_secret": "{{{appSecret}}}",
-  "push_client_secret": "{{{clientSecret}}}",
-  "push_url": "{{{url}}}"
-}

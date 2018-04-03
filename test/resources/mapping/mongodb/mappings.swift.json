@@ -1,0 +1,11 @@
+{
+  "mongodb": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:mongodb-name",
+        "env:service_mongodb",
+        "file:/config/localdev-config.json:mongodb-name"
+      ]
+    }
+  }
+}

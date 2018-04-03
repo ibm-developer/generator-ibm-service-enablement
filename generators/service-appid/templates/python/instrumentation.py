@@ -46,16 +46,15 @@ def getService(app):
     parsed = json.loads(publicKeyJson)
     pem = pemFromModExp(parsed['n'], parsed['e'])
 
-    config['appid-public-key'] = publicKeyJson
-    config['appid-pem'] = pem
-    config['appid-context'] = 'APPID_AUTH_CONTEXT'
-    config['appid-client-id'] = IBMCloudEnv.getString('appid_client_id')
-    config['appid-authorization-endpoint'] = AUTH_URL
-    config['appid-secret'] = IBMCloudEnv.getString('appid_secret')
-    config['appid-token-path'] = TOKEN_PATH
-    config['appid-introspect-path'] = INTROSPECTION_URL
-
-    return 'appid', config
+    config['publicKey'] = publicKeyJson
+    config['pem'] = pem
+    config['context'] = 'APPID_AUTH_CONTEXT'
+    config['clientId'] = IBMCloudEnv.getString('appid_client_id')
+    config['authorizationEndpoint'] = AUTH_URL
+    config['secret'] = IBMCloudEnv.getString('appid_secret')
+    config['tokenPath'] = TOKEN_PATH
+    config['introspectPath'] = INTROSPECTION_URL
+    return 'auth', config
 <% } else { %>
 def getService():
     config = {}
@@ -69,15 +68,14 @@ def getService():
     publicKeyJson = content
     parsed = json.loads(publicKeyJson)
     pem = pemFromModExp(parsed['n'], parsed['e'])
-    
-    config['appid-public-key'] = publicKeyJson
-    config['appid-pem'] = pem
-    config['appid-context'] = 'APPID_AUTH_CONTEXT'
-    config['appid-client-id'] = IBMCloudEnv.getString('appid_client_id')
-    config['appid-authorization-endpoint'] = AUTH_URL
-    config['appid-secret'] = IBMCloudEnv.getString('appid_secret')
-    config['appid-token-path'] = TOKEN_PATH
-    config['appid-introspect-path'] = INTROSPECTION_URL
-    
-    return 'appid', config
+   
+    config['publicKey'] = publicKeyJson
+    config['pem'] = pem
+    config['context'] = 'APPID_AUTH_CONTEXT'
+    config['clientId'] = IBMCloudEnv.getString('appid_client_id')
+    config['authorizationEndpoint'] = AUTH_URL
+    config['secret'] = IBMCloudEnv.getString('appid_secret')
+    config['tokenPath'] = TOKEN_PATH
+    config['introspectPath'] = INTROSPECTION_URL
+    return 'auth', config
 <% } %>

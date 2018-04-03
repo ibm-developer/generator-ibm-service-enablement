@@ -1,16 +1,22 @@
-'use strict'
+'use strict';
 const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement:language-node-express");
+const path = require('path');
 
 const Utils = require('../lib/Utils');
+const fs = require('fs');
 
 let Generator = require('yeoman-generator');
 
 const GENERATE_HERE = "// GENERATE HERE";
+
+const scaffolderMapping = require('../resources/scaffolderMapping.json');
+const GENERATOR_LOCATION = 'server';
 const PATH_MAPPINGS_FILE = "./server/config/mappings.json";
 const PATH_LOCALDEV_CONFIG_FILE = "server/localdev-config.json";
 const PATH_PACKAGE_JSON = "./package.json";
 const PATH_GIT_IGNORE = "./.gitignore";
+
 
 module.exports = class extends Generator {
 	constructor(args, opts) {
@@ -23,7 +29,7 @@ module.exports = class extends Generator {
 	configuring(){
 		this.context.dependenciesFile = "dependencies.json";
 		this.context.languageFileExt = ".js";
-
+		this.context.generatorLocation = GENERATOR_LOCATION;
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
@@ -32,6 +38,9 @@ module.exports = class extends Generator {
 	}
 
 	writing() {
+		let serviceCredentials,
+			scaffolderKey,
+			serviceKey;
 		this._addDependencies(this.fs.read(this.templatePath() + "/" + this.context.dependenciesFile));
 
 		this.fs.copy(
@@ -44,51 +53,26 @@ module.exports = class extends Generator {
 			this.destinationPath("./server/services/index.js")
 		);
 
-		// Security Services
-		this.composeWith(require.resolve('../service-appid'), {context: this.context});
+		//initializing ourselves by composing with the service generators
+		let root = path.join(path.dirname(require.resolve('../app')), '../');
+		let folders = fs.readdirSync(root);
+		folders.forEach(folder => {
+			if (folder.startsWith('service-')) {
+				serviceKey = folder.substring(folder.indexOf('-') + 1);
+				scaffolderKey = scaffolderMapping[serviceKey];
+				serviceCredentials = Array.isArray(this.context.bluemix[scaffolderKey])
+					? this.context.bluemix[scaffolderKey][0] : this.context.bluemix[scaffolderKey];
+				logger.debug("Composing with service : " + folder);
+				try {
+					this.context.cloudLabel = serviceCredentials && serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
+					this.composeWith(path.join(root, folder), {context: this.context});
+				} catch (err) {
+					/* istanbul ignore next */	//ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
+					logger.warn('Unable to compose with service', folder, err);
+				}
+			}
+		});
 
-		// Cloud Data Services
-		this.composeWith(require.resolve('../service-cloudant'), {context: this.context});
-		this.composeWith(require.resolve('../service-apache-spark'), {context: this.context});
-		this.composeWith(require.resolve('../service-dashdb'), {context: this.context});
-		this.composeWith(require.resolve('../service-db2'), {context: this.context});
-		this.composeWith(require.resolve('../service-object-storage'), {context: this.context});
-
-		// Watson Services
-		this.composeWith(require.resolve('../service-watson-conversation'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-discovery'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-document-conversion'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-language-translator'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-natural-language-classifier'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-natural-language-understanding'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-personality-insights'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-retrieve-and-rank'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-speech-to-text'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-text-to-speech'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-tone-analyzer'), {context: this.context});
-		this.composeWith(require.resolve('../service-watson-visual-recognition'), {context: this.context});
-
-		// Financial Services
-		this.composeWith(require.resolve('../service-finance-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-simulated-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-historical-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-simulated-historical-instrument-analytics'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-investment-portfolio'), {context: this.context});
-		this.composeWith(require.resolve('../service-finance-predictive-market-scenarios'), {context: this.context});
-
-		// Weather Services
-		this.composeWith(require.resolve('../service-weather-company-data'), {context: this.context});
-
-		//Storages
-		this.composeWith(require.resolve('../service-mongodb'), {context: this.context});
-		this.composeWith(require.resolve('../service-redis'), {context: this.context});
-		this.composeWith(require.resolve('../service-postgre'), {context: this.context});
-
-		//Mobile
-		this.composeWith(require.resolve('../service-push'), {context: this.context});
-
-		//Devops
-		this.composeWith(require.resolve('../service-alert-notification'), {context: this.context});
 	}
 
 	_addDependencies(serviceDepdendenciesString){

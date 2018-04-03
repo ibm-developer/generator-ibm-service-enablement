@@ -1,0 +1,16 @@
+{
+  "finance_portfolio_optimization_uri":{
+    "searchPatterns": [
+      "cloudfoundry:$['fss-portfolio-optimization-service'][0].credentials.uri",
+      "env:service_finance_portfolio_optimization:$.uri",
+      "file:/server/localdev-config.json:$.finance_portfolio_optimization_uri"
+    ]
+  },
+  "finance_portfolio_optimization_accesstoken":{
+    "searchPatterns": [
+      "cloudfoundry:$['fss-portfolio-optimization-service'][0].credentials.accessToken",
+      "env:service_finance_portfolio_optimization:$.accessToken",
+      "file:/server/localdev-config.json:$.finance_portfolio_optimization_accessToken"
+    ]
+  }
+}

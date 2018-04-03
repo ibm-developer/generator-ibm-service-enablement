@@ -11,9 +11,9 @@ Push Notifications are an universally accepted communication channel across ente
 This is where your local configuration is stored for Push.
 ```
 {
-  "push_app_guid": "XXXX",
-  "push_app_secret": "XXXX",
-  "push_client_secret": XXXX",
+  "push_appGuid": "XXXX",
+  "push_appSecret": "XXXX",
+  "push_clientSecret": XXXX",
   "push_url": "http://imfpush.BLUEMIX_REGION/imfpush/v1/apps/APP_GUID"
 }
 ```

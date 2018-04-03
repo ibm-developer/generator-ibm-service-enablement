@@ -1,0 +1,11 @@
+{
+  "postgre": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:postgresql-name",
+        "env:service_postgre",
+        "file:/config/localdev-config.json:postgresql-name"
+      ]
+    }
+  }
+}

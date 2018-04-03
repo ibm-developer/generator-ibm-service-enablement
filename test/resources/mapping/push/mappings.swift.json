@@ -1,0 +1,11 @@
+{
+  "push": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:push-name",
+        "env:service_push",
+        "file:/config/localdev-config.json:push-name"
+      ]
+    }
+  }
+}

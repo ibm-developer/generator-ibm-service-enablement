@@ -11,14 +11,8 @@ os_options = {
     'user_id': IBMCloudEnv.getString('object_storage_user_id'),
     'region_name': IBMCloudEnv.getString('object_storage_region')
 }
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+
 def getService(app):
     objectStorage = swiftclient.Connection(authurl=authurl,user=user,key=key,os_options=os_options, auth_version='3')
 
     return 'object-storage', objectStorage
-<% } else { %>
-def getService():
-    objectStorage = swiftclient.Connection(authurl=authurl,user=user,key=key,os_options=os_options, auth_version='3')
-    
-    return 'object-storage', objectStorage
-<% } %>

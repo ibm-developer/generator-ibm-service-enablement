@@ -7,7 +7,7 @@ app.get('/watson-conversation-test', function (req, res) {
 	 * thus exposing the credential, while not ideal, in this case is okay
 	 */
 
-	var workspace_id = 'df5a2ec4-943d-410e-835f-e85bd63e3a7c';
+	var workspace_id = '7fa12afa-a4b0-4646-8510-deda95f4a640';
 	var conversation = serviceManager.get('watson-conversation');
 
 	if (!conversation) {

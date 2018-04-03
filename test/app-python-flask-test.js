@@ -1,34 +1,16 @@
-'use strict'
+
 const path = require('path');
 const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const fs = require('fs');
-const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
 const ejs = require('ejs');
+const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
+//const mappings = Object.assign({}, require('./resources/mappings.json'));
 
 const GENERATOR_PATH = '../generators/app/index.js';
 const REQUIREMENTS_TXT = 'requirements.txt';
 const SERVER_MAPPINGS_JSON = 'server/config/mappings.json';
 const SERVER_LOCALDEV_CONFIG_JSON = 'server/localdev-config.json';
-
-describe('python-flask without services', function() {
-	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
-
-	before(() => {
-		return helpers
-			.run(path.join(__dirname, GENERATOR_PATH))
-			.withOptions({
-				bluemix: JSON.stringify({
-					"name": "AcmeProject",
-					"backendPlatform": "PYTHON"
-				})
-			})
-	});
-
-	it('creates an empty mappings.json file', () => {
-		yassert.file(SERVER_MAPPINGS_JSON);
-	});
-});
 
 describe('python-flask', function () {
 	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
@@ -37,35 +19,18 @@ describe('python-flask', function () {
 		optionsBluemix.backendPlatform = "PYTHON";
 		return helpers
 			.run(path.join(__dirname, GENERATOR_PATH))
-			.inTmpDir(function(dir){
-				const pipfile = '[[source]]\n' +
-					'\n' +
-					'url = "https://pypi.python.org/simple"\n' +
-					'verify_ssl = true\n' +
-					'name = "pypi"\n' +
-					'\n' +
-					'\n' +
-					'[dev-packages]\n' +
-					'\n' +
-					'\n' +
-					'[packages]\n' +
-					'Flask = \'==0.11.1\'\n' +
-					'gunicorn = \'==19.7.1\'';
-
-				fs.writeFileSync(dir + '/Pipfile', pipfile);
-				console.log(dir);
-			})
+			.inTmpDir()
 			.withOptions({
 				bluemix: JSON.stringify(optionsBluemix)
 			})
-
+			.then((tmpDir) => {
+				console.info(tmpDir);
+			});
 	});
 
 	it('Can run successful generation and create files', () => {
 		yassert.file(REQUIREMENTS_TXT);
 		yassert.file('.gitignore');
-		yassert.file('Pipfile');
-		yassert.fileContent('Pipfile', 'Flask');
 		yassert.file('server');
 		yassert.file('server/config');
 		yassert.file(SERVER_MAPPINGS_JSON);
@@ -77,25 +42,25 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Apache Spark instrumentation', () => {
-		testAll('service-apache-spark', {
+		testAll('apache-spark', {
 			apache_spark_cluster_master_url: optionsBluemix.apacheSpark.cluster_master_url,
 			apache_spark_tenant_id: optionsBluemix.apacheSpark.tenant_id,
 			apache_spark_tenant_secret: optionsBluemix.apacheSpark.tenant_secret
 		});
 	});
 
-	it('Can add AppID instrumentation', () => {
-		testAll('service-appid', {
-			appid_tenant_id: optionsBluemix.auth.tenantId,
-			appid_client_id: optionsBluemix.auth.clientId,
+	it('Can add AppID/Auth instrumentation', () => {
+		testAll('appid', {
+			appid_tenantId: optionsBluemix.auth.tenantId,
+			appid_clientId: optionsBluemix.auth.clientId,
 			appid_secret: optionsBluemix.auth.secret,
-			appid_oauth_server_url: optionsBluemix.auth.oauthServerUrl,
-			appid_profiles_url: optionsBluemix.auth.profilesUrl
+			appid_oauthServerUrl: optionsBluemix.auth.oauthServerUrl,
+			appid_profilesUrl: optionsBluemix.auth.profilesUrl
 		});
 	});
 
 	it('Can add Cloudant instrumentation', () => {
-		testAll('service-cloudant', {
+		testAll('cloudant', {
 			cloudant_username: optionsBluemix.cloudant[0].username,
 			cloudant_password: optionsBluemix.cloudant[0].password,
 			cloudant_url: optionsBluemix.cloudant[0].url
@@ -103,44 +68,45 @@ describe('python-flask', function () {
 	});
 
 	it('Can add ObjectStorage instrumentation', () => {
-		testAll('service-object-storage', {
-			object_storage_project_id: optionsBluemix.objectStorage[0].projectId,
-			object_storage_user_id: optionsBluemix.objectStorage[0].userId,
+		testAll('object-storage', {
+			object_storage_projectId: optionsBluemix.objectStorage[0].projectId,
+			object_storage_userId: optionsBluemix.objectStorage[0].userId,
 			object_storage_password: optionsBluemix.objectStorage[0].password,
 			object_storage_region: optionsBluemix.objectStorage[0].region
 		});
 	});
 
 	it('Can add DashDB instrumentation', () => {
-		testAll('service-dashdb', {
+		testAll('dashdb', {
 			dashdb_dsn: optionsBluemix.dashDb.dsn,
-			dashdb_jdbcurl: optionsBluemix.dashDb.ssljdbcurl
+			dashdb_jdbcurl: optionsBluemix.dashDb.jdbcurl
 		});
 	});
 
 	it('Can add DB2 instrumentation', () => {
-		testAll('service-db2', {
+		testAll('db2', {
 			db2_dsn: optionsBluemix.db2OnCloud.dsn,
-			db2_jdbcurl: optionsBluemix.db2OnCloud.ssljdbcurl
+			db2_ssljdbcurl: optionsBluemix.db2OnCloud.ssljdbcurl
 		});
 	});
 
 	it('Can add Finance - Historical Instrument Analytics instrumentation', () => {
-		testAll('service-finance-historical-instrument-analytics', {
+		testAll('finance-simulated-historical-instrument-analytics', {
 			finance_historical_instrument_analytics_uri: optionsBluemix.historicalInstrumentAnalytics.uri,
-			finance_historical_instrument_analytics_accesstoken: optionsBluemix.historicalInstrumentAnalytics.accessToken
+			finance_historical_instrument_analytics_accessToken: optionsBluemix.historicalInstrumentAnalytics.accessToken
 		});
+
 	});
 
 	it('Can add Finance - Instrument Analytics instrumentation', () => {
-		testAll('service-finance-instrument-analytics', {
+		testAll('finance-instrument-analytics', {
 			finance_instrument_analytics_uri: optionsBluemix.instrumentAnalytics.uri,
-			finance_instrument_analytics_accesstoken: optionsBluemix.instrumentAnalytics.accessToken
+			finance_instrument_analytics_accessToken: optionsBluemix.instrumentAnalytics.accessToken
 		});
 	});
 
 	it('Can add Finance - Investment Portfolio instrumentation', () => {
-		testAll('service-finance-investment-portfolio', {
+		testAll('finance-investment-portfolio', {
 			finance_investment_portfolio_url: optionsBluemix.investmentPortfolio.url,
 			finance_investment_portfolio_writer_userid: optionsBluemix.investmentPortfolio.writer.userid,
 			finance_investment_portfolio_writer_password: optionsBluemix.investmentPortfolio.writer.password,
@@ -150,28 +116,28 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Finance - Predictive Market Scenarios instrumentation', () => {
-		testAll('service-finance-predictive-market-scenarios', {
+		testAll('finance-predictive-market-scenarios', {
 			finance_predictive_market_scenarios_uri: optionsBluemix.predictiveMarketScenarios.uri,
-			finance_predictive_market_scenarios_accesstoken: optionsBluemix.predictiveMarketScenarios.accessToken
+			finance_predictive_market_scenarios_accessToken: optionsBluemix.predictiveMarketScenarios.accessToken
 		});
 	});
 
 	it('Can add Finance - Simulated Historical Instrument Analytics instrumentation', () => {
-		testAll('service-finance-simulated-historical-instrument-analytics', {
+		testAll('finance-historical-instrument-analytics', {
 			finance_simulated_historical_instrument_analytics_uri: optionsBluemix.simulatedHistoricalInstrumentAnalytics.uri,
-			finance_simulated_historical_instrument_analytics_accesstoken: optionsBluemix.simulatedHistoricalInstrumentAnalytics.accessToken
+			finance_simulated_historical_instrument_analytics_accessToken: optionsBluemix.simulatedHistoricalInstrumentAnalytics.accessToken
 		});
 	});
 
 	it('Can add Finance - Simulated Instrument Analytics instrumentation', () => {
-		testAll('service-finance-simulated-instrument-analytics', {
+		testAll('finance-simulated-instrument-analytics', {
 			finance_simulated_instrument_analytics_uri: optionsBluemix.simulatedInstrumentAnalytics.uri,
-			finance_simulated_instrument_analytics_accesstoken: optionsBluemix.simulatedInstrumentAnalytics.accessToken
+			finance_simulated_instrument_analytics_accessToken: optionsBluemix.simulatedInstrumentAnalytics.accessToken
 		});
 	});
 
 	it('Can add Watson - Conversation instrumentation', () => {
-		testAll('service-watson-conversation', {
+		testAll('watson-conversation', {
 			watson_conversation_url: optionsBluemix.conversation.url,
 			watson_conversation_username: optionsBluemix.conversation.username,
 			watson_conversation_password: optionsBluemix.conversation.password
@@ -179,7 +145,7 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Discovery instrumentation', () => {
-		testAll('service-watson-discovery', {
+		testAll('watson-discovery', {
 			watson_discovery_url: optionsBluemix.discovery.url,
 			watson_discovery_username: optionsBluemix.discovery.username,
 			watson_discovery_password: optionsBluemix.discovery.password
@@ -187,16 +153,15 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Document Conversion instrumentation', () => {
-		testAll('service-watson-document-conversion', {
+		testAll('watson-document-conversion', {
 			watson_document_conversion_url: optionsBluemix.documentConversion.url,
 			watson_document_conversion_username: optionsBluemix.documentConversion.username,
 			watson_document_conversion_password: optionsBluemix.documentConversion.password
-
 		});
 	});
 
 	it('Can add Watson - Language Translator instrumentation', () => {
-		testAll('service-watson-language-translator', {
+		testAll('watson-language-translator', {
 			watson_language_translator_url: optionsBluemix.languageTranslator.url,
 			watson_language_translator_username: optionsBluemix.languageTranslator.username,
 			watson_language_translator_password: optionsBluemix.languageTranslator.password
@@ -204,7 +169,7 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Natural Language Classifier instrumentation', () => {
-		testAll('service-watson-natural-language-classifier', {
+		testAll('watson-natural-language-classifier', {
 			watson_natural_language_classifier_url: optionsBluemix.naturalLanguageClassifier.url,
 			watson_natural_language_classifier_username: optionsBluemix.naturalLanguageClassifier.username,
 			watson_natural_language_classifier_password: optionsBluemix.naturalLanguageClassifier.password
@@ -212,7 +177,7 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Natural Language Understanding instrumentation', () => {
-		testAll('service-watson-natural-language-understanding', {
+		testAll('watson-natural-language-understanding', {
 			watson_natural_language_understanding_url: optionsBluemix.naturalLanguageUnderstanding.url,
 			watson_natural_language_understanding_username: optionsBluemix.naturalLanguageUnderstanding.username,
 			watson_natural_language_understanding_password: optionsBluemix.naturalLanguageUnderstanding.password
@@ -220,7 +185,7 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Personality Insights instrumentation', () => {
-		testAll('service-watson-personality-insights', {
+		testAll('watson-personality-insights', {
 			watson_personality_insights_url: optionsBluemix.personalityInsights.url,
 			watson_personality_insights_username: optionsBluemix.personalityInsights.username,
 			watson_personality_insights_password: optionsBluemix.personalityInsights.password
@@ -228,7 +193,7 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Retrieve and Rank instrumentation', () => {
-		testAll('service-watson-retrieve-and-rank', {
+		testAll('watson-retrieve-and-rank', {
 			watson_retrieve_and_rank_url: optionsBluemix.retrieveAndRank.url,
 			watson_retrieve_and_rank_username: optionsBluemix.retrieveAndRank.username,
 			watson_retrieve_and_rank_password: optionsBluemix.retrieveAndRank.password,
@@ -236,7 +201,7 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Speech-to-Text instrumentation', () => {
-		testAll('service-watson-speech-to-text', {
+		testAll('watson-speech-to-text', {
 			watson_speech_to_text_url: optionsBluemix.speechToText.url,
 			watson_speech_to_text_username: optionsBluemix.speechToText.username,
 			watson_speech_to_text_password: optionsBluemix.speechToText.password,
@@ -244,7 +209,7 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Text-to-Speech instrumentation', () => {
-		testAll('service-watson-text-to-speech', {
+		testAll('watson-text-to-speech', {
 			watson_text_to_speech_url: optionsBluemix.textToSpeech.url,
 			watson_text_to_speech_username: optionsBluemix.textToSpeech.username,
 			watson_text_to_speech_password: optionsBluemix.textToSpeech.password,
@@ -252,7 +217,7 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Tone Analyzer instrumentation', () => {
-		testAll('service-watson-tone-analyzer', {
+		testAll('watson-tone-analyzer', {
 			watson_tone_analyzer_url: optionsBluemix.toneAnalyzer.url,
 			watson_tone_analyzer_username: optionsBluemix.toneAnalyzer.username,
 			watson_tone_analyzer_password: optionsBluemix.toneAnalyzer.password,
@@ -260,14 +225,14 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Watson - Visual Recognition instrumentation', () => {
-		testAll('service-watson-visual-recognition', {
+		testAll('watson-visual-recognition', {
 			watson_visual_recognition_url: optionsBluemix.visualRecognition.url,
 			watson_visual_recognition_api_key: optionsBluemix.visualRecognition.api_key
 		});
 	});
 
-	it('Can add Weather Company Data instrumentation', () => {
-		testAll('service-weather-company-data', {
+	it('Can add Weather Insights  instrumentation', () => {
+		testAll('weather-company-data', {
 			weather_company_data_url: optionsBluemix.weatherInsights.url,
 			weather_company_data_username: optionsBluemix.weatherInsights.username,
 			weather_company_data_password: optionsBluemix.weatherInsights.password
@@ -275,15 +240,16 @@ describe('python-flask', function () {
 	});
 
 	it('Can add Push instrumentation', () => {
-		testAll('service-push', {
-			push_app_guid: optionsBluemix.push.appGuid,
-			push_app_secret: optionsBluemix.push.appSecret,
-			push_client_secret: optionsBluemix.push.clientSecret
+		testAll('push', {
+			push_appGuid: optionsBluemix.push.appGuid,
+			push_appSecret: optionsBluemix.push.appSecret,
+			push_clientSecret: optionsBluemix.push.clientSecret
 		});
+
 	});
 
 	it('Can add AlertNotification instrumentation', () => {
-		testAll('service-alert-notification', {
+		testAll('alert-notification', {
 			alert_notification_url: optionsBluemix.alertNotification.url,
 			alert_notification_name: optionsBluemix.alertNotification.name,
 			alert_notification_password: optionsBluemix.alertNotification.password
@@ -292,19 +258,19 @@ describe('python-flask', function () {
 
 
 	it('Can add MongoDB instrumentation', () => {
-		testAll('service-mongodb', {
+		testAll('mongodb', {
 			mongodb_uri: optionsBluemix.mongodb.uri
 		});
 	});
 
 	it('Can add Redis instrumentation', () => {
-		testAll('service-redis', {
+		testAll('redis', {
 			redis_uri: optionsBluemix.redis.uri
 		});
 	});
 
 	it('Can add Postgre instrumentation', () => {
-		testAll('service-postgre', {
+		testAll('postgre', {
 			postgre_uri: optionsBluemix.postgresql.uri
 		});
 	});
@@ -329,7 +295,7 @@ describe('python-flask', function () {
 				yassert.noFileContent(REQUIREMENTS_TXT, 'appid');
 				yassert.noFileContent(REQUIREMENTS_TXT, 'cloudant');
 				yassert.noFileContent(REQUIREMENTS_TXT, 'dashdb');
-				yassert.noFileContent(REQUIREMENTS_TXT, 'watson-developer-cloud')
+				yassert.noFileContent(REQUIREMENTS_TXT, 'watson-developer-cloud');
 
 				yassert.noFile(SERVER_LOCALDEV_CONFIG_JSON);
 
@@ -341,19 +307,18 @@ describe('python-flask', function () {
 function testAll(serviceName, localDevConfigJson) {
 	testServiceDependencies(serviceName);
 	testServiceInstrumentation(serviceName);
-	testMappings(serviceName);
 	testReadMe(serviceName);
 	testLocalDevConfig(localDevConfigJson || {})
 }
 
 function testServiceDependencies(serviceName) {
-	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "python", "requirements.txt");
+	const filePath = path.join(__dirname, "..", "generators", `service-${serviceName}`, "templates", "python", "requirements.txt");
 	const expectedDependencies = fs.readFileSync(filePath, 'utf-8');
 	yassert.fileContent(REQUIREMENTS_TXT, expectedDependencies);
 }
 
 function testServiceInstrumentation(serviceName) {
-	const pythonServiceName = serviceName.replace(/-/g, "_"); // Replace all "-" with "_". Python likes "_".
+	const pythonServiceName = `service_${serviceName.replace(/-/g, "_")}`; // Replace all "-" with "_". Python likes "_".
 	const expectedImport1 = "from . import " + pythonServiceName;
 	const expectedImport2 = "from . import " + pythonServiceName;
 	const expectedImport3 = "from . import " + pythonServiceName;
@@ -362,26 +327,19 @@ function testServiceInstrumentation(serviceName) {
 	yassert.fileContent('server/services/__init__.py', expectedImport3);
 	yassert.file('server/services/' + pythonServiceName + '.py');
 
-	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "python", "instrumentation.py");
+	const filePath = path.join(__dirname, "..", "generators", `service-${serviceName}`, "templates", "python", "instrumentation.py");
 	let expectedInstrumentation = fs.readFileSync(filePath, 'utf-8');
 	expectedInstrumentation = ejs.render(expectedInstrumentation, {bluemix: optionsBluemix});
-	// let template = HandleBars.compile(expectedInstrumentation);
-	// expectedInstrumentation = template.compile({
 	yassert.fileContent('server/services/' + pythonServiceName + '.py', expectedInstrumentation);
 }
 
-function testReadMe(serviceName){
-	yassert.file('docs/services/' + serviceName + '.md');
-	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "python", "README.md");
+function testReadMe(serviceName) {
+	yassert.file(`docs/services/service-${serviceName}.md`);
+	const filePath = path.join(__dirname, "..", "generators", `service-${serviceName}`, "templates", "python", "README.md");
 	const expectedReadme = fs.readFileSync(filePath, 'utf-8');
-	yassert.fileContent('docs/services/' + serviceName + '.md', expectedReadme);
+	yassert.fileContent(`docs/services/service-${serviceName}.md`, expectedReadme);
 }
 
-function testMappings(serviceName) {
-	const filePath = path.join(__dirname, "..", "generators", serviceName, "templates", "mappings.json");
-	const expectedMappings = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-	yassert.jsonFileContent(SERVER_MAPPINGS_JSON, expectedMappings);
-}
 
 function testLocalDevConfig(json) {
 	yassert.jsonFileContent(SERVER_LOCALDEV_CONFIG_JSON, json);

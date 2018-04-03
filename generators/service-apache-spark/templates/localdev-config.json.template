@@ -1,5 +1,0 @@
-{
-  "apache_spark_cluster_master_url": "{{{clusterMasterUrl}}}",
-  "apache_spark_tenant_id": "{{{tenantId}}}",
-  "apache_spark_tenant_secret": "{{{tenantSecret}}}"
-}

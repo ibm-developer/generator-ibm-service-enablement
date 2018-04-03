@@ -1,0 +1,11 @@
+{
+  "watson_conversation": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:conversation-name",
+        "env:service_watson_conversation",
+        "file:/config/localdev-config.json:conversation-name"
+      ]
+    }
+  }
+}

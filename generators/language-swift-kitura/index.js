@@ -1,10 +1,11 @@
-'use strict'
+'use strict';
 const logger = require('log4js').getLogger("generator-service-enablement:language-swift-kitura");
 const Generator = require('yeoman-generator');
 const handlebars = require('handlebars');
 const path = require('path');
-
+const fs = require('fs');
 const Utils = require('../lib/Utils');
+const scaffolderMapping = require('../resources/scaffolderMapping.json');
 
 // Load mappings between bluemix/scaffolder labels and the labels generated in the localdev-config.json files
 const bluemixLabelMappings = require('./bluemix-label-mappings.json');
@@ -26,37 +27,37 @@ module.exports = class extends Generator {
 	}
 
 	initializing() {
+		let serviceCredentials,
+			scaffolderKey,
+			serviceKey;
 		this.context.dependenciesFile = "dependencies.txt";
 		this.context.languageFileExt = ".swift";
-
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
 		this.context.addReadMe = this._addReadMe.bind(this);
 		this.context.addInstrumentation = this._addInstrumentation.bind(this);
-		// Security Services
-		this.composeWith(require.resolve('../service-appid'), {context: this.context});
 
-		// Cloud Data * Storage Services
-		this.composeWith(require.resolve('../service-cloudant'), {context: this.context});
-		this.composeWith(require.resolve('../service-object-storage'), {context: this.context});
-		this.composeWith(require.resolve('../service-redis'), {context: this.context});
-		this.composeWith(require.resolve('../service-postgre'), {context: this.context});
-		this.composeWith(require.resolve('../service-mongodb'), {context: this.context});
-		this.composeWith(require.resolve('../service-hypersecure-dbaas-mongodb'), {context: this.context});
 
-		// Watson Services
-		this.composeWith(require.resolve('../service-watson-conversation'), {context: this.context});
-
-		// Mobile
-		this.composeWith(require.resolve('../service-push'), {context: this.context});
-
-		// DevOps
-		this.composeWith(require.resolve('../service-alert-notification'), {context: this.context});
-		this.composeWith(require.resolve('../service-autoscaling'), {context: this.context});
-
-		// Additional services go here...
-		//TODO: Add remaining services here; see: https://ibm.box.com/s/7o7w68ydat8ape2u5dzoid89qdgh56qh
+		let root = path.join(path.dirname(require.resolve('../app')), '../');
+		let folders = fs.readdirSync(root);
+		folders.forEach(folder => {
+			if (folder.startsWith('service-')) {
+				serviceKey = folder.substring(folder.indexOf('-') + 1);
+				scaffolderKey = scaffolderMapping[serviceKey];
+				serviceCredentials = Array.isArray(this.context.bluemix[scaffolderKey])
+					? this.context.bluemix[scaffolderKey][0] : this.context.bluemix[scaffolderKey];
+				logger.debug("Composing with service : " + folder);
+				try {
+					this.context.cloudLabel = serviceCredentials && serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
+					this.composeWith(path.join(root, folder), {context: this.context});
+				} catch (err) {
+					/* istanbul ignore next */      //ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
+					logger.warn('Unable to compose with service', folder, err);
+				}
+			}
+		});
+		
 	}
 
 	_addDependencies(serviceDependenciesString) {
@@ -100,15 +101,17 @@ module.exports = class extends Generator {
 		function pascalize(name) {
 			return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
 		}
+
 		if (this.context.injectIntoApplication) {
 			let extension = path.extname(options.targetFileName);
 			let targetName = pascalize(path.basename(options.targetFileName, extension));
+
 			// Copy source file
 			let targetFilePath = this.destinationPath('Sources', 'Application', 'Services', targetName + this.context.languageFileExt);
 			this._copyHbsTpl(
 				options.sourceFilePath,
 				targetFilePath,
-				{ servLookupKey: bluemixLabelMappings[options.servLabel], context: this.context }
+				{servLookupKey: bluemixLabelMappings[options.servLabel], context: this.context}
 			);
 			let metaFile = options.sourceFilePath.substring(0, options.sourceFilePath.lastIndexOf("/")) + '/meta.json';
 			let metaData = this.fs.readJSON(metaFile);
@@ -157,10 +160,12 @@ module.exports = class extends Generator {
 	_getServiceInstanceName(bluemixKey) {
 		// Lookup metadata object using bluemix/scaffolder key
 		const serviceMetaData = this.context.bluemix[bluemixKey];
-		//logger.info("stringfy: " + JSON.stringify(this.context.bluemix[bluemixKey]));
+
+		if(!serviceMetaData){
+			return null;
+		}
 		const instanceName = Array.isArray(serviceMetaData) ?
 			serviceMetaData[0].serviceInfo.name : serviceMetaData.serviceInfo.name;
-		//logger.info("instanceName: " + instanceName);
 		return instanceName;
 	}
 
@@ -170,11 +175,13 @@ module.exports = class extends Generator {
 		// Note that environment variables should not use the '-' character
 		const envVariableName = 'service_' + prefix
 		mappings[prefix] = {
-			"searchPatterns": [
-				"cloudfoundry:" + instanceName,
-				"env:" + envVariableName,
-				FILE_SEARCH_PATH_PREFIX + instanceName
-			]
+			"credentials": {
+				"searchPatterns": [
+					"cloudfoundry:" + instanceName,
+					"env:" + envVariableName,
+					FILE_SEARCH_PATH_PREFIX + instanceName
+				]
+			}
 		};
 		return serviceCredentials;
 	}
@@ -185,6 +192,7 @@ module.exports = class extends Generator {
 		// Load the generated localdev-config.json
 		// We will "massage" this file so it is compatible with CloudEnvironment
 		const localDevConfig = this.fs.readJSON(this.destinationPath(PATH_LOCALDEV_CONFIG_FILE), {});
+
 		// Get all keys from localdev-config.json
 		const credentialItems = Object.keys(localDevConfig);
 		// Initialize structure for storing credentials
@@ -200,9 +208,9 @@ module.exports = class extends Generator {
 		}
 
 		for (let index in credentialItems) {
-			const credentialItem = credentialItems[index]
+			const credentialItem = credentialItems[index];
 			logger.debug("-----------------------------");
-			logger.debug(credentialItem + ": " + localDevConfig[credentialItem]);
+			logger.log(credentialItem + ": " + localDevConfig[credentialItem]);
 
 			// Look up prefix and bluemix key for current credentials item
 			let currentPrefix;
@@ -226,6 +234,11 @@ module.exports = class extends Generator {
 
 			// Generate entry for mappings.json
 			const instanceName = this._getServiceInstanceName(bluemixKey);
+
+			if(!instanceName){
+				logger.error(`Service ${bluemixKey} was not provisioned`);
+				continue;
+			}
 
 			// Are we processing a new credentials set or an existing one?
 			let serviceCredentials;

@@ -1,12 +1,18 @@
-'use strict'
+'use strict';
 const BaseGenerator = require('../lib/generatorbase');
-const SCAFFOLDER_PROJECT_PROPERTY_NAME = "alertNotification";
-const SERVICE_NAME = "service-alert-notification";
-const localDevConfig = ['url', 'name', 'password'];
+const SCAFFOLDER_PROJECT_PROPERTY_NAME = 'alertNotification';
+const CLOUD_FOUNDRY_SERVICE_NAME = 'alertnotification';
+const CUSTOM_SERVICE_KEY = 'alert-notification';
+const CUSTOM_CRED_KEYS = [];
+
+const config = {
+	cloudFoundryIsArray: true,
+	mappingVersion: 1
+};
 
 module.exports = class extends BaseGenerator {
 	constructor(args, opts) {
-		super(args, opts, SERVICE_NAME, SCAFFOLDER_PROJECT_PROPERTY_NAME, localDevConfig);
+		super(args, opts, SCAFFOLDER_PROJECT_PROPERTY_NAME, CLOUD_FOUNDRY_SERVICE_NAME, CUSTOM_SERVICE_KEY, CUSTOM_CRED_KEYS);
 	}
 
 	initializing(){
@@ -14,7 +20,7 @@ module.exports = class extends BaseGenerator {
 	}
 
 	configuring(){
-		return super.configuring();
+		return super.configuring(config);
 	}
 
 	writing(){

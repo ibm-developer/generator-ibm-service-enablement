@@ -35,7 +35,6 @@ class Push:
 		r = delete(self.url + endpoint, headers=self.headers, json=payload)
 		response = r.json()
 		return response
-
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
 	url = IBMCloudEnv.getString('push_url')

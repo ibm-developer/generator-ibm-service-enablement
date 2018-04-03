@@ -1,0 +1,11 @@
+{
+  "redis": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:redis-name",
+        "env:service_redis",
+        "file:/config/localdev-config.json:redis-name"
+      ]
+    }
+  }
+}

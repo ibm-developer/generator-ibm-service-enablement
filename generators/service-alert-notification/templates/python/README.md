@@ -9,7 +9,7 @@ IBM Alert Notification instantly delivers notifications of problem occurrences i
 This is where your local configuration is stored for Alert Notification.
 ```
 {
-	"alert_notification_url": "{{url}}",
+	"alertnotification_url": "{{url}}",
 	"alert_notification_name": "{{name}}",
 	"alert_notification_password": "{{password}}"
 }

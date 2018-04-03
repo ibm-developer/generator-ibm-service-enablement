@@ -1,4 +1,3 @@
-
 const IBMCloudEnv = require('ibm-cloud-env');
 
 module.exports = function(app, serviceManager){
@@ -10,4 +9,3 @@ module.exports = function(app, serviceManager){
 
 	serviceManager.set('alert-notification', config);
 };
-

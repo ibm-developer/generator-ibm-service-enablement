@@ -2,7 +2,6 @@ from ibmcloudenv import IBMCloudEnv
 from pymongo import MongoClient
 import os, base64
 
-
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
 	mongoConnect = IBMCloudEnv.getString('mongodb_uri')

@@ -1,5 +1,0 @@
-{
-  "alert_notification_url": "{{{url}}}",
-  "alert_notification_name": "{{{name}}}",
-  "alert_notification_password": "{{{password}}}"
-}

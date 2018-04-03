@@ -1,4 +1,0 @@
-{
-  "db2_dsn": "{{{dsn}}}",
-  "db2_jdbcurl": "{{{ssljdbcurl}}}"
-}

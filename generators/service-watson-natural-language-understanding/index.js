@@ -1,13 +1,16 @@
-'use strict'
+'use strict';
 const BaseGenerator = require('../lib/generatorbase');
-
-const SCAFFOLDER_PROJECT_PROPERTY_NAME = "naturalLanguageUnderstanding";
-const SERVICE_NAME = "service-watson-natural-language-understanding";
-const localDevConfig = ['url', 'username', 'password'];
+const SCAFFOLDER_PROJECT_PROPERTY_NAME = 'naturalLanguageUnderstanding';
+const CLOUD_FOUNDRY_SERVICE_NAME = 'naturalLanguageUnderstanding';
+const CUSTOM_SERVICE_KEY = 'watson-natural-language-understanding';
+const config = {
+	cloudFoundryIsArray: true,
+	mappingVersion: 1
+};
 
 module.exports = class extends BaseGenerator {
 	constructor(args, opts) {
-		super(args, opts, SERVICE_NAME, SCAFFOLDER_PROJECT_PROPERTY_NAME, localDevConfig);
+		super(args, opts, SCAFFOLDER_PROJECT_PROPERTY_NAME, CLOUD_FOUNDRY_SERVICE_NAME, CUSTOM_SERVICE_KEY);
 	}
 
 	initializing(){
@@ -15,10 +18,10 @@ module.exports = class extends BaseGenerator {
 	}
 
 	configuring(){
-		return super.configuring();
+		return super.configuring(config);
 	}
 	
 	writing(){
 		return super.writing();
 	}
-}
+};

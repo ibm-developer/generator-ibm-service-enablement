@@ -1,4 +1,0 @@
-{
-  "dashdb_dsn": "{{{dsn}}}",
-  "dashdb_jdbcurl": "{{{ssljdbcurl}}}"
-}

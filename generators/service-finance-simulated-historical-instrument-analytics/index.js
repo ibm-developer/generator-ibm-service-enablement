@@ -1,13 +1,16 @@
-'use strict'
+'use strict';
 const BaseGenerator = require('../lib/generatorbase');
-
-const SCAFFOLDER_PROJECT_PROPERTY_NAME = "simulatedHistoricalInstrumentAnalytics";
-const SERVICE_NAME = "service-finance-simulated-historical-instrument-analytics";
-const localDevConfig = ['uri', 'accessToken'];
+const SCAFFOLDER_PROJECT_PROPERTY_NAME = 'simulatedHistoricalInstrumentAnalytics';
+const CLOUD_FOUNDRY_SERVICE_NAME = 'fss-historical-scenario-analytics-service';
+const CUSTOM_SERVICE_KEY = 'finance-simulated-historical-instrument-analytics';
+const config = {
+	cloudFoundryIsArray: true,
+	mappingVersion: 1
+};
 
 module.exports = class extends BaseGenerator {
 	constructor(args, opts) {
-		super(args, opts, SERVICE_NAME, SCAFFOLDER_PROJECT_PROPERTY_NAME, localDevConfig);
+		super(args, opts, SCAFFOLDER_PROJECT_PROPERTY_NAME, CLOUD_FOUNDRY_SERVICE_NAME, CUSTOM_SERVICE_KEY);
 	}
 
 	initializing(){
@@ -15,10 +18,10 @@ module.exports = class extends BaseGenerator {
 	}
 
 	configuring(){
-		return super.configuring();
+		return super.configuring(config);
 	}
 	
 	writing(){
 		return super.writing();
 	}
-}
+};

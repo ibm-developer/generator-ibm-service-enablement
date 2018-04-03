@@ -1,0 +1,11 @@
+{
+  "cloudant": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:cloudant-name",
+        "env:service_cloudant",
+        "file:/config/localdev-config.json:cloudant-name"
+      ]
+    }
+  }
+}

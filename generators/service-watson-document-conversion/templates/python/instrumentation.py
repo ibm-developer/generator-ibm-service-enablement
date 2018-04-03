@@ -5,10 +5,6 @@ document_conversion = DocumentConversionV1(
     username=IBMCloudEnv.getString('watson_document_conversion_username'),
     password=IBMCloudEnv.getString('watson_document_conversion_password'),
     version='2016-02-10')
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+
 def getService(app):
     return 'watson-document-conversion', document_conversion
-<% } else { %>
-def getService():
-    return 'watson-document-conversion', document_conversion
-<% } %>

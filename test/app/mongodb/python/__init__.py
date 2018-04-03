@@ -1,3 +1,4 @@
+client = None
 @app.route('/mongodb-test')
 def testMongo():
 	messages = []
