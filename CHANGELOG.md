@@ -3,20 +3,16 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 <a name="1.0.0"></a>
-# [1.0.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.7...v1.0.0) (2018-04-03)
+# [1.0.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.l1.0...v1.0.0) (2018-04-03)
 
 
 ### Bug Fixes
 
-* **swift label mappings:** Updates hypersecuredb label mappings ([be578fd](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/be578fd))
-* Add missing dependency for Liberty Mongo ([#219](https://github.com/ibm-developer/generator-ibm-service-enablement/issues/219)) ([0c0ad98](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/0c0ad98))
-* Empty dependency Package.swift ([f90f029](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/f90f029))
-* modification for kubernetes binding names in swift chart and mappings ([494af48](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/494af48))
+* Add missing dependency for Liberty Mongo ([0c0ad98](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/0c0ad98))
 
 
 ### Features
 
-* Add orm to Postgre Service ([9387407](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/9387407))
 * **refactor:** dynamically create credential files (localdev-config.json and mappings.json) ([d6bfea8](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/d6bfea8))
 * **swift:** update CloudEnvironment to 7.0.0 ([520ac75](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/520ac75))
 
@@ -25,39 +21,27 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **refactor:** service keys are renamed to use both scaffolder and custom keys
 
-
-
 <a name="0.11.0"></a>
-# [0.11.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.7...v0.11.0) (2018-03-19)
+# [0.11.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.10.0...v0.11.0) (2018-03-19)
 
 
 ### Bug Fixes
 
-* **swift label mappings:** Updates hypersecuredb label mappings ([be578fd](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/be578fd))
 * Empty dependency Package.swift ([f90f029](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/f90f029))
-* modification for kubernetes binding names in swift chart and mappings ([494af48](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/494af48))
-
 
 ### Features
 
 * Add orm to Postgre Service ([9387407](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/9387407))
-
 
 
 <a name="0.10.0"></a>
-# [0.10.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.7...v0.10.0) (2018-03-19)
+# [0.10.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.8...v0.10.0) (2018-03-19)
 
 
 ### Bug Fixes
 
 * **swift label mappings:** Updates hypersecuredb label mappings ([be578fd](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/be578fd))
 * modification for kubernetes binding names in swift chart and mappings ([494af48](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/494af48))
-
-
-### Features
-
-* Add orm to Postgre Service ([9387407](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/9387407))
-
 
 
 <a name="0.9.8"></a>
@@ -68,8 +52,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **swift label mappings:** Updates hypersecuredb label mappings ([be578fd](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/be578fd))
 * modification for kubernetes binding names in swift chart and mappings ([494af48](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/494af48))
-
-
 
 <a name="0.9.7"></a>
 ## [0.9.7](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v0.9.6...v0.9.7) (2018-03-15)
