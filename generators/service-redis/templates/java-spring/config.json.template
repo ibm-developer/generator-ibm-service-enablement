@@ -1,0 +1,5 @@
+{
+    "dependencies": [
+        {"groupId" : "redis.clients", "artifactId" : "jedis", "version" : "2.9.0"}
+    ]
+}
