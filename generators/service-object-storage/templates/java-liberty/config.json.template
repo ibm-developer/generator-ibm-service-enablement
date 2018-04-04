@@ -1,8 +1,7 @@
 {
   "dependencies" : [
     {"groupId" : "org.pacesys", "artifactId" : "openstack4j-core", "version" : "3.0.3"},
-    {"groupId" : "org.pacesys.openstack4j.connectors", "artifactId" : "openstack4j-httpclient", "version" : "3.0.3"},
-    {"groupId" : "org.eclipse.microprofile.config", "artifactId" : "microprofile-config-api", "version" : "1.1", "scope" : "provided"}
+    {"groupId" : "org.pacesys.openstack4j.connectors", "artifactId" : "openstack4j-httpclient", "version" : "3.0.3"}
   ],
   "frameworkDependencies" : [
     {"feature" : "mpConfig-1.1"}
