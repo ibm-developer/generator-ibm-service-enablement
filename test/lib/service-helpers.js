@@ -124,6 +124,18 @@ function serviceAlertNotification(optionsBluemix) {
 	};
 }
 
+function serviceRedis() {
+	return {
+		location: 'service-redis',
+		bluemixName: 'redis',
+		localDevConfig: {},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: []
+		}
+	}
+}
+
 function serviceTest(optionsBluemix) {
 	return {
 		location: 'service-test',
@@ -151,5 +163,6 @@ module.exports = {
 	serviceWatsonConversation: serviceWatsonConversation,
 	servicePush: servicePush,
 	serviceAlertNotification: serviceAlertNotification,
+	serviceRedis: serviceRedis,
 	serviceTest: serviceTest
 };

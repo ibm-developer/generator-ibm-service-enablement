@@ -115,6 +115,7 @@ class Options {
 		buildTest.assertDependency(exists, 'provided', 'javax.json', 'javax.json-api', '1.0');
 		buildTest.assertDependency(exists, 'provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.18');
 		buildTest.assertDependency(exists, 'provided', 'javax.enterprise', 'cdi-api', '1.2');
+		buildTest.assertDependency(exists, 'provided', 'org.eclipse.microprofile.config', 'microprofile-config-api', '1.1')
 		assertLiberty.assertFeature(exists, 'jsonp-1.0');
 		assertLiberty.assertFeature(exists, 'jndi-1.0');
 		assertLiberty.assertFeature(exists, 'cdi-1.2');
