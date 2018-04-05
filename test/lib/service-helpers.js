@@ -124,7 +124,7 @@ function serviceAlertNotification(optionsBluemix) {
 	};
 }
 
-function serviceRedis(optionsBluemix) {
+function serviceRedis() {
 	return {
 		location: 'service-redis',
 		bluemixName: 'redis',
