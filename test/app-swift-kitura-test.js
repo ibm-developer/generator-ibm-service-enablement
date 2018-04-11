@@ -273,6 +273,7 @@ function testServiceModules(serviceName, modules) {
 	let serviceVariable = {
 		"service-alert-notification": "AlertNotifications",
 		"service-appid": "BluemixAppID",
+		"service-autoscaling": "",
 		"service-cloudant": "CouchDB",
 		"service-object-storage": "BluemixObjectStorage",
 		"service-redis": "SwiftRedis",
