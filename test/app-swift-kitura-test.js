@@ -148,6 +148,14 @@ describe('swift-kitura', function() {
 				}
 			}, dependencies, modules, codeForServices);
 		});
+
+		it('Can add HypersecureDBaaS instrumentation', () => {
+			testAll('service-hypersecure-dbaas-mongodb', 'hypersecure_dbaas_mongodb', optionsBluemix.hypersecuredb.serviceInfo.name, {
+				[optionsBluemix.hypersecuredb.serviceInfo.name]: {
+					uri: optionsBluemix.hypersecuredb.uri
+				}
+			}, dependencies, modules, codeForServices);
+		});
 	});
 
 	describe('no services', function() {
@@ -272,7 +280,8 @@ function testServiceModules(serviceName, modules) {
 		"service-mongodb": "MongoKitten",
 		"service-postgre": "SwiftKueryPostgreSQL",
 		"service-push": "IBMPushNotifications",
-		"service-watson-conversation": "WatsonDeveloperCloud"
+		"service-watson-conversation": "WatsonDeveloperCloud",
+		"service-hypersecure-dbaas-mongodb": "MongoKitten"
 	};
 	const module = "\"" + `${serviceVariable[serviceName]}` + "\"";
 	yassert(modules.indexOf(module) !== -1, 'expected module ' + module);
@@ -283,12 +292,13 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 		"service-alert-notification": "alertNotificationService",
 		"service-appid": "appidService",
 		"service-cloudant": "couchDBService",
-		"service-object-storage": "objectStorageService", 
+		"service-object-storage": "objectStorageService",
 		"service-redis": "redisService",
 		"service-mongodb": "mongoDBService",
 		"service-postgre": "postgreSQLService",
 		"service-push": "pushNotificationService",
-		"service-watson-conversation": "watsonConversationService"
+		"service-watson-conversation": "watsonConversationService",
+		"service-hypersecure-dbaas-mongodb": "mongoDBService"
 	};
 
 	function pascalize(name) {
