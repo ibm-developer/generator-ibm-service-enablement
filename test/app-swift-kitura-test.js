@@ -156,6 +156,14 @@ describe('swift-kitura', function() {
 				}
 			}, dependencies, modules, codeForServices);
 		});
+
+		it('Can add Autoscale instrumentation', () => {
+			testAll('service-autoscaling', 'swiftMetrics', optionsBluemix.autoscaling.serviceInfo.name, {
+				[optionsBluemix.autoscaling.serviceInfo.name]: {
+					uri: optionsBluemix.autoscaling.key
+				}
+			}, dependencies, modules, codeForServices);
+		});
 	});
 
 	describe('no services', function() {
@@ -256,9 +264,11 @@ describe('swift-kitura', function() {
 function testAll(serviceName, servLookupKey, servInstanceName, localDevConfigJson, dependencies, modules, codeForServices) {
 	testServiceDependencies(serviceName, dependencies);
 	testServiceInstrumentation(serviceName, servLookupKey, codeForServices);
-	testServiceModules(serviceName, modules);
-	testMappings(servLookupKey, servInstanceName);
-	testLocalDevConfig(localDevConfigJson || {});
+	if (serviceName !== "service-autoscaling") {
+		testServiceModules(serviceName, modules);
+		testMappings(servLookupKey, servInstanceName);
+		testLocalDevConfig(localDevConfigJson || {});
+	}
 }
 
 function testServiceDependencies(serviceName, dependencies) {
@@ -291,6 +301,7 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 	let serviceVariable = {
 		"service-alert-notification": "alertNotificationService",
 		"service-appid": "appidService",
+		"service-autoscaling": "autoScalingService",
 		"service-cloudant": "couchDBService",
 		"service-object-storage": "objectStorageService",
 		"service-redis": "redisService",
@@ -312,7 +323,11 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 		yassert(codeForServices.indexOf(`${serviceVariable[serviceName]} = try ${expectedInitFunctionDeclaration}`) !== -1);
 	}
 
-	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `name: "${servLookupKey}"`);
+	if(serviceName === 'service-autoscaling') {
+		yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `swiftMetricsInstance: ${servLookupKey}`);
+	} else {
+		yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `name: "${servLookupKey}"`);
+	}
 	yassert.fileContent(`Sources/Application/Services/${pascalize(serviceName)}.swift`, `func ${expectedInitFunctionTemplate}`);
 
 }
