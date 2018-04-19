@@ -49,8 +49,10 @@ module.exports = class extends Generator {
 			return;
 		}
 		this._addDependencies();
-		this._addMappings(config);
-		this._addLocalDevConfig();
+		if (this.scaffolderName !== "autoscaling") {
+			this._addMappings(config);
+			this._addLocalDevConfig();
+		}
 		this._addReadMe();
 		this._addInstrumentation();
 
@@ -70,14 +72,14 @@ module.exports = class extends Generator {
 		name = name.replace(REGEX_HYPHEN, '_');
 		return name;
 	}
-	
+
 	_sanitizeJSONString(dirtyJSONString){
-	
+
 		const lastIndexOfComma = dirtyJSONString.lastIndexOf(',');
 
 		const prunedJSONString = dirtyJSONString.split("").filter((value, idx) => {
 			if(idx !== lastIndexOfComma){return value;}}).join("");
-		
+
 		const invalidEndComma = '}';
 
 		return dirtyJSONString[lastIndexOfComma-1] === invalidEndComma && dirtyJSONString[dirtyJSONString.length-2] === invalidEndComma ? prunedJSONString : dirtyJSONString;
@@ -140,7 +142,7 @@ module.exports = class extends Generator {
 	}
 
 	_mapCredentialKeysToScaffolderKeys(credentialKeys, scaffolderKeys){
-		let map= {}; 
+		let map= {};
 		for(let i = 0;  i < credentialKeys.length; i++) {
 			let key = credentialKeys[i];
 			let scaffolderKey =	scaffolderKeys.find(value => {
@@ -179,20 +181,20 @@ module.exports = class extends Generator {
 
 		credKeysToScaffolderKeysMap = this._mapCredentialKeysToScaffolderKeys(credentialKeys, scaffolderKeys);
 
-		
+
 		let mapping = fs.readFileSync(path.join(__dirname, '..', 'resources', `mappings.v${version}.json.template`), 'utf-8');
-	
+
 		Handlebars.registerHelper('access', (map, key, nestedJSON) => {
 			return nestedJSON ? map[key].replace('_', '.') : map[key];
-			
+
 		});
-	
+
 		let template = Handlebars.compile(mapping);
-	
+
 		let context = {
 			serviceKey: this.serviceKey.replace(/-/g, '_'),
-			credentialKeys: credentialKeys, 
-			map: credKeysToScaffolderKeysMap,	
+			credentialKeys: credentialKeys,
+			map: credKeysToScaffolderKeysMap,
 			cloudFoundryKey: this.cloudFoundryName,
 			generatorLocation: this.context.generatorLocation,
 			cloudFoundryIsArray : config.cloudFoundryIsArray,
@@ -201,8 +203,6 @@ module.exports = class extends Generator {
 
 		let generatedMappingString = this._sanitizeJSONString(template(context));
 		let mappings = JSON.parse(generatedMappingString);
-
-
 
 		this.context.addMappings(mappings);
 	}
