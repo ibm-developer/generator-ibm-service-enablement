@@ -4,9 +4,10 @@ IBM Compose for MongoDB for IBM Cloud uses the powerful indexing and querying, a
 
 ##  Credentials
 
-###  LocalDevConfig
+### LocalDevConfig
 
-This is where your local configuration is stored for MongoDB.
+Your local configuration for MongoDB is stored in the file: `config/localdev-config.json`.
+
 ```
 {
   "mongodb_uri": "{{uri}}", // URI/URL of MongoDB in Compose
@@ -23,10 +24,13 @@ To interact with Compose for MongoDB locally (with SSL), you will need to add th
 You can find the SSL certificate under the `Connection Strings` section of `Manage` for the specific Compose for MongoDB service instance in the IBM Cloud dashboard. Save the SSL certificate as a `.pem` file.
 
 To add this SSL certificate to your keychain:
+
 ```bash
 sudo security add-trusted-cert -d -p ssl -k /Library/Keychains/System.keychain <SSL cert file>
 ```
 
 ## Documentation
 
-Other related documentation can be found [here](http://mongokitten.openkitten.org/)
+For more information, visit the [Compose for MongoDB documentation](https://console.bluemix.net/docs/services/ComposeForMongoDB/index.html#about-compose-for-mongodb).
+
+For documentation on the third-party Swift database driver, visit [MongoKitten](http://mongokitten.openkitten.org/).
