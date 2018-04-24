@@ -1,1 +1,1 @@
-.package(url: "https://github.com/IBM-Swift/Kitura-redis.git", .upToNextMinor(from: "1.7.0")),
+.package(url: "https://github.com/IBM-Swift/Kitura-redis.git", from: "2.1.0"),
