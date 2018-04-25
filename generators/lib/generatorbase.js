@@ -25,11 +25,11 @@ const Handlebars = require('handlebars');
 const REGEX_HYPHEN = /-/g;
 
 module.exports = class extends Generator {
-	constructor(args, opts, scaffolderName, cloudFoundryName, customServiceKey = null, customCredKeys = []) {
+	constructor(args, opts, scaffolderName, cloudFoundryName, customServiceKey, customCredKeys) {
 		super(args, opts);
 		this.scaffolderName = scaffolderName;
 		this.serviceKey = customServiceKey || scaffolderName;
-		this.customCredKeys= customCredKeys
+		this.customCredKeys= customCredKeys || [];
 		this.logger = log4js.getLogger("generator-ibm-service-enablement:" + scaffolderName);
 		this.context = opts.context;
 		this.cloudFoundryName = this.context.cloudLabel || cloudFoundryName;
