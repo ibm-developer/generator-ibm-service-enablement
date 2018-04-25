@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.7"></a>
+## [1.1.7](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.1.6...v1.1.7) (2018-04-25)
+
+
+### Bug Fixes
+
+* adding back support for Node 4 ([e004272](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/e004272))
+
+
+
 <a name="1.1.6"></a>
 ## [1.1.6](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.1.5...v1.1.6) (2018-04-24)
 
