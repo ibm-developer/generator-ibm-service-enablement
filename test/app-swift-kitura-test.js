@@ -149,6 +149,14 @@ describe('swift-kitura', function() {
 			}, dependencies, modules, codeForServices);
 		});
 
+		it('Can add ElephantSQL instrumentation', () => {
+			testAll('service-elephant-sql', 'elephant_sql', optionsBluemix.elephantsql.serviceInfo.name, {
+				[optionsBluemix.elephantsql.serviceInfo.name]: {
+					uri: optionsBluemix.elephantsql.uri
+				}
+			}, dependencies, modules, codeForServices);
+		});
+
 		it('Can add HypersecureDBaaS instrumentation', () => {
 			testAll('service-hypersecure-dbaas-mongodb', 'hypersecure_dbaas_mongodb', optionsBluemix.hypersecuredb.serviceInfo.name, {
 				[optionsBluemix.hypersecuredb.serviceInfo.name]: {
@@ -291,7 +299,8 @@ function testServiceModules(serviceName, modules) {
 		"service-postgre": "SwiftKueryPostgreSQL",
 		"service-push": "IBMPushNotifications",
 		"service-watson-conversation": "WatsonDeveloperCloud",
-		"service-hypersecure-dbaas-mongodb": "MongoKitten"
+		"service-hypersecure-dbaas-mongodb": "MongoKitten",
+		"service-elephant-sql": "SwiftKueryPostgreSQL",
 	};
 	const module = "\"" + `${serviceVariable[serviceName]}` + "\"";
 	yassert(modules.indexOf(module) !== -1, 'expected module ' + module);
@@ -309,7 +318,8 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 		"service-postgre": "postgreSQLService",
 		"service-push": "pushNotificationService",
 		"service-watson-conversation": "watsonConversationService",
-		"service-hypersecure-dbaas-mongodb": "mongoDBService"
+		"service-hypersecure-dbaas-mongodb": "mongoDBService",
+		"service-elephant-sql": "elephantSQLService",
 	};
 
 	function pascalize(name) {
@@ -317,7 +327,7 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 	}
 	let expectedInitFunctionDeclaration = `initialize${pascalize(serviceName)}(cloudEnv: cloudEnv)`;
 	let expectedInitFunctionTemplate = `initialize${pascalize(serviceName)}(cloudEnv: CloudEnv)`;
-	if (serviceName === 'service-postgre') {
+	if (serviceName === 'service-postgre' || serviceName === 'service-elephant-sql') {
 		yassert(codeForServices.indexOf(`try ${expectedInitFunctionDeclaration}`) !== -1);
 	} else {
 		yassert(codeForServices.indexOf(`${serviceVariable[serviceName]} = try ${expectedInitFunctionDeclaration}`) !== -1);
