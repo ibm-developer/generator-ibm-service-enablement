@@ -16,6 +16,7 @@
     "testnode": "mocha test/app-node-express-test.js",
     "testpython": "mocha test/app-python-flask-test.js",
     "testswift": "mocha test/app-swift-kitura-test.js",
+    "testservices": "mocha test/app-services-*.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "integration": "mocha test/integration-*",
     "testlib": "mocha test/app-lib-test.js",
@@ -37,7 +38,7 @@
     "axios": "^0.16.2",
     "chai": "^4.0.2",
     "cors": "^2.8.4",
-    "coveralls": "^2.13.1",
+    "coveralls": "^3.0.1",
     "ejs": "^2.5.7",
     "eslint": "^4.2.0",
     "eslint-plugin-ejs": "0.0.2",
@@ -48,7 +49,7 @@
     "mocha": "^3.4.2",
     "nyc": "^11.0.2",
     "request-promise": "^4.2.1",
-    "standard-version": "^4.2.0",
+    "standard-version": "^4.4.0",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.7.0"
   }

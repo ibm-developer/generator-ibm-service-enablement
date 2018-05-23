@@ -168,7 +168,7 @@ module.exports = class extends Generator {
 
 	end() {
 		// add services env to deployment.yaml && cf create-service to pipeline.yaml
-		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()})
+		return Utils.addServicesEnvToHelmChartAsync({context: this.context, destinationPath: this.destinationPath()})
 			.then(() => Utils.addServicesToPipelineYamlAsync({
 				context: this.context,
 				destinationPath: this.destinationPath()

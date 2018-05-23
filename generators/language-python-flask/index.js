@@ -283,7 +283,7 @@ module.exports = class extends Generator {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		}
 
-		return Utils.addServicesEnvToDeploymentYamlAsync({context: this.context, destinationPath: this.destinationPath()})
+		return Utils.addServicesEnvToHelmChartAsync({context: this.context, destinationPath: this.destinationPath()})
 			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}));
 	}
 };
