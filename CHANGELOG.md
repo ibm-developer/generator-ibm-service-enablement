@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.9"></a>
+## [1.1.9](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.1.8...v1.1.9) (2018-05-23)
+
+
+### Bug Fixes
+
+* **secrets:** Make kube secrets optional ([67250b7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/67250b7)), closes [ibm-developer/generator-ibm-cloud-enablement#275](https://github.com/ibm-developer/generator-ibm-cloud-enablement/issues/275)
+
+
+
 <a name="1.1.8"></a>
 ## [1.1.8](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.1.7...v1.1.8) (2018-05-16)
 
