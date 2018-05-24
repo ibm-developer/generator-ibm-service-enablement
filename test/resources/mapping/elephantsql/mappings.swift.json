@@ -1,0 +1,11 @@
+{
+  "elephantsql": {
+    "credentials": {
+      "searchPatterns": [
+        "cloudfoundry:elephantsql-name",
+        "env:service_elephantsql",
+        "file:/config/localdev-config.json:elephantsql-name"
+      ]
+    }
+  }
+}

@@ -878,6 +878,39 @@
 	  ]
 	}
   },
+  "elephantsql": {
+	"uri": {
+	  "searchPatterns": [
+		"cloudfoundry:$['elephantsql'][0].credentials.uri",
+		"env:service_elephantsql",
+		"env:elephantsql_uri",
+		"file:/server/localdev-config.json:$.elephantsql_uri"
+	  ]
+	},
+	"ca_certificate_base64": {
+	  "searchPatterns": [
+		"cloudfoundry:$['elephantsql'][0].credentials.ca_certificate_base64",
+		"env:service_elephantsql",
+		"env:elephantsql_ca_certificate_base64",
+		"file:/server/localdev-config.json:$.elephantsql_ca_certificate_base64"
+	  ]
+	},
+	"deployment_id": {
+	  "searchPatterns": [
+		"cloudfoundry:$['elephantsql'][0].credentials.deployment_id",
+		"env:service_elephantsql",
+		"env:elephantsql_deployment_id",
+		"file:/server/localdev-config.json:$.elephantsql_deployment_id"
+	  ]
+	},
+	"credentials": {
+	  "searchPatterns": [
+		"cloudfoundry:elephantsql",
+		"env:elephantsql_credentials",
+		"file:/server/localdev-config.json:elephantsql_credentials"
+	  ]
+	}
+  },
   "finance_predictive_market_scenarios": {
 	"uri": {
 	  "searchPatterns": [

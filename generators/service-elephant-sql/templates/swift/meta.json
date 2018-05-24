@@ -1,0 +1,4 @@
+{
+  "import":"SwiftKueryORM",
+  "initParams":"cloudEnv: cloudEnv"
+}
