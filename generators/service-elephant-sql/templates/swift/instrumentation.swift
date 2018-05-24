@@ -8,9 +8,9 @@ import SwiftKueryORM
 func initializeServiceElephantSql(cloudEnv: CloudEnv) throws {
     // Load credentials for PostgreSQL db using CloudEnvironment
     guard let credentials = cloudEnv.getPostgreSQLCredentials(name: "{{servLookupKey}}") else {
-        throw InitializationError("Could not load credentials for PostgreSQL.")
+        throw InitializationError("Could not load credentials for ElephantSQL.")
     }
-    Log.info("Found and loaded credentials for PostgreSQL.")
+    Log.info("Found and loaded credentials for ElephantSQL.")
 
     let connOptions: [ConnectionOptions] = [.userName(credentials.username), .password(credentials.password), .databaseName(credentials.database)]
     let poolOptions = ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000)
