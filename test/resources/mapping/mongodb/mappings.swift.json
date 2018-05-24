@@ -2,9 +2,9 @@
   "mongodb": {
     "credentials": {
       "searchPatterns": [
-        "cloudfoundry:mongodb-name",
+        "cloudfoundry:compose-for-mongodb",
         "env:service_mongodb",
-        "file:/config/localdev-config.json:mongodb-name"
+        "file:/config/localdev-config.json:compose-for-mongodb"
       ]
     }
   }

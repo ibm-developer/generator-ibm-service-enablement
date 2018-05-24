@@ -2,9 +2,9 @@
   "appid": {
     "credentials": {
       "searchPatterns": [
-        "cloudfoundry:auth-name",
+        "cloudfoundry:AppID",
         "env:service_appid",
-        "file:/config/localdev-config.json:auth-name"
+        "file:/config/localdev-config.json:AppID"
       ]
     }
   }

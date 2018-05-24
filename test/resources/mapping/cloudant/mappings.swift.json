@@ -2,9 +2,9 @@
   "cloudant": {
     "credentials": {
       "searchPatterns": [
-        "cloudfoundry:cloudant-name",
+        "cloudfoundry:cloudantNoSQLDB",
         "env:service_cloudant",
-        "file:/config/localdev-config.json:cloudant-name"
+        "file:/config/localdev-config.json:cloudantNoSQLDB"
       ]
     }
   }

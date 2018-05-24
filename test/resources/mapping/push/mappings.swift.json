@@ -2,9 +2,9 @@
   "push": {
     "credentials": {
       "searchPatterns": [
-        "cloudfoundry:push-name",
+        "cloudfoundry:imfpush",
         "env:service_push",
-        "file:/config/localdev-config.json:push-name"
+        "file:/config/localdev-config.json:imfpush"
       ]
     }
   }

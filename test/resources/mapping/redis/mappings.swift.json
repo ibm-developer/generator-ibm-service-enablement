@@ -2,9 +2,9 @@
   "redis": {
     "credentials": {
       "searchPatterns": [
-        "cloudfoundry:redis-name",
+        "cloudfoundry:compose-for-redis",
         "env:service_redis",
-        "file:/config/localdev-config.json:redis-name"
+        "file:/config/localdev-config.json:compose-for-redis"
       ]
     }
   }
