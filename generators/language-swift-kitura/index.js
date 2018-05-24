@@ -138,7 +138,7 @@ module.exports = class extends Generator {
 					metaImport = '';
 				}else if(metaData.variableName === 'watsonConversationService'){
 					metaImport = 'WatsonDeveloperCloud';
-				}else if(targetName === "ServicePostgre"){
+				}else if(targetName === "ServicePostgre" || targetName === "ServiceElephantSql"){
 					metaImport = ['SwiftKueryPostgreSQL', 'SwiftKueryORM']
 				}
 				if(Array.isArray(metaImport)){
@@ -195,6 +195,7 @@ module.exports = class extends Generator {
 
 		// Get all keys from localdev-config.json
 		const credentialItems = Object.keys(localDevConfig);
+
 		// Initialize structure for storing credentials
 		let credentials = {};
 		// Generate a new mappings.json file in the format that CloudEnvironment expects

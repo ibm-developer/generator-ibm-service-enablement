@@ -1,0 +1,9 @@
+{
+	"elephantsql_uri":{
+		"searchPatterns": [
+			"cloudfoundry:$['elephantsql'][0].credentials.uri",
+			"env:service_elephantsql:$.uri",
+			"file:/server/localdev-config.json:$.elephantsql_uri"
+		]
+	}
+}

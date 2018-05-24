@@ -257,6 +257,14 @@ module.exports = JSON.stringify({
 			"plan": "postgesql-plan"
 		}
 	},
+	"elephantsql": {
+		"uri": "postgres://admin:password@db.elephantsql.com:5432/elephant",
+		"serviceInfo": {
+			"label": "elephantsql-name",
+			"name": "elephantsql-name",
+			"plan": "elephantsql-name",
+		}
+	},
 	"alertNotification": {
 		"url": "https://bluemix.net",
 		"name": "alertnotification",

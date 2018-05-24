@@ -206,6 +206,15 @@
       "plan": "document-conversion-plan"
     }
   },
+  "elephantsql": {
+    "uri": "postgres://admin:password@.net:20058/compose",
+    "serviceInfo": {
+      "cloudLabel": "elephantsql",
+      "label": "elephantsql-label",
+      "name": "elephantsql-name",
+      "plan": "elephantsql-plan"
+    }
+  },
   "historicalInstrumentAnalytics": {
     "uri": "https://fss-analytics.mybluemix.net/",
     "accessToken": "historical-instrument-analytics-accesstoken",

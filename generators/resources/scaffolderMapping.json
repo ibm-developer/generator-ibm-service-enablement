@@ -9,6 +9,7 @@
   "watson-conversation": "conversation",
   "dashdb": "dashDb",
   "db2": "db2OnCloud",
+  "elephantsql": "elephantsql",
   "watson-discovery": "discovery",
   "watson-document-conversion": "documentConversion",
   "finance-historical-instrument-analytics": "historicalInstrumentAnalytics",
