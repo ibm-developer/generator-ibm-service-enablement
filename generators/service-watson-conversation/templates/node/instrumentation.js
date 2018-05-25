@@ -9,8 +9,8 @@ module.exports = function(app, serviceManager){
 
 	if (IBMCloudEnv.getString('watson_conversation_apikey')) {
 		const iam_url = params.url.includes('gateway-s.') ? 
-			'https://iam.stag1.ng.bluemix.net/identity/token' :
-			'https://iam.ng.bluemix.net/identity/token';
+			'https://iam.stage1.bluemix.net/identity/token' :
+			'https://iam.bluemix.net/identity/token';
 		Object.assign(params, {
 			iam_apikey: IBMCloudEnv.getString('watson_conversation_apikey'),
 			iam_url,
