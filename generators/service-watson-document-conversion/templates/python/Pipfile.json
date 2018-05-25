@@ -1,7 +1,0 @@
-{
-  "[[source]]": "",
-  "[dev-packages]": "",
-  "[packages]": {
-    "watson-developer-cloud": "~=1.0.2"
-  }
-}

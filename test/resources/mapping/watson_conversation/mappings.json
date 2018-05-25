@@ -19,5 +19,12 @@
 			"env:service_watson_conversation:$.password",
 			"file:/server/localdev-config.json:$.watson_conversation_password"
 		]
+	},
+	"watson_conversation_apikey":{
+		"searchPatterns":[
+			"cloudfoundry:$['conversation'][0].credentials.apikey",
+			"env:service_watson_conversation:$.apikey",
+			"file:/server/localdev-config.json:$.watson_conversation_apikey"
+		]
 	}
 }

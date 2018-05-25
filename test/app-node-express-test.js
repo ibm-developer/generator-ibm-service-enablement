@@ -150,14 +150,6 @@ describe('node-express', function () {
 		});
 	});
 
-	it('Can add Watson - Document Conversion instrumentation', () => {
-		testAll('watson-document-conversion', {
-			watson_document_conversion_url: optionsBluemix.documentConversion.url,
-			watson_document_conversion_username: optionsBluemix.documentConversion.username,
-			watson_document_conversion_password: optionsBluemix.documentConversion.password
-		});
-	});
-
 	it('Can add Watson - Language Translator instrumentation', () => {
 		testAll('watson-language-translator', {
 			watson_language_translator_url: optionsBluemix.languageTranslator.url,
@@ -187,14 +179,6 @@ describe('node-express', function () {
 			watson_personality_insights_url: optionsBluemix.personalityInsights.url,
 			watson_personality_insights_username: optionsBluemix.personalityInsights.username,
 			watson_personality_insights_password: optionsBluemix.personalityInsights.password
-		});
-	});
-
-	it('Can add Watson - Retrieve and Rank instrumentation', () => {
-		testAll('watson-retrieve-and-rank', {
-			watson_retrieve_and_rank_url: optionsBluemix.retrieveAndRank.url,
-			watson_retrieve_and_rank_username: optionsBluemix.retrieveAndRank.username,
-			watson_retrieve_and_rank_password: optionsBluemix.retrieveAndRank.password,
 		});
 	});
 
