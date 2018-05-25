@@ -1,12 +1,28 @@
 const IBMCloudEnv = require('ibm-cloud-env');
-const ConversationV1 = require('watson-developer-cloud/conversation/v1');
+const AssistantV1 = require('watson-developer-cloud/assistant/v1');
 
 module.exports = function(app, serviceManager){
-	const conversation = new ConversationV1({
+	let params = {
+		version: '2018-02-16',
 		url: IBMCloudEnv.getString('watson_conversation_url'),
-		username: IBMCloudEnv.getString('watson_conversation_username'),
-		password: IBMCloudEnv.getString('watson_conversation_password'),
-		version_date: ConversationV1.VERSION_DATE_2017_04_21
-	});
-	serviceManager.set("watson-conversation", conversation);
+	};
+
+	if (IBMCloudEnv.getString('watson_conversation_apikey')) {
+		const iam_url = params.url.includes('gateway-s.') ? 
+			'https://iam.stag1.ng.bluemix.net/identity/token' :
+			'https://iam.ng.bluemix.net/identity/token';
+		Object.assign(params, {
+			iam_apikey: IBMCloudEnv.getString('watson_conversation_apikey'),
+			iam_url,
+		});
+	}
+	else {
+		Object.assign(params, {
+			username: IBMCloudEnv.getString('watson_conversation_username'),
+			password: IBMCloudEnv.getString('watson_conversation_password'),
+		});		
+	}
+	const assistant = new AssistantV1(params);
+
+	serviceManager.set("watson-conversation", assistant);
 };
