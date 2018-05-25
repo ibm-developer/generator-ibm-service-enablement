@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.2.1...v1.3.0) (2018-05-25)
+
+
+### Features
+
+* **IAM:** add iam support for Watson Assistant ([2c7a7a9](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/2c7a7a9))
+* **visualRecognition:** add iam support for visual recognition ([51e98c9](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/51e98c9))
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.2.0...v1.2.1) (2018-05-24)
 
