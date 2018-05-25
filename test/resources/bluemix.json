@@ -481,6 +481,7 @@
   "visualRecognition": {
     "url": "https://gateway.watsonplatform.net/visual-recognition/api",
     "api_key": "visual-recognition-api-key",
+    "apikey": "visual-recognition-apikey-iam",
     "note": "It may take up to 5 minutes for this key to become active",
     "serviceInfo": {
       "name": "visualRecognition",
