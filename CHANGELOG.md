@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.2"></a>
+## [1.3.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.3.1...v1.3.2) (2018-05-29)
+
+
+### Bug Fixes
+
+* Update Watson Conversation Java dependency artifactId to assistant ([aa8a8df](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/aa8a8df))
+* Update Watson Conversation Java dependency version to 5.5.0 ([2681d56](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/2681d56))
+
+
+
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.3.0...v1.3.1) (2018-05-29)
 
