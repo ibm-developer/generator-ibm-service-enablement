@@ -8,8 +8,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* Updata Watson Conversation Java dependency artifactId to assistant ([aa8a8df](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/aa8a8df))
-* Updata Watson Conversation Java dependency version to 5.5.0 ([2681d56](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/2681d56))
+* Update Watson Conversation Java dependency artifactId to assistant ([aa8a8df](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/aa8a8df))
+* Update Watson Conversation Java dependency version to 5.5.0 ([2681d56](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/2681d56))
 
 
 
