@@ -170,6 +170,7 @@ class Options {
 		const filePath = path.join(__dirname, "resources", "java", "index.js");
 		return helpers.run(filePath)
 			.withOptions(this.values)
+			.inTmpDir(dir => {console.log("tmpdir="+dir);})
 			.toPromise();
 	}
 }
