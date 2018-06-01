@@ -191,6 +191,7 @@ module.exports = class extends Generator {
 
 		let template = Handlebars.compile(mapping);
 
+		console.log("generatorLocation=" + this.context.generatorLocation)
 		let context = {
 			serviceKey: this.serviceKey.replace(/-/g, '_'),
 			credentialKeys: credentialKeys,

@@ -28,6 +28,7 @@ const javaUtils = require('../lib/javautils');
 const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
 const PATH_LOCALDEV_FILE = "./src/main/resources/localdev-config.json";
 const TEMPLATE_EXT = ".template";
+const GENERATOR_LOCATION = 'server';
 
 
 module.exports = class extends Generator {
@@ -46,7 +47,7 @@ module.exports = class extends Generator {
 			serviceKey;
 		this.context.dependenciesFile = "config.json.template";
 		this.context.languageFileExt = "";
-
+		this.context.generatorLocation = GENERATOR_LOCATION;
 		this.context.addDependencies = this._addDependencies.bind(this);
 		this.context.addMappings = this._addMappings.bind(this);
 		this.context.addLocalDevConfig = this._addLocalDevConfig.bind(this);
