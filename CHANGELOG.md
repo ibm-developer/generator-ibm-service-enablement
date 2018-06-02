@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.2"></a>
+## [1.4.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.4.1...v1.4.2) (2018-06-02)
+
+
+### Bug Fixes
+
+* Use service label instead of service name for CF mappings.json ([8fd6a11](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/8fd6a11))
+
+
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.4.0...v1.4.1) (2018-06-01)
 
