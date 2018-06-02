@@ -49,7 +49,7 @@ module.exports = class extends Generator {
 					? this.context.bluemix[scaffolderKey][0] : this.context.bluemix[scaffolderKey];
 				logger.debug("Composing with service : " + folder);
 				try {
-					this.context.cloudLabel = serviceCredentials && serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.name;
+					this.context.cloudLabel = serviceCredentials && serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
 					this.composeWith(path.join(root, folder), {context: this.context});
 				} catch (err) {
 					/* istanbul ignore next */      //ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
