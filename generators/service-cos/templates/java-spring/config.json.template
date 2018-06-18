@@ -1,0 +1,6 @@
+{
+    "dependencies" : [
+      {"groupId" : "com.ibm.cos", "artifactId" : "ibm-cos-java-sdk", "version" : "2.1.2"}
+    ]
+  }
+  
