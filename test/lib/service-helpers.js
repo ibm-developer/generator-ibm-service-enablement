@@ -40,6 +40,28 @@ function serviceCloudant(optionsBluemix) {
 	};
 }
 
+function serviceCos(optionsBluemix) {
+	return {
+		location: `service-cos`,
+		bluemixName: `cloudobjectstorage`,
+		localDevConfig: {
+			cos_apikey: optionsBluemix.cloudobjectstorage.apikey,
+			cos_endpoints: optionsBluemix.cloudobjectstorage.endpoints,
+			cos_iam_apikey_description: optionsBluemix.cloudobjectstorage.iam_apikey_description,
+			cos_iam_apikey_name: optionsBluemix.cloudobjectstorage.iam_apikey_name,
+			cos_iam_role_crn: optionsBluemix.cloudobjectstorage.iam_role_crn,
+			cos_iam_serviceid_crn: optionsBluemix.cloudobjectstorage.iam_serviceid_crn,
+			cos_resource_instance_id: optionsBluemix.cloudobjectstorage.resource_instance_id
+		},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: [
+				{name: "src/main/java/application/cos/COSConfig.java", contents: "@Autowired"}
+			]
+		}
+	}
+}
+
 function serviceObjectStorage(optionsBluemix) {
 	return {
 		location: 'service-object-storage',
@@ -158,6 +180,7 @@ function fromDirName(name, optionsBluemix) {
 module.exports = {
 	fromDirName: fromDirName,
 	serviceCloudant: serviceCloudant,
+	serviceCos: serviceCos,
 	serviceObjectStorage: serviceObjectStorage,
 	serviceMongodb: serviceMongodb,
 	serviceWatsonConversation: serviceWatsonConversation,

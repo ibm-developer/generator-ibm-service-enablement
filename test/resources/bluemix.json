@@ -138,6 +138,15 @@
       }
     }
   ],
+  "cloudobjectstorage": {
+    "apikey": "L8GNeU8v4uidj9Qb6xho2HXzyZMrK6DT-Sj0Pz7m4888",
+    "endpoints": "https://cos-service.bluemix.net/endpoints",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:cloud-object-storage:global:a/2de836702ef00a3435bab2a105c5452b:438de1bb-d772-4a98-b00f-388b63c89570::",
+    "iam_apikey_name": "auto-generated-apikey-499618b2-45b1-453d-aa6c-1f3110f0bb89",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/2de836702ef00a3435bab2a105c5452b::serviceid:ServiceId-e40119bb-d958-4325-ac6c-297f00def06f",
+    "resource_instance_id": "crn:v1:bluemix:public:cloud-object-storage:global:a/2de836702ef00a3435bab2a105c5452b:438de1bb-d772-4a98-b00f-388b63c89570::"
+  },
   "conversation": {
     "url": "https://gateway.watsonplatform.net/conversation/api",
     "username": "conversation-username",
