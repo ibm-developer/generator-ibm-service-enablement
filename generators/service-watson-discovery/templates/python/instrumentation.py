@@ -12,7 +12,7 @@ else:
     discovery = DiscoveryV1(
         username=IBMCloudEnv.getString('watson_discovery_username'),
         password=IBMCloudEnv.getString('watson_discovery_password'),
-        version='2018-02-16')
+        version='2018-03-05')
 
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
