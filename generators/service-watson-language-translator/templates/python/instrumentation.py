@@ -6,12 +6,12 @@ if IBMCloudEnv.getString('watson_language_translator_apikey'):
     iam_apikey = api_key=IBMCloudEnv.getString('watson_language_translator_apikey')
     language_translator = LanguageTranslatorV2(
         url=IBMCloudEnv.getString('watson_language_translator_url'),
-        iam_api_key=iam_apikey)
+        iam_api_key=iam_apikey,
+        iam_url=iam_url)
 else:
     language_translator = LanguageTranslatorV2(
         username=IBMCloudEnv.getString('watson_language_translator_username'),
         password=IBMCloudEnv.getString('watson_language_translator_password')
-
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
     return 'watson-language-translator', language_translator

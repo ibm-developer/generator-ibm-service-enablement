@@ -318,6 +318,7 @@ let _setUpApplication = function (cb) {
 					} else {
 						console.log(stdout);
 						execRun('npm install --save express express-session axios body-parser', {cmd: tmpDir}, function (error, stdout) {
+						console.log('stdout ' + stdout)
 							if (error) {
 								assert.isOk('Could not install express, body-parser, axios and express-session', error);
 								cb();

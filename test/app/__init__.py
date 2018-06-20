@@ -17,4 +17,4 @@ initServices(app)
 
 @atexit.register
 def shutdown():
-# GENERATE SHUTDOWN
+    # GENERATE SHUTDOWN

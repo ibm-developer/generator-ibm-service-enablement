@@ -6,7 +6,8 @@ if IBMCloudEnv.getString('watson_speech_to_text_apikey'):
     iam_apikey = api_key = IBMCloudEnv.getString('watson_speech_to_text_apikey')
     speech_to_text = SpeechToTextV1(
         url=IBMCloudEnv.getString('watson_speech_to_text_url'),
-        iam_api_key=iam_apikey)
+        iam_api_key=iam_apikey,
+        iam_url=iam_url)
 else:
     speech_to_text = SpeechToTextV1(
         username=IBMCloudEnv.getString('watson_speech_to_text_username'),

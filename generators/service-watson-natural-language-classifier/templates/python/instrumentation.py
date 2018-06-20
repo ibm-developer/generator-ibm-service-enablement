@@ -7,7 +7,8 @@ if IBMCloudEnv.getString('watson_natural_language_classifier_apikey'):
     iam_apikey = api_key=IBMCloudEnv.getString('watson_natural_language_classifier_apikey')
     natural_language_classifier = NaturalLanguageClassifierV1(
         url=IBMCloudEnv.getString('watson_natural_language_classifier_url'),
-        iam_api_key=iam_apikey)
+        iam_api_key=iam_apikey,
+        iam_url=iam_url)
 else:
     natural_language_classifier = NaturalLanguageClassifierV1(
         username=IBMCloudEnv.getString('watson_natural_language_classifier_username'),

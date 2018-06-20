@@ -7,7 +7,8 @@ if IBMCloudEnv.getString('watson_personality_insights_apikey'):
     personality_insights = PersonalityInsightsV3(
         url=IBMCloudEnv.getString('watson_personality_insights_url'),
         iam_api_key=iam_apikey,
-        version='2017-10-13')
+        version='2017-10-13',
+        iam_url=iam_url)
 else:
     personality_insights = PersonalityInsightsV3(
         username=IBMCloudEnv.getString('watson_personality_insights_username')['username'],

@@ -7,7 +7,8 @@ if IBMCloudEnv.getString('watson_tone_analyzer_apikey'):
     tone_analyzer = ToneAnalyzerV3(
         url=IBMCloudEnv.getString('watson_tone_analyzer_url'),
         iam_api_key=iam_apikey,
-        version='2017-09-21')
+        version='2017-09-21',
+        iam_url=iam_url)
 else:
     tone_analyzer = ToneAnalyzerV3(
         username=IBMCloudEnv.getString('watson_tone_analyzer_username'),

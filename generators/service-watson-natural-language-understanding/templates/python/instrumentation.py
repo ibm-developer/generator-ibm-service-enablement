@@ -7,7 +7,8 @@ if IBMCloudEnv.getString('watson-natural-language-understanding_apikey'):
     natural_language_understanding = NaturalLanguageUnderstandingV1(
         url=IBMCloudEnv.getString('watson_natural_language_understanding_url'),
         iam_api_key=iam_apikey,
-        version='2018-03-16')
+        version='2018-03-16',
+        iam_url=iam_url)
 else:
     natural_language_understanding = NaturalLanguageUnderstandingV1(
         username=IBMCloudEnv.getString('watson_natural_language_understanding_username'),
