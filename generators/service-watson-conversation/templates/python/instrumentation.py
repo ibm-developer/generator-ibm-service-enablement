@@ -3,10 +3,9 @@ from watson_developer_cloud import AssistantV1
 
 if IBMCloudEnv.getString('watson_conversation_apikey'):
     iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'gateway-s.' in params['url'] else 'https://iam.bluemix.net/identity/token'
-    iam_apikey = IBMCloudEnv.getString('watson_conversation_apikey')
     conversation = AssistantV1(
         url=IBMCloudEnv.getString('watson_conversation_url'),
-        iam_api_key=iam_apikey,
+        iam_api_key=IBMCloudEnv.getString('watson_conversation_apikey'),
         version='2018-02-16',
         iam_url=iam_url)
 else:
