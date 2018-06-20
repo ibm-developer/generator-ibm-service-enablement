@@ -19,7 +19,6 @@ else:
         username=IBMCloudEnv.getString('watson_conversation_username'),
         password=IBMCloudEnv.getString('watson_conversation_password'),
         version='2018-02-16')
-
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
     return'watson-conversation', conversation

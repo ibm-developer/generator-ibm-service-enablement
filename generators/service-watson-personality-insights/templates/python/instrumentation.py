@@ -13,7 +13,6 @@ else:
         username=IBMCloudEnv.getString('watson_personality_insights_username')['username'],
         password=IBMCloudEnv.getString('watson_personality_insights_password')['password'],
         version='2017-10-13')
-
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
     return 'watson-personality-insights', personality_insights
