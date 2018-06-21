@@ -3,7 +3,7 @@ const PersonalityInsightsV3 = require('watson-developer-cloud/personality-insigh
 
 module.exports = function(app, serviceManager){
 	let params = {
-		version_date: '2016-10-19',
+		version_date: '2017-10-13',
 		url: IBMCloudEnv.getString('watson_personality_insights_url'),
 	};
 

@@ -3,7 +3,7 @@ const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-l
 
 module.exports = function(app, serviceManager){
 	let params = {
-		version_date: NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27,
+		version_date: '2018-03-16',
 		url: IBMCloudEnv.getString('watson_natural_language_understanding_url'),
 	};
 

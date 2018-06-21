@@ -3,7 +3,7 @@ const DiscoveryV1 = require('watson-developer-cloud/discovery/v1');
 
 module.exports = function(app, serviceManager){
 	let params = {
-		version_date: DiscoveryV1.VERSION_DATE_2017_08_01,
+		version: '2018-03-05',
 		url: IBMCloudEnv.getString('watson_discovery_url'),
 	};
 

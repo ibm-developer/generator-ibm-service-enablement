@@ -3,7 +3,8 @@ const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
 module.exports = function(app, serviceManager){
 	let params = {
-		url: IBMCloudEnv.getString('watson_tone_analyzer_url')
+		url: IBMCloudEnv.getString('watson_tone_analyzer_url'),
+		version: '2017-09-21'
 	};
 
 	if (IBMCloudEnv.getString('watson_tone_analyzer_apikey')) {
