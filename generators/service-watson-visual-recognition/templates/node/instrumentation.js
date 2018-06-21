@@ -3,7 +3,7 @@ const VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v
 
 module.exports = function(app, serviceManager){
 	let params = {
-		version: '2016-05-20'
+		version: '2018-03-19'
 	};
 
 	if (IBMCloudEnv.getString('watson_viusal_recognition_apikey')) {
