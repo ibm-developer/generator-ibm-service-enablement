@@ -18,7 +18,7 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import application.ibmcloud.ServiceMappings;
 
 @Configuration
-public class COSConfig {
+public class CloudObjectStorage {
 	@Autowired
 	protected ServiceMappings mappings;
 
