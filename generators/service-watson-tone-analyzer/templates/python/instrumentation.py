@@ -2,7 +2,7 @@ from ibmcloudenv import IBMCloudEnv
 from watson_developer_cloud import ToneAnalyzerV3
 
 if IBMCloudEnv.getString('watson_tone_analyzer_apikey'):
-    iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'gateway-s.' in params.url else 'https://iam.bluemix.net/identity/token'
+    iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'gateway-s.' in IBMCloudEnv.getString('watson_tone_analyzer_url') else 'https://iam.bluemix.net/identity/token'
     tone_analyzer = ToneAnalyzerV3(
         url=IBMCloudEnv.getString('watson_tone_analyzer_url'),
         iam_api_key=IBMCloudEnv.getString('watson_tone_analyzer_apikey'),

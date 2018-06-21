@@ -2,7 +2,7 @@ from ibmcloudenv import IBMCloudEnv
 from watson_developer_cloud import LanguageTranslatorV2
 
 if IBMCloudEnv.getString('watson_language_translator_apikey'):
-    iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'gateway-s.' in params.url else 'https://iam.bluemix.net/identity/token'
+    iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'gateway-s.' in IBMCloudEnv.getString('watson_language_translator_url') else 'https://iam.bluemix.net/identity/token'
     language_translator = LanguageTranslatorV2(
         url=IBMCloudEnv.getString('watson_language_translator_url'),
         iam_api_key=IBMCloudEnv.getString('watson_language_translator_apikey'),
