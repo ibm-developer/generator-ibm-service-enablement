@@ -2,7 +2,7 @@ from ibmcloudenv import IBMCloudEnv
 from watson_developer_cloud import PersonalityInsightsV3
 
 if IBMCloudEnv.getString('watson_personality_insights_apikey'):
-    iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'gateway-s.' in IBMCloudEnv.getString('watson_personality_insights_url') else 'https://iam.bluemix.net/identity/token'
+    iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'gateway-s.' in IBMCloudEnv.getString('watson_personality_insights_iam_serviceid_crn') else 'https://iam.bluemix.net/identity/token'
     personality_insights = PersonalityInsightsV3(
         url=IBMCloudEnv.getString('watson_personality_insights_url'),
         iam_api_key=IBMCloudEnv.getString('watson_personality_insights_apikey'),
