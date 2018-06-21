@@ -367,6 +367,3 @@ let _generateApplication = function (cb) {
 	fs.writeFileSync(path.join(__dirname, '/app/server.js'), copyServerJs);
 	cb()
 };
-
-
-

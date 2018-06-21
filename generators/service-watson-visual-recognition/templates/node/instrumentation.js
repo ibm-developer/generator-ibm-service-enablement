@@ -3,11 +3,11 @@ const VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v
 
 module.exports = function(app, serviceManager){
 	let params = {
-		version: '2016-05-20'
+		version: '2018-03-19'
 	};
-	
+
 	if (IBMCloudEnv.getString('watson_viusal_recognition_apikey')) {
-		const iam_url = params.url.includes('gateway-s.') ? 
+		const iam_url = params.url.includes('gateway-s.') ?
 			'https://iam.stage1.bluemix.net/identity/token' :
 			'https://iam.bluemix.net/identity/token';
 		Object.assign(params, {
@@ -17,8 +17,8 @@ module.exports = function(app, serviceManager){
 	}
 	else {
 		Object.assign(params, {
-			api_key: IBMCloudEnv.getString('watson_viusal_recognition__api_key'),
-		});		
+			api_key: IBMCloudEnv.getString('watson_viusal_recognition_api_key'),
+		});
 	}
 
 
