@@ -1,6 +1,0 @@
-{
-  "import":"ConversationV1",
-  "variableName":"watsonConversationService",
-  "type":"Conversation",
-  "initParams":"cloudEnv: cloudEnv"
-}

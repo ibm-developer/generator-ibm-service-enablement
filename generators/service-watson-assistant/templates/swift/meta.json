@@ -1,0 +1,6 @@
+{
+  "import":"AssistantV1",
+  "variableName":"watsonAssistantService",
+  "type":"Assistant",
+  "initParams":"cloudEnv: cloudEnv"
+}

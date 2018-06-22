@@ -57,7 +57,7 @@ module.exports = class extends Generator {
 				}
 			}
 		});
-		
+
 	}
 
 	_addDependencies(serviceDependenciesString) {
@@ -126,7 +126,7 @@ module.exports = class extends Generator {
 			}
 			if (metaData.variableName !== undefined  && metaData.type !== undefined && targetName !== undefined) {
 				this.context.injectIntoApplication({ service_variable: `public let ${metaData.variableName}: ${metaData.type}` });
-				this.context.injectIntoApplication({ service: `${metaData.variableName} = try initialize${targetName}(cloudEnv: cloudEnv)` }); 
+				this.context.injectIntoApplication({ service: `${metaData.variableName} = try initialize${targetName}(cloudEnv: cloudEnv)` });
 			} else if (targetName !== undefined) {
 				this.context.injectIntoApplication({ service: `try initialize${targetName}(cloudEnv: cloudEnv)` });
 			}
@@ -136,8 +136,6 @@ module.exports = class extends Generator {
 					metaImport = 'BluemixAppID';
 				}else if(metaData.variableName === 'autoScalingService'){
 					metaImport = '';
-				}else if(metaData.variableName === 'watsonConversationService'){
-					metaImport = 'WatsonDeveloperCloud';
 				}else if(targetName === "ServicePostgre" || targetName === "ServiceElephantSql"){
 					metaImport = ['SwiftKueryPostgreSQL', 'SwiftKueryORM']
 				}
