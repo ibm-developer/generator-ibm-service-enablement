@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.0.0...v2.0.1) (2018-06-22)
+
+
+### Bug Fixes
+
+* node watson iam support ([0d1897c](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/0d1897c))
+* update versions to match python ([aca1812](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/aca1812))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v1.4.3...v2.0.0) (2018-06-21)
 
