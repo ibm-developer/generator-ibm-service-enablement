@@ -110,11 +110,10 @@ describe('swift-kitura', function() {
 			}, dependencies, modules, codeForServices);
 		});
 
-		it('Can add Conversation instrumentation', () => {
-			testAll('service-watson-conversation', 'watson_conversation', optionsBluemix.conversation.serviceInfo.name, {
+		it('Can add Assistant instrumentation', () => {
+			testAll('service-watson-assistant', 'watson_assistant', optionsBluemix.conversation.serviceInfo.name, {
 				[optionsBluemix.conversation.serviceInfo.name]: {
-					username: optionsBluemix.conversation.username,
-					password: optionsBluemix.conversation.password,
+					apikey: optionsBluemix.conversation.apikey,
 					url: optionsBluemix.conversation.url
 				}
 			}, dependencies, modules, codeForServices);
@@ -298,7 +297,7 @@ function testServiceModules(serviceName, modules) {
 		"service-mongodb": "MongoKitten",
 		"service-postgre": "SwiftKueryPostgreSQL",
 		"service-push": "IBMPushNotifications",
-		"service-watson-conversation": "WatsonDeveloperCloud",
+		"service-watson-assistant": "AssistantV1",
 		"service-hypersecure-dbaas-mongodb": "MongoKitten",
 		"service-elephant-sql": "SwiftKueryPostgreSQL",
 	};
@@ -317,7 +316,7 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 		"service-mongodb": "mongoDBService",
 		"service-postgre": "postgreSQLService",
 		"service-push": "pushNotificationService",
-		"service-watson-conversation": "watsonConversationService",
+		"service-watson-assistant": "watsonAssistantService",
 		"service-hypersecure-dbaas-mongodb": "mongoDBService",
 		"service-elephant-sql": "elephantSQLService",
 	};
