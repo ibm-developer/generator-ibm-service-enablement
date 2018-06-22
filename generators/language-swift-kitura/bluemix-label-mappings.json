@@ -2,7 +2,7 @@
   "cloudant": "cloudant",
   "objectStorage": "object_storage",
   "auth": "appid",
-  "conversation": "watson_conversation",
+  "conversation": "watson_assistant",
   "redis": "redis",
   "alertNotification": "alert_notification",
   "push": "push",
