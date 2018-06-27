@@ -254,29 +254,29 @@ describe('integration test for services', function() {
 	});
 });
 
-	describe('Cloud-Object-Storage', function() {
-		it('should be able to send input and receive a response', function() {
-			this.timeout(10000);
-			let expectedMessage = ['received response for cloud-object-storage'];
-			let options = {
-				'method': 'get',
-				'url': 'http://localhost:5000/cloud-object-storage-test'
-			};
+describe('Cloud-Object-Storage', function() {
+	it('should be able to send input and receive a response', function() {
+		this.timeout(10000);
+		let expectedMessage = ['received response for cloud-object-storage'];
+		let options = {
+			'method': 'get',
+			'url': 'http://localhost:5000/cloud-object-storage-test'
+		};
 
-			return axios(options)
-				.then(function(response) {
-					assert.deepEqual(response.data, expectedMessage);
-				})
-				.catch(function(err){
-					if(err.response){
-						assert.isNotOk(err.response.data, 'This should not happen');
-					} else {
-						console.log('ERR ' + err.toString());
-						assert.isNotOk(err, 'This should not happen');
-					}
-				});
-		});
+		return axios(options)
+			.then(function(response) {
+				assert.deepEqual(response.data, expectedMessage);
+			})
+			.catch(function(err){
+				if(err.response){
+					assert.isNotOk(err.response.data, 'This should not happen');
+				} else {
+					console.log('ERR ' + err.toString());
+					assert.isNotOk(err, 'This should not happen');
+				}
+			});
 	});
+});
 
 let _setUpApplication = function(cb){
 	optionsBluemix.backendPlatform = PLATFORM;

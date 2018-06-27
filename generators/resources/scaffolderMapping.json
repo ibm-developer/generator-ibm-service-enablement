@@ -5,6 +5,7 @@
   "autoscaling": "autoScaling",
   "postgre": "postgresql",
   "cloudant": "cloudant",
+  "cloudobjectstorage": "cloudobjectstorage",
   "hypersecure-dbaas-mongodb": "hypersecuredb",
   "watson-conversation": "conversation",
   "dashdb": "dashDb",
@@ -32,6 +33,5 @@
   "watson-text-to-speech": "textToSpeech",
   "watson-tone-analyzer": "toneAnalyzer",
   "watson-visual-recognition": "visualRecognition",
-  "weather-company-data": "weatherInsights",
-  "cloudobjectstorage": "cloudobjectstorage"
+  "weather-company-data": "weatherInsights"
 }
