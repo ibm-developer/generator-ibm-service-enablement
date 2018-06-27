@@ -1,8 +1,8 @@
-@app.route('/push-notifications-test')
+@app.route('/cloud-object-storage-test')
 def testPushNotifications():
 	messages = []
 
-	push = service_manager.get('cloud-object-storage')
+	push = service_manager.get('cos')
 
 	response = push.post('/messages', {
 		"message": {
