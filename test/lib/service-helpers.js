@@ -33,7 +33,7 @@ function serviceCloudant(optionsBluemix) {
 			cloudant_url: optionsBluemix.cloudant[0].url
 		},
 		instrumentation: {
-			java_liberty: [{name : "src/main/java/application/cloudant/Cloudant.java", contents : "@ConfigProperty"}, 
+			java_liberty: [{name : "src/main/java/application/cloudant/Cloudant.java", contents : "@ConfigProperty"},
 				{name : "src/main/java/application/cloudant/CloudantCredentials.java"}],
 			java_spring: []
 		}
@@ -54,8 +54,8 @@ function serviceObjectStorage(optionsBluemix) {
 			object_storage_domainName: optionsBluemix.objectStorage[0].domainName
 		},
 		instrumentation: {
-			java_liberty: [{name : "src/main/java/application/objectstorage/ObjectStorage.java", contents : "@ConfigProperty"}, 
-				{name : "src/main/java/application/objectstorage/ObjectStorageCredentials.java"}], 
+			java_liberty: [{name : "src/main/java/application/objectstorage/ObjectStorage.java", contents : "@ConfigProperty"},
+				{name : "src/main/java/application/objectstorage/ObjectStorageCredentials.java"}],
 			java_spring: [{name : "src/main/java/application/objectstorage/ObjectStorageConfig.java", contents : "@Autowired"}]
 		}
 	};
@@ -124,6 +124,26 @@ function serviceAlertNotification(optionsBluemix) {
 	};
 }
 
+function serviceCloudObjectStorage(optionsBluemix) {
+	return {
+		location: `service-cloud-object-storage`,
+		bluemixName: `cloudobjectstorage`,
+		localDevConfig: {
+			cos_apikey: optionsBluemix.cloudobjectstorage.apikey,
+			cos_endpoints: optionsBluemix.cloudobjectstorage.endpoints,
+			cos_iam_apikey_description: optionsBluemix.cloudobjectstorage.iam_apikey_description,
+			cos_iam_apikey_name: optionsBluemix.cloudobjectstorage.iam_apikey_name,
+			cos_iam_role_crn: optionsBluemix.cloudobjectstorage.iam_role_crn,
+			cos_iam_serviceid_crn: optionsBluemix.cloudobjectstorage.iam_serviceid_crn,
+			cos_resource_instance_id: optionsBluemix.cloudobjectstorage.resource_instance_id
+		},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: []
+		}
+	}
+}
+
 function serviceRedis() {
 	return {
 		location: 'service-redis',
@@ -159,6 +179,7 @@ module.exports = {
 	fromDirName: fromDirName,
 	serviceCloudant: serviceCloudant,
 	serviceObjectStorage: serviceObjectStorage,
+	serviceCloudObjectStorage: serviceCloudObjectStorage,
 	serviceMongodb: serviceMongodb,
 	serviceWatsonConversation: serviceWatsonConversation,
 	servicePush: servicePush,
