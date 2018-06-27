@@ -18,11 +18,11 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @RequestScoped
 public class CloudObjectStorage {
     @Inject
-    @ConfigProperty(name = "cos_api_key")
+    @ConfigProperty(name = "cloud_object_storage_api_key")
     protected String apiKey;
 
     @Inject
-    @ConfigProperty(name = "cos_resource_instance_id")
+    @ConfigProperty(name = "cloud_object_storage_resource_instance_id")
     protected String serviceInstanceId;
 
     protected String endpointUrl = "https://s3-api.us-geo.objectstorage.softlayer.net";

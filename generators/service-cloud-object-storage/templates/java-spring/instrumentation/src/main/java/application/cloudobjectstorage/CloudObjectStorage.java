@@ -1,4 +1,4 @@
-package application.cos;
+package application.cloudobjectstorage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,10 +22,10 @@ public class CloudObjectStorage {
 	@Autowired
 	protected ServiceMappings mappings;
 
-	@Value("${cos_api_key:}")
+	@Value("${cloud_object_storage_api_key:}")
 	protected String apiKey;
 
-	@Value("${cos_resource_instance_id:}")
+	@Value("${cloud_object_storage_resource_instance_id:}")
 	protected String serviceInstanceId;
 
 	protected String endpointUrl = "https://s3-api.us-geo.objectstorage.softlayer.net";

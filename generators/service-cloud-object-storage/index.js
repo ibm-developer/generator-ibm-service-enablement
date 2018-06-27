@@ -2,7 +2,7 @@
 const BaseGenerator = require('../lib/generatorbase');
 const SCAFFOLDER_PROJECT_PROPERTY_NAME = 'cloudobjectstorage';
 const CLOUD_FOUNDRY_SERVICE_NAME = '8106946b-99ba-493a-929e-0c97ead623d3';
-const CUSTOM_SERVICE_KEY = 'cos';
+const CUSTOM_SERVICE_KEY = 'cloud-object-storage';
 const CUSTOM_CRED_KEYS = ['apikey', 'endpoints', 'iam_apikey_description', 'iam_apikey_name', 'iam_role_crn', 'iam_serviceid_crn', 'resource_instance_id'];
 const config = {
 	cloudFoundryIsArray: false,

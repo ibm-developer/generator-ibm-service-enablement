@@ -65,6 +65,13 @@ describe('node-express', function () {
 		});
 	});
 
+	it('Can add CloudObjectStorage instrumentation', () => {
+		testAll('cloud-object-storage', {
+			cloud_object_storage_api_key: optionsBluemix.cloudobjectstorage.cos_api_key,
+			cloud_object_storage_resource_instance_id: optionsBluemix.cloudobjectstorage.cos_resource_instance_id
+		})
+	})
+
 	it('Can add ObjectStorage instrumentation', () => {
 		testAll('object-storage', {
 			object_storage_projectId: optionsBluemix.objectStorage[0].projectId,

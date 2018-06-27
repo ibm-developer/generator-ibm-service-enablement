@@ -45,13 +45,13 @@ function serviceCloudObjectStorage(optionsBluemix) {
 		location: `service-cloud-object-storage`,
 		bluemixName: `cloudobjectstorage`,
 		localDevConfig: {
-			cos_apikey: optionsBluemix.cloudobjectstorage.apikey,
-			cos_endpoints: optionsBluemix.cloudobjectstorage.endpoints,
-			cos_iam_apikey_description: optionsBluemix.cloudobjectstorage.iam_apikey_description,
-			cos_iam_apikey_name: optionsBluemix.cloudobjectstorage.iam_apikey_name,
-			cos_iam_role_crn: optionsBluemix.cloudobjectstorage.iam_role_crn,
-			cos_iam_serviceid_crn: optionsBluemix.cloudobjectstorage.iam_serviceid_crn,
-			cos_resource_instance_id: optionsBluemix.cloudobjectstorage.resource_instance_id
+			cloud_object_storage_apikey: optionsBluemix.cloudobjectstorage.apikey,
+			cloud_object_storage_endpoints: optionsBluemix.cloudobjectstorage.endpoints,
+			cloud_object_storage_iam_apikey_description: optionsBluemix.cloudobjectstorage.iam_apikey_description,
+			cloud_object_storage_iam_apikey_name: optionsBluemix.cloudobjectstorage.iam_apikey_name,
+			cloud_object_storage_iam_role_crn: optionsBluemix.cloudobjectstorage.iam_role_crn,
+			cloud_object_storage_iam_serviceid_crn: optionsBluemix.cloudobjectstorage.iam_serviceid_crn,
+			cloud_object_storage_resource_instance_id: optionsBluemix.cloudobjectstorage.resource_instance_id
 		},
 		instrumentation: {
 			java_liberty: [{
