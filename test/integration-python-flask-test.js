@@ -277,7 +277,6 @@ describe('integration test for services', function() {
 				});
 		});
 	});
-});
 
 let _setUpApplication = function(cb){
 	optionsBluemix.backendPlatform = PLATFORM;
