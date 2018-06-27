@@ -27,6 +27,232 @@ describe('integration test for services', function() {
 		_destroyApplication(done);
 	});
 
+	describe('Cloudant', function() {
+		it('should create a database `test` and add data', function() {
+			this.timeout(10000);
+			let expectedMessages = [
+				'test destroyed',
+				'test created',
+				'document added'
+			];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/cloudant-test'
+			};
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessages);
+				})
+				.catch(function(err){
+					console.log(err);
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+
+	describe('ObjectStorage', function() {
+		it('should create a container `test` and write content', function() {
+			this.timeout(10000);
+			let expectedMessages = [
+				'test container was created',
+				'ninpocho object was added'
+			];
+
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/objectstorage-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessages);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+
+				});
+		});
+	});
+
+	describe('AppID', function() {
+		it('should authorize protected endpoint', function() {
+			this.timeout(10000);
+			let expectedMessage = 'AUTH';
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/protected'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+
+				});
+		});
+	});
+
+	describe('Alert-Notification', function() {
+		it('should create, send, and track an alert-notification', function() {
+			this.timeout(10000);
+			let expectedMessage = ['alert sent', 'tracked alert'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/alert-notification-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+
+				});
+		});
+	});
+
+	describe('MongoDB', function() {
+		it('should create a collection `test` and write and fetch data from it', function() {
+			this.timeout(10000);
+			let expectedMessage = ['entered and fetched data successfully'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/mongodb-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+
+	describe('Push-Notifications', function() {
+		it('should send a push notification and receive an id', function() {
+			this.timeout(10000);
+			let expectedMessage = ['message sent', 'message id received'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/push-notifications-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+
+	describe('Redis', function() {
+		it('should be able to set and get data', function() {
+			this.timeout(10000);
+			let expectedMessage = ['set data', 'got data'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/redis-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+
+	describe('Postgre', function() {
+		it('should be able to insert and fetch data', function() {
+			this.timeout(10000);
+			let expectedMessage = ['created and fetched data'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/postgre-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+
+	describe('Watson-Conversation', function() {
+		it('should be able to send input and receive a response', function() {
+			this.timeout(10000);
+			let expectedMessage = ['received response for conversation'];
+			let options = {
+				'method': 'get',
+				'url': 'http://localhost:5000/watson-conversation-test'
+			};
+
+			return axios(options)
+				.then(function(response) {
+					assert.deepEqual(response.data, expectedMessage);
+				})
+				.catch(function(err){
+					if(err.response){
+						assert.isNotOk(err.response.data, 'This should not happen');
+					} else {
+						console.log('ERR ' + err.toString());
+						assert.isNotOk(err, 'This should not happen');
+					}
+				});
+		});
+	});
+});
 
 	describe('Cloud-Object-Storage', function() {
 		it('should be able to send input and receive a response', function() {
@@ -102,7 +328,8 @@ let _destroyApplication = function(cb){
 
 
 let _generateApplication = function(cb) {
-	const serviceNames = [ 'cloud-object-storage'];
+	const serviceNames = ['cloudant', 'object-storage', 'appId', 'alertnotification',
+		'mongodb', 'push', 'redis', 'postgre', 'watson-conversation', 'cloud-object-storage'];
 	const REPLACE_CODE_HERE = '# GENERATE HERE';
 	const REPLACE_SHUTDOWN_CODE_HERE = '# GENERATE SHUTDOWN';
 	let snippetJS;
