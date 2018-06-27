@@ -43,6 +43,8 @@ module.exports = class extends Generator {
 	}
 
 	configuring(config) {
+	console.log('this.context.bluemix.hasOwnProperty(this.scaffolderName) ' +this.context.bluemix.hasOwnProperty(this.scaffolderName));
+	console.log('fs.existsSync(this.languageTemplatePath '+fs.existsSync(this.languageTemplatePath));
 		this.shouldProcess = this.context.bluemix.hasOwnProperty(this.scaffolderName) && fs.existsSync(this.languageTemplatePath);
 		if (!this.shouldProcess) {
 			this.logger.info("Nothing to process for " + this.context.language);

@@ -142,36 +142,36 @@
 	  ]
 	}
   },
-  "watson_conversation": {
+  "cloud-object-storage": {
 	"url": {
 	  "searchPatterns": [
-		"cloudfoundry:$['conversation'][0].credentials.url",
-		"env:service_watson_conversation",
-		"env:watson_conversation_url",
-		"file:/server/localdev-config.json:$.watson_conversation_url"
+		"cloudfoundry:$['cloud-object-storage'][0].credentials.url",
+		"env:service_cloud-object-storage",
+		"env:cloud-object-storage_url",
+		"file:/server/localdev-config.json:$.cloud-object-storage_url"
 	  ]
 	},
 	"username": {
 	  "searchPatterns": [
-		"cloudfoundry:$['conversation'][0].credentials.username",
-		"env:service_watson_conversation",
-		"env:watson_conversation_username",
-		"file:/server/localdev-config.json:$.watson_conversation_username"
+		"cloudfoundry:$['cloud-object-storage'][0].credentials.username",
+		"env:service_cloud-object-storage",
+		"env:watson_cloud-object-storage_username",
+		"file:/server/localdev-config.json:$.watson_cloud-object-storage_username"
 	  ]
 	},
 	"password": {
 	  "searchPatterns": [
-		"cloudfoundry:$['conversation'][0].credentials.password",
-		"env:service_watson_conversation",
-		"env:watson_conversation_password",
-		"file:/server/localdev-config.json:$.watson_conversation_password"
+		"cloudfoundry:$['cloud-object-storage'][0].credentials.password",
+		"env:service_cloud-object-storage",
+		"env:cloud-object-storage_password",
+		"file:/server/localdev-config.json:$.cloud-object-storage_password"
 	  ]
 	},
 	"credentials": {
 	  "searchPatterns": [
-		"cloudfoundry:watson_conversation",
-		"env:watson_conversation_credentials",
-		"file:/server/localdev-config.json:watson_conversation_credentials"
+		"cloudfoundry:cloud-object-storage",
+		"env:cloud-object-storage_credentials",
+		"file:/server/localdev-config.json:cloud-object-storage_credentials"
 	  ]
 	}
   },
@@ -415,39 +415,6 @@
 		"cloudfoundry:watson_discovery",
 		"env:watson_discovery_credentials",
 		"file:/server/localdev-config.json:watson_discovery_credentials"
-	  ]
-	}
-  },
-  "watson_document_conversion": {
-	"url": {
-	  "searchPatterns": [
-		"cloudfoundry:$['documentConversion'][0].credentials.url",
-		"env:service_watson_document_conversion",
-		"env:watson_document_conversion_url",
-		"file:/server/localdev-config.json:$.watson_document_conversion_url"
-	  ]
-	},
-	"username": {
-	  "searchPatterns": [
-		"cloudfoundry:$['documentConversion'][0].credentials.username",
-		"env:service_watson_document_conversion",
-		"env:watson_document_conversion_username",
-		"file:/server/localdev-config.json:$.watson_document_conversion_username"
-	  ]
-	},
-	"password": {
-	  "searchPatterns": [
-		"cloudfoundry:$['documentConversion'][0].credentials.password",
-		"env:service_watson_document_conversion",
-		"env:watson_document_conversion_password",
-		"file:/server/localdev-config.json:$.watson_document_conversion_password"
-	  ]
-	},
-	"credentials": {
-	  "searchPatterns": [
-		"cloudfoundry:watson_document_conversion",
-		"env:watson_document_conversion_credentials",
-		"file:/server/localdev-config.json:watson_document_conversion_credentials"
 	  ]
 	}
   },
