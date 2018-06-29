@@ -139,13 +139,13 @@
     }
   ],
   "cloudobjectstorage": {
-    "apikey": "0viPHOY7LbLNa9eLftrtHPpTjoGv6hbLD1QalRXikliJ",
-    "endpoints": "https://cos-service.bluemix.net/endpoints",
-    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:cloud-object-storage:global:a/3ag0e9402tyfd5d29761c3e97696b71n:d6f74k03-6k4f-4a82-b165-697354o63903::",
-    "iam_apikey_name": "auto-generated-apikey-f9274b63-ef0b-4b4e-a00b-b3bf9023f9dd",
-    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/3ag0e9402tyfd5d29761c3e97696b71n::serviceid:ServiceId-540a4a41-7322-4fdd-a9e7-e0cb7ab760f9",
-    "resource_instance_id": "crn:v1:bluemix:public:cloud-object-storage:global:a/3ag0e9402tyfd5d29761c3e97696b71n:d6f74k03-6k4f-4a82-b165-697354o63903::"
+    "apikey": "apikey",
+    "endpoints": "endpoints",
+    "iam_apikey_description": "iam_apikey_description",
+    "iam_apikey_name": "iam_apikey_name",
+    "iam_role_crn": "iam_role_crn",
+    "iam_serviceid_crn": "iam_serviceid_crn",
+    "resource_instance_id": "resource_instance_id"
   },
   "conversation": {
     "url": "https://gateway.watsonplatform.net/conversation/api",

@@ -22,7 +22,7 @@ public class CloudObjectStorage {
 	@Autowired
 	protected ServiceMappings mappings;
 
-	@Value("${cloud_object_storage_api_key:}")
+	@Value("${cloud_object_storage_apikey:}")
 	protected String apiKey;
 
 	@Value("${cloud_object_storage_resource_instance_id:}")

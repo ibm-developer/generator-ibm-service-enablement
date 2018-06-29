@@ -18,7 +18,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @RequestScoped
 public class CloudObjectStorage {
     @Inject
-    @ConfigProperty(name = "cloud_object_storage_api_key")
+    @ConfigProperty(name = "cloud_object_storage_apikey")
     protected String apiKey;
 
     @Inject
