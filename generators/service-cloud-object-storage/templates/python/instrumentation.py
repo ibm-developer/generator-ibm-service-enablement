@@ -2,8 +2,8 @@ from ibmcloudenv import IBMCloudEnv
 import ibm_boto3
 from ibm_botocore.client import Config
 
-api_key = IBMCloudEnv.getString('cos_apikey')
-service_instance_id = IBMCloudEnv.getString('cos_resource_instance_id')
+api_key = IBMCloudEnv.getString('cloud_object_storage_apikey')
+service_instance_id = IBMCloudEnv.getString('cloud_object_storage_resource_instance_id')
 auth_endpoint = 'https://iam.bluemix.net/oidc/token'
 service_endpoint = 'https://s3-api.us-geo.objectstorage.softlayer.net'
 

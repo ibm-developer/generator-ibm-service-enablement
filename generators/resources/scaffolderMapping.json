@@ -5,7 +5,7 @@
   "autoscaling": "autoScaling",
   "postgre": "postgresql",
   "cloudant": "cloudant",
-  "cloudobjectstorage": "cloudobjectstorage",
+  "cloud-object-storage": "cloudobjectstorage",
   "hypersecure-dbaas-mongodb": "hypersecuredb",
   "watson-conversation": "conversation",
   "dashdb": "dashDb",
