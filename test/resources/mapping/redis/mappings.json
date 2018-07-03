@@ -1,6 +1,7 @@
 {
 	"redis_uri": {
 		"searchPatterns": [
+			"user-provided:compose-for-redis:uri",
 			"cloudfoundry:$['compose-for-redis'][0].credentials.uri",
 			"env:service_redis:$.uri",
 			"file:/server/localdev-config.json:$.redis_uri"

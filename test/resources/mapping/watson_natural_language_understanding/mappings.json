@@ -1,6 +1,7 @@
 {
 	"watson_natural_language_understanding_url":{
 		"searchPatterns": [
+			"user-provided:naturalLanguageUnderstanding:url",
 			"cloudfoundry:$['naturalLanguageUnderstanding'][0].credentials.url",
 			"env:service_watson_natural_language_understanding:$.url",
 			"file:/server/localdev-config.json:$.watson_natural_language_understanding_url"
@@ -8,6 +9,7 @@
 	},
 	"watson_natural_language_understanding_username":{
 		"searchPatterns": [
+			"user-provided:naturalLanguageUnderstanding:username",
 			"cloudfoundry:$['naturalLanguageUnderstanding'][0].credentials.username",
 			"env:service_watson_natural_language_understanding:$.username",
 			"file:/server/localdev-config.json:$.watson_natural_language_understanding_username"
@@ -15,6 +17,7 @@
 	},
 	"watson_natural_language_understanding_password":{
 		"searchPatterns":[
+			"user-provided:naturalLanguageUnderstanding:password",
 			"cloudfoundry:$['naturalLanguageUnderstanding'][0].credentials.password",
 			"env:service_watson_natural_language_understanding:$.password",
 			"file:/server/localdev-config.json:$.watson_natural_language_understanding_password"

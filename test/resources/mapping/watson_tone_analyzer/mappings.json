@@ -1,6 +1,7 @@
 {
 	"watson_tone_analyzer_url":{
 		"searchPatterns": [
+			"user-provided:toneAnalyzer:url",
 			"cloudfoundry:$['toneAnalyzer'][0].credentials.url",
 			"env:service_watson_tone_analyzer:$.url",
 			"file:/server/localdev-config.json:$.watson_tone_analyzer_url"
@@ -8,6 +9,7 @@
 	},
 	"watson_tone_analyzer_username":{
 		"searchPatterns": [
+			"user-provided:toneAnalyzer:username",
 			"cloudfoundry:$['toneAnalyzer'][0].credentials.username",
 			"env:service_watson_tone_analyzer:$.username",
 			"file:/server/localdev-config.json:$.watson_tone_analyzer_username"
@@ -15,6 +17,7 @@
 	},
 	"watson_tone_analyzer_password":{
 		"searchPatterns":[
+			"user-provided:toneAnalyzer:password",
 			"cloudfoundry:$['toneAnalyzer'][0].credentials.password",
 			"env:service_watson_tone_analyzer:$.password",
 			"file:/server/localdev-config.json:$.watson_tone_analyzer_password"
