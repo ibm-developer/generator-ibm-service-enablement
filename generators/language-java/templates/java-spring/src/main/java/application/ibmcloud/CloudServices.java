@@ -99,6 +99,9 @@ public class CloudServices {
                 LOGGER.debug("tokens " + token[0] + " , " + token[1]);
                 if (!token[0].isEmpty() && !token[1].isEmpty()) {
                     switch (token[0]) {
+                        case "user-provided":
+                            value = getUserProvidedValue(token[1]);
+                            break;
                         case "cloudfoundry":
                             value = getCloudFoundryValue(token[1]);
                             break;
@@ -141,8 +144,53 @@ public class CloudServices {
         }
         return value;
     }
-    
+  
     // Search pattern resolvers
+	
+    private String getUserProvidedValue(String pattern) {
+        LOGGER.info("user-provided entry found:  " + pattern);
+        String value = null;
+        String vcap_services = System.getenv(VCAP_SERVICES);
+        if (vcap_services == null || vcap_services.isEmpty() || pattern == null) {
+            LOGGER.info("No VCAP_SERVICES or no user-provided pattern");
+            return null;
+        }
+        int i = pattern.indexOf(":");
+        if (i == -1 || i == pattern.length() - 1) {
+            LOGGER.info("Invalid user-provided pattern");
+            return null;
+        }
+        String serviceName = pattern.substring(0, i);
+        String credentialKey = pattern.substring(i+1);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode vs = mapper.readTree(vcap_services);
+            ArrayNode array = (ArrayNode) vs.get("user-provided");
+            if (array.isArray()) {
+                LOGGER.info("Found user-provided array");
+                for (final JsonNode entryNode : array) {
+                    JsonNode nameNode = entryNode.get("name");
+                    LOGGER.info("Found user-provided array entry name field");
+                    if (nameNode != null) {
+                        LOGGER.info("user-provided array entry name: " + nameNode.textValue());
+                        String name = nameNode.textValue();
+                        if (name != null && name.equals(serviceName)) {
+                            JsonNode creds = entryNode.get("credentials");
+                            if (creds != null) {
+                                LOGGER.info("Found user-provided array entry credentials");
+                                value = value = JsonPath.parse(creds.toString()).read(credentialKey);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.debug("Unexpected exception reading VCAP_SERVICES: " + e);
+        }
+        return value;
+    }
+
     private String getCloudFoundryValue(String target) {
         if (!target.startsWith("$"))
             return null;
