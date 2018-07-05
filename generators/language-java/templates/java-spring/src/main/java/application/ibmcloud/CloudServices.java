@@ -27,8 +27,8 @@ public class CloudServices {
     private static final String MAPPINGS_JSON = "/mappings.json";
     private static final String VCAP_SERVICES = "VCAP_SERVICES";
     private static final String CLASSPATH_ID = "/server/";
-    
-    
+
+
     private JsonNode config = null;			//configuration to be using
     private final ConcurrentMap<String, DocumentContext> resourceCache = new ConcurrentHashMap<>();	//used to cache resources loaded during processing
 
@@ -39,16 +39,16 @@ public class CloudServices {
             MAPPINGS.config = MAPPINGS.getJson(MAPPINGS_JSON);
         }
     }
-    
+
     /**
      * Create a cloud services mapping object from mappings.json
-     * 
+     *
      * @return the configured service mapper
      */
     public static CloudServices fromMappings() {
-    	return SingletonHelper.MAPPINGS;
+        return SingletonHelper.MAPPINGS;
     }
-    
+
     private JsonNode getJson(String path) {
         LOGGER.debug("getJson() for " + path);
         ObjectMapper mapper = new ObjectMapper();
@@ -71,7 +71,7 @@ public class CloudServices {
         }
         return mappings;
     }
-    
+
     /**
      * Get the first value found from the provided searchPatterns, which will be
      * processed in the order provided.
@@ -87,7 +87,7 @@ public class CloudServices {
         }
         JsonNode node = config.get(name);
         if(node == null || node.isNull()) {
-        return null;		//specified name could not be located	
+            return null;		//specified name could not be located
         }
         String value = null;
         ArrayNode array = (ArrayNode) node.get("searchPatterns");
@@ -99,6 +99,9 @@ public class CloudServices {
                 LOGGER.debug("tokens " + token[0] + " , " + token[1]);
                 if (!token[0].isEmpty() && !token[1].isEmpty()) {
                     switch (token[0]) {
+                        case "user-provided":
+                            value = getUserProvidedValue(token[1]);
+                            break;
                         case "cloudfoundry":
                             value = getCloudFoundryValue(token[1]);
                             break;
@@ -141,8 +144,57 @@ public class CloudServices {
         }
         return value;
     }
-    
+
     // Search pattern resolvers
+
+    private String getUserProvidedValue(String pattern) {
+        LOGGER.info("user-provided entry found:  " + pattern);
+        String value = null;
+        String vcap_services = System.getenv(VCAP_SERVICES);
+        if (vcap_services == null || vcap_services.isEmpty() || pattern == null) {
+            LOGGER.info("No VCAP_SERVICES or no user-provided pattern");
+            return null;
+        }
+        int i = pattern.lastIndexOf(":");
+        if (i == -1 || i == pattern.length() - 1) {
+            LOGGER.info("Invalid user-provided pattern");
+            return null;
+        }
+        String serviceName = pattern.substring(0, i);
+        String credentialKey = pattern.substring(i+1);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode vs = mapper.readTree(vcap_services);
+            JsonNode userProvided = (ArrayNode) vs.get("user-provided");
+            if (userProvided.isArray()) {
+                ArrayNode array = (ArrayNode) userProvided;
+                LOGGER.info("Found user-provided array");
+                for (final JsonNode entryNode : array) {
+                    JsonNode nameNode = entryNode.get("name");
+                    LOGGER.info("Found user-provided array entry name field");
+                    if (nameNode != null) {
+                        LOGGER.info("user-provided array entry name: " + nameNode.asText());
+                        String name = nameNode.asText();
+                        if (name != null && name.equals(serviceName)) {
+                            JsonNode creds = entryNode.get("credentials");
+                            if (creds != null) {
+                                LOGGER.info("Found user-provided array entry credentials");
+                                value = JsonPath.parse(creds.toString()).read(credentialKey);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                LOGGER.info("VCAP_SERVICES user-provided field is not an array");
+            }
+        } catch (Exception e) {
+            LOGGER.debug("Unexpected exception reading VCAP_SERVICES: " + e);
+        }
+        return value;
+    }
+
     private String getCloudFoundryValue(String target) {
         if (!target.startsWith("$"))
             return null;
@@ -182,7 +234,7 @@ public class CloudServices {
             }
         }
         else {
-        	//if no location within the file has been specified then assume that the value == the first line of the file contents
+            //if no location within the file has been specified then assume that the value == the first line of the file contents
             try {
                 BufferedReader file = new BufferedReader(new FileReader(target));
                 value = file.readLine();
@@ -197,7 +249,7 @@ public class CloudServices {
 
     //end search pattern resolvers
 
-    private DocumentContext getJsonStringFromFile(String filePath) { 
+    private DocumentContext getJsonStringFromFile(String filePath) {
         String json = null;
         if (filePath != null && !filePath.isEmpty()) {
             if(filePath.startsWith(CLASSPATH_ID)) {
@@ -216,7 +268,7 @@ public class CloudServices {
                 } catch (Exception e) {
                     LOGGER.debug("Unexpected exception reading JSON string from file: " + e);
                 }
-        	}
+            }
         }
         if(json == null) {
             return JsonPath.parse("{}");	//parse an empty object and set that for the context if the file cannot be loaded for some reason
