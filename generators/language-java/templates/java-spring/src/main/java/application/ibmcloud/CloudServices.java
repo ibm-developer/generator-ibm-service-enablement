@@ -173,8 +173,8 @@ public class CloudServices {
                     JsonNode nameNode = entryNode.get("name");
                     LOGGER.info("Found user-provided array entry name field");
                     if (nameNode != null) {
-                        LOGGER.info("user-provided array entry name: " + nameNode.textValue());
-                        String name = nameNode.textValue();
+                        LOGGER.info("user-provided array entry name: " + nameNode.asText());
+                        String name = nameNode.asText();
                         if (name != null && name.equals(serviceName)) {
                             JsonNode creds = entryNode.get("credentials");
                             if (creds != null) {
