@@ -1,6 +1,7 @@
 {
 	"appid_tenant_id":{
 		"searchPatterns": [
+			"user-provided:AppID:tenantId",
 			"cloudfoundry:$['AppID'][0].credentials.tenantId",
 			"env:service_appid:$.tenantId",
 			"file:/server/localdev-config.json:$.appid_tenantId"
@@ -8,6 +9,7 @@
 	},
 	"appid_client_id":{
 		"searchPatterns": [
+			"user-provided:AppID:clientId",
 			"cloudfoundry:$['AppID'][0].credentials.clientId",
 			"env:service_appid:$.clientId",
 			"file:/server/localdev-config.json:$.appid_clientId"
@@ -15,6 +17,7 @@
 	},
 	"appid_secret":{
 		"searchPatterns": [
+			"user-provided:AppID:secret",
 			"cloudfoundry:$['AppID'][0].credentials.secret",
 			"env:service_appid:$.secret",
 			"file:/server/localdev-config.json:$.appid_secret"
@@ -22,6 +25,7 @@
 	},
 	"appid_oauth_server_url":{
 		"searchPatterns": [
+			"user-provided:AppID:oauthServerUrl",
 			"cloudfoundry:$['AppID'][0].credentials.oauthServerUrl",
 			"env:service_appid:$.oauthServerUrl",
 			"file:/server/localdev-config.json:$.appid_oauthServerUrl"
@@ -29,6 +33,7 @@
 	},
 	"appid_profiles_url":{
 		"searchPatterns": [
+			"user-provided:AppID:profilesUrl",
 			"cloudfoundry:$['AppID'][0].credentials.profilesUrl",
 			"env:service_appid:$.profilesUrl",
 			"file:/server/localdev-config.json:$.appid_profilesUrl"

@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.1.1...v2.3.0) (2018-07-05)
+
+
+### Bug Fixes
+
+* Spring RC service bind to CF ([6968c18](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/6968c18))
+
+
+### Features
+
+* add user-provided to mappings.json ([#273](https://github.com/ibm-developer/generator-ibm-service-enablement/issues/273)) ([8f2616c](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/8f2616c))
+
+
+
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.1.1...v2.2.0) (2018-07-03)
+
+
+### Features
+
+* add user-provided to mappings.json ([#273](https://github.com/ibm-developer/generator-ibm-service-enablement/issues/273)) ([8f2616c](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/8f2616c))
+
+
+
+<a name="2.1.1"></a>
+## [2.1.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.1.0...v2.1.1) (2018-07-02)
+
+
+### Bug Fixes
+
+* **dependency:** update versioning of alertnotifications swift sdk ([e3fc550](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/e3fc550))
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.0.1...v2.1.0) (2018-06-22)
 

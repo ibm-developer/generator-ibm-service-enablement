@@ -53,7 +53,7 @@ describe('mappings', function() {
 					serviceKeys.forEach(serviceKey => {
 						yassert.ok(actualServiceMapping[serviceKey], `${serviceKey} is not a valid service key in mapping.json`);
 						yassert.ok(actualServiceMapping[serviceKey][SEARCH_PATTERN], `search patterns do not exist for ${serviceKey}`);
-						yassert.equal(intersection(actualServiceMapping[serviceKey][SEARCH_PATTERN], expectedServiceMapping[serviceKey][SEARCH_PATTERN]).length, 3, `${serviceKey} 
+						yassert.equal(intersection(actualServiceMapping[serviceKey][SEARCH_PATTERN], expectedServiceMapping[serviceKey][SEARCH_PATTERN]).length, 4, `${serviceKey} 
 						contains ${JSON.stringify(actualServiceMapping[serviceKey][SEARCH_PATTERN], null, 2)} but expected ${JSON.stringify(expectedServiceMapping[serviceKey][SEARCH_PATTERN], null, 2)}`);
 					});
 				});

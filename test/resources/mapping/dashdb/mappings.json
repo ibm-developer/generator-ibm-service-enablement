@@ -1,6 +1,7 @@
 {
 	"dashdb_dsn": {
 		"searchPatterns": [
+			"user-provided:dashDB:dsn",
 			"cloudfoundry:$['dashDB'][0].credentials.dsn",
 			"env:service_dashdb:$.dsn",
 			"file:/server/localdev-config.json:$.dashdb_dsn"
@@ -8,6 +9,7 @@
 	},
 	"dashdb_jdbcurl": {
 		"searchPatterns": [
+			"user-provided:dashDB:jdbcurl",
 			"cloudfoundry:$['dashDB'][0].credentials.jdbcurl",
 			"env:service_dashdb:$.jdbcurl",
 			"file:/server/localdev-config.json:$.dashdb_jdbcurl"

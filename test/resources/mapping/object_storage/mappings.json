@@ -1,6 +1,7 @@
 {
 	"object_storage_project_id":{
 		"searchPatterns": [
+			"user-provided:Object-Storage:projectId",
 			"cloudfoundry:$['Object-Storage'][0].credentials.projectId",
 			"env:service_object_storage:$.projectId",
 			"file:/server/localdev-config.json:$.object_storage_projectId"
@@ -8,6 +9,7 @@
 	},
 	"object_storage_user_id":{
 		"searchPatterns": [
+			"user-provided:Object-Storage:userId",
 			"cloudfoundry:$['Object-Storage'][0].credentials.userId",
 			"env:service_object_storage:$.userId",
 			"file:/server/localdev-config.json:$.object_storage_userId"
@@ -15,6 +17,7 @@
 	},
 	"object_storage_password":{
 		"searchPatterns": [
+			"user-provided:Object-Storage:password",
 			"cloudfoundry:$['Object-Storage'][0].credentials.password",
 			"env:service_object_storage:$.password",
 			"file:/server/localdev-config.json:$.object_storage_password"
@@ -22,6 +25,7 @@
 	},
 	"object_storage_region":{
 		"searchPatterns": [
+			"user-provided:Object-Storage:region",
 			"cloudfoundry:$['Object-Storage'][0].credentials.region",
 			"env:service_object_storage:$.region",
 			"file:/server/localdev-config.json:$.object_storage_region"
@@ -29,6 +33,7 @@
 	},
 	"object_storage_auth_url": {
 		"searchPatterns": [
+			"user-provided:Object-Storage:auth_url",
 			"cloudfoundry:$['Object-Storage'][0].credentials.auth_url",
 			"env:service_object_storage:$.auth_url",
 			"file:/server/localdev-config.json:$.object_storage_auth_url"
@@ -36,6 +41,7 @@
 	},
   "object_storage_project": {
     "searchPatterns": [
+			"user-provided:Object-Storage:project",
       "cloudfoundry:$['Object-Storage'][0].credentials.project",
       "env:service_object_storage:$.project",
       "file:/server/localdev-config.json:$.object_storage_project"
@@ -43,6 +49,7 @@
   },
   "object_storage_domainName": {
     "searchPatterns": [
+			"user-provided:Object-Storage:domainName",
       "cloudfoundry:$['Object-Storage'][0].credentials.domainName",
       "env:service_object_storage:$.domainName",
       "file:/server/localdev-config.json:$.object_storage_domainName"

@@ -1,6 +1,7 @@
 {
 	"watson_visual_recognition_url":{
 		"searchPatterns": [
+			"user-provided:visualRecognition:url",
 			"cloudfoundry:$['visualRecognition'][0].credentials.url",
 			"env:service_watson_visual_recognition:$.url",
 			"file:/server/localdev-config.json:$.watson_visual_recognition_url"
@@ -8,6 +9,7 @@
 	},
 	"watson_visual_recognition_api_key":{
 		"searchPatterns": [
+			"user-provided:visualRecognition:api_key",
 			"cloudfoundry:$['visualRecognition'][0].credentials.api_key",
 			"env:service_watson_visual_recognition:$.api_key",
 			"file:/server/localdev-config.json:$.watson_visual_recognition_api_key"
