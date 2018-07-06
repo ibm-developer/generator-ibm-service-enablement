@@ -1,7 +1,7 @@
 {
   "alert-notification": "alertNotification",
   "apache-spark": "apacheSpark",
-  "appid": "auth",
+  "appid": "appid",
   "autoscaling": "autoScaling",
   "postgre": "postgresql",
   "cloudant": "cloudant",
