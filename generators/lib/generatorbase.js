@@ -192,6 +192,7 @@ module.exports = class extends Generator {
 		let template = Handlebars.compile(mapping);
 
 		let context = {
+			serviceName: serviceCredentials.serviceInfo.name,
 			serviceKey: this.serviceKey.replace(/-/g, '_'),
 			credentialKeys: credentialKeys,
 			map: credKeysToScaffolderKeysMap,

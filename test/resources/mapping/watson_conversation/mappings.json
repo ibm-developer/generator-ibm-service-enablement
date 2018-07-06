@@ -1,6 +1,7 @@
 {
 	"watson_conversation_url":{
 		"searchPatterns": [
+			"user-provided:conversation:url",
 			"cloudfoundry:$['conversation'][0].credentials.url",
 			"env:service_watson_conversation:$.url",
 			"file:/server/localdev-config.json:$.watson_conversation_url"
@@ -8,6 +9,7 @@
 	},
 	"watson_conversation_username":{
 		"searchPatterns": [
+			"user-provided:conversation:username",
 			"cloudfoundry:$['conversation'][0].credentials.username",
 			"env:service_watson_conversation:$.username",
 			"file:/server/localdev-config.json:$.watson_conversation_username"
@@ -15,6 +17,7 @@
 	},
 	"watson_conversation_password":{
 		"searchPatterns":[
+			"user-provided:conversation:password",
 			"cloudfoundry:$['conversation'][0].credentials.password",
 			"env:service_watson_conversation:$.password",
 			"file:/server/localdev-config.json:$.watson_conversation_password"
@@ -22,6 +25,7 @@
 	},
 	"watson_conversation_apikey":{
 		"searchPatterns":[
+			"user-provided:conversation:apikey",
 			"cloudfoundry:$['conversation'][0].credentials.apikey",
 			"env:service_watson_conversation:$.apikey",
 			"file:/server/localdev-config.json:$.watson_conversation_apikey"
