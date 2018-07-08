@@ -92,7 +92,7 @@ public class CloudServices {
             return null;    //config wasn't initialised for some reason, so cannot resolve anything
         }
         String value = null;
-        if (name.equals("version")) {
+        if ("version".equals(name)) {
             // Ignore version for now
             return value;
         }
