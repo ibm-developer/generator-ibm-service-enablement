@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,6 +15,7 @@ import java.util.Set;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.json.JsonValue;
 
 import com.jayway.jsonpath.DocumentContext;
@@ -26,7 +28,7 @@ public class CloudServices {
     private static final String MAPPINGS_JSON = "/mappings.json";
     private static final String VCAP_SERVICES = "VCAP_SERVICES";
     private static final String CLASSPATH_ID = "/server/";
-    
+
     /** Internal configuration read from MAPPINGS_JSON */
     private JsonObject config = null;
 
@@ -43,7 +45,7 @@ public class CloudServices {
 
     /**
      * Create a cloud services mapping object from mappings.json
-     * 
+     *
      * @return the configured service mapper
      */
     public static CloudServices fromMappings() {
@@ -75,7 +77,7 @@ public class CloudServices {
         Set<String> keys = config.keySet();
         return keys;
     }
-    
+
     /**
      * Get the first value found from the provided searchPatterns, which will be
      * processed in the order provided.
@@ -89,11 +91,15 @@ public class CloudServices {
         if(config == null) {
             return null;    //config wasn't initialised for some reason, so cannot resolve anything
         }
+        String value = null;
+        if (name.equals("version")) {
+            // Ignore version for now
+            return value;
+        }
         JsonObject node = config.getJsonObject(name);
         if(node == null || node.isEmpty()) {
-            return null; //specified name could not be located    
+            return null; //specified name could not be located
         }
-        String value = null;
         JsonArray array = node.getJsonArray("searchPatterns");
         if (array != null) {
             for (final JsonValue entryNode : array) {
@@ -103,6 +109,9 @@ public class CloudServices {
                 LOGGER.finest("tokens " + token[0] + " , " + token[1]);
                 if (!token[0].isEmpty() && !token[1].isEmpty()) {
                     switch (token[0]) {
+                        case "user-provided":
+                            value = getUserProvidedValue(token[1]);
+                            break;
                         case "cloudfoundry":
                             value = getCloudFoundryValue(token[1]);
                             break;
@@ -123,7 +132,11 @@ public class CloudServices {
             }
         }
         else {
-            LOGGER.warning("search patterns in mapping.json is NOT an array, values will not be resolved");
+            // Dont issue warning for the credentials case
+            JsonObject creds = node.getJsonObject("credentials");
+            if (creds == null) {
+                LOGGER.warning("Warning: searchPatterns array not found in mappings.json");
+            }
         }
         return value;
     }
@@ -146,7 +159,7 @@ public class CloudServices {
         }
         return value;
     }
-    
+
     // Search pattern resolvers
     private String getCloudFoundryValue(String target) {
         if (!target.startsWith("$"))
@@ -199,10 +212,56 @@ public class CloudServices {
         }
         return value;
     }
-    
+
     //end search pattern resolvers
 
-    private DocumentContext getJsonStringFromFile(String filePath) { 
+    private String getUserProvidedValue(String pattern) {
+        LOGGER.info("user-provided entry found:  " + pattern);
+        if (pattern == null) {
+            LOGGER.info("No user-provided pattern");
+            return null;
+        }
+        String vcap_services = System.getenv(VCAP_SERVICES);
+        if (vcap_services == null || vcap_services.isEmpty()) {
+            LOGGER.info("No VCAP_SERVICES env var");
+            return null;
+        }
+        int i = pattern.lastIndexOf(":");
+        if (i == -1 || i == pattern.length() - 1) {
+            LOGGER.info("Invalid user-provided pattern");
+            return null;
+        }
+        String value = null;
+        String serviceName = pattern.substring(0, i);
+        String credentialKey = pattern.substring(i+1);
+        try {
+            JsonReader jsonReader = Json.createReader(new StringReader(vcap_services));
+            JsonObject vs = jsonReader.readObject();
+            jsonReader.close();
+            JsonArray userProvided = vs.getJsonArray("user-provided");
+            LOGGER.info("Found user-provided array");
+            for (i = 0; i < userProvided.size(); ++i) {
+                JsonObject entryObject = userProvided.getJsonObject(i);
+                String name = entryObject.getString("name");
+                if (name != null) {
+                    LOGGER.info("Found user-provided array entry name field, value: " + name);
+                    if (name != null && name.equals(serviceName)) {
+                        JsonValue creds = entryObject.get("credentials");
+                        if (creds != null) {
+                            LOGGER.info("Found user-provided array entry credentials: " + creds.toString());
+                            value = JsonPath.parse(creds.toString()).read(credentialKey);
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.info("Unexpected exception reading VCAP_SERVICES: " + e);
+        }
+        return value;
+    }
+
+    private DocumentContext getJsonStringFromFile(String filePath) {
         String json = null;
         if (filePath != null && !filePath.isEmpty()) {
             if(filePath.startsWith(CLASSPATH_ID)) {
@@ -230,7 +289,7 @@ public class CloudServices {
         return JsonPath.parse(json);
     }
 
-    
+
     private String sanitiseString(String data) throws CloudServicesException {
         if (data == null || data.isEmpty()) {
             throw new CloudServicesException("Invalid string [" + data + "]");
