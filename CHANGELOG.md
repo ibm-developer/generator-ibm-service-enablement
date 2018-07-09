@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.1"></a>
+## [2.3.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.3.0...v2.3.1) (2018-07-08)
+
+
+### Bug Fixes
+
+* Liberty RC service bind to CF ([0a8d86f](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/0a8d86f))
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.1.1...v2.3.0) (2018-07-05)
 
