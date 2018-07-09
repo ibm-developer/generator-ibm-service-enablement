@@ -138,20 +138,14 @@
       }
     }
   ],
-    "cloudobjectstorage": {
-    "apikey": "cloudobjectstorage-label-apikey",
-    "iam_apikey_description": "cloudobjectstorage-apikey_description",
-    "iam_apikey_name": "cloudobjectstorage-apikey_name",
-    "iam_role_crn": "cloudobjectstorage-iam_role_crn",
-    "iam_serviceid_crn": "cloudobjectstorage-serviceid_crn",
-    "url": "cloudobjectstorage-url",
-    "endpoints": "cloudobjectstorage-endpoints",
-    "resource_instance_id": "cloudobjectstorage-resource_instance_id",
-    "serviceInfo": {
-      "label": "cloudobjectstorage-label",
-      "name": "cloudobjectstorage-name",
-      "plan": "cloudobjectstorage-plan"
-		}
+  "cloudobjectstorage": {
+    "apikey": "apikey",
+    "endpoints": "endpoints",
+    "iam_apikey_description": "iam_apikey_description",
+    "iam_apikey_name": "iam_apikey_name",
+    "iam_role_crn": "iam_role_crn",
+    "iam_serviceid_crn": "iam_serviceid_crn",
+    "resource_instance_id": "resource_instance_id"
   },
   "conversation": {
     "url": "https://gateway.watsonplatform.net/conversation/api",
