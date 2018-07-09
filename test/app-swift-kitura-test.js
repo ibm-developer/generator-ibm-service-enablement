@@ -63,13 +63,13 @@ describe('swift-kitura', function() {
 		});
 
 		it('Can add AppID instrumentation', () => {
-			testAll('service-appid', 'appid', optionsBluemix.auth.serviceInfo.name, {
-				[optionsBluemix.auth.serviceInfo.name]: {
-					tenantId: optionsBluemix.auth.tenantId,
-					clientId: optionsBluemix.auth.clientId,
-					secret: optionsBluemix.auth.secret,
-					oauthServerUrl: optionsBluemix.auth.oauthServerUrl,
-					profilesUrl: optionsBluemix.auth.profilesUrl
+			testAll('service-appid', 'appid', optionsBluemix.appid.serviceInfo.name, {
+				[optionsBluemix.appid.serviceInfo.name]: {
+					tenantId: optionsBluemix.appid.tenantId,
+					clientId: optionsBluemix.appid.clientId,
+					secret: optionsBluemix.appid.secret,
+					oauthServerUrl: optionsBluemix.appid.oauthServerUrl,
+					profilesUrl: optionsBluemix.appid.profilesUrl
 				}
 			}, dependencies, modules, codeForServices);
 		});

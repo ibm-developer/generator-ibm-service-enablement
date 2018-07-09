@@ -41,11 +41,29 @@ module.exports = class extends Generator {
 	initializing() {
 		//do nothing by default
 	}
-
+	
+	/**
+	 * The configuration context for service generators. This phase will excuted the appropriate methods to add the mappings, implementation code, and deployment configurtation for each service.
+	 * There are few caveats to take note 
+	 *
+	 *	Only add service credentials to the pipeline.yml if service information (e.g. label, name, etc) exist for that that servive
+	 *	Only add mapping file and local-dev config file if the service is not autoscaling or the service does not an SDK available 
+	 *  
+	 *
+	 * @param config
+	 * @returns {undefined}
+	 */
+	
 	configuring(config) {
-		this.shouldProcess = this.context.bluemix.hasOwnProperty(this.scaffolderName) && fs.existsSync(this.languageTemplatePath);
-		if (!this.shouldProcess) {
-			this.logger.info("Nothing to process for " + this.context.language);
+		this.hasBluemixProperty = this.context.bluemix.hasOwnProperty(this.scaffolderName);
+		this.hasTemplate = fs.existsSync(this.languageTemplatePath);
+		if (this.hasBluemixProperty && !this.hasTemplate){
+			this.logger.info(`No available sdk available for ${this.scaffolderName} in ${this.context.language}; configuring credentials only`);
+			this._addMappings(config);
+			this._addLocalDevConfig();
+			return;
+		} else if(!this.hasBluemixProperty || !this.hasTemplate){
+			this.logger.info(`Nothing to process for ${this.scaffolderName} in ${this.context.language}`);
 			return;
 		}
 		let serviceInfo = this._getServiceInfo();
@@ -61,6 +79,7 @@ module.exports = class extends Generator {
 			this._addServicesToKubeDeploy(serviceInfo);
 			this._addServicesToPipeline(serviceInfo);
 		}
+
 	}
 
 	writing() {
