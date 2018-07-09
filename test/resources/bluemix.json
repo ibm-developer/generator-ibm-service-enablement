@@ -145,16 +145,12 @@
     "iam_apikey_name": "iam_apikey_name",
     "iam_role_crn": "iam_role_crn",
     "iam_serviceid_crn": "iam_serviceid_crn",
-<<<<<<< HEAD
-    "resource_instance_id": "resource_instance_id"
-=======
     "resource_instance_id": "resource_instance_id",
     "serviceInfo": {
         "name": "cloud-object-storage",
         "label": "cloud-object-storage-label",
         "plan": "cloud-object-storage-plan"
       }
->>>>>>> 63a8603bff8cb8db4993913523c1d44088ef43d0
   },
   "conversation": {
     "url": "https://gateway.watsonplatform.net/conversation/api",

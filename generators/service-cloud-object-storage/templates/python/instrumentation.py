@@ -7,7 +7,7 @@ service_instance_id = IBMCloudEnv.getString('cloud_object_storage_resource_insta
 auth_endpoint = 'https://iam.bluemix.net/oidc/token'
 service_endpoint = 'https://s3-api.us-geo.objectstorage.softlayer.net'
 
-cos = ibm_boto3.resource('s3',
+cloud_object_storage = ibm_boto3.resource('s3',
 ibm_api_key_id=api_key,
 ibm_service_instance_id=service_instance_id,
 ibm_auth_endpoint=auth_endpoint,
@@ -17,8 +17,8 @@ endpoint_url=service_endpoint)
 
 <% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
 def getService(app):
-    return 'cos', cos
+    return 'cloud_object_storage', cloud_object_storage
 <% } else { %>
 def getService():
-    return 'cos', cos
+    return 'cloud_object_storage', cloud_object_storage
 <% } %>

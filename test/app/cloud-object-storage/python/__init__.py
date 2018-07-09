@@ -4,7 +4,7 @@ def testCloudObjectStorage():
 	new_bucket = 'NewBucket'
 	messages = []
 	workspace_id = '7fa12afa-a4b0-4646-8510-deda95f4a640'
-	cos = service_manager.get('cloud-object-storage')
+	cos = service_manager.get('cloud_object_storage')
 
 	# workspace_id is not a supplied credential from service_manager,
 	# as each conversation service can have several workspaces.
