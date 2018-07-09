@@ -51,11 +51,11 @@ describe('python-flask', function () {
 
 	it('Can add AppID/Auth instrumentation', () => {
 		testAll('appid', {
-			appid_tenantId: optionsBluemix.auth.tenantId,
-			appid_clientId: optionsBluemix.auth.clientId,
-			appid_secret: optionsBluemix.auth.secret,
-			appid_oauthServerUrl: optionsBluemix.auth.oauthServerUrl,
-			appid_profilesUrl: optionsBluemix.auth.profilesUrl
+			appid_tenantId: optionsBluemix.appid.tenantId,
+			appid_clientId: optionsBluemix.appid.clientId,
+			appid_secret: optionsBluemix.appid.secret,
+			appid_oauthServerUrl: optionsBluemix.appid.oauthServerUrl,
+			appid_profilesUrl: optionsBluemix.appid.profilesUrl
 		});
 	});
 
