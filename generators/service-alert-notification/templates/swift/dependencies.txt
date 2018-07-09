@@ -1,1 +1,1 @@
-.package(url: "https://github.com/IBM-Swift/alert-notification-sdk.git", .upToNextMinor(from: "3.0.0")),
+.package(url: "https://github.com/IBM-Swift/alert-notification-sdk.git", .upToNextMajor(from: "3.0.0")),

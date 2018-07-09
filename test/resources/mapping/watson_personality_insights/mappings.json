@@ -1,6 +1,7 @@
 {
 	"watson_personality_insights_url":{
 		"searchPatterns": [
+			"user-provided:personalityInsights:url",
 			"cloudfoundry:$['personalityInsights'][0].credentials.url",
 			"env:service_watson_personality_insights:$.url",
 			"file:/server/localdev-config.json:$.watson_personality_insights_url"
@@ -8,6 +9,7 @@
 	},
 	"watson_personality_insights_username":{
 		"searchPatterns": [
+			"user-provided:personalityInsights:username",
 			"cloudfoundry:$['personalityInsights'][0].credentials.username",
 			"env:service_watson_personality_insights:$.username",
 			"file:/server/localdev-config.json:$.watson_personality_insights_username"
@@ -15,6 +17,7 @@
 	},
 	"watson_personality_insights_password":{
 		"searchPatterns":[
+			"user-provided:personalityInsights:password",
 			"cloudfoundry:$['personalityInsights'][0].credentials.password",
 			"env:service_watson_personality_insights:$.password",
 			"file:/server/localdev-config.json:$.watson_personality_insights_password"

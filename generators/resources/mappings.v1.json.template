@@ -3,6 +3,7 @@
     {{#each credentialKeys}}
     "{{../serviceKey}}_{{this}}" : {
         "searchPatterns": [
+            "user-provided:{{../serviceName}}:{{access ../map this ../nestedJSON}}",
             {{#if ../cloudFoundryIsArray}}
             "cloudfoundry:$['{{../cloudFoundryKey}}'][0].credentials.{{access ../map this ../nestedJSON}}",
             {{else}}
@@ -16,6 +17,7 @@
     "{{../serviceKey}}": {
             "credentials": {
                  "searchPatterns": [
+                    "user-provided:{{../serviceName}}:{{access ../map this ../nestedJSON}}",
                     "cloudfoundry:{{../serviceKey}}",
                     "env:{{../serviceKey}}_credentials",
                     "file:/{{generatorLocation}}/localdev-config.json:{{../serviceKey}}_credentials"

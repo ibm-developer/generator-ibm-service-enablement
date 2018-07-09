@@ -1,6 +1,7 @@
 {
 	"finance_instrument_analytics_uri":{
 		"searchPatterns": [
+			"user-provided:fss-instrument-analytics-service:uri",
 			"cloudfoundry:$['fss-instrument-analytics-service'][0].credentials.uri",
 			"env:service_finance_instrument_analytics:$.uri",
 			"file:/server/localdev-config.json:$.finance_instrument_analytics_uri"
@@ -8,6 +9,7 @@
 	},
 	"finance_instrument_analytics_accesstoken":{
 		"searchPatterns": [
+			"user-provided:fss-instrument-analytics-service:accessToken",
 			"cloudfoundry:$['fss-instrument-analytics-service'][0].credentials.accessToken",
 			"env:service_finance_instrument_analytics:$.accessToken",
 			"file:/server/localdev-config.json:$.finance_instrument_analytics_accessToken"
