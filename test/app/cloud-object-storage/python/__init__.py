@@ -7,8 +7,8 @@ def testCloudObjectStorage():
 	# workspace_id is not a supplied credential from service_manager,
 	# as each conversation service can have several workspaces.
 	# thus exposing the credential, while not ideal, in this case is okay
-	workspace_id = '7fa12afa-a4b0-4646-8510-deda95f4a640'
-	cos = service_manager.get('cos')
+    workspace_id = '7fa12afa-a4b0-4646-8510-deda95f4a640'
+    cos = service_manager.get('cloud-object-storage')
 
     messages.append('test container was created')
     try:
