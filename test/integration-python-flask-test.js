@@ -254,6 +254,30 @@ describe('integration test for services', function() {
 	});
 });
 
+describe('Cloud-Object-Storage', function() {
+	it('should be able to send input and receive a response', function() {
+		this.timeout(10000);
+		let expectedMessage = ['received response for cloud-object-storage'];
+		let options = {
+			'method': 'get',
+			'url': 'http://localhost:5000/cloud-object-storage-test'
+		};
+
+		return axios(options)
+			.then(function(response) {
+				assert.deepEqual(response.data, expectedMessage);
+			})
+			.catch(function(err){
+				if(err.response){
+					assert.isNotOk(err.response.data, 'This should not happen');
+				} else {
+					console.log('ERR ' + err.toString());
+					assert.isNotOk(err, 'This should not happen');
+				}
+			});
+	});
+});
+
 let _setUpApplication = function(cb){
 	optionsBluemix.backendPlatform = PLATFORM;
 	_generateApplication(function() {
@@ -304,7 +328,7 @@ let _destroyApplication = function(cb){
 
 let _generateApplication = function(cb) {
 	const serviceNames = ['cloudant', 'object-storage', 'appId', 'alertnotification',
-		'mongodb', 'push', 'redis', 'postgre', 'watson-conversation'];
+		'mongodb', 'push', 'redis', 'postgre', 'watson-conversation', 'cloud-object-storage'];
 	const REPLACE_CODE_HERE = '# GENERATE HERE';
 	const REPLACE_SHUTDOWN_CODE_HERE = '# GENERATE SHUTDOWN';
 	let snippetJS;
