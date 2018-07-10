@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.3.4...v2.4.0) (2018-07-10)
+
+
+### Bug Fixes
+
+* fix dublicate declarations ([4fc246e](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/4fc246e))
+* fixed environment variables ([835607b](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/835607b))
+
+
+### Features
+
+* add cloud object storage for liberty and spring ([25c5fd7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/25c5fd7))
+
+
+
 <a name="2.3.4"></a>
 ## [2.3.4](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.3.3...v2.3.4) (2018-07-10)
 
