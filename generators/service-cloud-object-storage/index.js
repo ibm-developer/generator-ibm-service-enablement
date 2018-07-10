@@ -8,6 +8,7 @@ const CUSTOM_SERVICE_KEY = 'cloud-object-storage';
 const config = {
 	cloudFoundryIsArray: false,
 	mappingVersion: 1
+
 };
 
 module.exports = class extends BaseGenerator {
@@ -26,4 +27,5 @@ module.exports = class extends BaseGenerator {
 	writing() {
 		return super.writing()
 	}
+
 };
