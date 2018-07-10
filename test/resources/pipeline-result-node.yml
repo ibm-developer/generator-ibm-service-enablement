@@ -90,6 +90,7 @@ stages:
       cf create-service "alert-notification-label" "alert-notification-plan" "alertnotification"
       cf create-service "spark" "ibm.SparkService.PayGoPersonal" "spark"
       cf create-service "auth-label" "auth-plan" "AppID"
+      cf create-service "cloud-object-storage-label" "cloud-object-storage-plan" "cloud-object-storage"
       cf create-service "cloudant-label" "cloudant-plan" "cloudantNoSQLDB"
       cf create-service "dashDB" "Entry" "dashDB"
       cf create-service "db2" "Entry" "dashDB For Transactions"
