@@ -7,9 +7,9 @@ module.exports = function(app, serviceManager){
 		url: IBMCloudEnv.getString('watson_viusal_recognition_url'),
 	};
 
-	if (IBMCloudEnv.getString('watson_viusal_recognition_apikey')) {
+	if (IBMCloudEnv.getString('watson_visual_recognition_apikey')) {
 		Object.assign(params, {
-			iam_apikey: IBMCloudEnv.getString('watson_viusal_recognition_apikey')
+			iam_apikey: IBMCloudEnv.getString('watson_visual_recognition_apikey')
 		});
 	}
 	else {
