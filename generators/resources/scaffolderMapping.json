@@ -6,6 +6,7 @@
   "cloud-object-storage": "cloudobjectstorage",
   "postgre": "postgresql",
   "cloudant": "cloudant",
+  "cloud-object-storage": "cloudobjectstorage",
   "hypersecure-dbaas-mongodb": "hypersecuredb",
   "watson-conversation": "conversation",
   "dashdb": "dashDb",

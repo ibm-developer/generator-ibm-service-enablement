@@ -1,0 +1,8 @@
+{
+  "[[source]]": "",
+  "[dev-packages]": "",
+  "[packages]": {
+    "ibm-cos-sdk": "~=2.1.1",
+    "boto3":"1.7.45"
+  }
+}

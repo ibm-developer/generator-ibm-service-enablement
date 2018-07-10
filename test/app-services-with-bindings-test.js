@@ -32,7 +32,7 @@ const serviceKeys = Object.keys(scaffolderMapping);
 serviceKeys.forEach(serviceKey => {
 	let scaffolderKey = scaffolderMapping[serviceKey];
 	let service = Array.isArray(optionsBluemix[scaffolderKey]) ? optionsBluemix[scaffolderKey][0] : optionsBluemix[scaffolderKey];
-	if(service.hasOwnProperty('serviceInfo')){
+	if(service && service.hasOwnProperty('serviceInfo')){
 		keyRefNames.push(`binding-${service.serviceInfo.name}`);
 	}
 });
@@ -107,6 +107,8 @@ function verifyHelmChart(chartLocation) {
 						// Uncomment to view locally rendered helm charts
 						// console.log(stdout);
 						// template command will render two charts: service and Deployment
+						console.log("STANDOUT ")
+						console.log(stdout)
 						let charts = yml.safeLoadAll(stdout);
 						assertYmlContent(charts[1].kind, 'Deployment', 'charts[1].kind');
 						testServiceKeys(charts[1].spec.template.spec.containers[0].env);
