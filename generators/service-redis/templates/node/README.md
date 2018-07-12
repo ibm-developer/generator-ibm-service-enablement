@@ -9,7 +9,8 @@ Redis is a powerful, in-memory key/value store which can act as a cache, queue o
 This is where your local configuration is stored for Redis.
 ```
 {
-  "redis_uri": "{{{uri}}}"
+  "redis_uri": "{{{uri}}}",
+  "redis_ca_certificate_base64": "{{{ca_certificate_bas64}}}"  
 }
 ```
 
