@@ -66,18 +66,16 @@ module.exports = class extends Generator {
 			this.logger.info(`Nothing to process for ${this.scaffolderName} in ${this.context.language}`);
 			return;
 		}
-		
-
+		let serviceInfo = this._getServiceInfo();
 		this._addDependencies();
-		if (this.scaffolderName !== "autoscaling" ) {
+		if (serviceInfo && this.scaffolderName !== "autoscaling") {
 			this._addMappings(config);
 			this._addLocalDevConfig();
 		}
 		this._addReadMe();
 		this._addInstrumentation();
-		
-		let serviceInfo = this._getServiceInfo();
-		if (serviceInfo) {
+
+		if (serviceInfo !== undefined) {
 			this._addServicesToKubeDeploy(serviceInfo);
 			this._addServicesToPipeline(serviceInfo);
 		}

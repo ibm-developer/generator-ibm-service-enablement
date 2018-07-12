@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.1"></a>
+## [2.4.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.4.0...v2.4.1) (2018-07-10)
+
+
+### Bug Fixes
+
+* **node:** typo in visual recongition service credential key ([0be4ec5](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/0be4ec5))
+
+
+
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.3.4...v2.4.0) (2018-07-10)
+
+
+### Bug Fixes
+
+* fix dublicate declarations ([4fc246e](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/4fc246e))
+* fixed environment variables ([835607b](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/835607b))
+
+
+### Features
+
+* add cloud object storage for liberty and spring ([25c5fd7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/25c5fd7))
+
+
+
+<a name="2.3.4"></a>
+## [2.3.4](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.3.3...v2.3.4) (2018-07-10)
+
+
+### Bug Fixes
+
+* added README for Cloud Object Storage ([3bcb77c](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/3bcb77c))
+* added README for Cloud Object Storage ([c97c7a7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/c97c7a7))
+* changed some testing variables ([5a7ed93](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/5a7ed93))
+* cloud object storage for python ([6d1d9f3](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/6d1d9f3))
+* cloud object storage for python ([4c75f75](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/4c75f75))
+* fixed bracket ([abda161](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/abda161))
+* fixed environment variables ([a6f92d7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a6f92d7))
+* fixed indentation error ([1754ac5](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/1754ac5))
+* fixed indentation in tests ([b1de1c9](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/b1de1c9))
+* fixed integration test ([5a26530](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/5a26530))
+* fixed some more tests ([1f993ee](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/1f993ee))
+* fixed test ([39a29b6](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/39a29b6))
+* fixed testing environment variables ([7d1ba28](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/7d1ba28))
+* restored tests ([73891c5](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/73891c5))
+
+
+
 <a name="2.3.3"></a>
 ## [2.3.3](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.3.2...v2.3.3) (2018-07-09)
 

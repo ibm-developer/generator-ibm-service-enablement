@@ -33,11 +33,37 @@ function serviceCloudant(optionsBluemix) {
 			cloudant_url: optionsBluemix.cloudant[0].url
 		},
 		instrumentation: {
-			java_liberty: [{name : "src/main/java/application/cloudant/Cloudant.java", contents : "@ConfigProperty"}, 
+			java_liberty: [{name : "src/main/java/application/cloudant/Cloudant.java", contents : "@ConfigProperty"},
 				{name : "src/main/java/application/cloudant/CloudantCredentials.java"}],
 			java_spring: []
 		}
 	};
+}
+
+function serviceCloudObjectStorage(optionsBluemix) {
+	return {
+		location: `service-cloud-object-storage`,
+		bluemixName: `cloudobjectstorage`,
+		localDevConfig: {
+			cloud_object_storage_apikey: optionsBluemix.cloudobjectstorage.apikey,
+			cloud_object_storage_endpoints: optionsBluemix.cloudobjectstorage.endpoints,
+			cloud_object_storage_iam_apikey_description: optionsBluemix.cloudobjectstorage.iam_apikey_description,
+			cloud_object_storage_iam_apikey_name: optionsBluemix.cloudobjectstorage.iam_apikey_name,
+			cloud_object_storage_iam_role_crn: optionsBluemix.cloudobjectstorage.iam_role_crn,
+			cloud_object_storage_iam_serviceid_crn: optionsBluemix.cloudobjectstorage.iam_serviceid_crn,
+			cloud_object_storage_resource_instance_id: optionsBluemix.cloudobjectstorage.resource_instance_id
+		},
+		instrumentation: {
+			java_liberty: [{
+				name: "src/main/java/application/cloudobjectstorage/CloudObjectStorage.java",
+				contents: "@ConfigProperty"
+			}],
+			java_spring: [{
+				name: "src/main/java/application/cloudobjectstorage/CloudObjectStorage.java",
+				contents: "@Autowired"
+			}]
+		}
+	}
 }
 
 function serviceObjectStorage(optionsBluemix) {
@@ -54,8 +80,8 @@ function serviceObjectStorage(optionsBluemix) {
 			object_storage_domainName: optionsBluemix.objectStorage[0].domainName
 		},
 		instrumentation: {
-			java_liberty: [{name : "src/main/java/application/objectstorage/ObjectStorage.java", contents : "@ConfigProperty"}, 
-				{name : "src/main/java/application/objectstorage/ObjectStorageCredentials.java"}], 
+			java_liberty: [{name : "src/main/java/application/objectstorage/ObjectStorage.java", contents : "@ConfigProperty"},
+				{name : "src/main/java/application/objectstorage/ObjectStorageCredentials.java"}],
 			java_spring: [{name : "src/main/java/application/objectstorage/ObjectStorageConfig.java", contents : "@Autowired"}]
 		}
 	};
@@ -124,6 +150,7 @@ function serviceAlertNotification(optionsBluemix) {
 	};
 }
 
+
 function serviceRedis() {
 	return {
 		location: 'service-redis',
@@ -158,6 +185,7 @@ function fromDirName(name, optionsBluemix) {
 module.exports = {
 	fromDirName: fromDirName,
 	serviceCloudant: serviceCloudant,
+	serviceCloudObjectStorage: serviceCloudObjectStorage,
 	serviceObjectStorage: serviceObjectStorage,
 	serviceMongodb: serviceMongodb,
 	serviceWatsonConversation: serviceWatsonConversation,
