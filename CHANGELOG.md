@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.2"></a>
+## [2.4.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.4.1...v2.4.2) (2018-07-12)
+
+
+### Bug Fixes
+
+* **node:** added ca certitificate for tls support in redis ([af8eb2c](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/af8eb2c))
+
+
+
 <a name="2.4.1"></a>
 ## [2.4.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.4.0...v2.4.1) (2018-07-10)
 
