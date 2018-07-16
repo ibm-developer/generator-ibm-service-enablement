@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.3"></a>
+## [2.4.3](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.4.2...v2.4.3) (2018-07-16)
+
+
+### Bug Fixes
+
+* Read jsonpath int's as String ([814784a](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/814784a))
+
+
+
 <a name="2.4.2"></a>
 ## [2.4.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.4.1...v2.4.2) (2018-07-12)
 
