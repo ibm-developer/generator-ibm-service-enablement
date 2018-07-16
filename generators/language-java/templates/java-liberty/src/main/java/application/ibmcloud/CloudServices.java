@@ -154,7 +154,7 @@ public class CloudServices {
     private String getJsonValue(String jsonPath, String json) {
         String value = null;
         if (jsonPath != null && json != null) {
-            value = JsonPath.parse(json).read(jsonPath);
+            value = JsonPath.parse(json).read(jsonPath).toString();
             value = sanitiseString(value);
         }
         return value;
@@ -193,7 +193,7 @@ public class CloudServices {
                 try {
                     String path = token[0];
                     DocumentContext context = resourceCache.computeIfAbsent(path, filePath -> getJsonStringFromFile(filePath));
-                    value = context.read(token[1]);
+                    value = context.read(token[1]).toString();
                 } catch (PathNotFoundException e) {
                     return null;	//no data matching the specified json path
                 }
@@ -249,7 +249,7 @@ public class CloudServices {
                         JsonValue creds = entryObject.get("credentials");
                         if (creds != null) {
                             LOGGER.info("Found user-provided array entry credentials: " + creds.toString());
-                            value = JsonPath.parse(creds.toString()).read(credentialKey);
+                            value = JsonPath.parse(creds.toString()).read(credentialKey).toString();
                             break;
                         }
                     }
