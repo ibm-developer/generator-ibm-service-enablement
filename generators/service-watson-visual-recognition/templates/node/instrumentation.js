@@ -14,7 +14,7 @@ module.exports = function(app, serviceManager){
 	}
 	else {
 		Object.assign(params, {
-			api_key: IBMCloudEnv.getString('watson_viusal_recognition_api_key')
+			api_key: IBMCloudEnv.getString('watson_visual_recognition_api_key')
 		});
 	}
 
