@@ -1,0 +1,5 @@
+{
+  "import":"github.com/watson-developer-cloud/golang-sdk/personalityInsightsV3",
+  "variableName":"WatsonPersonalityInsights",
+  "type":"personalityInsightsV3.PersonalityInsightsV3"
+}
