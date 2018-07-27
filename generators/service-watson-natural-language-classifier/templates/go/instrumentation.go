@@ -8,6 +8,7 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
+// Initializes Watson Natural Language Classifier
 func InitializeServiceWatsonNaturalLanguageClassifier() (*naturalLanguageClassifierV1.NaturalLanguageClassifierV1, error) {
   url, ok := IBMCloudEnv.GetString("watson_natural_language_classifier_url")
   if !ok {
@@ -19,20 +20,19 @@ func InitializeServiceWatsonNaturalLanguageClassifier() (*naturalLanguageClassif
       ServiceURL: url,
       APIkey: apikey,
     })
-  } else {
-    username, ok := IBMCloudEnv.GetString("watson_natural_language_classifier_username")
-    if !ok {
-      return nil, errors.New("unable to find watson_natural_language_classifier_username or watson_natural_language_classifier_apikey")
-    }
-    password, ok := IBMCloudEnv.GetString("watson_natural_language_classifier_password")
-    if !ok {
-      return nil, errors.New("unable to find watson_natural_language_classifier_password")
-    }
-    return naturalLanguageClassifierV1.NewNaturalLanguageClassifierV1(watson.Credentials{
-      ServiceURL: url,
-      Username: username,
-      Password: password,
-    }) 
   }
+  username, ok := IBMCloudEnv.GetString("watson_natural_language_classifier_username")
+  if !ok {
+    return nil, errors.New("unable to find watson_natural_language_classifier_username or watson_natural_language_classifier_apikey")
+  }
+  password, ok := IBMCloudEnv.GetString("watson_natural_language_classifier_password")
+  if !ok {
+    return nil, errors.New("unable to find watson_natural_language_classifier_password")
+  }
+  return naturalLanguageClassifierV1.NewNaturalLanguageClassifierV1(watson.Credentials{
+    ServiceURL: url,
+    Username: username,
+    Password: password,
+  }) 
 }
 

@@ -8,6 +8,7 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
+// Initializes Watson Personality Insights
 func InitializeServiceWatsonPersonalityInsights() (*personalityInsightsV3.PersonalityInsightsV3, error) {
   url, ok := IBMCloudEnv.GetString("watson_personality_insights_url")
   if !ok {
@@ -20,20 +21,19 @@ func InitializeServiceWatsonPersonalityInsights() (*personalityInsightsV3.Person
       Version: "2017-10-13",
       APIkey: apikey,
     })
-  } else {
-    username, ok := IBMCloudEnv.GetString("watson_personality_insights_username")
-    if !ok {
-      return nil, errors.New("unable to find watson_personality_insights_username or watson_personality_insights_apikey")
-    }
-    password, ok := IBMCloudEnv.GetString("watson_personality_insights_password")
-    if !ok {
-      return nil, errors.New("unable to find watson_personality_insights_password")
-    }
-    return personalityInsightsV3.NewPersonalityInsightsV3(watson.Credentials{
-      ServiceURL: url,
-      Version: "2017-10-13",
-      Username: username,
-      Password: password,
-    }) 
   }
+  username, ok := IBMCloudEnv.GetString("watson_personality_insights_username")
+  if !ok {
+    return nil, errors.New("unable to find watson_personality_insights_username or watson_personality_insights_apikey")
+  }
+  password, ok := IBMCloudEnv.GetString("watson_personality_insights_password")
+  if !ok {
+    return nil, errors.New("unable to find watson_personality_insights_password")
+  }
+  return personalityInsightsV3.NewPersonalityInsightsV3(watson.Credentials{
+    ServiceURL: url,
+    Version: "2017-10-13",
+    Username: username,
+    Password: password,
+  }) 
 }

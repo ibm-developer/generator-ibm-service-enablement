@@ -8,6 +8,7 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
+// Initializes Watson Tone Analyzer
 func InitializeServiceWatsonToneAnalyzer() (*toneAnalyzerV3.ToneAnalyzerV3, error) {
   url, ok := IBMCloudEnv.GetString("watson_tone_analyzer_url")
   if !ok {
@@ -20,20 +21,19 @@ func InitializeServiceWatsonToneAnalyzer() (*toneAnalyzerV3.ToneAnalyzerV3, erro
       Version: "2017-09-21",
       APIkey: apikey,
     })
-  } else {
-    username, ok := IBMCloudEnv.GetString("watson_tone_analyzer_username")
-    if !ok {
-      return nil, errors.New("unable to find watson_tone_analyzer_username or watson_tone_analyzer_apikey")
-    }
-    password, ok := IBMCloudEnv.GetString("watson_tone_analyzer_password")
-    if !ok {
-      return nil, errors.New("unable to find watson_tone_analyzer_password")
-    }
-    return toneAnalyzerV3.NewToneAnalyzerV3(watson.Credentials{
-      ServiceURL: url,
-      Version: "2017-09-21",
-      Username: username,
-      Password: password,
-    }) 
   }
+  username, ok := IBMCloudEnv.GetString("watson_tone_analyzer_username")
+  if !ok {
+    return nil, errors.New("unable to find watson_tone_analyzer_username or watson_tone_analyzer_apikey")
+  }
+  password, ok := IBMCloudEnv.GetString("watson_tone_analyzer_password")
+  if !ok {
+    return nil, errors.New("unable to find watson_tone_analyzer_password")
+  }
+  return toneAnalyzerV3.NewToneAnalyzerV3(watson.Credentials{
+    ServiceURL: url,
+    Version: "2017-09-21",
+    Username: username,
+    Password: password,
+  }) 
 }

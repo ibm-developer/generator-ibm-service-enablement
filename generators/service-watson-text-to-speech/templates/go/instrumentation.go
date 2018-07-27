@@ -8,6 +8,7 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
+// Initializes Watson Text To Speech
 func InitializeServiceWatsonTextToSpeech() (*textToSpeechV1.TextToSpeechV1, error) {
   url, ok := IBMCloudEnv.GetString("watson_text_to_speech_url")
   if !ok {
@@ -19,19 +20,18 @@ func InitializeServiceWatsonTextToSpeech() (*textToSpeechV1.TextToSpeechV1, erro
       ServiceURL: url,
       APIkey: apikey,
     })
-  } else {
-    username, ok := IBMCloudEnv.GetString("watson_text_to_speech_username")
-    if !ok {
-      return nil, errors.New("unable to find watson_text_to_speech_username or watson_text_to_speech_apikey")
-    }
-    password, ok := IBMCloudEnv.GetString("watson_text_to_speech_password")
-    if !ok {
-      return nil, errors.New("unable to find watson_text_to_speech_password")
-    }
-    return textToSpeechV1.NewTextToSpeechV1(watson.Credentials{
-      ServiceURL: url,
-      Username: username,
-      Password: password,
-    }) 
   }
+  username, ok := IBMCloudEnv.GetString("watson_text_to_speech_username")
+  if !ok {
+    return nil, errors.New("unable to find watson_text_to_speech_username or watson_text_to_speech_apikey")
+  }
+  password, ok := IBMCloudEnv.GetString("watson_text_to_speech_password")
+  if !ok {
+    return nil, errors.New("unable to find watson_text_to_speech_password")
+  }
+  return textToSpeechV1.NewTextToSpeechV1(watson.Credentials{
+    ServiceURL: url,
+    Username: username,
+    Password: password,
+  }) 
 }

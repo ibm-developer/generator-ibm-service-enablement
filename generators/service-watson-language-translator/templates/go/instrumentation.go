@@ -8,6 +8,7 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
+// Initializes Watson Language Translator
 func InitializeServiceWatsonLanguageTranslator() (*languageTranslatorV3.LanguageTranslatorV3, error) {
   url, ok := IBMCloudEnv.GetString("watson_language_translator_url")
   if !ok {
@@ -20,20 +21,19 @@ func InitializeServiceWatsonLanguageTranslator() (*languageTranslatorV3.Language
       Version: "2018-05-01",
       APIkey: apikey,
     })
-  } else {
-    username, ok := IBMCloudEnv.GetString("watson_language_translator_username")
-    if !ok {
-      return nil, errors.New("unable to find watson_language_translator_username or watson_language_translator_apikey")
-    }
-    password, ok := IBMCloudEnv.GetString("watson_language_translator_password")
-    if !ok {
-      return nil, errors.New("unable to find watson_language_translator_password")
-    }
-    return languageTranslatorV3.NewLanguageTranslatorV3(watson.Credentials{
-      ServiceURL: url,
-      Version: "2018-05-01",
-      Username: username,
-      Password: password,
-    }) 
   }
+  username, ok := IBMCloudEnv.GetString("watson_language_translator_username")
+  if !ok {
+    return nil, errors.New("unable to find watson_language_translator_username or watson_language_translator_apikey")
+  }
+  password, ok := IBMCloudEnv.GetString("watson_language_translator_password")
+  if !ok {
+    return nil, errors.New("unable to find watson_language_translator_password")
+  }
+  return languageTranslatorV3.NewLanguageTranslatorV3(watson.Credentials{
+    ServiceURL: url,
+    Version: "2018-05-01",
+    Username: username,
+    Password: password,
+  }) 
 }

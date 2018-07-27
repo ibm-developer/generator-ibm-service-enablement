@@ -8,6 +8,7 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
+// Initializes Watson Natural Language Understanding
 func InitializeServiceWatsonNaturalLanguageUnderstanding() (*naturalLanguageUnderstandingV1.NaturalLanguageUnderstandingV1, error) {
   url, ok := IBMCloudEnv.GetString("watson_natural_language_understanding_url")
   if !ok {
@@ -20,20 +21,19 @@ func InitializeServiceWatsonNaturalLanguageUnderstanding() (*naturalLanguageUnde
       Version: "2018-03-16",
       APIkey: apikey,
     })
-  } else {
-    username, ok := IBMCloudEnv.GetString("watson_natural_language_understanding_username")
-    if !ok {
-      return nil, errors.New("unable to find watson_natural_language_understanding_username or watson_natural_language_understanding_apikey")
-    }
-    password, ok := IBMCloudEnv.GetString("watson_natural_language_understanding_password")
-    if !ok {
-      return nil, errors.New("unable to find watson_natural_language_understanding_password")
-    }
-    return naturalLanguageUnderstandingV1.NewNaturalLanguageUnderstandingV1(watson.Credentials{
-      ServiceURL: url,
-      Version: "2018-03-16",
-      Username: username,
-      Password: password,
-    }) 
   }
+  username, ok := IBMCloudEnv.GetString("watson_natural_language_understanding_username")
+  if !ok {
+    return nil, errors.New("unable to find watson_natural_language_understanding_username or watson_natural_language_understanding_apikey")
+  }
+  password, ok := IBMCloudEnv.GetString("watson_natural_language_understanding_password")
+  if !ok {
+    return nil, errors.New("unable to find watson_natural_language_understanding_password")
+  }
+  return naturalLanguageUnderstandingV1.NewNaturalLanguageUnderstandingV1(watson.Credentials{
+    ServiceURL: url,
+    Version: "2018-03-16",
+    Username: username,
+    Password: password,
+  }) 
 }

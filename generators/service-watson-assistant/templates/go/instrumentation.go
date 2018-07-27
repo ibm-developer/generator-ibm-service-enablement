@@ -8,6 +8,7 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
+// Initializes Watson Assistant
 func InitializeServiceWatsonAssistant() (*assistantV1.AssistantV1, error) {
   url, ok := IBMCloudEnv.GetString("watson_assistant_url")
   if !ok {
@@ -20,20 +21,19 @@ func InitializeServiceWatsonAssistant() (*assistantV1.AssistantV1, error) {
       Version: "2018-02-16",
       APIkey: apikey,
     })
-  } else {
-    username, ok := IBMCloudEnv.GetString("watson_assistant_username")
-    if !ok {
-      return nil, errors.New("unable to find watson_assistant_username or watson_assistant_apikey")
-    }
-    password, ok := IBMCloudEnv.GetString("watson_assistant_password")
-    if !ok {
-      return nil, errors.New("unable to find watson_assistant_password")
-    }
-    return assistantV1.NewAssistantV1(watson.Credentials{
-      ServiceURL: url,
-      Version: "2018-02-16",
-      Username: username,
-      Password: password,
-    }) 
+  } 
+  username, ok := IBMCloudEnv.GetString("watson_assistant_username")
+  if !ok {
+    return nil, errors.New("unable to find watson_assistant_username or watson_assistant_apikey")
   }
+  password, ok := IBMCloudEnv.GetString("watson_assistant_password")
+  if !ok {
+    return nil, errors.New("unable to find watson_assistant_password")
+  }
+  return assistantV1.NewAssistantV1(watson.Credentials{
+    ServiceURL: url,
+    Version: "2018-02-16",
+    Username: username,
+    Password: password,
+  }) 
 }
