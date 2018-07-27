@@ -8,7 +8,8 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
-// Initializes Watson Tone Analyzer
+// InitializeServiceWatsonToneAnalyzer uses IBMCloudEnv to find credentials 
+// and initialize the Watson service
 func InitializeServiceWatsonToneAnalyzer() (*toneAnalyzerV3.ToneAnalyzerV3, error) {
   url, ok := IBMCloudEnv.GetString("watson_tone_analyzer_url")
   if !ok {

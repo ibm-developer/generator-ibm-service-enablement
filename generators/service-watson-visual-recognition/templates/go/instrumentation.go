@@ -8,7 +8,8 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
-// Initializes Watson Visual Recognition
+// InitializeServiceWatsonVisualRecognition uses IBMCloudEnv to find credentials 
+// and initialize the Watson service
 func InitializeServiceWatsonVisualRecognition() (*visualRecognitionV3.VisualRecognitionV3, error) {
   url, ok := IBMCloudEnv.GetString("watson_visual_recognition_url")
   if !ok {

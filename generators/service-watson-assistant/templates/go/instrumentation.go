@@ -8,7 +8,8 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
-// Initializes Watson Assistant
+// InitializeServiceWatsonAssistant uses IBMCloudEnv to find credentials 
+// and initialize the Watson service
 func InitializeServiceWatsonAssistant() (*assistantV1.AssistantV1, error) {
   url, ok := IBMCloudEnv.GetString("watson_assistant_url")
   if !ok {

@@ -8,7 +8,8 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
-// Initializes Watson Personality Insights
+// InitializeServiceWatsonPersonalityInsights uses IBMCloudEnv to find credentials 
+// and initialize the Watson service
 func InitializeServiceWatsonPersonalityInsights() (*personalityInsightsV3.PersonalityInsightsV3, error) {
   url, ok := IBMCloudEnv.GetString("watson_personality_insights_url")
   if !ok {

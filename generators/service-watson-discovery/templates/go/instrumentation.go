@@ -8,7 +8,8 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
-// Initializes Watson Discovery
+// InitializeServiceWatsonDiscovery uses IBMCloudEnv to find credentials 
+// and initialize the Watson service
 func InitializeServiceWatsonDiscovery() (*discoveryV1.DiscoveryV1, error) {
   url, ok := IBMCloudEnv.GetString("watson_discovery_url")
   if !ok {

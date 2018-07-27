@@ -8,7 +8,8 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
-// Initializes Watson Speech To Text
+// InitializeServiceWatsonSpeechToText uses IBMCloudEnv to find credentials 
+// and initialize the Watson service
 func InitializeServiceWatsonSpeechToText() (*speechToTextV1.SpeechToTextV1, error) {
   url, ok := IBMCloudEnv.GetString("watson_speech_to_text_url")
   if !ok {

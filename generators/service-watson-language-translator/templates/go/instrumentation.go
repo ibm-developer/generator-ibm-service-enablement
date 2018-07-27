@@ -8,7 +8,8 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
-// Initializes Watson Language Translator
+// InitializeServiceWatsonLanguageTranslator uses IBMCloudEnv to find credentials 
+// and initialize the Watson service
 func InitializeServiceWatsonLanguageTranslator() (*languageTranslatorV3.LanguageTranslatorV3, error) {
   url, ok := IBMCloudEnv.GetString("watson_language_translator_url")
   if !ok {

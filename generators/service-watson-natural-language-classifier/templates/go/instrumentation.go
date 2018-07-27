@@ -8,7 +8,8 @@ import (
   watson "github.com/watson-developer-cloud/golang-sdk"
 )
 
-// Initializes Watson Natural Language Classifier
+// InitializeServiceWatsonNaturalLanguageClassifier uses IBMCloudEnv to find credentials 
+// and initialize the Watson service
 func InitializeServiceWatsonNaturalLanguageClassifier() (*naturalLanguageClassifierV1.NaturalLanguageClassifierV1, error) {
   url, ok := IBMCloudEnv.GetString("watson_natural_language_classifier_url")
   if !ok {
