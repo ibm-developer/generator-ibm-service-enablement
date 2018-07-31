@@ -50,7 +50,7 @@ module.exports = class extends Generator {
 
 		this.fs.copy(
 			this.templatePath() + "/services-index.js",
-			this.destinationPath("./server/services/index.js")
+			this.destinationPath("./server/services/index.js") 
 		);
 
 		//initializing ourselves by composing with the service generators
