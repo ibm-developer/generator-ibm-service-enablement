@@ -41,19 +41,19 @@ module.exports = class extends Generator {
 	initializing() {
 		//do nothing by default
 	}
-	
+
 	/**
 	 * The configuration context for service generators. This phase will excuted the appropriate methods to add the mappings, implementation code, and deployment configurtation for each service.
-	 * There are few caveats to take note 
+	 * There are few caveats to take note
 	 *
 	 *	Only add service credentials to the pipeline.yml if service information (e.g. label, name, etc) exist for that that servive
-	 *	Only add mapping file and local-dev config file if the service is not autoscaling or the service does not an SDK available 
-	 *  
+	 *	Only add mapping file and local-dev config file if the service is not autoscaling or the service does not have an SDK
+	 *
 	 *
 	 * @param config
 	 * @returns {undefined}
 	 */
-	
+
 	configuring(config) {
 		this.hasBluemixProperty = this.context.bluemix.hasOwnProperty(this.scaffolderName);
 		this.hasTemplate = fs.existsSync(this.languageTemplatePath);
@@ -179,6 +179,7 @@ module.exports = class extends Generator {
 	}
 
 	_addMappings(config) {
+		if (this.context.language === "swift") return;
 		this.logger.info("Adding mappings");
 
 		let serviceCredentials = Array.isArray(this.context.bluemix[this.scaffolderName])
