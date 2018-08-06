@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.0"></a>
+# [2.5.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.4.5...v2.5.0) (2018-08-06)
+
+
+### Bug Fixes
+
+* added comments to instrumentaion files and formatted code ([c54c923](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/c54c923))
+* swiftserver mapping production for non-supported services ([720b899](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/720b899))
+
+
+### Features
+
+* add golang functionality ([b3c1886](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/b3c1886))
+
+
+
 <a name="2.4.5"></a>
 ## [2.4.5](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.4.4...v2.4.5) (2018-07-19)
 
