@@ -1,5 +1,0 @@
-{
-  "import":"github.com/watson-developer-cloud/golang-sdk/toneAnalyzerV3",
-  "variableName":"WatsonToneAnalyzer",
-  "type":"toneAnalyzerV3.ToneAnalyzerV3"
-}
