@@ -50,7 +50,7 @@ module.exports = function (app, serviceManager) {
 
 	// Configure passportjs with user serialization/deserialization. This is required
 	// for authenticated session persistence across HTTP requests. See passportjs docs
-	// for additional information http://passportjs.org/docs
+	// for additional information http://passportjs.org/docs.
 	passport.serializeUser(function (user, cb) {
 		cb(null, user);
 	});
