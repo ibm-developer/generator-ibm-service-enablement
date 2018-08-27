@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.1"></a>
+## [2.5.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.5.0...v2.5.1) (2018-08-16)
+
+
+### Bug Fixes
+
+* **visualRec:** fix typo ([54e79ad](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/54e79ad))
+
+
+
 <a name="2.5.0"></a>
 # [2.5.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.4.5...v2.5.0) (2018-08-06)
 
