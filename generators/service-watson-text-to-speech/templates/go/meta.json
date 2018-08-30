@@ -1,5 +1,0 @@
-{
-  "import":"github.com/watson-developer-cloud/golang-sdk/textToSpeechV1",
-  "variableName":"WatsonTextToSpeech",
-  "type":"textToSpeechV1.TextToSpeechV1"
-}
