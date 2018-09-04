@@ -25,15 +25,18 @@ describe('golang-gin', function () {
 				console.info("tmpDir", tmpDir);
 			});
 	});
-	
+
 	it('Can run successful generation and create files', () => {
 		yassert.file('server');
 		yassert.file('server/config');
 		yassert.file(SERVER_MAPPINGS_JSON);
 		yassert.file(SERVER_LOCALDEV_CONFIG_JSON);
 		yassert.file('services/services.go');
+		yassert.fileContent('services/services.go', 'github.com/watson-developer-cloud/golang-sdk/assistantV1')
+		yassert.fileContent('services/services.go', 'WatsonAssistant *assistantV1.AssistantV1')
+		yassert.fileContent('services/services.go', 'WatsonAssistant, err = InitializeServiceWatsonAssistant()')
 	});
-	
+
 	it('Can add Watson - Assistant instrumentation', () => {
 		testAll('watson-assistant', {
 			watson_assistant_url: optionsBluemix.conversation.url,
@@ -113,7 +116,7 @@ describe('golang-gin', function () {
 		});
 	});
 
-	
+
 	it('Can run generation with no services', (done) => {
 		for (let key in optionsBluemix) {
 			if (key !== 'name' && key !== 'backendPlatform' && key !== 'server') {

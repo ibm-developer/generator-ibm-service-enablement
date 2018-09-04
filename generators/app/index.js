@@ -2,7 +2,6 @@
 const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement");
 const Bundle = require("./../../package.json");
-
 let Generator = require('yeoman-generator');
 
 const OPTION_BLUEMIX = "bluemix";
@@ -46,7 +45,7 @@ module.exports = class extends Generator {
 		context[OPTION_STARTER] = this.options[OPTION_STARTER];
 		context.loggerLevel = logger.level;
 		context.language = context.bluemix.backendPlatform.toLowerCase();
-		
+
 		if(context.language === 'django'){
 			context.language = 'python';
 		}
@@ -76,7 +75,7 @@ module.exports = class extends Generator {
 				languageGeneratorPath = '../language-go'
 				break;
 		}
-	
+
 		logger.info("Composing with", languageGeneratorPath);
 		this.composeWith(require.resolve(languageGeneratorPath), {context: context});
 	}
