@@ -1,5 +1,5 @@
 {
 	"dependencies": {
-		"watson-developer-cloud": "^3.4.2"
+		"watson-developer-cloud": "^3.9.0"
 	}
 }

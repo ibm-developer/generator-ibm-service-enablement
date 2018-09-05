@@ -6,7 +6,7 @@ if IBMCloudEnv.getString('watson_conversation_apikey'):
     conversation = AssistantV1(
         url=IBMCloudEnv.getString('watson_conversation_url'),
         iam_api_key=IBMCloudEnv.getString('watson_conversation_apikey'),
-        version='2018-02-16',
+        version='2018-07-10',
         iam_url=iam_url)
 else:
     conversation = AssistantV1(
