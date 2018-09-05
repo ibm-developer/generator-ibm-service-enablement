@@ -3,7 +3,7 @@ from ibmdbpy import IdaDataBase
 from ibmdbpy import IdaDataFrame
 
 
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
 
    idadb=IdaDataBase(dsn=IBMCloudEnv.getString('dashdb_jdbcurl')
@@ -14,15 +14,15 @@ def getService(app):
    }
 
    return 'dashdb-json', content
-<% } else { %>
+{{else}}
 def getService(app):
-    
+
     idadb=IdaDataBase(dsn=IBMCloudEnv.getString('dashdb_jdbcurl'))
-        
+
     content = {
         'idadb': idadb,
         'idadf': IdaDataFrame
             }
-                
+
     return 'dashdb-json', content
-<% } %>
+{{/ifCond}}

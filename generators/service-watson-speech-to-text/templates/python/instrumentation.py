@@ -13,10 +13,10 @@ else:
         password=IBMCloudEnv.getString('watson_speech_to_text_password'),
         x_watson_learning_opt_out=True)
 
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
     return 'watson-speech-to-text', speech_to_text
-<% } else { %>
+{{else}}
 def getService():
     return 'watson-speech-to-text', speech_to_text
-<% } %>
+{{/ifCond}}

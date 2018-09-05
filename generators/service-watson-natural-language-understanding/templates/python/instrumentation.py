@@ -13,10 +13,10 @@ else:
         username=IBMCloudEnv.getString('watson_natural_language_understanding_username'),
         password=IBMCloudEnv.getString('watson_natural_language_understanding_password'),
         version='2018-03-16')
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
     return 'watson-natural-language-understanding', natural_language_understanding
-<% } else { %>
+{{else}}
 def getService():
     return 'watson-natural-language-understanding', natural_language_understanding
-<% } %>
+{{/ifCond}}
