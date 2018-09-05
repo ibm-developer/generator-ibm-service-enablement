@@ -12,11 +12,11 @@ else:
     conversation = AssistantV1(
         username=IBMCloudEnv.getString('watson_conversation_username'),
         password=IBMCloudEnv.getString('watson_conversation_password'),
-        version='2018-07-10')
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+        version='2018-02-16')
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
     return'watson-conversation', conversation
-<% } else { %>
+{{else}}
 def getService():
     return 'watson-conversation', conversation
-<% } %>
+{{/ifCond}}

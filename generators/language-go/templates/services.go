@@ -4,16 +4,16 @@ import (
   "github.com/ibm-developer/ibm-cloud-env-golang"
   log "github.com/sirupsen/logrus"
   // Service imports
-<%  service_imports.forEach(function(serviceimport) { -%>
-  "<%- serviceimport %>"
-<%   }); -%>
+{{#each service_imports}}
+  "{{{this}}}"
+{{/each}}
 )
 
 var (
   // Service variables
-<% service_variables.forEach(function(variable) { -%>
-  <%- variable %>
-<% }); -%>
+{{#each service_variables}}
+  {{{this}}}
+{{/each}}
 )
 
 func Init() {
@@ -21,10 +21,10 @@ func Init() {
 
   // Run service initializers
   var err error
-<% service_initializers.forEach(function(service) { -%>
-  <%- service %>
+{{#each service_initializers}}
+  {{{this}}}
   if err != nil {
   	log.Fatal(err)
   }
-<% }); -%>
+{{/each}}
 }

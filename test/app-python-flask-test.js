@@ -3,7 +3,6 @@ const path = require('path');
 const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const fs = require('fs');
-const ejs = require('ejs');
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
 //const mappings = Object.assign({}, require('./resources/mappings.json'));
 
@@ -311,11 +310,6 @@ function testServiceInstrumentation(serviceName) {
 	yassert.fileContent('server/services/__init__.py', expectedImport2);
 	yassert.fileContent('server/services/__init__.py', expectedImport3);
 	yassert.file('server/services/' + pythonServiceName + '.py');
-
-	const filePath = path.join(__dirname, "..", "generators", `service-${serviceName}`, "templates", "python", "instrumentation.py");
-	let expectedInstrumentation = fs.readFileSync(filePath, 'utf-8');
-	expectedInstrumentation = ejs.render(expectedInstrumentation, {bluemix: optionsBluemix});
-	yassert.fileContent('server/services/' + pythonServiceName + '.py', expectedInstrumentation);
 }
 
 function testReadMe(serviceName) {

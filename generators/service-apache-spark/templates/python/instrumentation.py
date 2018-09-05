@@ -4,10 +4,10 @@ from ibmcloudenv import IBMCloudEnv
 # Docs - https://www.ng.bluemix.net/docs/services/AnalyticsforApacheSpark
 
 
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
     return 'apache-spark', "n/a"
-<% } else { %>
+{{else}}
 def getService():
     return 'apache-spark', "n/a"
-<% } %>
+{{/ifCond}}

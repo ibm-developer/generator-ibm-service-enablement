@@ -12,10 +12,10 @@ else:
     natural_language_classifier = NaturalLanguageClassifierV1(
         username=IBMCloudEnv.getString('watson_natural_language_classifier_username'),
         password=IBMCloudEnv.getString('watson_natural_language_classifier_password'))
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
     return 'watson-natural-language-classifier', natural_language_classifier
-<% } else { %>
+{{else}}
 def getService():
     return 'watson-natural-language-classifier', natural_language_classifier
-<% } %>
+{{/ifCond}}

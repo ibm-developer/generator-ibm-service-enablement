@@ -14,10 +14,10 @@ else:
         password=IBMCloudEnv.getString('watson_discovery_password'),
         version='2018-03-05')
 
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
     return 'watson-discovery', discovery
-<% } else { %>
+{{else}}
 def getService():
     return 'watson-discovery', discovery
-<% } %>
+{{/ifCond}}

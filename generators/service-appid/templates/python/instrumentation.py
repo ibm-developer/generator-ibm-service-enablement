@@ -32,7 +32,7 @@ def base64_to_long(data):
 
 def intarr2long(arr):
     return int(''.join(["%02x" % byte for byte in arr]), 16)
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
     config = {}
     SERVER_URL = IBMCloudEnv.getString('appid_oauth_server_url')
@@ -55,7 +55,7 @@ def getService(app):
     config['tokenPath'] = TOKEN_PATH
     config['introspectPath'] = INTROSPECTION_URL
     return 'auth', config
-<% } else { %>
+{{else}}
 def getService():
     config = {}
     SERVER_URL = IBMCloudEnv.getString('appid_oauth_server_url')
@@ -63,12 +63,12 @@ def getService():
     TOKEN_PATH = SERVER_URL + "/token"
     INTROSPECTION_URL = SERVER_URL + "/introspect"
     AUTH_URL = SERVER_URL + "/authorization"
-    
+
     content = urlopen(PUBLIC_KEY_URL).read()
     publicKeyJson = content
     parsed = json.loads(publicKeyJson)
     pem = pemFromModExp(parsed['n'], parsed['e'])
-   
+
     config['publicKey'] = publicKeyJson
     config['pem'] = pem
     config['context'] = 'APPID_AUTH_CONTEXT'
@@ -78,4 +78,4 @@ def getService():
     config['tokenPath'] = TOKEN_PATH
     config['introspectPath'] = INTROSPECTION_URL
     return 'auth', config
-<% } %>
+{{/ifCond}}
