@@ -235,8 +235,6 @@ module.exports = class extends Generator {
 			this.destinationPath() + "/server/services/" + options.targetFileName,
 			this.context
 		);
-		console.log('options.targetFileName ' + options.targetFileName);
-		console.log('options.sourceFilePath ' + options.sourceFilePath)
 		this._writeHandlebarsFile(options.sourceFilePath, "server/services/" + options.targetFileName, {
 			backendPlatform: this.context.bluemix.backendPlatform.toLowerCase()
 		})
