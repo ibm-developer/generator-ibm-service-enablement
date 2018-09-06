@@ -123,7 +123,7 @@ describe('swift-kitura', function() {
 			testAll('service-push', 'push', optionsBluemix.push.serviceInfo.name, {
 				[optionsBluemix.push.serviceInfo.name]: {
 					appGuid: optionsBluemix.push.appGuid,
-					appSecret: optionsBluemix.push.appSecret,
+					apikey: optionsBluemix.push.apikey,
 					clientSecret: optionsBluemix.push.clientSecret,
 					url: optionsBluemix.push.url
 				}
@@ -257,7 +257,7 @@ describe('swift-kitura', function() {
 					testAll('service-push', 'push', optionsBluemix.push.serviceInfo.name, {
 						[optionsBluemix.push.serviceInfo.name]: {
 							appGuid: optionsBluemix.push.appGuid,
-							appSecret: optionsBluemix.push.appSecret,
+							apikey: optionsBluemix.push.apikey,
 							clientSecret: optionsBluemix.push.clientSecret,
 							url: ("http://imfpush." + region)
 						}
