@@ -124,7 +124,7 @@ function servicePush(optionsBluemix) {
 		bluemixName: 'push',
 		localDevConfig: {
 			push_appGuid: optionsBluemix.push.appGuid,
-			push_appSecret: optionsBluemix.push.appSecret,
+			push_apikey: optionsBluemix.push.apikey,
 			push_clientSecret: optionsBluemix.push.clientSecret
 		},
 		instrumentation: {

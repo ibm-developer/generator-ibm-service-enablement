@@ -178,7 +178,7 @@ module.exports = JSON.stringify({
 
 	"push": {
 		"appGuid": "push-app-guid",
-		"appSecret": "push-app-secret",
+		"apikey": "push-apikey",
 		"clientSecret": "push-client-secret",
 		"serviceInfo": {
 			"label": "push-label",

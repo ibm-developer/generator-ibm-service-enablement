@@ -10,7 +10,7 @@ This is where your local configuration is stored for Push-Notifications.
 ```
 {
   "push_appGuid": "{{appGuid}}",
-  "push_appSecret": "{{appSecret}}",
+  "push_apikey": "{{apikey}}",
   "push_clientSecret": "{{clientSecret}}",
   "push_url": "{{url}}"
 }
@@ -19,17 +19,17 @@ This is where your local configuration is stored for Push-Notifications.
 
 ## Usage
 
-There is no official python SDK for working with Push-Notifications. Instead, [there is a RESTful API library for working with the service](https://console-regional.stage1.ng.bluemix.net/apidocs/800-push-notifications?&language=shell_curl#introduction). We have provided a basic python class to simplify the process of using the API:
+There is no official python SDK for working with Push Notifications. Instead, [there is a RESTful API library for working with the service](https://console-regional.stage1.ng.bluemix.net/apidocs/800-push-notifications?&language=shell_curl#introduction). We have provided a basic python class to simplify the process of using the API:
 
 ```python
 class Push:
-	def __init__(self, url, appSecret, clientSecret):
+	def __init__(self, url, apikey, clientSecret):
 		self.url = url
-		self.appSecret = appSecret
+		self.apikey = apikey
 		self.clientSecret = clientSecret
 		self.headers = {
 			'accept': 'application/json',
-			'appSecret': appSecret,
+			'apikey': apikey,
 			'clientSecret': clientSecret,
 			'content-type': 'application/json',
 		}
@@ -88,4 +88,4 @@ response = push.post('/messages', {
 })
 ```
 
-(If you prefer, you can also extract `url`, `appSecret`, and `clientSecret` from the `push` object and manually write your own requests using the python `requests` package)
+(If you prefer, you can also extract `url`, `apikey`, and `clientSecret` from the `push` object and manually write your own requests using the python `requests` package)

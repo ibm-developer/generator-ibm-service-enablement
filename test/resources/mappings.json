@@ -945,12 +945,12 @@
 		"file:/server/localdev-config.json:$.push_appGuid"
 	  ]
 	},
-	"appSecret": {
+	"apikey": {
 	  "searchPatterns": [
-		"cloudfoundry:$['imfpush'][0].credentials.appSecret",
+		"cloudfoundry:$['imfpush'][0].credentials.apikey",
 		"env:service_push",
-		"env:push_appSecret",
-		"file:/server/localdev-config.json:$.push_appSecret"
+		"env:push_apikey",
+		"file:/server/localdev-config.json:$.push_apikey"
 	  ]
 	},
 	"clientSecret": {
