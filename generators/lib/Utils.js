@@ -15,7 +15,7 @@ function addServicesEnvToHelmChartAsync(args) {
 		let context = args.context;
 		let destinationPath = args.destinationPath;
 
-		logger.setLevel(context.loggerLevel);
+		logger.level = context.loggerLevel;
 
 		let hasServices = context.deploymentServicesEnv && context.deploymentServicesEnv.length > 0;
 		if (!hasServices) {

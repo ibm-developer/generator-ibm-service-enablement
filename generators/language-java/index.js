@@ -37,7 +37,7 @@ module.exports = class extends Generator {
 	constructor(args, opts) {
 		super(args, opts);
 		this.context = opts.context;
-		logger.setLevel(this.context.loggerLevel);
+		logger.level = this.context.loggerLevel;
 		logger.debug('Constructing');
 	}
 
