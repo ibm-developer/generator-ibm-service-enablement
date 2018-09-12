@@ -85,6 +85,14 @@ module.exports = function (app, serviceManager) {
 		res.json(req.user);
 	});
 
+	app.get('/', function (req, res) {
+		var indexData = fs.readFileSync("public/index.html",'utf8');
+		var appidData = fs.readFileSync("public/appid.html",'utf8');
+
+		var result = indexData.replace(/<!-- placeholder appid login -->/g, appidData);
+		res.send(result);
+	});
+
 	userProfileManager.init({
 		profilesUrl: IBMCloudEnv.getString('appid_profiles_url'),
 		oauthServerUrl: IBMCloudEnv.getString('appid_oauth_server_url')

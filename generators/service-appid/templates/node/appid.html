@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".hideOnStartup").hide();
+        $.getJSON("/protected", function (data) {
+            // Already authenticated
+            $("#WhenAuthenticated").show();
+            $("#WhenNotAuthenticated").hide();
+        }).fail(function () {
+            // Not authenticated yet
+            $("#WhenNotAuthenticated").show();
+            $("#WhenAuthenticated").hide();
+        });
+    });
+</script>
+<div class="appid-login">
+    <div id="WhenNotAuthenticated">
+        <div style="display:flex">
+            <a class="btn btn-primary" style="margin:auto" href="/ibm/bluemix/appid/login" role="button">Login</a>
+        </div>
+    </div>
+    <div id="WhenAuthenticated">
+        <div style="display:flex">
+            <a class="btn btn-primary" style="margin:auto" href="/ibm/bluemix/appid/logout" role="button">Logout</a>
+        </div>
+    </div>
+</div>

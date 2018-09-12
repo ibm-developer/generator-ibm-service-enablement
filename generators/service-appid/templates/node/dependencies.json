@@ -2,6 +2,7 @@
 	"dependencies": {
 		"ibmcloud-appid": "^4.0.0",
 		"passport": "^0.3.2",
-		"express-session": "^1.15.6"
+		"express-session": "^1.15.6",
+		"fs-extra": "^7.0.0"
 	}
 }

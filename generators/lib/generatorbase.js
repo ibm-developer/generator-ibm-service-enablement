@@ -48,6 +48,7 @@ module.exports = class extends Generator {
 	 *
 	 *	Only add service credentials to the pipeline.yml if service information (e.g. label, name, etc) exist for that that servive
 	 *	Only add mapping file and local-dev config file if the service is not autoscaling or the service does not have an SDK
+	 *  Only copy appid.html file if the service appid is included
 	 *
 	 *
 	 * @param config
@@ -57,6 +58,8 @@ module.exports = class extends Generator {
 	configuring(config) {
 		this.hasBluemixProperty = this.context.bluemix.hasOwnProperty(this.scaffolderName);
 		this.hasTemplate = fs.existsSync(this.languageTemplatePath);
+		this.logger.info("**** hasTemplate "+this.hasTemplate);
+		this.logger.info("**** hasBluemixProperty "+this.hasBluemixProperty);
 		if (this.hasBluemixProperty && !this.hasTemplate){
 			this.logger.info(`No available sdk available for ${this.scaffolderName} in ${this.context.language}; configuring credentials only`);
 			this._addMappings(config);
@@ -71,6 +74,9 @@ module.exports = class extends Generator {
 		if (serviceInfo && this.scaffolderName !== "autoscaling") {
 			this._addMappings(config);
 			this._addLocalDevConfig();
+		}
+		if (serviceInfo && this.scaffolderName === "appid") {
+			this._addHtml();
 		}
 		this._addReadMe();
 		this._addInstrumentation();
@@ -250,6 +256,15 @@ module.exports = class extends Generator {
 			targetFileName: `service-${this.serviceKey}` + this.context.languageFileExt,
 			servLabel: this.scaffolderName
 		});
+	}
+
+	_addHtml() {
+		this.logger.info("Adding appid login html");
+
+		this.fs.copy(
+			this.languageTemplatePath + "/appid.html",
+			this.destinationPath("./public/appid.html")
+		);
 	}
 
 	_addReadMe() {
