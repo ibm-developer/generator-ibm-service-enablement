@@ -87,11 +87,15 @@ module.exports = function (app, serviceManager) {
 	});
 
 	app.get('/', function (req, res) {
-		var indexData = fs.readFileSync("public/index.html",'utf8');
-		var appidData = fs.readFileSync("public/appid.html",'utf8');
-
-		var result = indexData.replace(/<!-- placeholder appid login -->/g, appidData);
-		res.send(result);
+		var indexData = fs.readFileSync("public/index.html", 'utf8');
+		try {
+			var appidData = fs.readFileSync("public/appid.html", 'utf8');
+			var result = indexData.replace(/<!-- placeholder appid login -->/g, appidData);
+			res.send(result);
+		}
+		catch (err) {
+			res.send(indexData.valueOf());
+		}
 	});
 
 	userProfileManager.init({
