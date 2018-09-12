@@ -4,6 +4,7 @@ const WebAppStrategy = require('ibmcloud-appid').WebAppStrategy;
 const userProfileManager = require("ibmcloud-appid").UserProfileManager;
 const session = require('express-session')
 const passport = require('passport');
+const fs = require('fs-extra');
 
 module.exports = function (app, serviceManager) {
 

@@ -58,8 +58,6 @@ module.exports = class extends Generator {
 	configuring(config) {
 		this.hasBluemixProperty = this.context.bluemix.hasOwnProperty(this.scaffolderName);
 		this.hasTemplate = fs.existsSync(this.languageTemplatePath);
-		this.logger.info("**** hasTemplate "+this.hasTemplate);
-		this.logger.info("**** hasBluemixProperty "+this.hasBluemixProperty);
 		if (this.hasBluemixProperty && !this.hasTemplate){
 			this.logger.info(`No available sdk available for ${this.scaffolderName} in ${this.context.language}; configuring credentials only`);
 			this._addMappings(config);
