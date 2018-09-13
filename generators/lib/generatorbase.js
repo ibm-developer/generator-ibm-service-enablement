@@ -29,7 +29,7 @@ module.exports = class extends Generator {
 		super(args, opts);
 		this.scaffolderName = scaffolderName;
 		this.serviceKey = customServiceKey || scaffolderName;
-		this.customCredKeys= customCredKeys || [];
+		this.customCredKeys = customCredKeys || [];
 		this.logger = log4js.getLogger("generator-ibm-service-enablement:" + scaffolderName);
 		this.context = opts.context;
 		this.cloudFoundryName = this.context.cloudLabel || cloudFoundryName;
@@ -58,12 +58,12 @@ module.exports = class extends Generator {
 	configuring(config) {
 		this.hasBluemixProperty = this.context.bluemix.hasOwnProperty(this.scaffolderName);
 		this.hasTemplate = fs.existsSync(this.languageTemplatePath);
-		if (this.hasBluemixProperty && !this.hasTemplate){
+		if (this.hasBluemixProperty && !this.hasTemplate) {
 			this.logger.info(`No available sdk available for ${this.scaffolderName} in ${this.context.language}; configuring credentials only`);
 			this._addMappings(config);
 			this._addLocalDevConfig();
 			return;
-		} else if(!this.hasBluemixProperty || !this.hasTemplate){
+		} else if (!this.hasBluemixProperty || !this.hasTemplate) {
 			this.logger.info(`Nothing to process for ${this.scaffolderName} in ${this.context.language}`);
 			return;
 		}
@@ -73,7 +73,8 @@ module.exports = class extends Generator {
 			this._addMappings(config);
 			this._addLocalDevConfig();
 		}
-		if (serviceInfo && this.scaffolderName === "appid") {
+		if (serviceInfo && this.scaffolderName === "appid"
+			&& this.context.language === "node") {
 			this._addHtml();
 		}
 		this._addReadMe();
@@ -96,16 +97,17 @@ module.exports = class extends Generator {
 		return name;
 	}
 
-	_sanitizeJSONString(dirtyJSONString){
+	_sanitizeJSONString(dirtyJSONString) {
 
 		const lastIndexOfComma = dirtyJSONString.lastIndexOf(',');
 
 		const prunedJSONString = dirtyJSONString.split("").filter((value, idx) => {
-			if(idx !== lastIndexOfComma){return value;}}).join("");
+			if (idx !== lastIndexOfComma) { return value; }
+		}).join("");
 
 		const invalidEndComma = '}';
 
-		return dirtyJSONString[lastIndexOfComma-1] === invalidEndComma && dirtyJSONString[dirtyJSONString.length-2] === invalidEndComma ? prunedJSONString : dirtyJSONString;
+		return dirtyJSONString[lastIndexOfComma - 1] === invalidEndComma && dirtyJSONString[dirtyJSONString.length - 2] === invalidEndComma ? prunedJSONString : dirtyJSONString;
 	}
 
 	_getServiceInfo() {
@@ -164,17 +166,17 @@ module.exports = class extends Generator {
 		}
 	}
 
-	_mapCredentialKeysToScaffolderKeys(credentialKeys, scaffolderKeys){
-		let map= {};
-		for(let i = 0;  i < credentialKeys.length; i++) {
+	_mapCredentialKeysToScaffolderKeys(credentialKeys, scaffolderKeys) {
+		let map = {};
+		for (let i = 0; i < credentialKeys.length; i++) {
 			let key = credentialKeys[i];
-			let scaffolderKey =	scaffolderKeys.find(value => {
+			let scaffolderKey = scaffolderKeys.find(value => {
 				let cleanScaffolderKey = camelCase(value).toLowerCase().replace(/ /g, '');
 				let cleanCredKey = camelCase(key).toLowerCase().replace(/ /g, '');
 				return cleanScaffolderKey.length >= cleanCredKey.length && cleanScaffolderKey.startsWith(cleanCredKey);
 			});
 
-			if(!map[key]){
+			if (!map[key]) {
 				map[key] = scaffolderKey;
 			}
 		}
@@ -191,13 +193,13 @@ module.exports = class extends Generator {
 		let scaffolderKeys = this._setCredentialMapping({}, serviceCredentials, this.serviceKey);
 		scaffolderKeys = Object.keys(scaffolderKeys).map(key => {
 			let scaffolderKey = key.split(`${this.serviceKey.replace(/-/g, '_')}_`);
-			if(Array.isArray(scaffolderKey) && scaffolderKey.length > 1){
+			if (Array.isArray(scaffolderKey) && scaffolderKey.length > 1) {
 				return scaffolderKey[1];
 			}
 		});
 
 		let version = config.mappingVersion ? config.mappingVersion : 1;
-		let credentialKeys = this.customCredKeys.length > 0 ? this.customCredKeys : scaffolderKeys.filter(key => { return key !== 'serviceInfo'});
+		let credentialKeys = this.customCredKeys.length > 0 ? this.customCredKeys : scaffolderKeys.filter(key => { return key !== 'serviceInfo' });
 		let credKeysToScaffolderKeysMap = {};
 
 		scaffolderKeys.sort();
@@ -222,7 +224,7 @@ module.exports = class extends Generator {
 			map: credKeysToScaffolderKeysMap,
 			cloudFoundryKey: this.cloudFoundryName,
 			generatorLocation: this.context.generatorLocation,
-			cloudFoundryIsArray : config.cloudFoundryIsArray,
+			cloudFoundryIsArray: config.cloudFoundryIsArray,
 			nestedJSON: config.nestedJSON
 		};
 
@@ -278,7 +280,7 @@ module.exports = class extends Generator {
 			keys = Object.keys(serviceCredentials);
 		for (let i = 0; i < keys.length; i++) {
 			key = keys[i];
-			if (typeof(serviceCredentials[key]) === 'object' && key !== 'serviceInfo') {
+			if (typeof (serviceCredentials[key]) === 'object' && key !== 'serviceInfo') {
 				templateContent = this._setCredentialMapping(templateContent, serviceCredentials[key], `${this.serviceKey}_${key}`);
 				continue;
 			}
