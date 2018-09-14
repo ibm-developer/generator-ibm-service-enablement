@@ -31,7 +31,7 @@ const assertLiberty = common.test('liberty');
 const assertSpring= common.test('spring');
 
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
-const PATH_MAPPINGS_FILE = "./src/main/resources/mappings.json";
+const PATH_MAPPINGS_FILE = './src/main/resources/mappings.json';
 const LOCALDEV_CONFIG_JSON = './src/main/resources/localdev-config.json';
 
 class Options {
@@ -44,7 +44,7 @@ class Options {
 
 	assertConfig(framework, buildType, service, filePath) {
 		if (filePath === undefined) {
-			filePath = path.join(__dirname, "..", "generators", service.location, "templates", 'java-' + framework, "config.json.template");
+			filePath = path.join(__dirname, '..', 'generators', service.location, 'templates', 'java-' + framework, 'config.json.template');
 		}
 		const template = Handlebars.compile(fs.readFileSync(filePath, 'utf-8'));
 		const expected = JSON.parse(template({bluemix: optionsBluemix}));
@@ -76,7 +76,7 @@ class Options {
 			};
 			expected.envEntries.push(entry);
 			it('should generate a local dev entry for ' + entry.name, function() {
-				assert.fileContent(LOCALDEV_CONFIG_JSON, '"' + entry.name + '"' + ': ' + '"' + entry.value + '"');
+				assert.fileContent(LOCALDEV_CONFIG_JSON,`"${entry.name}": "${entry.value}"`);
 			});
 		});
 	}
@@ -139,28 +139,14 @@ class Options {
 		});
 		it(desc + 'generate a org.eclipse.microprofile.config.spi.ConfigSource file with contents application.ibmcloud.MappingFileConfigSource', function () {
 			checkContent('src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource', 'application.ibmcloud.MappingFileConfigSource');
-		});	
+		});
 	}
 
 	assertspringenv() {
 		//currently no specific env var tests
 	}
 
-	assertspringsrc(exists) {
-		let check = exists ? assert.file : assert.noFile;
-		let desc = exists ? 'should ' : 'should not ';
-		it(desc + 'generate CloudServices.java file', function () {
-			check('src/main/java/application/ibmcloud/CloudServices.java');
-		});
-		it(desc + 'generate CloudServicesException.java file', function () {
-			check('src/main/java/application/ibmcloud/CloudServicesException.java');
-		});
-		it(desc + 'generate Mappings.java file', function () {
-			check('src/main/java/application/ibmcloud/Mappings.java');
-		});
-		it('should generate ServiceMappings.java file', function () {
-			check('src/main/java/application/ibmcloud/ServiceMappings.java');
-		});
+	assertspringsrc() {
 		it('should generate ' + LOCALDEV_CONFIG_JSON, function () {
 			assert.file(LOCALDEV_CONFIG_JSON);
 		});

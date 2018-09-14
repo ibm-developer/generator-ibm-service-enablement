@@ -1,5 +1,5 @@
 {
 	"dependencies": {
-		"cloudant": "^1.10.0"
+		"@cloudant/cloudant": "^1.10.0"
 	}
 }

@@ -15,10 +15,10 @@ config=Config(signature_version='oauth'),
 endpoint_url=service_endpoint)
 
 
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
     return 'cloud_object_storage', cloud_object_storage
-<% } else { %>
+{{else}}
 def getService():
     return 'cloud_object_storage', cloud_object_storage
-<% } %>
+{{/ifCond}}

@@ -2,7 +2,6 @@
 const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement");
 const Bundle = require("./../../package.json");
-
 let Generator = require('yeoman-generator');
 
 const OPTION_BLUEMIX = "bluemix";
@@ -16,7 +15,7 @@ module.exports = class extends Generator {
 	constructor(args, opts) {
 		super(args, opts);
 		if (opts.quiet) {
-			logger.setLevel(Log4js.levels.OFF)
+			logger.level = Log4js.levels.OFF;
 		} else {
 			logger.info("Package info ::", Bundle.name, Bundle.version);
 			this._setLoggerLevel();
@@ -46,7 +45,7 @@ module.exports = class extends Generator {
 		context[OPTION_STARTER] = this.options[OPTION_STARTER];
 		context.loggerLevel = logger.level;
 		context.language = context.bluemix.backendPlatform.toLowerCase();
-		
+
 		if(context.language === 'django'){
 			context.language = 'python';
 		}
@@ -76,7 +75,7 @@ module.exports = class extends Generator {
 				languageGeneratorPath = '../language-go'
 				break;
 		}
-	
+
 		logger.info("Composing with", languageGeneratorPath);
 		this.composeWith(require.resolve(languageGeneratorPath), {context: context});
 	}
@@ -98,10 +97,10 @@ module.exports = class extends Generator {
 		logger.info("Setting log level to", level);
 		/* istanbul ignore else */      //ignore for code coverage as the else block will set a known valid log level
 		if(Log4js.levels.hasOwnProperty(level)) {
-			logger.setLevel(Log4js.levels[level]);
+			logger.level = Log4js.levels[level];
 		} else {
 			logger.warn("Invalid log level specified (using default) : " + level);
-			logger.setLevel(DEFAULT_LOG_LEVEL.toUpperCase());
+			logger.level = DEFAULT_LOG_LEVEL.toUpperCase();
 		}
 	}
 

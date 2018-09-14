@@ -71,5 +71,5 @@ python -c 'import ssl; print(ssl.OPENSSL_VERSION)'
 If this command returns a version below `1.0.0`, Cloud Object Storage will throw an error because an insecure version of `SSL` is being used.
 
 There are a few solutions to this issue:
-* Use `bx dev build` and `bx dev run` to execute the code in a containerized image that uses an updated version of `SSL`.
+* Use `ibmcloud dev build` and `ibmcloud dev run` to execute the code in a containerized image that uses an updated version of `SSL`.
 * Update your own instance of `python` to use an upgraded version of `SSL`.

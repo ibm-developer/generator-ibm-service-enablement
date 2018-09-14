@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const GENERATE_HERE = "# GENERATE HERE";
 const scaffolderMapping = require('../resources/scaffolderMapping.json');
+const Handlebars = require('../lib/handlebars.js');
 const GENERATOR_LOCATION = 'server';
 const GENERATE_IMPORT_HERE = "# GENERATE IMPORT HERE";
 const PATH_MAPPINGS_FILE = "./server/config/mappings.json";
@@ -29,7 +30,7 @@ module.exports = class extends Generator {
 	constructor(args, opts) {
 		super(args, opts);
 		this.context = opts.context;
-		logger.setLevel(this.context.loggerLevel);
+		logger.level = this.context.loggerLevel;
 		logger.debug("Constructing");
 	}
 
@@ -234,6 +235,9 @@ module.exports = class extends Generator {
 			this.destinationPath() + "/server/services/" + options.targetFileName,
 			this.context
 		);
+		this._writeHandlebarsFile(options.sourceFilePath, "server/services/" + options.targetFileName, {
+			backendPlatform: this.context.bluemix.backendPlatform.toLowerCase()
+		})
 
 		let servicesInitFilePath = this.destinationPath("./server/services/" + SERVICES_INIT_FILE);
 		let indexFileContent = this.fs.read(servicesInitFilePath);
@@ -257,6 +261,13 @@ module.exports = class extends Generator {
 			this.fs.write(servicesInitFilePath, indexFileContent);
 		}
 
+	}
+
+	_writeHandlebarsFile(templateFile, destinationFile, data) {
+		let template = this.fs.read(this.templatePath(templateFile));
+		let compiledTemplate = Handlebars.compile(template);
+		let output = compiledTemplate(data);
+		this.fs.write(this.destinationPath(destinationFile), output);
 	}
 
 	_addReadMe(options) {

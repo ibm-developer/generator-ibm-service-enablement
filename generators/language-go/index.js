@@ -19,7 +19,7 @@ const logger = Log4js.getLogger("generator-ibm-service-enablement:language-go");
 const path = require('path');
 const Utils = require('../lib/Utils');
 const fs = require('fs');
-
+const Handlebars = require('../lib/handlebars.js');
 let Generator = require('yeoman-generator');
 const scaffolderMapping = require('../resources/scaffolderMapping.json');
 const GENERATOR_LOCATION = 'server';
@@ -34,7 +34,7 @@ module.exports = class extends Generator {
 	constructor(args, opts) {
 		super(args, opts);
 		this.context = opts.context;
-		logger.setLevel(this.context.loggerLevel);
+		logger.level = this.context.loggerLevel;
 		logger.debug("Constructing");
 	}
 
@@ -56,7 +56,7 @@ module.exports = class extends Generator {
 		let serviceCredentials,
 			scaffolderKey,
 			serviceKey;
-		
+
 		//initializing ourselves by composing with the service generators
 		let root = path.join(path.dirname(require.resolve('../app')), '../');
 		let folders = fs.readdirSync(root);
@@ -75,19 +75,19 @@ module.exports = class extends Generator {
 					logger.warn('Unable to compose with service', folder, err);
 				}
 			}
-		});	
+		});
 	}
 
-	writing() { 
+	writing() {
 		// Generate services.go, which acts like a service manager
 		if (this.context.addServices) {
 			// Add the ibm-cloud-env-golang dependency
 			this._addDependencies(this.fs.read(this.templatePath() + "/" + this.context.dependenciesFile));
-			this.fs.copyTpl(
-				this.templatePath() + "/services.go",
-				this.destinationPath("./services/services.go"),
-				this.context
-			);
+			this._writeHandlebarsFile('services.go', "services/services.go", {
+				service_imports: this.context.service_imports,
+				service_variables:this.context.service_variables,
+				service_initializers: this.context.service_initializers
+			});
 		}
 
 		// Append dependencies to the Gopkg.toml
@@ -123,7 +123,7 @@ module.exports = class extends Generator {
 		function pascalize(name) {
 			return name.split('-').map(part => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase()).join('');
 		}
-		
+
 		this.context.addServices = true;
 		let extension = path.extname(options.targetFileName);
 		let targetName = pascalize(path.basename(options.targetFileName, extension));
@@ -143,7 +143,7 @@ module.exports = class extends Generator {
 			this.context.service_imports.push(`${metaImport}`);
 		}
 		// The instrumentation file defines a function as an entry point for initialization
-		// The function will have a name of the form: 'InitializeMyService()'. 
+		// The function will have a name of the form: 'InitializeMyService()'.
 		// For example, if the targetFileName is 'service_watson_discovery.go'
 		// then the function will be 'InitializeServiceWatsonDiscovery()'
 		if (typeof metaData.variableName !== 'undefined' && typeof metaData.type !== 'undefined' && typeof targetName !== 'undefined') {
@@ -174,4 +174,12 @@ module.exports = class extends Generator {
 		return Utils.addServicesEnvToHelmChartAsync({context: this.context, destinationPath: this.destinationPath()})
 			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}));
 	}
+
+	_writeHandlebarsFile(templateFile, destinationFile, data) {
+		let template = this.fs.read(this.templatePath(templateFile));
+		let compiledTemplate = Handlebars.compile(template);
+		let output = compiledTemplate(data);
+		this.fs.write(this.destinationPath(destinationFile), output);
+	}
+
 };

@@ -34,7 +34,7 @@ module.exports = class extends Generator {
 		this.context = opts.context;
 		this.cloudFoundryName = this.context.cloudLabel || cloudFoundryName;
 		this.serviceName = customServiceKey ? `service-${customServiceKey}` : `service-${scaffolderName}`;
-		this.logger.setLevel(this.context.loggerLevel);
+		this.logger.level = this.context.loggerLevel;
 		this.languageTemplatePath = this.templatePath() + "/" + this.context.language;
 	}
 

@@ -11,10 +11,10 @@ else:
     language_translator = LanguageTranslatorV2(
         username=IBMCloudEnv.getString('watson_language_translator_username'),
         password=IBMCloudEnv.getString('watson_language_translator_password'))
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
     return 'watson-language-translator', language_translator
-<% } else { %>
+{{else}}
 def getService():
     return 'watson-language-translator', language_translator
-<% } %>
+{{/ifCond}}

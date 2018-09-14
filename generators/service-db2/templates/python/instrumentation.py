@@ -2,7 +2,7 @@ from ibmcloudenv import IBMCloudEnv
 from ibmdbpy import IdaDataBase
 from ibmdbpy import IdaDataFrame
 
-<% if (bluemix.backendPlatform.toLowerCase() === 'python') { %>
+{{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
 
    idadb=IdaDataBase(dsn=IBMCloudEnv.getDictionary('db2')['jdbcurl'])
@@ -13,15 +13,15 @@ def getService(app):
    }
 
    return 'db2-json', content
-<% } else { %>
+{{else}}}
 def getService():
-    
+
     idadb=IdaDataBase(dsn=IBMCloudEnv.getString('db2_jdbcurl'))
-        
+
     content = {
         'idadb': idadb,
         'idadf': IdaDataFrame
             }
-                
+
     return 'db2-json', content
-<% } %>
+{{/ifCond}}

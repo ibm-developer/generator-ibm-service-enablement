@@ -1,6 +1,7 @@
 {
 	"dependencies": {
-		"bluemix-appid": "^1.0.0",
-		"passport": "^0.3.2"
+		"ibmcloud-appid": "^4.0.0",
+		"passport": "^0.3.2",
+		"express-session": "^1.15.6"
 	}
 }
