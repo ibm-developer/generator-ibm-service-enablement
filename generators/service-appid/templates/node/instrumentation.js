@@ -43,7 +43,7 @@ module.exports = function (app, serviceManager) {
 		clientId: IBMCloudEnv.getString('appid_client_id'),
 		secret: IBMCloudEnv.getString('appid_secret'),
 		oauthServerUrl: IBMCloudEnv.getString('appid_oauth_server_url'),
-		redirectUri: serviceManager.get('auth-redirect-uri') || defaultRedirectUri
+		redirectUri: serviceManager.get('appid-redirect-uri') || defaultRedirectUri
 	});
 
 	passport.use(webStrategy);
