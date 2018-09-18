@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.5.1...v3.0.0) (2018-09-14)
+
+
+### Bug Fixes
+
+* appease linter ([a75afcb](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a75afcb))
+* appease linter ([d3be6f6](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/d3be6f6))
+* deleted the go test folder because it no longer exists in develop ([256de36](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/256de36))
+* got rid of ejs tags ([0ff0c76](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/0ff0c76))
+* got rid of ejs tags in generators/language-go ([d8c952d](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/d8c952d))
+* got rid of some print statements ([da0c502](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/da0c502))
+* update assistant binding for java ([a47bf63](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a47bf63))
+* update assistant binding for node ([4c8bc09](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/4c8bc09))
+* update assistant binding for python ([24c9376](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/24c9376))
+* Update java-spring to use ibm-cloud-spring-boot-service-bind ([3a0e06e](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/3a0e06e))
+* update mocha to v4 to fix vulneratility issues ([5566850](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/5566850))
+* use scoped cloudant package ([0db4a3b](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/0db4a3b))
+* Use v1.1.1 of ibm-cloud-spring-boot-service-bind ([fdf54b2](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/fdf54b2))
+
+
+### Features
+
+* update appid sdk to v4.0 ([df131b9](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/df131b9))
+
+
+### BREAKING CHANGES
+
+* update version of appid sdk for node
+
+
+
 <a name="2.5.1"></a>
 ## [2.5.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.5.0...v2.5.1) (2018-08-16)
 
