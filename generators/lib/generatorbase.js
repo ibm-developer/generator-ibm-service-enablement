@@ -45,12 +45,12 @@ module.exports = class extends Generator {
 	}
 
 	/**
-	 * The configuration context for service generators. This phase will excuted the appropriate methods to add the mappings, implementation code, and deployment configurtation for each service.
-	 * There are few caveats to take note
+	 * The configuration context for service generators. This phase will execute the appropriate methods to add the mappings, 
+	 * implementation code, and deployment configurtation for each service. There are few exceptions to note:
 	 *
-	 *	Only add service credentials to the pipeline.yml if service information (e.g. label, name, etc) exist for that that servive
+	 *	Only add service credentials to the pipeline.yml if service information (e.g. label, name, etc) exists for that that servive
 	 *	Only add mapping file and local-dev config file if the service is not autoscaling or the service does not have an SDK
-	 *  Only copy appid.html file if the service appid is included
+	 *  Only add appid code snippets for node apps when it's a web app
 	 *
 	 *
 	 * @param config
