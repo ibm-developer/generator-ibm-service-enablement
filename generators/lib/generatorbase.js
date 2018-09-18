@@ -36,7 +36,7 @@ module.exports = class extends Generator {
 		this.serviceName = customServiceKey ? `service-${customServiceKey}` : `service-${scaffolderName}`;
 		this.logger.level = this.context.loggerLevel;
 		this.languageTemplatePath = this.templatePath() + "/" + this.context.language;
-		this.applicationType = (this.context.spec && this.context.spec.applicationType) ? this.context.spec.applicationType : "BLANK";
+		this.applicationType = (this.context.starter && this.context.starter.applicationType) ? this.context.starter.applicationType : "BLANK";
 	}
 
 
