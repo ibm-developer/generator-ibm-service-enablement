@@ -6,7 +6,6 @@ let Generator = require('yeoman-generator');
 
 const OPTION_BLUEMIX = "bluemix";
 const OPTION_STARTER = "starter";
-const OPTION_SPEC = "spec";
 const DEFAULT_LOG_LEVEL = "info";
 
 const REGEX_LEADING_ALPHA = /^[^a-zA-Z]*/;
@@ -38,13 +37,11 @@ module.exports = class extends Generator {
 	intializing(){
 		this._sanitizeOption(this.options, OPTION_BLUEMIX);
 		this._sanitizeOption(this.options, OPTION_STARTER);
-		this._sanitizeOption(this.options, OPTION_SPEC);
 
 		let context = this.parentContext || {};
 		//add bluemix options from this.options to existing bluemix options on parent context
 		context[OPTION_BLUEMIX] = Object.assign(context[OPTION_BLUEMIX] || {}, this.options[OPTION_BLUEMIX]);
 		context[OPTION_STARTER] = this.options[OPTION_STARTER];
-		context[OPTION_SPEC] = this.options[OPTION_SPEC];
 		context.loggerLevel = logger.level;
 		context.language = context.bluemix.backendPlatform.toLowerCase();
 
