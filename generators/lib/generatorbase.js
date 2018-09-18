@@ -36,7 +36,9 @@ module.exports = class extends Generator {
 		this.serviceName = customServiceKey ? `service-${customServiceKey}` : `service-${scaffolderName}`;
 		this.logger.level = this.context.loggerLevel;
 		this.languageTemplatePath = this.templatePath() + "/" + this.context.language;
+		this.applicationType = (this.context.spec && this.context.spec.applicationType) ? this.context.spec.applicationType : "BLANK";
 	}
+
 
 	initializing() {
 		//do nothing by default
@@ -68,23 +70,38 @@ module.exports = class extends Generator {
 			return;
 		}
 		let serviceInfo = this._getServiceInfo();
-		this._addDependencies();
+		
 		if (serviceInfo && this.scaffolderName !== "autoscaling") {
 			this._addMappings(config);
 			this._addLocalDevConfig();
 		}
-		if (serviceInfo && this.scaffolderName === "appid"
-			&& this.context.language === "node") {
-			this._addHtml();
+
+		if (serviceInfo && this.scaffolderName === "appid" && this.context.language === "node") {
+			this._handleAppidForNode();
 		}
-		this._addReadMe();
-		this._addInstrumentation();
+		else {
+			this._addDependencies();
+			this._addReadMe();
+			this._addInstrumentation();
+		}
+
 
 		if (serviceInfo !== undefined) {
 			this._addServicesToKubeDeploy(serviceInfo);
 			this._addServicesToPipeline(serviceInfo);
 		}
 
+	}
+
+	_handleAppidForNode() {
+		// AppID instrumentation / readme / dependencies / html are only 
+		// intended for web apps, they do not apply to MS or blank projects
+		if (this.applicationType.toLowerCase() === "web") {
+			this._addDependencies();
+			this._addReadMe();
+			this._addHtml();
+			this._addInstrumentation();
+		}
 	}
 
 	writing() {
@@ -259,7 +276,7 @@ module.exports = class extends Generator {
 	}
 
 	_addHtml() {
-		this.logger.info("Adding appid login html");
+		this.logger.info("Adding AppID login html snippet to landing page");
 
 		this.fs.copy(
 			this.languageTemplatePath + "/appid.html",
