@@ -86,17 +86,19 @@ module.exports = function (app, serviceManager) {
 		res.json(req.user);
 	});
 
-	app.get('/', function (req, res) {
-		var indexData = fs.readFileSync("public/index.html", 'utf8');
-		try {
-			var appidData = fs.readFileSync("public/appid.html", 'utf8');
-			var result = indexData.replace(/<!-- placeholder appid login -->/g, appidData);
-			res.send(result);
-		}
-		catch (err) {
-			res.send(indexData.valueOf());
-		}
-	});
+	if (fs.existsSync("public/index.html")) {
+		app.get('/', function (req, res) {
+			var indexData = fs.readFileSync("public/index.html", 'utf8');
+			try {
+				var appidData = fs.readFileSync("public/appid.html", 'utf8');
+				var result = indexData.replace(/<!-- placeholder appid login -->/g, appidData);
+				res.send(result);
+			}
+			catch (err) { // if appid.html is not found, return the origin index.html
+				res.send(indexData.valueOf());
+			}
+		});
+	}
 
 	userProfileManager.init({
 		profilesUrl: IBMCloudEnv.getString('appid_profiles_url'),
