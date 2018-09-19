@@ -3,7 +3,7 @@
   "apache-spark": "apacheSpark",
   "appid": "appid",
   "autoscaling": "autoScaling",
-  "cloud-object-storage": "cloudobjectstorage",
+  "cloud-object-storage": "cloudObjectStorage",
   "postgre": "postgresql",
   "cloudant": "cloudant",
   "hypersecure-dbaas-mongodb": "hypersecuredb",
