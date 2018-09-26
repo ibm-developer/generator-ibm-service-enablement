@@ -4,6 +4,7 @@ const yassert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const fs = require('fs');
 const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
+const optionsStarter = {};
 
 const GENERATOR_PATH = '../generators/app/index.js';
 const PACKAGE_JSON = 'package.json';
@@ -15,11 +16,13 @@ describe('node-express', function () {
 
 	before(() => {
 		optionsBluemix.backendPlatform = "NODE";
+		optionsStarter.applicationType = "WEB";
 		return helpers
 			.run(path.join(__dirname, GENERATOR_PATH))
 			.inTmpDir()
 			.withOptions({
-				bluemix: JSON.stringify(optionsBluemix)
+				bluemix: JSON.stringify(optionsBluemix),
+				starter: JSON.stringify(optionsStarter)
 			})
 			.then((tmpDir) => {
 				console.info("tmpDir", tmpDir);
@@ -67,13 +70,13 @@ describe('node-express', function () {
 
 	it('Can add Cloud Object Storage instrumentation', () => {
 		testAll('cloud-object-storage', {
-			cloud_object_storage_apikey: optionsBluemix.cloudobjectstorage.apikey,
-			cloud_object_storage_endpoints: optionsBluemix.cloudobjectstorage.endpoints,
-			cloud_object_storage_iam_apikey_description: optionsBluemix.cloudobjectstorage.iam_apikey_description,
-			cloud_object_storage_iam_apikey_name: optionsBluemix.cloudobjectstorage.iam_apikey_name,
-			cloud_object_storage_iam_role_crn: optionsBluemix.cloudobjectstorage.iam_role_crn,
-			cloud_object_storage_iam_serviceid_crn: optionsBluemix.cloudobjectstorage.iam_serviceid_crn,
-			cloud_object_storage_resource_instance_id: optionsBluemix.cloudobjectstorage.resource_instance_id
+			cloud_object_storage_apikey: optionsBluemix.cloudObjectStorage.apikey,
+			cloud_object_storage_endpoints: optionsBluemix.cloudObjectStorage.endpoints,
+			cloud_object_storage_iam_apikey_description: optionsBluemix.cloudObjectStorage.iam_apikey_description,
+			cloud_object_storage_iam_apikey_name: optionsBluemix.cloudObjectStorage.iam_apikey_name,
+			cloud_object_storage_iam_role_crn: optionsBluemix.cloudObjectStorage.iam_role_crn,
+			cloud_object_storage_iam_serviceid_crn: optionsBluemix.cloudObjectStorage.iam_serviceid_crn,
+			cloud_object_storage_resource_instance_id: optionsBluemix.cloudObjectStorage.resource_instance_id
 		})
 	})
 
@@ -269,6 +272,54 @@ describe('node-express', function () {
 		});
 	});
 
+	it('Does not add AppID instrumentation when application type is a microservice', (done) => {
+
+		optionsStarter.applicationType = "MS";
+		helpers
+			.run(path.join(__dirname, GENERATOR_PATH))
+			.inTmpDir()
+			.withOptions({
+				bluemix: JSON.stringify(optionsBluemix),
+				starter: JSON.stringify(optionsStarter)
+			})
+			.then((tmpDir) => {
+				console.info(tmpDir);
+
+				testNonWebNode('appid', {
+					appid_tenantId: optionsBluemix.appid.tenantId,
+					appid_clientId: optionsBluemix.appid.clientId,
+					appid_secret: optionsBluemix.appid.secret,
+					appid_oauthServerUrl: optionsBluemix.appid.oauthServerUrl,
+					appid_profilesUrl: optionsBluemix.appid.profilesUrl
+				});
+
+				done();
+			});
+	});
+
+	it('Does not add AppID instrumentation when starter option is missing', (done) => {
+
+		helpers
+			.run(path.join(__dirname, GENERATOR_PATH))
+			.inTmpDir()
+			.withOptions({
+				bluemix: JSON.stringify(optionsBluemix),
+			})
+			.then((tmpDir) => {
+				console.info(tmpDir);
+
+				testNonWebNode('appid', {
+					appid_tenantId: optionsBluemix.appid.tenantId,
+					appid_clientId: optionsBluemix.appid.clientId,
+					appid_secret: optionsBluemix.appid.secret,
+					appid_oauthServerUrl: optionsBluemix.appid.oauthServerUrl,
+					appid_profilesUrl: optionsBluemix.appid.profilesUrl
+				});
+
+				done();
+			});
+	});
+
 
 	it('Can run generation with no services', (done) => {
 		for (let key in optionsBluemix) {
@@ -299,6 +350,22 @@ describe('node-express', function () {
 	})
 });
 
+// Node projects that are NOT Web projects do not have appid deps, 
+// readme or instrumentation, but do have localdev-config
+function testNonWebNode(serviceName, localDevConfigJson) {
+	testNoServiceDependencies();
+	testNoServiceInstrumentation(serviceName);
+	testNoReadMe(serviceName);
+
+	testLocalDevConfig(localDevConfigJson || {});
+}
+
+function testNoServiceInstrumentation(serviceName) {
+	const expectedRequire = `require('./service-${serviceName}')(app, serviceManager);`;
+	yassert.noFileContent('server/services/index.js', expectedRequire);
+	yassert.noFile(`server/services/service-${serviceName}.js`);	
+}
+
 function testAll(serviceName, localDevConfigJson) {
 	testServiceDependencies(serviceName);
 	testServiceInstrumentation(serviceName);
@@ -310,6 +377,10 @@ function testServiceDependencies(serviceName) {
 	const filePath = path.join(__dirname, "..", "generators", `service-${serviceName}`, "templates", "node", "dependencies.json");
 	const expectedDependencies = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 	yassert.jsonFileContent(PACKAGE_JSON, expectedDependencies);
+}
+
+function testNoServiceDependencies() {
+	yassert.noFileContent(PACKAGE_JSON, "appid");
 }
 
 function testServiceInstrumentation(serviceName) {
@@ -328,6 +399,10 @@ function testReadMe(serviceName) {
 	const filePath = path.join(__dirname, "..", "generators", `service-${serviceName}`, "templates", "node", "README.md");
 	const expectedReadme = fs.readFileSync(filePath, 'utf-8');
 	yassert.fileContent(`docs/services/service-${serviceName}.md`, expectedReadme);
+}
+
+function testNoReadMe(serviceName) {
+	yassert.noFile(`docs/services/service-${serviceName}.md`);
 }
 
 function testLocalDevConfig(json) {

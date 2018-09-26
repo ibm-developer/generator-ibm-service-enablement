@@ -29,25 +29,28 @@ module.exports = class extends Generator {
 		super(args, opts);
 		this.scaffolderName = scaffolderName;
 		this.serviceKey = customServiceKey || scaffolderName;
-		this.customCredKeys= customCredKeys || [];
+		this.customCredKeys = customCredKeys || [];
 		this.logger = log4js.getLogger("generator-ibm-service-enablement:" + scaffolderName);
 		this.context = opts.context;
 		this.cloudFoundryName = this.context.cloudLabel || cloudFoundryName;
 		this.serviceName = customServiceKey ? `service-${customServiceKey}` : `service-${scaffolderName}`;
 		this.logger.level = this.context.loggerLevel;
 		this.languageTemplatePath = this.templatePath() + "/" + this.context.language;
+		this.applicationType = (this.context.starter && this.context.starter.applicationType) ? this.context.starter.applicationType : "BLANK";
 	}
+
 
 	initializing() {
 		//do nothing by default
 	}
 
 	/**
-	 * The configuration context for service generators. This phase will excuted the appropriate methods to add the mappings, implementation code, and deployment configurtation for each service.
-	 * There are few caveats to take note
+	 * The configuration context for service generators. This phase will execute the appropriate methods to add the mappings, 
+	 * implementation code, and deployment configurtation for each service. There are few exceptions to note:
 	 *
-	 *	Only add service credentials to the pipeline.yml if service information (e.g. label, name, etc) exist for that that servive
+	 *	Only add service credentials to the pipeline.yml if service information (e.g. label, name, etc) exists for that that servive
 	 *	Only add mapping file and local-dev config file if the service is not autoscaling or the service does not have an SDK
+	 *  Only add appid code snippets for node apps when it's a web app
 	 *
 	 *
 	 * @param config
@@ -57,29 +60,48 @@ module.exports = class extends Generator {
 	configuring(config) {
 		this.hasBluemixProperty = this.context.bluemix.hasOwnProperty(this.scaffolderName);
 		this.hasTemplate = fs.existsSync(this.languageTemplatePath);
-		if (this.hasBluemixProperty && !this.hasTemplate){
+		if (this.hasBluemixProperty && !this.hasTemplate) {
 			this.logger.info(`No available sdk available for ${this.scaffolderName} in ${this.context.language}; configuring credentials only`);
 			this._addMappings(config);
 			this._addLocalDevConfig();
 			return;
-		} else if(!this.hasBluemixProperty || !this.hasTemplate){
+		} else if (!this.hasBluemixProperty || !this.hasTemplate) {
 			this.logger.info(`Nothing to process for ${this.scaffolderName} in ${this.context.language}`);
 			return;
 		}
 		let serviceInfo = this._getServiceInfo();
-		this._addDependencies();
+		
 		if (serviceInfo && this.scaffolderName !== "autoscaling") {
 			this._addMappings(config);
 			this._addLocalDevConfig();
 		}
-		this._addReadMe();
-		this._addInstrumentation();
+
+		if (serviceInfo && this.scaffolderName === "appid" && this.context.language === "node") {
+			this._handleAppidForNode();
+		}
+		else {
+			this._addDependencies();
+			this._addReadMe();
+			this._addInstrumentation();
+		}
+
 
 		if (serviceInfo !== undefined) {
 			this._addServicesToKubeDeploy(serviceInfo);
 			this._addServicesToPipeline(serviceInfo);
 		}
 
+	}
+
+	_handleAppidForNode() {
+		// AppID instrumentation / readme / dependencies / html are only 
+		// intended for web apps, they do not apply to MS or blank projects
+		if (this.applicationType.toLowerCase() === "web") {
+			this._addDependencies();
+			this._addReadMe();
+			this._addHtml();
+			this._addInstrumentation();
+		}
 	}
 
 	writing() {
@@ -92,16 +114,17 @@ module.exports = class extends Generator {
 		return name;
 	}
 
-	_sanitizeJSONString(dirtyJSONString){
+	_sanitizeJSONString(dirtyJSONString) {
 
 		const lastIndexOfComma = dirtyJSONString.lastIndexOf(',');
 
 		const prunedJSONString = dirtyJSONString.split("").filter((value, idx) => {
-			if(idx !== lastIndexOfComma){return value;}}).join("");
+			if (idx !== lastIndexOfComma) { return value; }
+		}).join("");
 
 		const invalidEndComma = '}';
 
-		return dirtyJSONString[lastIndexOfComma-1] === invalidEndComma && dirtyJSONString[dirtyJSONString.length-2] === invalidEndComma ? prunedJSONString : dirtyJSONString;
+		return dirtyJSONString[lastIndexOfComma - 1] === invalidEndComma && dirtyJSONString[dirtyJSONString.length - 2] === invalidEndComma ? prunedJSONString : dirtyJSONString;
 	}
 
 	_getServiceInfo() {
@@ -160,17 +183,17 @@ module.exports = class extends Generator {
 		}
 	}
 
-	_mapCredentialKeysToScaffolderKeys(credentialKeys, scaffolderKeys){
-		let map= {};
-		for(let i = 0;  i < credentialKeys.length; i++) {
+	_mapCredentialKeysToScaffolderKeys(credentialKeys, scaffolderKeys) {
+		let map = {};
+		for (let i = 0; i < credentialKeys.length; i++) {
 			let key = credentialKeys[i];
-			let scaffolderKey =	scaffolderKeys.find(value => {
+			let scaffolderKey = scaffolderKeys.find(value => {
 				let cleanScaffolderKey = camelCase(value).toLowerCase().replace(/ /g, '');
 				let cleanCredKey = camelCase(key).toLowerCase().replace(/ /g, '');
 				return cleanScaffolderKey.length >= cleanCredKey.length && cleanScaffolderKey.startsWith(cleanCredKey);
 			});
 
-			if(!map[key]){
+			if (!map[key]) {
 				map[key] = scaffolderKey;
 			}
 		}
@@ -187,13 +210,13 @@ module.exports = class extends Generator {
 		let scaffolderKeys = this._setCredentialMapping({}, serviceCredentials, this.serviceKey);
 		scaffolderKeys = Object.keys(scaffolderKeys).map(key => {
 			let scaffolderKey = key.split(`${this.serviceKey.replace(/-/g, '_')}_`);
-			if(Array.isArray(scaffolderKey) && scaffolderKey.length > 1){
+			if (Array.isArray(scaffolderKey) && scaffolderKey.length > 1) {
 				return scaffolderKey[1];
 			}
 		});
 
 		let version = config.mappingVersion ? config.mappingVersion : 1;
-		let credentialKeys = this.customCredKeys.length > 0 ? this.customCredKeys : scaffolderKeys.filter(key => { return key !== 'serviceInfo'});
+		let credentialKeys = this.customCredKeys.length > 0 ? this.customCredKeys : scaffolderKeys.filter(key => { return key !== 'serviceInfo' });
 		let credKeysToScaffolderKeysMap = {};
 
 		scaffolderKeys.sort();
@@ -218,7 +241,7 @@ module.exports = class extends Generator {
 			map: credKeysToScaffolderKeysMap,
 			cloudFoundryKey: this.cloudFoundryName,
 			generatorLocation: this.context.generatorLocation,
-			cloudFoundryIsArray : config.cloudFoundryIsArray,
+			cloudFoundryIsArray: config.cloudFoundryIsArray,
 			nestedJSON: config.nestedJSON
 		};
 
@@ -252,6 +275,15 @@ module.exports = class extends Generator {
 		});
 	}
 
+	_addHtml() {
+		this.logger.info("Adding AppID login html snippet to landing page");
+
+		this.fs.copy(
+			this.languageTemplatePath + "/appid.html",
+			this.destinationPath("./public/appid.html")
+		);
+	}
+
 	_addReadMe() {
 		this.logger.info("Adding Readme");
 		this.context.addReadMe({
@@ -265,7 +297,7 @@ module.exports = class extends Generator {
 			keys = Object.keys(serviceCredentials);
 		for (let i = 0; i < keys.length; i++) {
 			key = keys[i];
-			if (typeof(serviceCredentials[key]) === 'object' && key !== 'serviceInfo') {
+			if (typeof (serviceCredentials[key]) === 'object' && key !== 'serviceInfo') {
 				templateContent = this._setCredentialMapping(templateContent, serviceCredentials[key], `${this.serviceKey}_${key}`);
 				continue;
 			}

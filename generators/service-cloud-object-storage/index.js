@@ -1,7 +1,7 @@
 'use strict';
 
 const BaseGenerator = require('../lib/generatorbase');
-const SCAFFOLDER_PROJECT_PROPERTY_NAME = 'cloudobjectstorage';
+const SCAFFOLDER_PROJECT_PROPERTY_NAME = 'cloudObjectStorage';
 const CLOUD_FOUNDRY_SERVICE_NAME = 'cloud-object-storage';
 const CUSTOM_SERVICE_KEY = 'cloud-object-storage';
 
