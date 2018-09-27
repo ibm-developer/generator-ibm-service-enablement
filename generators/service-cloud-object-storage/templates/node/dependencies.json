@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "ibm-cos-sdk": "^0"
+    "ibm-cos-sdk": "^1"
   }
 }
