@@ -15,12 +15,8 @@ import com.ibm.cloud.objectstorage.oauth.BasicIBMOAuthCredentials;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 
-import application.ibmcloud.ServiceMappings;
-
 @Configuration
 public class CloudObjectStorage {
-	@Autowired
-	protected ServiceMappings mappings;
 
 	@Value("${cloud_object_storage_apikey:}")
 	protected String apiKey;
