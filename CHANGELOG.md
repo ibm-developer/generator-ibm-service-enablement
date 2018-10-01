@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.0.0...v3.0.1) (2018-09-26)
+
+
+### Bug Fixes
+
+* add condition for file existence ([8a006e2](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/8a006e2))
+* add condition for file existence ([86ee36d](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/86ee36d))
+* add unit tests for appid ([c1844fd](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/c1844fd))
+* add unit tests for appid ([da35ae3](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/da35ae3))
+* apply appid node instrumentation only to web apps ([56dc697](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/56dc697))
+* apply appid node instrumentation only to web apps ([238b866](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/238b866))
+* fixing cloudObjectStorage devexId ([9e82591](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/9e82591))
+* fixing cloudObjectStorage devexId ([fece581](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/fece581))
+* get apptype from starter option ([23349e3](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/23349e3))
+* get apptype from starter option ([2e27005](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/2e27005))
+* handle condition of missing landing page ([2b98faf](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/2b98faf))
+* handle condition of missing landing page ([4009429](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/4009429))
+* only copy appid html when lang is node ([59ea575](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/59ea575))
+* only copy appid html when lang is node ([459d359](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/459d359))
+* update comment ([570ee9f](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/570ee9f))
+* update comment ([e1beb0a](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/e1beb0a))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v2.5.1...v3.0.0) (2018-09-14)
 

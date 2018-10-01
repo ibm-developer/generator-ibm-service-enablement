@@ -11,16 +11,11 @@ import org.openstack4j.api.OSClient.OSClientV3;
 import org.openstack4j.openstack.OSFactory;
 import org.openstack4j.model.common.Identifier;
 
-import application.ibmcloud.CloudServicesException;
-import application.ibmcloud.ServiceMappings;
-
 @Configuration
 public class ObjectStorageConfig {
 
     //can use this directly or via @Value annotations as it also provides a property source
-    @Autowired
-    protected ServiceMappings mappings;
-
+    
     @Value("${object_storage_auth_url:}")
     protected String resourceAuthUrl;
 
@@ -38,10 +33,9 @@ public class ObjectStorageConfig {
 
     private static final String VERSION = "/v3";
 
-
     @Bean(destroyMethod = "")
     @Lazy
-    public OSClientV3 osClientV3(InjectionPoint ip) throws CloudServicesException {
+    public OSClientV3 osClientV3(InjectionPoint ip) {
         OSClientV3 os = OSFactory.builderV3()
                 .endpoint(resourceAuthUrl + VERSION)
                 .credentials(resourceUserId, resourcePassword)
