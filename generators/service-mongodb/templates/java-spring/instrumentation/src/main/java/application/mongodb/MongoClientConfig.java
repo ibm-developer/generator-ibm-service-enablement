@@ -1,7 +1,5 @@
 package application.mongodb;
 
-import application.ibmcloud.ServiceMappings;
-
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
@@ -24,9 +22,6 @@ import java.util.Base64;
 
 @Configuration
 public class MongoClientConfig {
-
-    @Autowired
-    protected ServiceMappings mappings;
 
     @Value("${mongodb_uri:}")
     protected String mongodbUri;

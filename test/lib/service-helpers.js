@@ -58,10 +58,7 @@ function serviceCloudObjectStorage(optionsBluemix) {
 				name: "src/main/java/application/cloudobjectstorage/CloudObjectStorage.java",
 				contents: "@ConfigProperty"
 			}],
-			java_spring: [{
-				name: "src/main/java/application/cloudobjectstorage/CloudObjectStorage.java",
-				contents: "@Autowired"
-			}]
+			java_spring: []
 		}
 	}
 }
@@ -82,7 +79,7 @@ function serviceObjectStorage(optionsBluemix) {
 		instrumentation: {
 			java_liberty: [{name : "src/main/java/application/objectstorage/ObjectStorage.java", contents : "@ConfigProperty"},
 				{name : "src/main/java/application/objectstorage/ObjectStorageCredentials.java"}],
-			java_spring: [{name : "src/main/java/application/objectstorage/ObjectStorageConfig.java", contents : "@Autowired"}]
+			java_spring: []
 		}
 	};
 }
