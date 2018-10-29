@@ -45,7 +45,7 @@ module.exports = class extends Generator {
 	}
 
 	/**
-	 * The configuration context for service generators. This phase will execute the appropriate methods to add the mappings, 
+	 * The configuration context for service generators. This phase will execute the appropriate methods to add the mappings,
 	 * implementation code, and deployment configurtation for each service. There are few exceptions to note:
 	 *
 	 *	Only add service credentials to the pipeline.yml if service information (e.g. label, name, etc) exists for that that servive
@@ -70,7 +70,7 @@ module.exports = class extends Generator {
 			return;
 		}
 		let serviceInfo = this._getServiceInfo();
-		
+
 		if (serviceInfo && this.scaffolderName !== "autoscaling") {
 			this._addMappings(config);
 			this._addLocalDevConfig();
@@ -94,7 +94,7 @@ module.exports = class extends Generator {
 	}
 
 	_handleAppidForNode() {
-		// AppID instrumentation / readme / dependencies / html are only 
+		// AppID instrumentation / readme / dependencies / html are only
 		// intended for web apps, they do not apply to MS or blank projects
 		if (this.applicationType.toLowerCase() === "web") {
 			this._addDependencies();
