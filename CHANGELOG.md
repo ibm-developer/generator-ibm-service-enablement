@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.4"></a>
+## [3.0.4](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.0.3...v3.0.4) (2018-11-01)
+
+
+### Bug Fixes
+
+* added the go stuff back in ([9b600d7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/9b600d7))
+* generate correct mappings.json for credentials ([a2fa71b](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a2fa71b))
+* update COS dependency for Node ([8da2ac0](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/8da2ac0))
+
+
+
 <a name="3.0.3"></a>
 ## [3.0.3](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.0.2...v3.0.3) (2018-10-01)
 
