@@ -20,7 +20,7 @@
                     "user-provided:{{../serviceName}}:{{access ../map this ../nestedJSON}}",
                     "cloudfoundry:{{../serviceKey}}",
                     "env:{{../serviceKey}}_credentials",
-                    "file:/{{generatorLocation}}/localdev-config.json:{{../serviceKey}}_credentials"
+                    "file:/{{../generatorLocation}}/localdev-config.json:{{../serviceKey}}_credentials"
                  ]
             }
         },

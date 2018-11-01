@@ -1,0 +1,5 @@
+{
+  "import":"github.com/watson-developer-cloud/golang-sdk/languageTranslatorV3",
+  "variableName":"WatsonLanguageTranslator",
+  "type":"languageTranslatorV3.LanguageTranslatorV3"
+}

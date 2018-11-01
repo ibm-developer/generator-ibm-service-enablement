@@ -3,22 +3,21 @@ node_js:
 - '8'
 before_install:
 - npm i -g makeshift && makeshift -r https://registry.npmjs.org
-- npm i -g markdown-to-html
-- wget https://github.com/github/hub/releases/download/v2.2.9/hub-linux-386-2.2.9.tgz
-- tar -xvzf hub-linux-386-2.2.9.tgz
-- wget https://kubernetes-helm.storage.googleapis.com/helm-v2.7.2-linux-amd64.tar.gz
-- tar -xvf helm-v2.7.2-linux-amd64.tar.gz
-- export PATH=${PATH}:$PWD/hub-linux-386-2.2.9/bin/:$PWD/linux-amd64
+- npm i -g standard-version
 before_script:
 - cd /tmp
-- git clone -b master https://github.com/ibm-developer/changelog-generator-slack-notification.git
-- npm install changelog-generator-slack-notification
+- wget https://github.com/github/hub/releases/download/v2.5.1/hub-linux-386-2.5.1.tgz
+- wget https://kubernetes-helm.storage.googleapis.com/helm-v2.7.2-linux-amd64.tar.gz
+- tar -xvzf hub-linux-386-2.5.1.tgz
+- tar -xvf helm-v2.7.2-linux-amd64.tar.gz
+- mv hub-linux-386-2.5.1 hub
+- export PATH=${PATH}:/tmp/hub/bin:$PWD/linux-amd64
+- git clone -b master https://github.com/ibm-developer/standard-npm-devops.git
 - cd -
-script: npm test && npm run coveralls && ./npm_version_upgrade.sh
+script: npm test && npm run coveralls && /tmp/standard-npm-devops/do_devops.sh
 branches:
   only:
-  - develop
   - master
-notifications:
-  slack:
-    secure: ErLHm7GjfMWykfbIvsiBB2uPH7gCmWPi10e47j5y0i6XlZDu9Dkiww8vnxNz2dpgiS97VXtupoQVg+EOSbps/UiimThF8v0qbBkh/A15FGw6+CL+rSgirixJhekHX66qKnPPSocboNbwzb4WN5PI/lk+R1oeRlG824cNiZyHWLDJEUaDRYetB/RHybctGkxgqN3rcxH+iyT7t6jVZSBLQ2V/os51RS2oXtxauwV3OCd5bFlCe6KozuMzxDKRo5S7rl7kpKofzWrGC7PRBan+ZvwYWM5gZdYQ24uUruyYu1SbtWghi3sFmUZaRBlm4MmMUD/JUC+/Bn8GmX591uJJi/RoMtXOkTaK1R+zs8VPofrplyICudPq3AQ8Iow+2RbmrzW3/0vnX4wk06DJDE3bYxF9CnZHTup1j9xvailwjdMbjcj9DUdcsRwTZUnFu6T1fFv25dAAeOfUnrJHzEg+jSgPmNL87kuANrYFSXWRqzOza/bIkQC3RXyM7hFDiGFl/F8y/KUYx2MVVFYtmFbGO4my71vZAxnc9KombOHjW/3Mh7fEdh2zFfrl/4bKMxl3itHnTq56mKb6UYKxwUydPBBw7B53o7KIoAOxHsrH+/KDeKsds+Hw12Ks4clc6HTLWmupTadL6arIRsqDgqGuXhuoDbIrP6swtpFm1dUNdTQ=
+  - develop
+env:
+  - DEV_BRANCH=develop PROD_BRANCH=master DEVOPS_SCRIPT_DIR="/tmp/standard-npm-devops"
