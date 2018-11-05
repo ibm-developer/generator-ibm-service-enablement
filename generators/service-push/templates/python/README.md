@@ -19,7 +19,7 @@ This is where your local configuration is stored for Push-Notifications.
 
 ## Usage
 
-There is no official python SDK for working with Push Notifications. Instead, [there is a RESTful API library for working with the service](https://console-regional.stage1.ng.bluemix.net/apidocs/800-push-notifications?&language=shell_curl#introduction). We have provided a basic python class to simplify the process of using the API:
+There is no official python SDK for working with Push Notifications. Instead, [there is a RESTful API library for working with the service](https://console.bluemix.net/apidocs/push-notifications). We have provided a basic python class to simplify the process of using the API:
 
 ```python
 class Push:
