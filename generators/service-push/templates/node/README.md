@@ -12,7 +12,7 @@ This is where your local configuration is stored for Push.
 ```
 {
   "push_appGuid": "XXXX",
-  "push_appSecret": "XXXX",
+  "push_apikey": "XXXX",
   "push_clientSecret": XXXX",
   "push_url": "http://imfpush.BLUEMIX_REGION/imfpush/v1/apps/APP_GUID"
 }
@@ -39,4 +39,4 @@ This is where your local configuration is stored for Push.
 
 ## Documentation
 
-Other related docuemtation can be found [here](https://www.npmjs.com/package/bluemix-push-notifications)
+Other related documentation can be found on the [ibm-push-notifications page on NPM](https://www.npmjs.com/package/ibm-push-notifications).

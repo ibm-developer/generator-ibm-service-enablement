@@ -2,13 +2,13 @@ from ibmcloudenv import IBMCloudEnv
 from requests import get, post, put, delete
 
 class Push:
-	def __init__(self, url, appSecret, clientSecret):
+	def __init__(self, url, apikey, clientSecret):
 		self.url = url
-		self.appSecret = appSecret
+		self.apikey = apikey
 		self.clientSecret = clientSecret
 		self.headers = {
 			'accept': 'application/json',
-			'appSecret': appSecret,
+			'apikey': apikey,
 			'clientSecret': clientSecret,
 			'content-type': 'application/json',
 		}
@@ -38,13 +38,13 @@ class Push:
 {{#ifCond backendPlatform '===' 'python'}}
 def getService(app):
 	url = IBMCloudEnv.getString('push_url')
-	appSecret = IBMCloudEnv.getString('push_app_secret')
+	apikey = IBMCloudEnv.getString('push_apikey')
 	clientSecret = IBMCloudEnv.getString('push_client_secret')
-	return 'push-notifications', Push(url, appSecret, clientSecret)
+	return 'push-notifications', Push(url, apikey, clientSecret)
 {{else}}
 def getService():
     url = IBMCloudEnv.getString('push_url')
-    appSecret = IBMCloudEnv.getString('push_app_secret')
+    apikey = IBMCloudEnv.getString('push_apikey')
     clientSecret = IBMCloudEnv.getString('push_client_secret')
-    return 'push-notifications', Push(url, appSecret, clientSecret)
+    return 'push-notifications', Push(url, apikey, clientSecret)
 {{/ifCond}}
