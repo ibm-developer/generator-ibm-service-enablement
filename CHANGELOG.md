@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.0.5...v3.1.0) (2018-11-07)
+
+
+### Bug Fixes
+
+* updating reference link for Push Notifications ([b0432c2](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/b0432c2))
+* updating reference link for Push Notifications ([b558b26](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/b558b26))
+
+
+### Features
+
+* update push notifications to use IAM credentials and new sdks ([ae21bff](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/ae21bff))
+* update push notifications to use IAM credentials and new sdks ([5532f9d](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/5532f9d))
+
+
+
 <a name="3.0.5"></a>
 ## [3.0.5](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.0.4...v3.0.5) (2018-11-01)
 
