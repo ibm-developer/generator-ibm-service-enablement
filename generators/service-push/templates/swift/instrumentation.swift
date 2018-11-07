@@ -7,9 +7,9 @@ func initializeServicePush(cloudEnv: CloudEnv) throws -> PushNotifications {
         throw InitializationError("Could not load credentials for Push Notifications.")
     }
     let pushNotifications = PushNotifications(
-        pushRegion: pushNotificationsCredentials.region,
+        pushApiKey: pushNotificationsCredentials.apiKey,
         pushAppGuid: pushNotificationsCredentials.appGuid,
-        pushAppSecret: pushNotificationsCredentials.appSecret
+        pushRegion: pushNotificationsCredentials.region
     )
     Log.info("Found and loaded credentials for Push Notifications.")
     return pushNotifications

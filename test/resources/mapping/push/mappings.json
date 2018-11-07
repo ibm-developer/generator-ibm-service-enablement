@@ -7,12 +7,12 @@
 			"file:/server/localdev-config.json:$.push_appGuid"
 		]
 	},
-	"push_app_secret":{
+	"push_apikey":{
 		"searchPatterns": [
-			"user-provided:imfpush:appSecret",
-			"cloudfoundry:$['imfpush'][0].credentials.appSecret",
-			"env:service_push:$.appSecret",
-			"file:/server/localdev-config.json:$.push_appSecret"
+			"user-provided:imfpush:apikey",
+			"cloudfoundry:$['imfpush'][0].credentials.apikey",
+			"env:service_push:$.apikey",
+			"file:/server/localdev-config.json:$.push_apikey"
 		]
 	},
 	"push_client_secret":{
