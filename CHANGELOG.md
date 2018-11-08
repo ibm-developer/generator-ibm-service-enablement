@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.1.0...v3.1.1) (2018-11-08)
+
+
+### Bug Fixes
+
+* upgrade the Watson SDK in Swift ([a01cc48](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a01cc48))
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.0.5...v3.1.0) (2018-11-07)
 
