@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.2"></a>
+## [3.1.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.1.1...v3.1.2) (2018-11-14)
+
+
+### Bug Fixes
+
+* indentation adjustment in python-alert notification ([a2191fb](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a2191fb))
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.1.0...v3.1.1) (2018-11-08)
 
