@@ -21,16 +21,17 @@ class Alert:
 	def deleteAlert(self, alertID):
 		res = requests.delete(self.url + '/' + str(alertID), auth=self.auth)
 		return res
-{{#ifCond backendPlatform '===' 'python'}}
-def getService(app):
-	url = IBMCloudEnv.getString('alert_notification_url')
-	user = IBMCloudEnv.getString('alert_notification_name')
-	password = IBMCloudEnv.getString('alert_notification_password')
-	return 'alert-notification', Alert(url, user, password)
-{{else}}
-def getService():
-    url = IBMCloudEnv.getString('alert_notification_url')
-	user = IBMCloudEnv.getString('alert_notification_name')
-	password = IBMCloudEnv.getString('alert_notification_password')
-    return 'alert-notification', Alert(url, user, password)
-{{/ifCond}}
+
+	{{#ifCond backendPlatform '===' 'python'}}
+	def getService(app):
+		url = IBMCloudEnv.getString('alert_notification_url')
+		user = IBMCloudEnv.getString('alert_notification_name')
+		password = IBMCloudEnv.getString('alert_notification_password')
+		return 'alert-notification', Alert(url, user, password)
+	{{else}}
+	def getService():
+		url = IBMCloudEnv.getString('alert_notification_url')
+		user = IBMCloudEnv.getString('alert_notification_name')
+		password = IBMCloudEnv.getString('alert_notification_password')
+		return 'alert-notification', Alert(url, user, password)
+	{{/ifCond}}
