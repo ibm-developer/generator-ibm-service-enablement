@@ -11,7 +11,7 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 [img-ibmcloud-powered]: https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg
-[url-cloud]: http://bluemix.net
+[url-cloud]: http://cloud.ibm.com
 [url-npm]: https://www.npmjs.com/package/generator-ibm-service-enablement
 [img-license]: https://img.shields.io/npm/l/generator-ibm-service-enablement.svg
 [img-version]: https://img.shields.io/npm/v/generator-ibm-service-enablement.svg
@@ -43,11 +43,26 @@ npm install -g generator-ibm-service-enablement
 
 ## Usage
 
+```bash
+yo ibm-cloud-enablement
+```
+
 Following command line arguments are supported
 
-* `--bluemix {stringified-json}` -  used by a microservice that orchestrates the creation of cloud enabled applications to supply project information from `pman`. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
+* `--bluemix {stringified-json}` -  used by a microservice that orchestrates the creation of cloud enabled applications to supply project information from `appman`. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
 
-## Development
+## Artifacts
+
+This generator creates service instrumentation code for the supported services when the service data is passed into the generator via the payloads described below.
+
+The artifacts include:
+
+* Configuration files: `mappings.json` and `localdev-config.json`
+* Instrumentation code, typically found in a `services` folder but specific to the conventions of the requested language
+* Dependencies information, added to the package manager file for the requested language
+* Documentation about how to use the requested service.
+
+## Development Environment
 
 Clone this repository and link it via npm
 
@@ -63,13 +78,13 @@ In a separate directory invoke the generator via
 yo ibm-service-enablement
 ```
 
-## Adding new services from public IBM Cloud
+## Adding new services
 
 To add a new services you will need to follow these steps.
 
-Create a new [Yeoman composed generator](http://yeoman.io/authoring/composability.html) by adding a service folder under `generators/` with the prefix `service-` then the service id of your new service. To illustrate, if service such as `AWS S3` wants to be added the folder would be called `service-s3`.
+Create a new [Yeoman composed subgenerator](http://yeoman.io/authoring/composability.html) by adding a service folder under `generators/` with the prefix `service-` then the service id of your new service. To illustrate, if service such as `AWS S3` wants to be added the folder would be called `service-aws-s3`.
 
-Under this service there is one folder named `templates` where you will store your templates per language. Currently, we support *java-liberty*, *java-spring*, *node*, *python*, and *swift*. If there is a language that we do not support, create a new github issue.
+Under this service there is one folder named `templates` where you will store your templates per language. Currently, we support *go*, *java-liberty*, *java-spring*, *node*, *python* (django and flask), and *swift*. If there is a language that we do not support, create a new github issue.
 
 Add an index.js file using the following structure:
 
@@ -109,25 +124,25 @@ module.exports = class extends BaseGenerator {
 so we can accomodate your service. If your service is provisioned using Cloud Foundry set the *CLOUD_FOUNDRY_SERVICE_NAME* using the service name
 from **VCAP_SERVICES** (e.g `cloudantNoSQLDB`).
 
-* The **CLOUD_FOUNDRY_SERVICE_NAME** is provided by **CLOUD FOUNDRY** via the **VCAP_SERVICES** when you 
-provision a service. 
+* The **CLOUD_FOUNDRY_SERVICE_NAME** is provided by **CLOUD FOUNDRY** via the **VCAP_SERVICES** when you
+provision a service.
 
-* The **CUSTOM_SERVICE_KEY** is the service key that can be used in place of the keys provided by `ibm-developer`. An example of these keys can be 
-found under `test/resources/mappings.json` Note 
+* The **CUSTOM_SERVICE_KEY** is the service key that can be used in place of the keys provided by `ibm-developer`. An example of these keys can be
+found under `test/resources/mappings.json` Note
 
-* The **CUSTOM_CRED_KEYS** is an array of credential keys for each service. If this is left empty, the service will use the credentials keys given by `ibm-developer`. 
+* The **CUSTOM_CRED_KEYS** is an array of credential keys for each service. If this is left empty, the service will use the credentials keys given by `ibm-developer`.
 These credentials keys can be found under test/resources/mappings.json
 
 ### Mappings
 
-The mappings.json file is what service-enablement uses to find the credentials for each service in the generated app. 
-There are three main locations by default: **cloudfoundry**, **env**, and **file**. 
+The mappings.json file is what service-enablement uses to find the credentials for each service in the generated app.
+There are three main locations by default: **cloudfoundry**, **env**, and **file**.
 This file will be autogenerated based on the **SCAFFOLDER_PROJECT_PROPERTY_NAME**, **CLOUD_FOUNDRY_SERVICE_NAME**, **CUSTOM_SERVICE_KEY**,**CUSTOM_CRED_KEYS** and **cloudFoundryisArray**.
 [Handlebars](http://handlebarsjs.com/) is the template engine used to generate the files.
 
 ### LocalDevConfig
 
-The localdev-config file is designed for running your services locally on your machine. If your application was not generated through the IBM Cloud User Experience you will have to provide 
+The localdev-config file is designed for running your services locally on your machine. If your application was not generated through the IBM Cloud User Experience you will have to provide
 the credentials for your service(s) manually. To do this you can add the services as options when running the generator. Here is an example.
 
 `yo ibm-service-enablement --bluemix file:./bluemixMock.json`
@@ -153,13 +168,14 @@ the credentials for your service(s) manually. To do this you can add the service
 
 ### Processing credentials
 
-The following table provides the dependency modules used to process the service properties for each service. Currently, the Java maven module is under development.
+The following table provides the dependency modules used to process the service properties for each service in their respective language.  If adding a new service, these libraries may need to be updated to ensure proper reading of the new credential sets. Currently, the Java maven module is under development.
 
 | Language |       Name       |                  Repository                  |
 |----------|------------------|----------------------------------------------|
+| Go    | ibm-cloud-env-golang | https://github.com/ibm-developer/ibm-cloud-env-golang     |
 | Node     | ibm-cloud-env    | https://www.npmjs.com/package/ibm-cloud-env  |
 | Python   | ibmcloudenv      |  https://pypi.python.org/pypi/ibmcloudenv    |
-| Swift    | CloudEnvironment | https://github.com/IBM-Swift/Swift-cfenv     |
+| Swift    | CloudEnvironment | https://github.com/IBM-Swift/CloudEnvironment     |
 
 
 ## Testing
@@ -212,17 +228,12 @@ To run integration tests
 }
 ```
 
-## Adding services from other sources
-
-* More on this in the future
-
 ## Publishing Changes
 
-In order to publish changes, you will need to fork the repository or ask to join the `ibm-developer` org and branch off the `master` branch.
+In order to publish changes, you will need to fork the repository or ask to join the `ibm-developer` org and branch off the `develop` branch.
 
-Make sure to follow the [conventional commit specification](https://conventionalcommits.org/) before contributing. To help you with commit a commit template is provide. Run `config.sh` to initialize the commit template to your `.git/config` or use [commitizen](https://www.npmjs.com/package/commitizen)
+Make sure to follow the [conventional commit specification](https://conventionalcommits.org/) on every commit before contributing.
 
 Once you are finished with your changes, run `npm test` to make sure all tests pass.
 
-Do a pull request against `master`, make sure the build passes. A team member will review and merge your pull request.
-Once merged to `master` an auto generated pull request will be created against master to update the changelog. Make sure that the CHANGELOG.md and the package.json is correct before merging the pull request. After the auto generated pull request has been merged to `master` the version will be bumped and published to npm.
+Do a pull request against `develop` and make sure the build passes. A team member will review and merge your pull request. Once merged to `develop`, open a new pull request from `develop` to `master`. This will tiger automation that syncs the two branches, updates the changelog, and increments the release according to the conventional commits. Make sure that the `CHANGELOG.md` and the `package.json` are correct before merging the pull request. After the pull request has been merged to `master` the version will be published to npm.
