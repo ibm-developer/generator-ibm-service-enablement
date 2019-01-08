@@ -1,2 +1,2 @@
-.package(url: "https://github.com/IBM-Swift/Swift-Kuery-PostgreSQL", from: "1.1.0"),
-.package(url: "https://github.com/IBM-Swift/Swift-Kuery-ORM", from: "0.1.0"),
+.package(url: "https://github.com/IBM-Swift/Swift-Kuery-PostgreSQL", from: "2.1.0"),
+.package(url: "https://github.com/IBM-Swift/Swift-Kuery-ORM", from: "0.4.0"),
