@@ -13,7 +13,7 @@ func initializeServicePostgre(cloudEnv: CloudEnv) throws {
     Log.info("Found and loaded credentials for PostgreSQL.")
 
     let connOptions: [ConnectionOptions] = [.userName(credentials.username), .password(credentials.password), .databaseName(credentials.database)]
-    let poolOptions = ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000)
+    let poolOptions = ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50)
     let pool = PostgreSQLConnection.createPool(host: credentials.host, port: Int32(credentials.port), options: connOptions, poolOptions: poolOptions)
     let database = Database(pool)
 
