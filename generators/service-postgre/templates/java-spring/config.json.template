@@ -1,0 +1,5 @@
+{
+  "dependencies" : [
+    {"groupId" : "org.postgresql", "artifactId" : "postgresql"}
+  ]
+}

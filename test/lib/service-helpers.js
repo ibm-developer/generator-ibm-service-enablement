@@ -160,6 +160,22 @@ function serviceRedis() {
 	}
 }
 
+function servicePostgre(optionsBluemix) {
+	return {
+		location: 'service-postgre',
+		bluemixName: 'postgresql',
+		localDevConfig: {
+			postgre_uri: optionsBluemix.postgresql.uri,
+			postgre_ca_certificate_base64: optionsBluemix.postgresql.ca_certificate_base64,
+			postgre_deployment_id: optionsBluemix.postgresql.deployment_id
+		},
+		instrumentation: {
+			java_liberty: [],
+			java_spring: []
+		}
+	}
+}
+
 function serviceTest(optionsBluemix) {
 	return {
 		location: 'service-test',
@@ -189,5 +205,6 @@ module.exports = {
 	servicePush: servicePush,
 	serviceAlertNotification: serviceAlertNotification,
 	serviceRedis: serviceRedis,
+	servicePostgre: servicePostgre,
 	serviceTest: serviceTest
 };
