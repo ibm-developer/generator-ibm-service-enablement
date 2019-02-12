@@ -1,11 +1,11 @@
 from ibmcloudenv import IBMCloudEnv
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 
-if IBMCloudEnv.getString('watson-natural-language-understanding_apikey'):
-    iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'staging' in IBMCloudEnv.getString('watson_natural-language-understanding_iam_serviceid_crn') else 'https://iam.bluemix.net/identity/token'
+if IBMCloudEnv.getString('watson_natural_language_understanding_apikey'):
+    iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'staging' in IBMCloudEnv.getString('watson_natural_language_understanding_iam_serviceid_crn') else 'https://iam.bluemix.net/identity/token'
     natural_language_understanding = NaturalLanguageUnderstandingV1(
         url=IBMCloudEnv.getString('watson_natural_language_understanding_url'),
-        iam_api_key=IBMCloudEnv.getString('watson-natural-language-understanding_apikey'),
+        iam_api_key=IBMCloudEnv.getString('watson_natural_language_understanding_apikey'),
         version='2018-03-16',
         iam_url=iam_url)
 else:
