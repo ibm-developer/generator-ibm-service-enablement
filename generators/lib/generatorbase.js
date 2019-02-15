@@ -21,6 +21,7 @@ const fs = require('fs');
 const camelCase = require('lodash/camelCase');
 const path = require('path');
 const Handlebars = require('handlebars');
+const Utils = require('../lib/Utils');
 
 const REGEX_HYPHEN = /-/g;
 
@@ -208,6 +209,7 @@ module.exports = class extends Generator {
 		let serviceCredentials = Array.isArray(this.context.bluemix[this.scaffolderName])
 			? this.context.bluemix[this.scaffolderName][0] : this.context.bluemix[this.scaffolderName];
 		let scaffolderKeys = this._setCredentialMapping({}, serviceCredentials, this.serviceKey);
+		console.log("scaffolderKeys: " + JSON.stringify(scaffolderKeys, null, 3))
 		scaffolderKeys = Object.keys(scaffolderKeys).map(key => {
 			let scaffolderKey = key.split(`${this.serviceKey.replace(/-/g, '_')}_`);
 			if (Array.isArray(scaffolderKey) && scaffolderKey.length > 1) {
@@ -221,6 +223,7 @@ module.exports = class extends Generator {
 
 		scaffolderKeys.sort();
 		credentialKeys.sort();
+		console.log("credential keys: " + credentialKeys)
 
 		credKeysToScaffolderKeysMap = this._mapCredentialKeysToScaffolderKeys(credentialKeys, scaffolderKeys);
 
@@ -233,11 +236,49 @@ module.exports = class extends Generator {
 		});
 
 		let template = Handlebars.compile(mapping);
+		let localServiceKey = this.serviceKey;
+		let serviceKeySeparator = '_' 
+		let localCredentialKeys = [];
+		let springMapping = null
+		if (this.context.language === "java-spring") {
+			springMapping = Utils.getSpringServiceInfo(this.serviceKey)
+			if (springMapping) {
+				if (Utils.SPRING_BOOT_SERVICE_NAME in springMapping) {
+					localServiceKey = springMapping[Utils.SPRING_BOOT_SERVICE_NAME]
+				}
+				if (Utils.SPRING_BOOT_SERVICE_KEY_SEPARATOR in springMapping) {
+					serviceKeySeparator = springMapping[Utils.SPRING_BOOT_SERVICE_KEY_SEPARATOR]
+				}
+				console.log("Spring service cred map found for " + this.serviceKey + springMapping ? JSON.stringify(springMapping, null, 3) : springMapping)
+			}
+		}
+
+		for (let i = 0; i < credentialKeys.length; i++) {
+			localCredentialKeys[i] = []
+			localCredentialKeys[i][0] = credentialKeys[i]
+			if (springMapping) {
+				let mappedKey = credentialKeys[i]
+				if (credentialKeys[i] in springMapping) {
+					localCredentialKeys[i][1] = springMapping[credentialKeys[i]]
+				}
+				else {
+					localCredentialKeys[i][1] = credentialKeys[i]
+				}
+				localCredentialKeys.push(mappedKey ? mappedKey : credentialKeys[i]);
+			}
+			else {
+				localCredentialKeys[i][1] = credentialKeys[i]
+			} 
+		}
+		console.log("localServiceKey: " + localServiceKey)
+		console.log("localCredentialKeys: " + localCredentialKeys)
 
 		let context = {
 			serviceName: serviceCredentials.serviceInfo.name,
 			serviceKey: this.serviceKey.replace(/-/g, '_'),
-			credentialKeys: credentialKeys,
+			localServiceKey: localServiceKey.replace(/-/g, '_'),
+			serviceKeySeparator: serviceKeySeparator,
+			credentialKeys: localCredentialKeys,
 			map: credKeysToScaffolderKeysMap,
 			cloudFoundryKey: this.cloudFoundryName,
 			generatorLocation: this.context.generatorLocation,
@@ -255,8 +296,6 @@ module.exports = class extends Generator {
 	_addLocalDevConfig() {
 		this.logger.info("Adding local dev config");
 		let templateContent;
-
-
 		let serviceCredentials = Array.isArray(this.context.bluemix[this.scaffolderName])
 			? this.context.bluemix[this.scaffolderName][0] : this.context.bluemix[this.scaffolderName];
 		templateContent = this._setCredentialMapping({}, serviceCredentials, this.serviceKey);
@@ -264,7 +303,6 @@ module.exports = class extends Generator {
 
 		this.context.addLocalDevConfig(templateContent);
 	}
-
 
 	_addInstrumentation() {
 		this.logger.info("Adding instrumentation");

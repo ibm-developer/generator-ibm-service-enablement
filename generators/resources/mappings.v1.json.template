@@ -1,23 +1,23 @@
 {
     "version": 1,
     {{#each credentialKeys}}
-    "{{../serviceKey}}_{{this}}" : {
+    "{{../localServiceKey}}{{../serviceKeySeparator}}{{this.[1]}}" : {
         "searchPatterns": [
-            "user-provided:{{../serviceName}}:{{access ../map this ../nestedJSON}}",
+            "user-provided:{{../serviceName}}:{{access ../map this.[0] ../nestedJSON}}",
             {{#if ../cloudFoundryIsArray}}
-            "cloudfoundry:$['{{../cloudFoundryKey}}'][0].credentials.{{access ../map this ../nestedJSON}}",
+            "cloudfoundry:$['{{../cloudFoundryKey}}'][0].credentials.{{access ../map this.[0] ../nestedJSON}}",
             {{else}}
-            "cloudfoundry:$['{{../cloudFoundryKey}}'].credentials.{{access ../map this ../nestedJSON}}",
+            "cloudfoundry:$['{{../cloudFoundryKey}}'].credentials.{{access ../map this.[0] ../nestedJSON}}",
             {{/if}}
-            "env:service_{{../serviceKey}}:$.{{access ../map this ../nestedJSON}}",
-            "env:{{../serviceKey}}_{{access ../map this ../nestedJSON}}",
-            "file:/{{../generatorLocation}}/localdev-config.json:$.{{../serviceKey}}_{{access ../map this false}}"
+            "env:service_{{../serviceKey}}:$.{{access ../map this.[0] ../nestedJSON}}",
+            "env:{{../serviceKey}}_{{access ../map this.[0] ../nestedJSON}}",
+            "file:/{{../generatorLocation}}/localdev-config.json:$.{{../serviceKey}}_{{access ../map this.[0] false}}"
         ]
     },
     "{{../serviceKey}}": {
             "credentials": {
                  "searchPatterns": [
-                    "user-provided:{{../serviceName}}:{{access ../map this ../nestedJSON}}",
+                    "user-provided:{{../serviceName}}:{{access ../map this.[0] ../nestedJSON}}",
                     "cloudfoundry:{{../serviceKey}}",
                     "env:{{../serviceKey}}_credentials",
                     "file:/{{../generatorLocation}}/localdev-config.json:{{../serviceKey}}_credentials"

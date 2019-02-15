@@ -8,7 +8,8 @@ const REGEX_PORT = /^(\s*)- name: PORT/;
 const REGEX_DEPLOY = /- name: Deploy Stage/;
 const REGEX_KUBE	= /kubernetes_cluster:/;
 const REGEX_BASH = /#!\/bin\/bash/;
-
+const SPRING_BOOT_SERVICE_NAME = "spring_boot_service_name"
+const SPRING_BOOT_SERVICE_KEY_SEPARATOR = "spring_boot_service_key_separator"
 
 function addServicesEnvToHelmChartAsync(args) {
 	return new Promise((resolve, reject) => {
@@ -214,8 +215,32 @@ function addServicesToPipelineYamlAsync(args) {
 	})
 }
 
+/**
+*  Some Spring dependencies need a specific service name and 
+*  cred key names... 'cause Spring is extra special :-)
+*/
+const SPRING_SERVICE_KEY_MAP = 
+{
+	"cloud-object-storage" : {
+		"spring_boot_service_name": "cos",
+		"spring_boot_service_key_separator": ".",
+		"apikey": "api-key",
+		"resource_instance_id": "service_instance_id"
+	}
+}
+
+function getSpringServiceInfo(regularServiceKey) {
+	let value = null
+	if (regularServiceKey in SPRING_SERVICE_KEY_MAP) {
+		value = SPRING_SERVICE_KEY_MAP[regularServiceKey];
+	}
+	return value
+}
 
 module.exports = {
+	getSpringServiceInfo: getSpringServiceInfo,
+	SPRING_BOOT_SERVICE_NAME: SPRING_BOOT_SERVICE_NAME,
+	SPRING_BOOT_SERVICE_KEY_SEPARATOR: SPRING_BOOT_SERVICE_KEY_SEPARATOR,
 	addServicesEnvToHelmChartAsync: addServicesEnvToHelmChartAsync,
 	addServicesToPipelineYamlAsync: addServicesToPipelineYamlAsync
 };
