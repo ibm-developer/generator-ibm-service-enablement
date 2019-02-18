@@ -211,7 +211,7 @@ describe('python-flask', function () {
 	it('Can add Watson - Visual Recognition instrumentation', () => {
 		testAll('watson-visual-recognition', {
 			watson_visual_recognition_url: optionsBluemix.visualRecognition.url,
-			watson_visual_recognition_api_key: optionsBluemix.visualRecognition.api_key
+			watson_visual_recognition_apikey: optionsBluemix.visualRecognition.apikey
 		});
 	});
 
