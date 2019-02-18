@@ -19,7 +19,7 @@ module.exports = class extends BaseGenerator {
 	configuring(){
 		return super.configuring(config);
 	}
-	
+
 	writing(){
 		return super.writing();
 	}
