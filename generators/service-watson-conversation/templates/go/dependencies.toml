@@ -1,0 +1,4 @@
+
+[[constraint]]
+  name = "github.com/watson-developer-cloud/go-sdk"
+  version = "0.5.0"

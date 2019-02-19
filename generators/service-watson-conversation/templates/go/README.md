@@ -4,7 +4,7 @@ The IBM Watson™ Assistant service combines machine learning, natural language 
 
 ## Documentation
 
- * API Reference: https://cloud.ibm.com/apidocs/assistant?code=java
+ * API Reference: https://cloud.ibm.com/apidocs/assistant?code=go
  * Getting Started: https://cloud.ibm.com/docs/services/assistant/getting-started.html
 
 ##  Local configuration

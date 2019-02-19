@@ -7,3 +7,4 @@ test/resources/bluemix.int.json
 .project
 .vscode
 *.DS_Store
+coverage
