@@ -1,0 +1,5 @@
+{
+  "dependencies" : [
+    {"groupId" : "com.ibm.watson.developer_cloud", "artifactId" : "natural-language-understanding", "version" : "6.14.0"}
+  ]
+}

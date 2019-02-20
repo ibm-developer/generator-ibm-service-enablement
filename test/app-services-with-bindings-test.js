@@ -107,8 +107,6 @@ function verifyHelmChart(chartLocation) {
 						// Uncomment to view locally rendered helm charts
 						// console.log(stdout);
 						// template command will render two charts: service and Deployment
-						console.log("STANDOUT ")
-						console.log(stdout)
 						let charts = yml.safeLoadAll(stdout);
 						assertYmlContent(charts[1].kind, 'Deployment', 'charts[1].kind');
 						testServiceKeys(charts[1].spec.template.spec.containers[0].env);

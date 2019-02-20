@@ -224,7 +224,7 @@ describe('node-express', function () {
 	it('Can add Watson - Visual Recognition instrumentation', () => {
 		testAll('watson-visual-recognition', {
 			watson_visual_recognition_url: optionsBluemix.visualRecognition.url,
-			watson_visual_recognition_api_key: optionsBluemix.visualRecognition.api_key
+			watson_visual_recognition_apikey: optionsBluemix.visualRecognition.apikey
 		});
 	});
 
@@ -350,7 +350,7 @@ describe('node-express', function () {
 	})
 });
 
-// Node projects that are NOT Web projects do not have appid deps, 
+// Node projects that are NOT Web projects do not have appid deps,
 // readme or instrumentation, but do have localdev-config
 function testNonWebNode(serviceName, localDevConfigJson) {
 	testNoServiceDependencies();
@@ -363,7 +363,7 @@ function testNonWebNode(serviceName, localDevConfigJson) {
 function testNoServiceInstrumentation(serviceName) {
 	const expectedRequire = `require('./service-${serviceName}')(app, serviceManager);`;
 	yassert.noFileContent('server/services/index.js', expectedRequire);
-	yassert.noFile(`server/services/service-${serviceName}.js`);	
+	yassert.noFile(`server/services/service-${serviceName}.js`);
 }
 
 function testAll(serviceName, localDevConfigJson) {

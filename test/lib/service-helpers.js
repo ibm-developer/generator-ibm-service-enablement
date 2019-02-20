@@ -99,15 +99,23 @@ function serviceMongodb(optionsBluemix) {
 	};
 }
 
-function serviceWatsonConversation(optionsBluemix) {
+function serviceWatson(serviceName, optionsBluemix) {
+	const bluemixName = serviceName.replace('service-watson-', '');
+	const camelCase = lodash.camelCase(bluemixName);
+	const snakeName = bluemixName.replace(/-/g,'_');
+	const localDevConfig = {};
+	localDevConfig[`watson_${snakeName}_url`] = optionsBluemix[camelCase].url;
+	if (bluemixName === 'visual-recognition') {
+		localDevConfig[`watson_${snakeName}_apikey`] = optionsBluemix[camelCase].apikey;
+	} else {
+		localDevConfig[`watson_${snakeName}_username`] = optionsBluemix[camelCase].username;
+		localDevConfig[`watson_${snakeName}_password`] = optionsBluemix[camelCase].password;
+	}
+
 	return {
-		location: 'service-watson-conversation',
-		bluemixName: 'conversation',
-		localDevConfig: {
-			watson_conversation_url: optionsBluemix.conversation.url,
-			watson_conversation_username: optionsBluemix.conversation.username,
-			watson_conversation_password: optionsBluemix.conversation.password
-		},
+		location: serviceName,
+		bluemixName: camelCase,
+		localDevConfig,
 		instrumentation: {
 			java_liberty: [],
 			java_spring: []
@@ -189,8 +197,9 @@ function serviceTest(optionsBluemix) {
 function fromDirName(name, optionsBluemix) {
 	if (lodash.camelCase(name) in module.exports) {
 		return module.exports[lodash.camelCase(name)](optionsBluemix);
-	}
-	else {
+	} else if (name.includes('watson')) {
+		return serviceWatson(name,optionsBluemix);
+	} else {
 		assert(false, "YOU MUST HAVE A TEST METHOD NAMED: " + lodash.camelCase(name));
 	}
 }
@@ -201,7 +210,6 @@ module.exports = {
 	serviceCloudObjectStorage: serviceCloudObjectStorage,
 	serviceObjectStorage: serviceObjectStorage,
 	serviceMongodb: serviceMongodb,
-	serviceWatsonConversation: serviceWatsonConversation,
 	servicePush: servicePush,
 	serviceAlertNotification: serviceAlertNotification,
 	serviceRedis: serviceRedis,
