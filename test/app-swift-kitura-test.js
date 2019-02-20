@@ -110,6 +110,15 @@ describe('swift-kitura', function() {
 			}, dependencies, modules, codeForServices);
 		});
 
+		it('Can add Assistant instrumentation', () => {
+			testAll('service-watson-assistant', 'watson_assistant', optionsBluemix.conversation.serviceInfo.name, {
+				[optionsBluemix.conversation.serviceInfo.name]: {
+					apikey: optionsBluemix.conversation.apikey,
+					url: optionsBluemix.conversation.url
+				}
+			}, dependencies, modules, codeForServices);
+		});
+
 		it('Can add Push Notifications instrumentation', () => {
 			testAll('service-push', 'push', optionsBluemix.push.serviceInfo.name, {
 				[optionsBluemix.push.serviceInfo.name]: {
@@ -307,7 +316,7 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 		"service-mongodb": "mongoDBService",
 		"service-postgre": "postgreSQLService",
 		"service-push": "pushNotificationService",
-		"service-watson-conversation": "watsonAssistantService",
+		"service-watson-assistant": "watsonAssistantService",
 		"service-hypersecure-dbaas-mongodb": "mongoDBService",
 		"service-elephant-sql": "elephantSQLService",
 	};
