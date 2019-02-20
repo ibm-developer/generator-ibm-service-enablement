@@ -1,23 +1,18 @@
 const IBMCloudEnv = require('ibm-cloud-env');
-const LanguageTranslatorV2 = require('watson-developer-cloud/language-translator/v2');
+const LanguageTranslatorV3 = require('watson-developer-cloud/language-translator/v3');
 
-module.exports = function(app, serviceManager){
-	let params = {
+module.exports = function(app, serviceManager) {
+	const serviceid_crn = IBMCloudEnv.getString('watson_language_translator_iam_serviceid_crn') || '';
+	const iam_url = serviceid_crn.indexOf('staging') > 0 ? 'https://iam.stage1.bluemix.net/identity/token' : 'https://iam.bluemix.net/identity/token';
+
+	const languageTranslatorV3 = new LanguageTranslatorV3({
+		iam_url,
+		iam_apikey: IBMCloudEnv.getString('watson_language_translator_apikey'),
+		username: IBMCloudEnv.getString('watson_language_translator_username'),
+		password: IBMCloudEnv.getString('watson_language_translator_password'),
 		url: IBMCloudEnv.getString('watson_language_translator_url'),
-	};
+		version: '2018-05-01',
+	});
 
-	if (IBMCloudEnv.getString('watson_language_translator_apikey')) {
-		Object.assign(params, {
-			iam_apikey: IBMCloudEnv.getString('watson_language_translator_apikey')
-		});
-	}
-	else {
-		Object.assign(params, {
-			username: IBMCloudEnv.getString('watson_language_translator_username'),
-			password: IBMCloudEnv.getString('watson_language_translator_password')
-		});
-	}
-
-	const languageTranslator = new LanguageTranslatorV2(params);
-	serviceManager.set("watson-language-translator", languageTranslator);
+	serviceManager.set('watson-language-translator', languageTranslatorV3);
 };

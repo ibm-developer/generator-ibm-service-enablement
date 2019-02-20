@@ -1,8 +1,8 @@
 'use strict';
 
 const BaseGenerator = require('../lib/generatorbase');
-const SCAFFOLDER_PROJECT_PROPERTY_NAME = "conversation";
-const CLOUD_FOUNDRY_SERVICE_NAME = "conversation";
+const SCAFFOLDER_PROJECT_PROPERTY_NAME = 'conversation';
+const CLOUD_FOUNDRY_SERVICE_NAME = 'conversation';
 const CUSTOM_SERVICE_KEY = 'watson-conversation';
 
 const config = {

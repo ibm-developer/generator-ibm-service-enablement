@@ -307,7 +307,7 @@ function testServiceInstrumentation(serviceName, servLookupKey, codeForServices)
 		"service-mongodb": "mongoDBService",
 		"service-postgre": "postgreSQLService",
 		"service-push": "pushNotificationService",
-		"service-watson-assistant": "watsonAssistantService",
+		"service-watson-conversation": "watsonAssistantService",
 		"service-hypersecure-dbaas-mongodb": "mongoDBService",
 		"service-elephant-sql": "elephantSQLService",
 	};

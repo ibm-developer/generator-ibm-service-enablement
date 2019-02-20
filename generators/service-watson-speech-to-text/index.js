@@ -13,15 +13,15 @@ module.exports = class extends BaseGenerator {
 		super(args, opts, SCAFFOLDER_PROJECT_PROPERTY_NAME, CLOUD_FOUNDRY_SERVICE_NAME, CUSTOM_SERVICE_KEY);
 	}
 
-	initializing(){
+	initializing() {
 		return super.initializing();
 	}
 
-	configuring(){
+	configuring() {
 		return super.configuring(config);
 	}
-	
-	writing(){
+
+	writing() {
 		return super.writing();
 	}
 };
