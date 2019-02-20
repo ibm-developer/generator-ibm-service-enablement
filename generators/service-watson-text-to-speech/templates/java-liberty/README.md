@@ -3,7 +3,7 @@
 
 ## Documentation
 
- * API Reference: https://cloud.ibm.com/apidocs/text-to-speech?code=swift
+ * API Reference: https://cloud.ibm.com/apidocs/text-to-speech?code=java
  * Getting Started: https://cloud.ibm.com/docs/services/text-to-speech/getting-started.html
 
 ##  Local configuration
