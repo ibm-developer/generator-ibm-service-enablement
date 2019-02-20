@@ -1,1 +1,0 @@
-.package(url: "https://github.com/watson-developer-cloud/swift-sdk.git", from: "1.2.0"),
