@@ -6,7 +6,7 @@ if IBMCloudEnv.getString('watson_natural_language_classifier_apikey'):
     iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'staging' in IBMCloudEnv.getString('watson_natural_language_classifier_iam_serviceid_crn') else 'https://iam.bluemix.net/identity/token'
     natural_language_classifier = NaturalLanguageClassifierV1(
         url=IBMCloudEnv.getString('watson_natural_language_classifier_url'),
-        iam_api_key=IBMCloudEnv.getString('watson_natural_language_classifier_apikey'),
+        iam_apikey=IBMCloudEnv.getString('watson_natural_language_classifier_apikey'),
         iam_url=iam_url)
 else:
     natural_language_classifier = NaturalLanguageClassifierV1(
