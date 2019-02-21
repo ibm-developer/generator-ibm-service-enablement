@@ -5,7 +5,7 @@ if IBMCloudEnv.getString('watson_tone_analyzer_apikey'):
     iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'staging' in IBMCloudEnv.getString('watson_tone_analyzer_iam_serviceid_crn') else 'https://iam.bluemix.net/identity/token'
     tone_analyzer = ToneAnalyzerV3(
         url=IBMCloudEnv.getString('watson_tone_analyzer_url'),
-        iam_api_key=IBMCloudEnv.getString('watson_tone_analyzer_apikey'),
+        iam_apikey=IBMCloudEnv.getString('watson_tone_analyzer_apikey'),
         version='2017-09-21',
         iam_url=iam_url)
 else:

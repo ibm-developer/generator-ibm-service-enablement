@@ -5,7 +5,7 @@ if IBMCloudEnv.getString('watson_personality_insights_apikey'):
     iam_url = 'https://iam.stage1.bluemix.net/identity/token' if 'staging' in IBMCloudEnv.getString('watson_personality_insights_iam_serviceid_crn') else 'https://iam.bluemix.net/identity/token'
     personality_insights = PersonalityInsightsV3(
         url=IBMCloudEnv.getString('watson_personality_insights_url'),
-        iam_api_key=IBMCloudEnv.getString('watson_personality_insights_apikey'),
+        iam_apikey=IBMCloudEnv.getString('watson_personality_insights_apikey'),
         version='2017-10-13',
         iam_url=iam_url)
 else:

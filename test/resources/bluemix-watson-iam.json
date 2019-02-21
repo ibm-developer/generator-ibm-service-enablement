@@ -1,0 +1,149 @@
+{
+  "name": "WatsonIAMServices",
+  "backendPlatform": "NODE",
+  "server": {
+    "diskQuota": "manifest-disk-quota",
+    "domain": "manifest-domain",
+    "env": {},
+    "host": "manifest-host",
+    "instances": 3,
+    "memory": "manifest-memory",
+    "name": "manifest-name",
+    "organization": "manifest-org",
+    "services": [
+      "my-service1-instance",
+      "my-service2-instance"
+    ],
+    "space": "manifest-space"
+  },
+  "conversation": {
+    "url": "https://gateway.watsonplatform.net/conversation/api",
+    "apikey": "conversation-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:conversation:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "conversation",
+      "label": "conversation-label",
+      "plan": "conversation-plan"
+    }
+  },
+  "discovery": {
+    "url": "https://gateway.watsonplatform.net/discovery/api",
+    "apikey": "discovery-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:discovery:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "discovery",
+      "label": "discovery-label",
+      "plan": "discovery-plan"
+    }
+  },
+  "languageTranslator": {
+    "url": "https://gateway.watsonplatform.net/language-translator/api",
+    "apikey": "language-translator-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:language-translator:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "language-translator",
+      "label": "language-translator-label",
+      "plan": "language-translator-plan"
+    }
+  },
+  "naturalLanguageClassifier": {
+    "url": "https://gateway.watsonplatform.net/natural-language-classifier/api",
+    "apikey": "natural-language-classifier-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:natural-language-classifier:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "natural-language-classifier",
+      "label": "natural-language-classifier-label",
+      "plan": "natural-language-classifier-plan"
+    }
+  },
+  "naturalLanguageUnderstanding": {
+    "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
+    "apikey": "natural-language-understanding-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:natural-language-understanding:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "natural-language-understanding",
+      "label": "natural-language-understanding-label",
+      "plan": "natural-language-understanding-plan"
+    }
+  },
+  "personalityInsights": {
+    "url": "https://gateway.watsonplatform.net/personality-insights/api",
+    "apikey": "personality-insights-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:personality-insights:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "personality-insights",
+      "label": "personality-insights-label",
+      "plan": "personality-insights-plan"
+    }
+  },
+  "speechToText": {
+    "url": "https://gateway.watsonplatform.net/speech-to-text/api",
+    "apikey": "speech-to-text-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:speech-to-text:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "speech-to-text",
+      "label": "speech-to-text-label",
+      "plan": "speech-to-text-plan"
+    }
+  },
+  "textToSpeech": {
+    "url": "https://gateway.watsonplatform.net/text-to-speech/api",
+    "apikey": "text-to-speech-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:text-to-speech:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "text-to-speech",
+      "label": "text-to-speech-label",
+      "plan": "text-to-speech-plan"
+    }
+  },
+  "toneAnalyzer": {
+    "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
+    "apikey": "tone-analyzer-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:tone-analyzer:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "tone-analyzer",
+      "label": "tone-analyzer-label",
+      "plan": "tone-analyzer-plan"
+    }
+  },
+  "visualRecognition": {
+    "url": "https://gateway.watsonplatform.net/visual-recognition/api",
+    "apikey": "visual-recognition-apikey",
+    "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:visual-recognition:us-east:a/0abf627bc63ab2e45c2b60838a7de045:76de39b3-dd84-4863-8061-4b2d666bfae6::",
+    "iam_apikey_name": "auto-generated-apikey-d09b44d0-d81a-4b3d-9b21-2a617a923013",
+    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/0abf627bc63ab2e45c2b60838a7de045::serviceid:ServiceId-5becd208-d9fe-4c24-b352-1060f7443dd4",
+    "serviceInfo": {
+      "name": "visual-recognition",
+      "label": "visual-recognition-label",
+      "plan": "visual-recognition-plan"
+    }
+  }
+}
