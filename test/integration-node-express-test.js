@@ -311,19 +311,17 @@ let _setUpApplication = function (cb) {
 				bluemix: JSON.stringify(optionsBluemix)
 			})
 			.then((tmpDir) => {
-				execRun('npm install', {cwd: tmpDir}, function (error, stdout, stderr) {
-					console.log(stderr)
+				execRun('npm install', {cwd: tmpDir}, function (error, stdout, stderr) { // eslint-disable-line
 					if (error) {
 						assert.isOk('Could not install dependencies ' + error);
 					} else {
-						console.log(stdout);
-						execRun('npm install --save express express-session axios body-parser', {cmd: tmpDir}, function (error, stdout) {
+						// uncomment to see the standard output
+						//console.log(stdout);
+						execRun('npm install --save express express-session axios body-parser', {cmd: tmpDir}, function (error) {
 							if (error) {
 								assert.isOk('Could not install express, body-parser, axios and express-session', error);
 								cb();
 							} else {
-								console.info("tmpDir", tmpDir);
-								console.info("install " + stdout);
 								server = fork(tmpDir + '/server/server.js');
 								server.on('message', function (msg) {
 									if (msg === 'listening') {

@@ -12,8 +12,8 @@
 	  "searchPatterns": [
 		"cloudfoundry:$['cloud-object-storage'][0].credentials.username",
 		"env:service_cloud-object-storage",
-		"env:watson_cloud-object-storage_username",
-		"file:/server/localdev-config.json:$.watson_cloud-object-storage_username"
+		"env:cloud-object-storage_username",
+		"file:/server/localdev-config.json:$.cloud-object-storage_username"
 	  ]
 	},
 	"password": {

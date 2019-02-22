@@ -227,7 +227,7 @@ module.exports = class extends Generator {
 
 			// Verify there was a match... otherwise continue
 			if (!currentPrefix || !bluemixKey) {
-				logger.error("Could not find a mapping for: " + credentialItem);
+				logger.warn("Could not find a mapping for: " + credentialItem);
 				continue;
 			}
 
