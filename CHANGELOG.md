@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [3.3.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.2.1...v3.3.0) (2019-02-22)
+
+
+### Bug Fixes
+
+* Add postgres for Spring ([6e5fe37](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/6e5fe37))
+* Add Watson Assistant instrumentation ([22b4cc7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/22b4cc7))
+* fixed instrumentation code for watson nlp and text to speech ([c00b760](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/c00b760))
+* remove execution from assistant file ([8c3c26c](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/8c3c26c))
+* Remove swift files from Conversation ([25b5fdd](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/25b5fdd))
+* update kitura test with assistant support ([f25c6bb](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/f25c6bb))
+* Update permission in index.js file ([433d406](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/433d406))
+* update README links for TTS ([1889812](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/1889812))
+* Update Visual Recognition templates ([e4c1a11](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/e4c1a11))
+* Update Watson node sdk version ([3e21a02](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/3e21a02))
+
+
+### Features
+
+* GO and Swift support for conversation ([0e77874](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/0e77874))
+* Update Java templates ([00560e9](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/00560e9))
+* Update python templates ([ec1e9fe](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/ec1e9fe))
+* Update watson node template and tests ([5ed9143](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/5ed9143))
+
+
+
 <a name="3.2.1"></a>
 ## [3.2.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.2.0...v3.2.1) (2019-01-18)
 
