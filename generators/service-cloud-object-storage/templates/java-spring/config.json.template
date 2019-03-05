@@ -1,7 +1,7 @@
 {
   "dependencies": [{
     "groupId": "com.ibm.cos",
-    "artifactId": "ibm-cos-java-sdk",
-    "version": "2.1.2"
+    "artifactId": "cos-spring-boot-starter",
+    "version": "1.0.0"
   }]
 }
