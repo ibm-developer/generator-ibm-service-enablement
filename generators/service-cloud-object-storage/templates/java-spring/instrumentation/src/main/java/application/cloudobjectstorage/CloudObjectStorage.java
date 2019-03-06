@@ -1,46 +1,46 @@
 package application.cloudobjectstorage;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-
-import com.ibm.cloud.objectstorage.ClientConfiguration;
-import com.ibm.cloud.objectstorage.SDKGlobalConfiguration;
-import com.ibm.cloud.objectstorage.auth.AWSCredentials;
 import com.ibm.cloud.objectstorage.auth.AWSStaticCredentialsProvider;
 import com.ibm.cloud.objectstorage.client.builder.AwsClientBuilder.EndpointConfiguration;
 import com.ibm.cloud.objectstorage.oauth.BasicIBMOAuthCredentials;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Configuration
+@RestController
 public class CloudObjectStorage {
 
-	@Value("${cloud_object_storage_apikey:}")
-	protected String apiKey;
+	private String endpoint = "https://s3.us-south.cloud-object-storage.appdomain.cloud";
 
-	@Value("${cloud_object_storage_resource_instance_id:}")
-	protected String serviceInstanceId;
+	@Value("${cos.api-key}")
+	private String apiKey;
 
-	protected String endpointUrl = "https://s3-api.us-geo.objectstorage.softlayer.net";
+	@Autowired
+	private AmazonS3 client;
 
-	protected String location = "us";
+	@RequestMapping("v1/cos")
+	public @ResponseBody
+	ResponseEntity<String> example() {
 
-	@Bean(destroyMethod = "")
-	@Lazy
-	public AmazonS3 amazonS3() {
-		SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.bluemix.net/oidc/token";
+		boolean exists = client.doesBucketExist("ip-whitelisting");
+		String response = "Your Cloud Object Storage is working. \nThe bucket ip-whitelisting " + (exists ? "was" : "was not") + " found";
 
-		AWSCredentials credentials = new BasicIBMOAuthCredentials(apiKey, serviceInstanceId);
-		ClientConfiguration clientConfig = new ClientConfiguration().withRequestTimeout(5000);
-		clientConfig.setUseTcpKeepAlive(true);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
 
-		AmazonS3 cos = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
-				.withEndpointConfiguration(new EndpointConfiguration(endpointUrl, location))
-				.withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
-
-		return cos;
+	@Bean
+	public AmazonS3ClientBuilder builder() {
+		return AmazonS3ClientBuilder.standard()
+				.withEndpointConfiguration(
+						new EndpointConfiguration(endpoint.toString(), null))
+				.withCredentials(new AWSStaticCredentialsProvider(new BasicIBMOAuthCredentials(apiKey, null)))
+        .withPathStyleAccessEnabled(true);
 	}
 }
