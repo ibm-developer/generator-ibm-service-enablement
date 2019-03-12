@@ -28,10 +28,8 @@ public class CloudObjectStorage {
 	@RequestMapping("v1/cos")
 	public @ResponseBody
 	ResponseEntity<String> example() {
-
 		boolean exists = client.doesBucketExist("ip-whitelisting");
-		String response = "Your Cloud Object Storage is working. \nThe bucket ip-whitelisting " + (exists ? "was" : "was not") + " found";
-
+		String response = "\nYour Cloud Object Storage is working. \n\nThe bucket ip-whitelisting " + (exists ? "was" : "was not") + " found";
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 
