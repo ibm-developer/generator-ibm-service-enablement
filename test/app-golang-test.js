@@ -34,14 +34,14 @@ describe('golang-gin', function () {
 		yassert.file('services/services.go');
 	});
 
-	/*it('Can add Watson - Assistant instrumentation', () => {
+	it('Can add Watson - Assistant instrumentation', () => {
 		testAll('watson-assistant', {
 			watson_assistant_url: optionsBluemix.conversation.url,
 			watson_assistant_username: optionsBluemix.conversation.username,
 			watson_assistant_password: optionsBluemix.conversation.password
 		});
 	});
-	*/
+	
 
 	it('Can add Watson - Discovery instrumentation', () => {
 		testAll('watson-discovery', {
