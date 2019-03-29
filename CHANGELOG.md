@@ -2,12 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.3.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.3.1...v3.3.2) (2019-03-15)
-
-
-### Bug Fixes
-
-* Liberty support for COS ([52e97a9](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/52e97a9))
+## [3.3.3](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.3.2...v3.3.3) (2019-03-29)
 
 
 

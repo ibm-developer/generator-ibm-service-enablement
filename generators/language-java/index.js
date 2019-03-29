@@ -70,7 +70,7 @@ module.exports = class extends Generator {
 				logger.debug('Composing with service : ' + folder);
 				try {
 					this.context.cloudLabel = serviceCredentials && serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
-					this.composeWith(path.join(root, folder), {context: this.context});
+					this.composeWith(path.join(root, folder), { context: this.context });
 				} catch (err) {
 					/* istanbul ignore next */      //ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
 					logger.warn('Unable to compose with service', folder, err);
@@ -93,7 +93,7 @@ module.exports = class extends Generator {
 			let location = this.templatePath(this.context.language + '/' + PATH_METAINF + metainf.filepath);
 			let contents = fs.readFileSync(location, 'utf8');
 			let compiledTemplate = handlebars.compile(contents);
-			let output = compiledTemplate({data: metainf.data});
+			let output = compiledTemplate({ data: metainf.data });
 			if (metainf.filepath.endsWith(TEMPLATE_EXT)) {
 				metainf.filepath = metainf.filepath.slice(0, metainf.filepath.length - (TEMPLATE_EXT).length);
 			}
@@ -110,7 +110,9 @@ module.exports = class extends Generator {
 	_addDependencies(serviceDependenciesString) {
 		logger.debug('Adding dependencies', serviceDependenciesString);
 		this._processDependencyMetainf(serviceDependenciesString);
-		this.context._addDependencies(serviceDependenciesString);
+		if (this.context._addDependencies) {
+			this.context._addDependencies(serviceDependenciesString);
+		}
 	}
 
 	_processDependencyMetainf(dependenciesString) {
@@ -148,7 +150,9 @@ module.exports = class extends Generator {
 		let template = handlebars.compile(dependenciesString);
 		dependenciesString = template(this.context);
 		this._processDependencyMetainf(dependenciesString);
-		this.context._addDependencies(dependenciesString);
+		if (this.context._addDependencies) {
+			this.context._addDependencies(dependenciesString);
+		}
 	}
 
 	_addReadMe(options) {
@@ -167,17 +171,21 @@ module.exports = class extends Generator {
 					return compiledTemplate(data);
 				}
 			});
-		} catch(e) {
+		} catch (e) {
 			logger.warn(`No files to copy from ${this.templatePath(templatePath)}`);
 		}
 	}
 
 	end() {
-		// add services env to deployment.yaml && cf create-service to pipeline.yaml
-		return Utils.addServicesEnvToHelmChartAsync({context: this.context, destinationPath: this.destinationPath()})
-			.then(() => Utils.addServicesToPipelineYamlAsync({
-				context: this.context,
-				destinationPath: this.destinationPath()
-			}));
+		// add services secretKeyRefs to deployment.yaml && 
+		// add services properties and cf bind-service to pipeline.yml &&
+		// add services secretKeyRefs to values.yaml &&
+		// add services form parameters to toolchain.yml && 
+		// add secretKeyRefs to helm commands in kube_deploy.sh
+		return Utils.addServicesEnvToHelmChartAsync({ context: this.context, destinationPath: this.destinationPath() })
+			.then(() => Utils.addServicesToPipelineYamlAsync({ context: this.context, destinationPath: this.destinationPath() }))
+			.then(() => Utils.addServicesEnvToValuesAsync({context: this.context, destinationPath: this.destinationPath()}))
+			.then(() => Utils.addServicesEnvToToolchainAsync({ context: this.context, destinationPath: this.destinationPath() }))
+			.then(() => Utils.addServicesKeysToKubeDeployAsync({ context: this.context, destinationPath: this.destinationPath() }));
 	}
 };

@@ -40,8 +40,8 @@ describe('golang-gin', function () {
 			watson_assistant_username: optionsBluemix.conversation.username,
 			watson_assistant_password: optionsBluemix.conversation.password
 		});
-	});
-	*/
+	});*/
+	
 
 	it('Can add Watson - Discovery instrumentation', () => {
 		testAll('watson-discovery', {
