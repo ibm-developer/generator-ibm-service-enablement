@@ -50,7 +50,7 @@ module.exports = class extends Generator {
 				logger.debug("Composing with service : " + folder);
 				try {
 					this.context.cloudLabel = serviceCredentials && serviceCredentials.serviceInfo && serviceCredentials.serviceInfo.cloudLabel;
-					this.composeWith(path.join(root, folder), {context: this.context});
+					this.composeWith(path.join(root, folder), { context: this.context });
 				} catch (err) {
 					/* istanbul ignore next */      //ignore for code coverage as this is just a warning - if the service fails to load the subsequent service test will fail
 					logger.warn('Unable to compose with service', folder, err);
@@ -69,8 +69,6 @@ module.exports = class extends Generator {
 					this.context.injectDependency(trimmedDependency);
 				}
 			});
-		} else {
-			throw new Error('Standalone execution of this generator is not supported for Swift');
 		}
 	}
 
@@ -90,7 +88,7 @@ module.exports = class extends Generator {
 		this.fs.write(destinationFilePath, handlebars.compile(this.fs.read(sourceFilePath))(locals));
 	}
 
-	_addReadMe(options){
+	_addReadMe(options) {
 		this.fs.copy(
 			options.sourceFilePath,
 			this.destinationPath() + "/docs/services/" + options.targetFileName
@@ -111,7 +109,7 @@ module.exports = class extends Generator {
 			this._copyHbsTpl(
 				options.sourceFilePath,
 				targetFilePath,
-				{servLookupKey: bluemixLabelMappings[options.servLabel], context: this.context}
+				{ servLookupKey: bluemixLabelMappings[options.servLabel], context: this.context }
 			);
 			let metaFile = options.sourceFilePath.substring(0, options.sourceFilePath.lastIndexOf("/")) + '/meta.json';
 			let metaData = this.fs.readJSON(metaFile);
@@ -124,34 +122,32 @@ module.exports = class extends Generator {
 			if (metaImport !== undefined) {
 				this.context.injectIntoApplication({ service_import: `import ${metaImport}` });
 			}
-			if (metaData.variableName !== undefined  && metaData.type !== undefined && targetName !== undefined) {
+			if (metaData.variableName !== undefined && metaData.type !== undefined && targetName !== undefined) {
 				this.context.injectIntoApplication({ service_variable: `public let ${metaData.variableName}: ${metaData.type}` });
 				this.context.injectIntoApplication({ service: `${metaData.variableName} = try initialize${targetName}(cloudEnv: cloudEnv)` });
 			} else if (targetName !== undefined) {
 				this.context.injectIntoApplication({ service: `try initialize${targetName}(cloudEnv: cloudEnv)` });
 			}
 			// Injecting modules to Package.swift
-			if(this.context.injectModules){
-				if(metaData.variableName === 'appidService'){
+			if (this.context.injectModules) {
+				if (metaData.variableName === 'appidService') {
 					metaImport = 'BluemixAppID';
-				}else if(metaData.variableName === 'autoScalingService'){
+				} else if (metaData.variableName === 'autoScalingService') {
 					metaImport = '';
-				}else if(targetName === "ServicePostgre" || targetName === "ServiceElephantSql"){
+				} else if (targetName === "ServicePostgre" || targetName === "ServiceElephantSql") {
 					metaImport = ['SwiftKueryPostgreSQL', 'SwiftKueryORM']
 				}
-				if(Array.isArray(metaImport)){
+				if (Array.isArray(metaImport)) {
 					const injectModules = this.context.injectModules
-					metaImport.forEach(function(importStatement) {
+					metaImport.forEach(function (importStatement) {
 						importStatement = "\"" + importStatement + "\"";
 						injectModules(importStatement);
 					});
-				}else if(metaImport !== ''){
+				} else if (metaImport !== '') {
 					metaImport = "\"" + metaImport + "\"";
 					this.context.injectModules(metaImport);
 				}
 			}
-		} else {
-			throw new Error('Standalone execution of this generator is not supported for Swift');
 		}
 	}
 
@@ -159,7 +155,7 @@ module.exports = class extends Generator {
 		// Lookup metadata object using bluemix/scaffolder key
 		const serviceMetaData = this.context.bluemix[bluemixKey];
 
-		if(!serviceMetaData){
+		if (!serviceMetaData) {
 			return null;
 		}
 		const instanceName = Array.isArray(serviceMetaData) ?
@@ -234,7 +230,7 @@ module.exports = class extends Generator {
 			// Generate entry for mappings.json
 			const instanceName = this._getServiceInstanceName(bluemixKey);
 
-			if(!instanceName){
+			if (!instanceName) {
 				logger.error(`Service ${bluemixKey} was not provisioned`);
 				continue;
 			}
@@ -259,14 +255,14 @@ module.exports = class extends Generator {
 		this.fs.writeJSON(this.destinationPath(PATH_MAPPINGS_FILE), mappings);
 	}
 
-	writing(){
+	writing() {
 		//Stopgap solution while we get both approaches for laying down credentials:
 		//fine-grained vs. coarse-grained
 		this._transformCredentialsOutput();
 
 		// Add PATH_LOCALDEV_CONFIG_FILE to .gitignore
 		let gitIgnorePath = this.destinationPath(PATH_GIT_IGNORE);
-		if (this.fs.exists(gitIgnorePath)){
+		if (this.fs.exists(gitIgnorePath)) {
 			this.fs.append(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
 		} else {
 			this.fs.write(gitIgnorePath, PATH_LOCALDEV_CONFIG_FILE);
@@ -274,8 +270,15 @@ module.exports = class extends Generator {
 	}
 
 	end() {
-		// add services env to deployment.yaml && cf create-service to pipeline.yaml
-		return Utils.addServicesEnvToHelmChartAsync({context: this.context, destinationPath: this.destinationPath()})
-			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}));
+		// add services secretKeyRefs to deployment.yaml && 
+		// add services properties and cf bind-service to pipeline.yml &&
+		// add services secretKeyRefs to values.yaml &&
+		// add services form parameters to toolchain.yml && 
+		// add secretKeyRefs to helm commands in kube_deploy.sh
+		return Utils.addServicesEnvToHelmChartAsync({ context: this.context, destinationPath: this.destinationPath() })
+			.then(() => Utils.addServicesToPipelineYamlAsync({ context: this.context, destinationPath: this.destinationPath() }))
+			.then(() => Utils.addServicesEnvToValuesAsync({ context: this.context, destinationPath: this.destinationPath() }))
+			.then(() => Utils.addServicesEnvToToolchainAsync({ context: this.context, destinationPath: this.destinationPath() }))
+			.then(() => Utils.addServicesKeysToKubeDeployAsync({ context: this.context, destinationPath: this.destinationPath() }));
 	}
 };

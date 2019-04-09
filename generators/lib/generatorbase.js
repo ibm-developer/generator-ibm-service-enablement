@@ -155,10 +155,12 @@ module.exports = class extends Generator {
 			name: this._sanitizeServiceName(this.serviceName),
 			valueFrom: {
 				secretKeyRef: {
-					name: `binding-${serviceInfo.name}`,
+					name: `{{ .Values.services.${this.scaffolderName}.secretKeyRef}}`,
 					key: 'binding'
 				}
-			}
+			},
+			keyName: `${serviceInfo.name}`,
+			scaffolderName: `${this.scaffolderName}`
 		};
 
 		if (!this.context.deploymentServicesEnv) {

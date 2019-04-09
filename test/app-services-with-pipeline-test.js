@@ -10,7 +10,7 @@ const optionsBluemix = Object.assign({}, require('./resources/bluemix.json'));
 const GENERATOR_NODE_PATH = '../generators/language-node-express/index.js';
 
 const RESOURCES_PATH = path.join(__dirname, './resources');
-const PIPELINE_FILE_PATH =	`.bluemix/pipeline.yml`;
+const PIPELINE_FILE_PATH = `.bluemix/pipeline.yml`;
 
 describe('app-services-with-pipeline', function () {
 	this.timeout(10 * 1000); // 10 seconds, Travis might be slow
@@ -39,13 +39,12 @@ describe('app-services-with-pipeline', function () {
 			});
 	});
 
-	it('appended cf create-service for each service to pipeline.yaml', () => {
+	it('appended cf bind-service for each service to pipeline.yaml', () => {
 		let generatedFilePath = path.join('.', PIPELINE_FILE_PATH);
 		yassert.file(generatedFilePath);
-
 		let expected = fs.readFileSync(path.join(RESOURCES_PATH, `/pipeline-result-node.yml`), 'utf-8');
 		let actual = fs.readFileSync(generatedFilePath, 'utf-8');
-		if(actual !== '' ) {
+		if (actual !== '') {
 			assert.equal(actual, expected);
 		}
 	});
