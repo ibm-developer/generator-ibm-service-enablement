@@ -1,5 +1,5 @@
 {
-  "import":"github.com/watson-developer-cloud/golang-sdk/naturalLanguageClassifierV1",
+  "import":"github.com/watson-developer-cloud/golang-sdk/naturallanguageclassifierv1",
   "variableName":"WatsonNaturalLanguageClassifier",
-  "type":"naturalLanguageClassifierV1.NaturalLanguageClassifierV1"
+  "type":"naturallanguageclassifierv1.NaturalLanguageClassifierV1"
 }
