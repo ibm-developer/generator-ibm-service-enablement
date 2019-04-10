@@ -1,5 +1,5 @@
 {
-  "import":"github.com/watson-developer-cloud/golang-sdk/naturalLanguageUnderstandingV1",
+  "import":"github.com/watson-developer-cloud/golang-sdk/naturallanguageunderstandingv1",
   "variableName":"WatsonNaturalLanguageUnderstanding",
-  "type":"naturalLanguageUnderstandingV1.NaturalLanguageUnderstandingV1"
+  "type":"naturallanguageunderstandingv1.NaturalLanguageUnderstandingV1"
 }

@@ -3,13 +3,12 @@ package services
 import (
 	"errors"
 	"github.com/ibm-developer/ibm-cloud-env-golang"
-	"github.com/watson-developer-cloud/go-sdk/core"
   "github.com/watson-developer-cloud/go-sdk/visualrecognitionv3"
 )
 
 // InitializeServiceWatsonVisualRecognition uses IBMCloudEnv to find credentials
 // and initialize the Watson service
-func InitializeServiceWatsonVisualRecognition() (*visualRecognitionV3.VisualRecognitionV3, error) {
+func InitializeServiceWatsonVisualRecognition() (*visualrecognitionv3.VisualRecognitionV3, error) {
 	url, errorUrl := IBMCloudEnv.GetString("watson_visual_recognition_url")
 	if !errorUrl {
 		return nil, errors.New("unable to find watson_visual_recognition_url")

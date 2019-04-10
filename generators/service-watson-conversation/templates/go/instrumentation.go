@@ -3,13 +3,12 @@ package services
 import (
 	"errors"
 	"github.com/ibm-developer/ibm-cloud-env-golang"
-	"github.com/watson-developer-cloud/go-sdk/core"
-  "github.com/watson-developer-cloud/go-sdk/assistantV1"
+	"github.com/watson-developer-cloud/go-sdk/assistantv1"
 )
 
 // InitializeServiceWatsonAssistant uses IBMCloudEnv to find credentials
 // and initialize the Watson service
-func InitializeServiceWatsonAssistant() (*assistantV1.AssistantV1, error) {
+func InitializeServiceWatsonConversation() (*assistantv1.AssistantV1, error) {
 	url, errorUrl := IBMCloudEnv.GetString("watson_visual_recognition_url")
 	if !errorUrl {
 		return nil, errors.New("unable to find watson_visual_recognition_url")
@@ -20,9 +19,9 @@ func InitializeServiceWatsonAssistant() (*assistantV1.AssistantV1, error) {
 		return nil, errors.New("unable to find watson_visual_recognition_apikey")
 	}
 
-	return assistantV1.NewAssistantV1(watson.Credentials{
-		ServiceURL: url,
+	return assistantv1.NewAssistantV1(&assistantv1.AssistantV1Options{
+		URL: url,
 		Version: "2018-09-20",
-    IAMApiKey: apikey,
+		IAMApiKey: apikey,
 	})
 }
