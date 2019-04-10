@@ -15,7 +15,7 @@ func InitializeServiceWatsonDiscovery() (*discoveryv1.DiscoveryV1, error) {
 	}
 
 	if apikey, ok := IBMCloudEnv.GetString("watson_discovery_apikey"); ok {
-		return discoveryv1.NewDiscoveryV1(&discovery.DiscoveryV1Options{
+		return discoveryv1.NewDiscoveryV1(&discoveryv1.DiscoveryV1Options{
 			URL: url,
 			Version: "2018-03-05",
 			IAMApiKey: apikey,
@@ -29,7 +29,7 @@ func InitializeServiceWatsonDiscovery() (*discoveryv1.DiscoveryV1, error) {
 	if !ok {
 		return nil, errors.New("unable to find watson_discovery_password")
 	}
-	return discoveryv1.NewDiscoveryV1(&discovery.DiscoveryV1Options{
+	return discoveryv1.NewDiscoveryV1(&discoveryv1.DiscoveryV1Options{
 		URL: url,
 		Version: "2018-03-05",
 		Username: username,
