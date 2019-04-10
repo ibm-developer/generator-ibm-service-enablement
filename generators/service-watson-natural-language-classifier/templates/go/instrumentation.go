@@ -29,7 +29,7 @@ func InitializeServiceWatsonNaturalLanguageClassifier() (*naturallanguageclassif
 		return nil, errors.New("unable to find watson_natural_language_classifier_password")
 	}
 	return naturallanguageclassifierv1.NewNaturalLanguageClassifierV1(&naturallanguageclassifierv1.NaturalLanguageClassifierV1Options{
-		ServiceURL: url,
+		URL: url,
 		Username: username,
 		Password: password,
 	})

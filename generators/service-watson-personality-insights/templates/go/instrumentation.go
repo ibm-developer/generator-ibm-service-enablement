@@ -30,7 +30,7 @@ func InitializeServiceWatsonPersonalityInsights() (*personalityinsightsv3.Person
 		return nil, errors.New("unable to find watson_personality_insights_password")
 	}
 	return personalityinsightsv3.NewPersonalityInsightsV3(&personalityinsightsv3.PersonalityInsightsV3Options{
-		ServiceURL: url,
+		URL: url,
 		Version: "2017-10-13",
 		Username: username,
 		Password: password,

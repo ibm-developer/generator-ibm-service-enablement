@@ -29,7 +29,7 @@ func InitializeServiceWatsonTextToSpeech() (*texttospeechv1.TextToSpeechV1, erro
 		return nil, errors.New("unable to find watson_text_to_speech_password")
 	}
 	return texttospeechv1.NewTextToSpeechV1(texttospeechv1.TextToSpeechV1Options{
-		ServiceURL: url,
+		URL: url,
 		Username: username,
 		Password: password,
 	})

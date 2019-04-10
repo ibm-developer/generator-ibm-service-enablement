@@ -30,7 +30,7 @@ func InitializeServiceWatsonToneAnalyzer() (*toneanalyzerv3.ToneAnalyzerV3, erro
 		return nil, errors.New("unable to find watson_tone_analyzer_password")
 	}
 	return toneanalyzerv3.NewToneAnalyzerV3(toneanalyzerv3.
-		ServiceURL: url,
+		URL: url,
 		Version: "2017-09-21",
 		Username: username,
 		Password: password,

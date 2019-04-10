@@ -30,7 +30,7 @@ func InitializeServiceWatsonNaturalLanguageUnderstanding() (*naturallanguageunde
 		return nil, errors.New("unable to find watson_natural_language_understanding_password")
 	}
 	return naturallanguageunderstandingv1.NewNaturalLanguageUnderstandingV1(&naturallanguageunderstandingv1.NaturalLanguageUnderstandingV1Options{
-		ServiceURL: url,
+		URL: url,
 		Version: "2018-03-16",
 		Username: username,
 		Password: password,

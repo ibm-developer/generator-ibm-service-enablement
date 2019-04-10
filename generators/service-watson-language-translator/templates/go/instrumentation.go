@@ -30,7 +30,7 @@ func InitializeServiceWatsonLanguageTranslator() (*languagetranslatorv3.Language
 		return nil, errors.New("unable to find watson_language_translator_password")
 	}
 	return languagetranslatorv3.NewLanguageTranslatorV3(&languagetranslatorv3.LanguageTranslatorV3Options{
-		ServiceURL: url,
+		URL: url,
 		Version: "2018-05-01",
 		Username: username,
 		Password: password,

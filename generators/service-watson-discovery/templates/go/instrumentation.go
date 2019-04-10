@@ -30,7 +30,7 @@ func InitializeServiceWatsonDiscovery() (*discoveryv1.DiscoveryV1, error) {
 		return nil, errors.New("unable to find watson_discovery_password")
 	}
 	return discoveryv1.NewDiscoveryV1(&discovery.DiscoveryV1Options{
-		ServiceURL: url,
+		URL: url,
 		Version: "2018-03-05",
 		Username: username,
 		Password: password,
