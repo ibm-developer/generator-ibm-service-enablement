@@ -153,9 +153,13 @@ public class CloudServices {
 
     private String getJsonValue(String jsonPath, String json) {
         String value = null;
-        if (jsonPath != null && json != null) {
-            value = JsonPath.parse(json).read(jsonPath).toString();
-            value = sanitiseString(value);
+        try {
+            if (jsonPath != null && json != null) {
+                value = JsonPath.parse(json).read(jsonPath).toString();
+                value = sanitiseString(value);
+            }
+        } catch (Exception e) {
+            LOGGER.info("Unexpected exception reading VCAP_SERVICES: " + e);
         }
         return value;
     }
