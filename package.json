@@ -21,6 +21,7 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "integration": "mocha test/integration-*",
     "testlib": "mocha test/app-lib-test.js",
+    "testinsights": "mocha test/app-* --reporter mocha-multi-reporters --reporter-options configFile=config.json",
     "version": "standard-version"
   },
   "repository": {
