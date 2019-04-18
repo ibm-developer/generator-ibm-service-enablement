@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-service-enablement",
-  "version": "3.3.3",
+  "version": "3.3.4",
   "description": "This generator adds Service enablement to applications",
   "main": "generators/app/index.js",
   "files": [
@@ -21,6 +21,7 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "integration": "mocha test/integration-*",
     "testlib": "mocha test/app-lib-test.js",
+    "testinsights": "mocha test/app-* --reporter mocha-multi-reporters --reporter-options configFile=config.json",
     "version": "standard-version"
   },
   "repository": {
@@ -45,9 +46,9 @@
     "eslint-plugin-ejs": "0.0.2",
     "fs-extra": "^7.0.1",
     "http-proxy": "^1.17.0",
-    "js-yaml": "^3.12.1",
+    "js-yaml": "^3.13.0",
     "mem-fs-editor": "^5.1.0",
-    "mocha": "^6.0.0",
+    "mocha": "^6.0.2",
     "mocha-multi": "^1.0.1",
     "mocha-multi-reporters": "^1.1.7",
     "nyc": "^13.3.0",

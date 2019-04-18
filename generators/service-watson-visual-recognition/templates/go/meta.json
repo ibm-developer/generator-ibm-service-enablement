@@ -1,5 +1,5 @@
 {
-  "import":"github.com/watson-developer-cloud/go-sdk/visualRecognitionV3",
+  "import":"github.com/watson-developer-cloud/go-sdk/visualrecognitionv3",
   "variableName":"WatsonVisualRecognition",
-  "type":"visualRecognitionV3.VisualRecognitionV3"
+  "type":"visualrecognitionv3.VisualRecognitionV3"
 }

@@ -1,5 +1,5 @@
 {
-  "reporterEnabled":"list, xunit-file",
+  "reporterEnabled":"list, xunit",
   "xunitReporterOptions":{
     "output":"xunit.xml"
   }

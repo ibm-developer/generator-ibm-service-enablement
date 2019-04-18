@@ -1,5 +1,5 @@
 {
-  "import":"github.com/watson-developer-cloud/golang-sdk/discoveryV1",
+  "import":"github.com/watson-developer-cloud/golang-sdk/discoveryv1",
   "variableName":"WatsonDiscovery",
-  "type":"discoveryV1.DiscoveryV1"
+  "type":"discoveryv1.DiscoveryV1"
 }
