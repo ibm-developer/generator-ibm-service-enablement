@@ -9,14 +9,14 @@ import (
 // InitializeServiceWatsonAssistant uses IBMCloudEnv to find credentials
 // and initialize the Watson service
 func InitializeServiceWatsonConversation() (*assistantv1.AssistantV1, error) {
-	url, errorUrl := IBMCloudEnv.GetString("watson_visual_recognition_url")
+	url, errorUrl := IBMCloudEnv.GetString("watson_conversation_url")
 	if !errorUrl {
-		return nil, errors.New("unable to find watson_visual_recognition_url")
+		return nil, errors.New("unable to find watson_conversation_url")
 	}
 
-	apikey, errorApikey := IBMCloudEnv.GetString("watson_visual_recognition_apikey")
+	apikey, errorApikey := IBMCloudEnv.GetString("watson_conversation_apikey")
 	if !errorApikey {
-		return nil, errors.New("unable to find watson_visual_recognition_apikey")
+		return nil, errors.New("unable to find watson_conversation_apikey")
 	}
 
 	return assistantv1.NewAssistantV1(&assistantv1.AssistantV1Options{
