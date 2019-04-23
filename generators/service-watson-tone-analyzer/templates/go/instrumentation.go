@@ -3,7 +3,7 @@ package services
 import (
 	"errors"
 	"github.com/ibm-developer/ibm-cloud-env-golang"
-	"github.com/watson-developer-cloud/golang-sdk/toneanalyzerv3"
+	"github.com/watson-developer-cloud/go-sdk/toneanalyzerv3"
 )
 
 // InitializeServiceWatsonToneAnalyzer uses IBMCloudEnv to find credentials

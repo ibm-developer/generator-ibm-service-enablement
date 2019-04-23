@@ -3,7 +3,7 @@ package services
 import (
 	"errors"
 	"github.com/ibm-developer/ibm-cloud-env-golang"
-	"github.com/watson-developer-cloud/golang-sdk/naturallanguageclassifierv1"
+	"github.com/watson-developer-cloud/go-sdk/naturallanguageclassifierv1"
 )
 
 // InitializeServiceWatsonNaturalLanguageClassifier uses IBMCloudEnv to find credentials
