@@ -3,7 +3,7 @@ package services
 import (
 	"errors"
 	"github.com/ibm-developer/ibm-cloud-env-golang"
-	"github.com/watson-developer-cloud/golang-sdk/personalityinsightsv3"
+	"github.com/watson-developer-cloud/go-sdk/personalityinsightsv3"
 )
 
 // InitializeServiceWatsonPersonalityInsights uses IBMCloudEnv to find credentials

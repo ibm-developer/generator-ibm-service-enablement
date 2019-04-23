@@ -3,7 +3,7 @@ package services
 import (
 	"errors"
 	"github.com/ibm-developer/ibm-cloud-env-golang"
-	"github.com/watson-developer-cloud/golang-sdk/languagetranslatorv3"
+	"github.com/watson-developer-cloud/go-sdk/languagetranslatorv3"
 )
 
 // InitializeServiceWatsonLanguageTranslator uses IBMCloudEnv to find credentials

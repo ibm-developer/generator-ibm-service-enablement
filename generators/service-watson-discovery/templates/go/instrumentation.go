@@ -3,7 +3,7 @@ package services
 import (
 	"errors"
 	"github.com/ibm-developer/ibm-cloud-env-golang"
-	"github.com/watson-developer-cloud/golang-sdk/discoveryv1"
+	"github.com/watson-developer-cloud/go-sdk/discoveryv1"
 )
 
 // InitializeServiceWatsonDiscovery uses IBMCloudEnv to find credentials
