@@ -2,16 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.3.4](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.3.3...v3.3.4) (2019-04-18)
+## [3.3.5](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.3.4...v3.3.5) (2019-04-24)
 
 
 ### Bug Fixes
 
-* catch error when looking for creds ([4b25347](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/4b25347))
-* discovery framework modification ([d1cd7d2](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/d1cd7d2))
-* go service instrumentation upgrades ([a1dd411](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a1dd411))
-* update legacy authentication paramters for go ([086aca2](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/086aca2))
-* upgrade watson instrumentation for go ([e1cfd30](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/e1cfd30))
+* update the version and url for the Go SDK ([3aca3f1](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/3aca3f1))
+* use conversation string look up for go ([8cf7002](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/8cf7002))
 
 
 

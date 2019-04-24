@@ -3,7 +3,7 @@ package services
 import (
 	"errors"
 	"github.com/ibm-developer/ibm-cloud-env-golang"
-	"github.com/watson-developer-cloud/golang-sdk/speechtotextv1"
+	"github.com/watson-developer-cloud/go-sdk/speechtotextv1"
 )
 
 // InitializeServiceWatsonSpeechToText uses IBMCloudEnv to find credentials
