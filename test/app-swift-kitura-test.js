@@ -233,7 +233,7 @@ describe('swift-kitura', function() {
 
 				before(() => {
 					optionsBluemix.backendPlatform = "SWIFT";
-					optionsBluemix.push.url = "http://imfpush." + region
+					optionsBluemix.push.url = "https://imfpush." + region
 					runContext = helpers
 						.run(path.join(__dirname, GENERATOR_PATH))
 						.withOptions({
@@ -259,7 +259,7 @@ describe('swift-kitura', function() {
 							appGuid: optionsBluemix.push.appGuid,
 							apikey: optionsBluemix.push.apikey,
 							clientSecret: optionsBluemix.push.clientSecret,
-							url: ("http://imfpush." + region)
+							url: ("https://imfpush." + region)
 						}
 					}, dependencies, modules, codeForServices);
 				});

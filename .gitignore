@@ -9,3 +9,4 @@ xunit.xml
 .vscode
 *.DS_Store
 coverage
+devops_insights
