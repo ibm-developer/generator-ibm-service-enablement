@@ -15,7 +15,7 @@ func InitializeServiceWatsonTextToSpeech() (*texttospeechv1.TextToSpeechV1, erro
 	}
 
 	if apikey, ok := IBMCloudEnv.GetString("watson_text_to_speech_apikey"); ok {
-		return texttospeechv1.NewTextToSpeechV1(texttospeechv1.TextToSpeechV1Options{
+		return texttospeechv1.NewTextToSpeechV1(&texttospeechv1.TextToSpeechV1Options{
 			URL: url,
 			IAMApiKey: apikey,
 		})
@@ -28,7 +28,7 @@ func InitializeServiceWatsonTextToSpeech() (*texttospeechv1.TextToSpeechV1, erro
 	if !ok {
 		return nil, errors.New("unable to find watson_text_to_speech_password")
 	}
-	return texttospeechv1.NewTextToSpeechV1(texttospeechv1.TextToSpeechV1Options{
+	return texttospeechv1.NewTextToSpeechV1(&texttospeechv1.TextToSpeechV1Options{
 		URL: url,
 		Username: username,
 		Password: password,
