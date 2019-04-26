@@ -15,7 +15,7 @@ func InitializeServiceWatsonToneAnalyzer() (*toneanalyzerv3.ToneAnalyzerV3, erro
 	}
 
 	if apikey, ok := IBMCloudEnv.GetString("watson_tone_analyzer_apikey"); ok {
-		return toneanalyzerv3.NewToneAnalyzerV3(toneanalyzerv3.
+		return toneanalyzerv3.NewToneAnalyzerV3(&toneanalyzerv3.ToneAnalyzerV3Options{
 			URL: url,
 			Version: "2017-09-21",
 			IAMApiKey: apikey,
@@ -29,7 +29,7 @@ func InitializeServiceWatsonToneAnalyzer() (*toneanalyzerv3.ToneAnalyzerV3, erro
 	if !ok {
 		return nil, errors.New("unable to find watson_tone_analyzer_password")
 	}
-	return toneanalyzerv3.NewToneAnalyzerV3(toneanalyzerv3.
+	return toneanalyzerv3.NewToneAnalyzerV3(&toneanalyzerv3.ToneAnalyzerV3Options{
 		URL: url,
 		Version: "2017-09-21",
 		Username: username,
