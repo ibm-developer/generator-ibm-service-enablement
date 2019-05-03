@@ -1,6 +1,5 @@
 {
   "cloudant": "cloudant",
-  "objectStorage": "object_storage",
   "appid": "appid",
   "conversation": "watson_assistant",
   "redis": "redis",

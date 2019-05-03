@@ -131,7 +131,7 @@ module.exports = class extends Generator {
 			// Injecting modules to Package.swift
 			if (this.context.injectModules) {
 				if (metaData.variableName === 'appidService') {
-					metaImport = 'BluemixAppID';
+					metaImport = 'IBMCloudAppID';
 				} else if (metaData.variableName === 'autoScalingService') {
 					metaImport = '';
 				} else if (targetName === "ServicePostgre" || targetName === "ServiceElephantSql") {
@@ -270,10 +270,10 @@ module.exports = class extends Generator {
 	}
 
 	end() {
-		// add services secretKeyRefs to deployment.yaml && 
+		// add services secretKeyRefs to deployment.yaml &&
 		// add services properties and cf bind-service to pipeline.yml &&
 		// add services secretKeyRefs to values.yaml &&
-		// add services form parameters to toolchain.yml && 
+		// add services form parameters to toolchain.yml &&
 		// add secretKeyRefs to helm commands in kube_deploy.sh
 		return Utils.addServicesEnvToHelmChartAsync({ context: this.context, destinationPath: this.destinationPath() })
 			.then(() => Utils.addServicesToPipelineYamlAsync({ context: this.context, destinationPath: this.destinationPath() }))
