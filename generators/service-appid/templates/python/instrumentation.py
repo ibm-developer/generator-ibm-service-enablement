@@ -10,7 +10,7 @@ import sys
 if sys.version_info[0] == 3:
     from urllib.request import urlopen
 else:
-    from urllib import urlopen
+    from urllib2 import urlopen
 
 def pemFromModExp(modulus,exponent):
     exponentlong = base64_to_long(exponent)

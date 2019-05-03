@@ -2,13 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.3.5](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.3.4...v3.3.5) (2019-04-24)
+# [3.4.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.3.5...v3.4.0) (2019-05-03)
 
 
 ### Bug Fixes
 
-* update the version and url for the Go SDK ([3aca3f1](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/3aca3f1))
-* use conversation string look up for go ([8cf7002](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/8cf7002))
+* address Go issues in Watson services ([1658f2e](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/1658f2e))
+
+
+### Features
+
+* update dependencies for a Swift 5.0 Application ([814a133](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/814a133))
 
 
 

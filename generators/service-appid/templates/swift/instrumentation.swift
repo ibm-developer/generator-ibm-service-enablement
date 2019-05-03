@@ -1,6 +1,6 @@
 import LoggerAPI
 import CloudEnvironment
-import BluemixAppID
+import IBMCloudAppID
 import class Credentials.Credentials
 
 // For more details on AppID/Auth usage, see
@@ -21,9 +21,13 @@ func initializeServiceAppid(cloudEnv: CloudEnv) throws -> Credentials {
         "profilesUrl": appidCredentials.profilesUrl,
         "redirectUri": cloudEnv.url + "/api/appid/callback"
     ]
-    let webappKituraCredentialsPlugin = WebAppKituraCredentialsPlugin(options: options)
     let kituraCredentials = Credentials()
-    kituraCredentials.register(plugin: webappKituraCredentialsPlugin)
-    Log.info("Found and loaded credentials for AppID.")
+    if #available(OSX 10.12, *) {
+        let webappKituraCredentialsPlugin = WebAppKituraCredentialsPlugin(options: options)
+        kituraCredentials.register(plugin: webappKituraCredentialsPlugin)
+        Log.info("Found and loaded credentials for AppID.")
+    } else {
+        throw InitializationError("Could not use WebAppKituraCredentialsPlugin.")
+    }
     return kituraCredentials
 }

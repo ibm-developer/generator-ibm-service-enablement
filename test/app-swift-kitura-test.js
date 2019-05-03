@@ -84,16 +84,6 @@ describe('swift-kitura', function() {
 			}, dependencies, modules, codeForServices);
 		});
 
-		it('Can add Object Storage instrumentation', () => {
-			testAll('service-object-storage', 'object_storage', optionsBluemix.objectStorage[0].serviceInfo.name, {
-				[optionsBluemix.objectStorage[0].serviceInfo.name]: {
-					projectId: optionsBluemix.objectStorage[0].projectId,
-					userId: optionsBluemix.objectStorage[0].userId,
-					password: optionsBluemix.objectStorage[0].password,
-					region: optionsBluemix.objectStorage[0].region
-				}
-			}, dependencies, modules, codeForServices);
-		});
 		it('Can add Redis instrumentation', () => {
 			testAll('service-redis', 'redis', optionsBluemix.redis.serviceInfo.name, {
 				[optionsBluemix.redis.serviceInfo.name]: {
@@ -233,7 +223,7 @@ describe('swift-kitura', function() {
 
 				before(() => {
 					optionsBluemix.backendPlatform = "SWIFT";
-					optionsBluemix.push.url = "http://imfpush." + region
+					optionsBluemix.push.url = "https://imfpush." + region
 					runContext = helpers
 						.run(path.join(__dirname, GENERATOR_PATH))
 						.withOptions({
@@ -259,7 +249,7 @@ describe('swift-kitura', function() {
 							appGuid: optionsBluemix.push.appGuid,
 							apikey: optionsBluemix.push.apikey,
 							clientSecret: optionsBluemix.push.clientSecret,
-							url: ("http://imfpush." + region)
+							url: ("https://imfpush." + region)
 						}
 					}, dependencies, modules, codeForServices);
 				});
@@ -289,7 +279,7 @@ function testServiceDependencies(serviceName, dependencies) {
 function testServiceModules(serviceName, modules) {
 	let serviceVariable = {
 		"service-alert-notification": "AlertNotifications",
-		"service-appid": "BluemixAppID",
+		"service-appid": "IBMCloudAppID",
 		"service-autoscaling": "",
 		"service-cloudant": "CouchDB",
 		"service-object-storage": "BluemixObjectStorage",
