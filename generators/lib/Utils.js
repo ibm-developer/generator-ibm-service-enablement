@@ -15,8 +15,8 @@ const REGEX_CF_LOGS = /cf\slogs/;
 const REGEX_CHART_NAME = /- name: CHART_NAME/;
 
 // consts used for toolchain.yml
-const REGEX_KUBE_CLUSTER_NAME_UPPER = /KUBE_CLUSTER_NAME/;
-const REGEX_KUBE_CLUSTER_NAME_LOWER = /kube-cluster-name/;
+// const REGEX_KUBE_CLUSTER_NAME_UPPER = /KUBE_CLUSTER_NAME/;
+// const REGEX_KUBE_CLUSTER_NAME_LOWER = /kube-cluster-name/;
 
 // consts used for kube_deploy.sh
 const REGEX_HELM_UPGRADE = /helm(\s*)upgrade(\s*)--install(\s*)\$\{RELEASE_NAME\}(\s*).\/chart\/\$\{CHART_NAME\}/;
@@ -244,10 +244,10 @@ function addServicesToPipelineYamlAsync(args) {
 			// only for Kube deploys, which should always have the CHART_NAME property
 			if (buildBool && chartNameBool ||
 				deployBool && chartNameBool) {
-				pipelineFileString += generateServiceProperties(context.deploymentServicesEnv);
-				pipelineFileString += `${line}\n`;
-				// all done with Build Stage + properties section, don't reset deployBool
-				buildBool = false, chartNameBool = false;
+				// pipelineFileString += generateServiceProperties(context.deploymentServicesEnv);
+				// pipelineFileString += `${line}\n`;
+				// // all done with Build Stage + properties section, don't reset deployBool
+				// buildBool = false, chartNameBool = false;
 			}
 			else if (cfLogsIndex > -1 && deployBool) {
 
@@ -305,71 +305,71 @@ function getSpringServiceInfo(regularServiceKey) {
 }
 
 // add form params for each service in toolchain.yml
-function addServicesEnvToToolchainAsync(args) {
-	return new Promise((resolve, reject) => {
-		let context = args.context;
-		let destinationPath = args.destinationPath;
+// function addServicesEnvToToolchainAsync(args) {
+// 	return new Promise((resolve, reject) => {
+// 		let context = args.context;
+// 		let destinationPath = args.destinationPath;
 
-		// this toolchain.yml file should've been generated in the generator-ibm-cloud-enablement generator
-		let toolchainFilePath = `${destinationPath}/.bluemix/toolchain.yml`;
-		logger.info(`toolchain.yml path: ${toolchainFilePath}`);
+// 		// this toolchain.yml file should've been generated in the generator-ibm-cloud-enablement generator
+// 		let toolchainFilePath = `${destinationPath}/.bluemix/toolchain.yml`;
+// 		logger.info(`toolchain.yml path: ${toolchainFilePath}`);
 
-		let toolchainFileExists = fs.existsSync(toolchainFilePath);
-		if (!toolchainFileExists) { return resolve(); }
+// 		let toolchainFileExists = fs.existsSync(toolchainFilePath);
+// 		if (!toolchainFileExists) { return resolve(); }
 
-		let hasServices = context.servicesInfo && context.servicesInfo.length > 0;
-		if (!hasServices) { return resolve(); }
-		logger.info("toolchain.yml exists, setting parameters for services");
-		logger.info(`has ${context.deploymentServicesEnv.length} services, adding to toolchain.yml`);
+// 		let hasServices = context.servicesInfo && context.servicesInfo.length > 0;
+// 		if (!hasServices) { return resolve(); }
+// 		logger.info("toolchain.yml exists, setting parameters for services");
+// 		logger.info(`has ${context.deploymentServicesEnv.length} services, adding to toolchain.yml`);
 
-		let readStream = fs.createReadStream(toolchainFilePath);
-		let promiseIsRejected = false;
-		readStream.on('error', (err) => {
-			logger.error('failed to read toolchain.yml from filesystem: ' + err.message);
-			reject(err);
-			promiseIsRejected = true;
-		});
-		let rl = readline.createInterface({ input: readStream });
+// 		let readStream = fs.createReadStream(toolchainFilePath);
+// 		let promiseIsRejected = false;
+// 		readStream.on('error', (err) => {
+// 			logger.error('failed to read toolchain.yml from filesystem: ' + err.message);
+// 			reject(err);
+// 			promiseIsRejected = true;
+// 		});
+// 		let rl = readline.createInterface({ input: readStream });
 
-		let toolchainFileString = '';
-		let whitespace10 = "          ", whitespace6 = "      ";
-		rl.on('line', (line) => {
+// 		let toolchainFileString = '';
+// 		let whitespace10 = "          ", whitespace6 = "      ";
+// 		rl.on('line', (line) => {
 
-			if (line.search(REGEX_KUBE_CLUSTER_NAME_UPPER) > -1) {
-				//add service vars above or below
-				context.deploymentServicesEnv.forEach(function (service) {
-					//should look like this: CONVERSATION: "{{form.pipeline.parameters.conversation}}"
-					toolchainFileString += (whitespace10 +
-						service.scaffolderName.toUpperCase() + ": \"{{form.pipeline.parameters." + service.scaffolderName + "}}\"\n");
-				})
-			}
-			else if (line.search(REGEX_KUBE_CLUSTER_NAME_LOWER) > -1) {
-				//add form params above or below
+// 			if (line.search(REGEX_KUBE_CLUSTER_NAME_UPPER) > -1) {
+// 				//add service vars above or below
+// 				context.deploymentServicesEnv.forEach(function (service) {
+// 					//should look like this: CONVERSATION: "{{form.pipeline.parameters.conversation}}"
+// 					toolchainFileString += (whitespace10 +
+// 						service.scaffolderName.toUpperCase() + ": \"{{form.pipeline.parameters." + service.scaffolderName + "}}\"\n");
+// 				})
+// 			}
+// 			else if (line.search(REGEX_KUBE_CLUSTER_NAME_LOWER) > -1) {
+// 				//add form params above or below
 
-				context.deploymentServicesEnv.forEach(function (service) {
-					//should look like this: conversation: "{{conversation}}"
-					toolchainFileString += (whitespace6 +
-						service.scaffolderName + ": \"{{" + service.scaffolderName + "}}\"\n");
-				})
+// 				context.deploymentServicesEnv.forEach(function (service) {
+// 					//should look like this: conversation: "{{conversation}}"
+// 					toolchainFileString += (whitespace6 +
+// 						service.scaffolderName + ": \"{{" + service.scaffolderName + "}}\"\n");
+// 				})
 
-			}
-			toolchainFileString += `${line}\n`;
+// 			}
+// 			toolchainFileString += `${line}\n`;
 
 
-		}).on('close', () => {
-			if (promiseIsRejected) { return; }
-			fs.writeFile(toolchainFilePath, toolchainFileString, (err) => {
-				if (err) {
-					logger.error('failed to write updated toolchain.yml to filesystem: ' + err.message);
-					reject(err);
-				} else {
-					logger.info('finished updating toolchain.yml and wrote to filesystem');
-					resolve();
-				}
-			});
-		});
-	})
-}
+// 		}).on('close', () => {
+// 			if (promiseIsRejected) { return; }
+// 			fs.writeFile(toolchainFilePath, toolchainFileString, (err) => {
+// 				if (err) {
+// 					logger.error('failed to write updated toolchain.yml to filesystem: ' + err.message);
+// 					reject(err);
+// 				} else {
+// 					logger.info('finished updating toolchain.yml and wrote to filesystem');
+// 					resolve();
+// 				}
+// 			});
+// 		});
+// 	})
+// }
 
 // add secretKeyRefs to kube_deploy.sh helm commands
 function addServicesKeysToKubeDeployAsync(args) {
@@ -405,7 +405,8 @@ function addServicesKeysToKubeDeployAsync(args) {
 			if (line.search(REGEX_HELM_UPGRADE) > -1) {
 				let str = '';
 				context.deploymentServicesEnv.forEach(function (service) {
-					str += ",services." + service.scaffolderName + ".secretKeyRef=${" + service.scaffolderName.toUpperCase() + "}";
+					// str += ",services." + service.scaffolderName + ".secretKeyRef=${" + service.scaffolderName.toUpperCase() + "}";
+					str += ",services." + service.scaffolderName + ".secretKeyRef=" + service.valueFrom.secretKeyRef ;
 				})
 				kubeDeployFileString += `${line}` + str + "\n";
 			}
@@ -447,21 +448,22 @@ function generateSecretRefsValues(services) {
 	services.forEach((serviceEntry) => {
 		servicesEnvString +=
 			`  ${serviceEntry.scaffolderName}:\n` +
-			`    secretKeyRef: \${${serviceEntry.scaffolderName.toUpperCase()}}\n`;
+			// `    secretKeyRef: \${${serviceEntry.scaffolderName.toUpperCase()}}\n`;
+			`    secretKeyRef: ${serviceEntry.valueFrom.secretKeyRef.key}\n`;
 	});
 	return servicesEnvString;
 }
 
-function generateServiceProperties(services) {
-	let servicesEnvString = '';
-	services.forEach((serviceEntry) => {
-		servicesEnvString +=
-			`  - name: ` + serviceEntry.scaffolderName.toUpperCase() + `\n` +
-			`    value: \${` + serviceEntry.scaffolderName.toUpperCase() + `}\n` +
-			`    type: text\n`
-	});
-	return servicesEnvString;
-}
+// function generateServiceProperties(services) {
+// 	let servicesEnvString = '';
+// 	services.forEach((serviceEntry) => {
+// 		servicesEnvString +=
+// 			`  - name: ` + serviceEntry.scaffolderName.toUpperCase() + `\n` +
+// 			`    value: \${` + serviceEntry.scaffolderName.toUpperCase() + `}\n` +
+// 			`    type: text\n`
+// 	});
+// 	return servicesEnvString;
+// }
 
 module.exports = {
 	getSpringServiceInfo: getSpringServiceInfo,
@@ -470,6 +472,6 @@ module.exports = {
 	addServicesEnvToHelmChartAsync: addServicesEnvToHelmChartAsync,
 	addServicesToPipelineYamlAsync: addServicesToPipelineYamlAsync,
 	addServicesEnvToValuesAsync: addServicesEnvToValuesAsync,
-	addServicesEnvToToolchainAsync: addServicesEnvToToolchainAsync,
+	// addServicesEnvToToolchainAsync: addServicesEnvToToolchainAsync,
 	addServicesKeysToKubeDeployAsync: addServicesKeysToKubeDeployAsync
 };
