@@ -319,7 +319,7 @@ function addServicesKeysToKubeDeployAsync(args) {
 			if (line.search(REGEX_HELM_UPGRADE) > -1) {
 				let str = '';
 				context.deploymentServicesEnv.forEach(function (service) {
-					str += ",services." + service.scaffolderName + ".secretKeyRef=" + service.valueFrom.secretKeyRef;
+					str += ",services." + service.scaffolderName + ".secretKeyRef=" + service.keyName;
 				})
 				kubeDeployFileString += `${line}` + str + "\n";
 			}
