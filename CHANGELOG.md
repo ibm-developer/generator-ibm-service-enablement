@@ -2,17 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [3.4.0](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.3.5...v3.4.0) (2019-05-03)
+## [3.4.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.0...v3.4.1) (2019-05-21)
 
 
 ### Bug Fixes
 
-* address Go issues in Watson services ([1658f2e](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/1658f2e))
-
-
-### Features
-
-* update dependencies for a Swift 5.0 Application ([814a133](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/814a133))
+* replace mustache tags with service instance name ([d12c6f6](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/d12c6f6))
+* update tests ([a4212f7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a4212f7))
 
 
 
