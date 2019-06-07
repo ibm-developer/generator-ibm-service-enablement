@@ -2,13 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.4.1](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.0...v3.4.1) (2019-05-21)
+## [3.4.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.1...v3.4.2) (2019-06-07)
 
 
 ### Bug Fixes
 
-* replace mustache tags with service instance name ([d12c6f6](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/d12c6f6))
-* update tests ([a4212f7](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a4212f7))
+* use kube secret name with toolchain ([52a043c](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/52a043c))
 
 
 
