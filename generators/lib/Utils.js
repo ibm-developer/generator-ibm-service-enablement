@@ -253,9 +253,6 @@ function addServicesToPipelineYamlAsync(args) {
 
 				logger.info(`pipeline.yaml cf section-- adding create-service command(s)`);
 				let spacesPrefix = "      ";
-				context.servicesInfo.forEach(function (service) {
-					pipelineFileString += spacesPrefix + `cf bind-service "\${CF_APP}" "${service.name}"\n`;
-				})
 				if (context.servicesInfo.length > 0) {
 					pipelineFileString += spacesPrefix + `cf restart "\${CF_APP}"\n`;
 				}
