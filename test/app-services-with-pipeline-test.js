@@ -38,7 +38,7 @@ describe('app-services-with-pipeline', function () {
 				console.info("tmpDir", tmpDir);
 			});
 	});
-
+	
 	it('appended cf bind-service for each service to pipeline.yaml', () => {
 		let generatedFilePath = path.join('.', PIPELINE_FILE_PATH);
 		yassert.file(generatedFilePath);
@@ -48,5 +48,4 @@ describe('app-services-with-pipeline', function () {
 			assert.equal(actual, expected);
 		}
 	});
-
 });

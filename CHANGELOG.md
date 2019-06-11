@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.4.2](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.1...v3.4.2) (2019-06-07)
+## [3.4.3](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.2...v3.4.3) (2019-06-11)
 
 
 ### Bug Fixes
 
-* use kube secret name with toolchain ([52a043c](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/52a043c))
+* Remove cf bind-service from pipeline.yml ([f3af50f](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/f3af50f))
 
 
 
