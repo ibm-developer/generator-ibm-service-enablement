@@ -250,15 +250,8 @@ function addServicesToPipelineYamlAsync(args) {
 				buildBool = false, chartNameBool = false;
 			}
 			else if (cfLogsIndex > -1 && deployBool) {
-
-				logger.info(`pipeline.yaml cf section-- adding create-service command(s)`);
-				let spacesPrefix = "      ";
-				if (context.servicesInfo.length > 0) {
-					pipelineFileString += spacesPrefix + `cf restart "\${CF_APP}"\n`;
-				}
 				deployBool = false; // all done with Deploy Stage + CF section
 				pipelineFileString += `${line}\n`;
-
 			}
 			else {
 				pipelineFileString += `${line}\n`;
