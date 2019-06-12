@@ -92,6 +92,5 @@ stages:
       {{else}}
       cf push "${CF_APP}"
       {{/if}}
-      cf restart "${CF_APP}"
       # cf logs "${CF_APP}" --recent
     {{/has}}
