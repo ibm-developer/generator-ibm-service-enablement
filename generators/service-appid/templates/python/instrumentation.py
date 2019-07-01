@@ -36,14 +36,14 @@ def intarr2long(arr):
 def getService(app):
     config = {}
     SERVER_URL = IBMCloudEnv.getString('appid_oauth_server_url')
-    PUBLIC_KEY_URL = SERVER_URL + "/publickey"
+    PUBLIC_KEY_URL = SERVER_URL + "/publickeys"
     TOKEN_PATH = SERVER_URL + "/token"
     INTROSPECTION_URL = SERVER_URL + "/introspect"
     AUTH_URL = SERVER_URL + "/authorization"
 
-    content = urlopen(PUBLIC_KEY_URL).read()
-    publicKeyJson = content
-    parsed = json.loads(publicKeyJson)
+    content = urlopen(PUBLIC_KEY_URL)
+    parsed = json.load(content)['keys'][0]
+    publicKeyJson = json.dumps(parsed)
     pem = pemFromModExp(parsed['n'], parsed['e'])
 
     config['publicKey'] = publicKeyJson
@@ -59,14 +59,14 @@ def getService(app):
 def getService():
     config = {}
     SERVER_URL = IBMCloudEnv.getString('appid_oauth_server_url')
-    PUBLIC_KEY_URL = SERVER_URL + "/publickey"
+    PUBLIC_KEY_URL = SERVER_URL + "/publickeys"
     TOKEN_PATH = SERVER_URL + "/token"
     INTROSPECTION_URL = SERVER_URL + "/introspect"
     AUTH_URL = SERVER_URL + "/authorization"
 
-    content = urlopen(PUBLIC_KEY_URL).read()
-    publicKeyJson = content
-    parsed = json.loads(publicKeyJson)
+    content = urlopen(PUBLIC_KEY_URL)
+    parsed = json.load(content)['keys'][0]
+    publicKeyJson = json.dumps(parsed)
     pem = pemFromModExp(parsed['n'], parsed['e'])
 
     config['publicKey'] = publicKeyJson
