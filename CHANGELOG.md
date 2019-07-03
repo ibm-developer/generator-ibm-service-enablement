@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.4.5](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.4...v3.4.5) (2019-06-25)
+## [3.4.6](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.5...v3.4.6) (2019-07-03)
 
 
 ### Bug Fixes
 
-* fix indentation of alert instrumentation ([a54b77a](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a54b77a))
+* appid failing in python from json sformat ([da7766e](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/da7766e))
 
 
 
