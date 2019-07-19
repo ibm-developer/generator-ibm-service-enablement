@@ -25,6 +25,11 @@ const scaffolderMapping = require('../resources/scaffolderMapping.json');
 
 const Utils = require('../lib/Utils');
 const javaUtils = require('../lib/javautils');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+const DOMParser = new JSDOM().window.DOMParser;
+const XMLSerializer = require('xmlserializer');
+const prettifyxml = require('prettify-xml');
 
 const PATH_MAPPINGS_FILE = './src/main/resources/mappings.json';
 const PATH_LOCALDEV_FILE = './src/main/resources/localdev-config.json';
@@ -57,6 +62,54 @@ module.exports = class extends Generator {
 		this.context.srcFolders = [];
 		this.context.instrumentationAdded = false;
 		this.context.metainf = [];
+
+		// add missing pom.xml dependencies when running service enablement standalone
+		if (typeof this.context.parentContext === "undefined") {
+			let templateFilePath = path.dirname(require.resolve('../language-java')) + "/templates/"+this.context.language+"/config.json.template";
+			let pomFilePath = this.destinationPath() + '/pom.xml';
+			if (fs.existsSync(templateFilePath) && fs.existsSync(pomFilePath)) {
+				logger.info("Adding service dependencies for Java");
+				let templateFile = fs.readFileSync(templateFilePath);
+				let template = JSON.parse(templateFile);
+				let pomContents = fs.readFileSync(pomFilePath, {encoding:'utf-8'});
+				let xDOM = new DOMParser().parseFromString(pomContents, 'application/xml');
+				// go through pom.xml and add missing non-provided dependencies from template
+				let xArtifactIds = xDOM.getElementsByTagName("artifactId");
+				let depsAdded = false;
+				template["dependencies"].forEach(dep => {
+					if (dep["scope"] !== "provided") {
+						let depFound = false;
+						let artifactId = dep["artifactId"];
+						for (let i = 0; i < xArtifactIds.length; i++) {
+							let xArtifactId = xArtifactIds[i];
+							if (xArtifactId.textContent === artifactId) {
+								depFound = true;
+							}
+						}
+						if (!depFound) { // add missing dependency to pom
+							let newXGroupId = xDOM.createElement("groupId");
+							newXGroupId.appendChild(xDOM.createTextNode(dep["groupId"]));
+							let newXArtifactId = xDOM.createElement("artifactId");
+							newXArtifactId.appendChild(xDOM.createTextNode(dep["artifactId"]));
+							let newXVersion = xDOM.createElement("version");
+							newXVersion.appendChild(xDOM.createTextNode(dep["version"]));
+
+							let newXDep = xDOM.createElement("dependency");
+							newXDep.appendChild(newXGroupId);
+							newXDep.appendChild(newXArtifactId);
+							newXDep.appendChild(newXVersion);
+							let xDeps = xDOM.getElementsByTagName("dependencies")[0];
+							xDeps.appendChild(newXDep);
+							depsAdded = true;
+						}
+					}
+				});
+				if (depsAdded) {
+					let newXml = prettifyxml(XMLSerializer.serializeToString(xDOM).replace(/ xmlns="null"/g, ''));
+					fs.writeFileSync(this.destinationPath() + '/pom.xml', newXml);
+				}
+			}
+		}
 
 		//initializing ourselves by composing with the service generators
 		let root = path.join(path.dirname(require.resolve('../app')), '../');

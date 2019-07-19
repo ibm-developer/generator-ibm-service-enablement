@@ -3,13 +3,6 @@ const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement");
 const Bundle = require("./../../package.json");
 let Generator = require('yeoman-generator');
-const fs = require('fs');
-const path = require('path');
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const DOMParser = new JSDOM().window.DOMParser;
-const XMLSerializer = require('xmlserializer');
-const prettifyxml = require('prettify-xml');
 
 const OPTION_BLUEMIX = "bluemix";
 const OPTION_STARTER = "starter";
@@ -83,56 +76,12 @@ module.exports = class extends Generator {
 				break;
 		}
 
+		if (this.parentContext) {	// set a parent context to let the language generator know if there is a parent
+			context.parentContext = this.parentContext;
+		}
+
 		logger.info("Composing with", languageGeneratorPath);
 		this.composeWith(require.resolve(languageGeneratorPath), {context: context});
-
-		// add missing pom.xml dependencies when running service enablement standalone
-		if (typeof this.parentContext === "undefined") {
-			let templateFilePath = path.dirname(require.resolve('../language-java')) + "/templates/"+context.language+"/config.json.template";
-			let pomFilePath = this.destinationPath() + '/pom.xml';
-			if (fs.existsSync(templateFilePath) && fs.existsSync(pomFilePath)) {
-				logger.info("Adding service dependencies");
-				let templateFile = fs.readFileSync(templateFilePath);
-				let template = JSON.parse(templateFile);
-				let pomContents = fs.readFileSync(pomFilePath, {encoding:'utf-8'});
-				let xDOM = new DOMParser().parseFromString(pomContents, 'application/xml');
-				// go through pom.xml and add missing non-provided dependencies from template
-				let xArtifactIds = xDOM.getElementsByTagName("artifactId");
-				let depsAdded = false;
-				template["dependencies"].forEach(dep => {
-					if (dep["scope"] !== "provided") {
-						let depFound = false;
-						let artifactId = dep["artifactId"];
-						for (let i = 0; i < xArtifactIds.length; i++) {
-							let xArtifactId = xArtifactIds[i];
-							if (xArtifactId.textContent === artifactId) {
-								depFound = true;
-							}
-						}
-						if (!depFound) { // add missing dependency to pom
-							let newXGroupId = xDOM.createElement("groupId");
-							newXGroupId.appendChild(xDOM.createTextNode(dep["groupId"]));
-							let newXArtifactId = xDOM.createElement("artifactId");
-							newXArtifactId.appendChild(xDOM.createTextNode(dep["artifactId"]));
-							let newXVersion = xDOM.createElement("version");
-							newXVersion.appendChild(xDOM.createTextNode(dep["version"]));
-
-							let newXDep = xDOM.createElement("dependency");
-							newXDep.appendChild(newXGroupId);
-							newXDep.appendChild(newXArtifactId);
-							newXDep.appendChild(newXVersion);
-							let xDeps = xDOM.getElementsByTagName("dependencies")[0];
-							xDeps.appendChild(newXDep);
-							depsAdded = true;
-						}
-					}
-				});
-				if (depsAdded) {
-					let newXml = prettifyxml(XMLSerializer.serializeToString(xDOM).replace(/ xmlns="null"/g, ''));
-					fs.writeFileSync(this.destinationPath() + '/pom.xml', newXml);
-				}
-			}
-		}
 	}
 
 	writing(){
