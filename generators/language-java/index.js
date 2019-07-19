@@ -17,7 +17,7 @@
 'use strict';
 const logger = require('log4js').getLogger("generator-ibm-service-enablement:language-java");
 const Generator = require('yeoman-generator');
-const fs = require('fs');
+const filesys = require('fs');
 const path = require('path');
 const handlebars = require('handlebars');
 const PATH_METAINF = 'src/main/resources/META-INF/';
@@ -67,11 +67,11 @@ module.exports = class extends Generator {
 		if (typeof this.context.parentContext === "undefined") {
 			let templateFilePath = path.dirname(require.resolve('../language-java')) + "/templates/"+this.context.language+"/config.json.template";
 			let pomFilePath = this.destinationPath() + '/pom.xml';
-			if (this.fs.existsSync(templateFilePath) && this.fs.existsSync(pomFilePath)) {
-				logger.info("Adding service dependencies for Java");
-				let templateFile = this.fs.readFileSync(templateFilePath);
+			if (this.fs.exists(templateFilePath) && this.fs.exists(pomFilePath)) {
+				logger.info("Adding service dependencies for Java from template " + templateFilePath);
+				let templateFile = this.fs.read(templateFilePath);
 				let template = JSON.parse(templateFile);
-				let pomContents = this.fs.readFileSync(pomFilePath, {encoding:'utf-8'});
+				let pomContents = this.fs.read(pomFilePath, {encoding:'utf-8'});
 				let xDOM = new DOMParser().parseFromString(pomContents, 'application/xml');
 				// go through pom.xml and add missing non-provided dependencies from template
 				let xArtifactIds = xDOM.getElementsByTagName("artifactId");
@@ -106,14 +106,14 @@ module.exports = class extends Generator {
 				});
 				if (depsAdded) {
 					let newXml = prettifyxml(XMLSerializer.serializeToString(xDOM).replace(/ xmlns="null"/g, ''));
-					this.fs.writeFileSync(this.destinationPath() + '/pom.xml', newXml);
+					this.fs.write(this.destinationPath() + '/pom.xml', newXml);
 				}
 			}
 		}
 
 		//initializing ourselves by composing with the service generators
 		let root = path.join(path.dirname(require.resolve('../app')), '../');
-		let folders = this.fs.readdirSync(root);
+		let folders = filesys.readdirSync(root);
 		folders.forEach(folder => {
 			if (folder.startsWith('service-')) {
 				serviceKey = folder.substring(folder.indexOf('-') + 1);
@@ -136,7 +136,7 @@ module.exports = class extends Generator {
 		if (this.context.instrumentationAdded) {
 			this._writeFiles(this.context.language + '/**', this.conf);
 			this.context.srcFolders.forEach(folder => {
-				if (this.fs.existsSync(folder)) {
+				if (filesys.existsSync(folder)) {
 					this._writeFiles(folder + '/**', this.conf)
 				}
 			})
@@ -144,7 +144,7 @@ module.exports = class extends Generator {
 
 		this.context.metainf.forEach((metainf) => {
 			let location = this.templatePath(this.context.language + '/' + PATH_METAINF + metainf.filepath);
-			let contents = this.fs.readFileSync(location, 'utf8');
+			let contents = filesys.readFileSync(location, 'utf8');
 			let compiledTemplate = handlebars.compile(contents);
 			let output = compiledTemplate({ data: metainf.data });
 			if (metainf.filepath.endsWith(TEMPLATE_EXT)) {
