@@ -65,7 +65,7 @@ module.exports = class extends Generator {
 
 		// add missing pom.xml dependencies when running service enablement standalone
 		if (typeof this.context.parentContext === "undefined") {
-			let templateFilePath = path.dirname(require.resolve('../language-java')) + "/templates/"+this.context.language+"/config.json.template";
+			let templateFilePath = this.templatePath(this.context.language+"/config.json.template");
 			let pomFilePath = this.destinationPath() + '/pom.xml';
 			if (this.fs.exists(templateFilePath) && this.fs.exists(pomFilePath)) {
 				logger.info("Adding service dependencies for Java from template " + templateFilePath);
