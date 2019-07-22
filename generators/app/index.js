@@ -76,6 +76,10 @@ module.exports = class extends Generator {
 				break;
 		}
 
+		if (this.parentContext) {	// set a parent context to let the language generator know if there is a parent
+			context.parentContext = this.parentContext;
+		}
+
 		logger.info("Composing with", languageGeneratorPath);
 		this.composeWith(require.resolve(languageGeneratorPath), {context: context});
 	}
