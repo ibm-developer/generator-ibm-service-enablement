@@ -34,6 +34,9 @@
     "handlebars": "^4.1.0",
     "lodash": "^4.17.11",
     "log4js": "^4.0.2",
+    "prettify-xml": "^1.2.0",
+    "jsdom": "^15.1.1",
+    "xmlserializer": "^0.6.1",
     "yeoman-generator": "^3.2.0"
   },
   "devDependencies": {
@@ -55,6 +58,7 @@
     "request-promise": "^4.2.4",
     "standard-version": "^5.0.0",
     "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^1.9.1"
+    "yeoman-test": "^1.9.1",
+    "yo": "^3.1.0"
   }
 }
