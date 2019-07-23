@@ -15,6 +15,13 @@
  */
 'use strict'
 
+const logger = require('log4js').getLogger("generator-ibm-service-enablement:language-java");
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+const DOMParser = new JSDOM().window.DOMParser;
+const XMLSerializer = require('xmlserializer');
+const prettifyxml = require('prettify-xml');
+
 function mergeFileObject(existingObject, objectToMerge){
 	let existingFiles = [];
 	let existingData = {};
@@ -37,7 +44,55 @@ function mergeFileObject(existingObject, objectToMerge){
 	})
 }
 
+function addJavaDependencies() {
+	let templateFilePath = this.templatePath(this.context.language+"/config.json.template");
+	let pomFilePath = this.destinationPath() + '/pom.xml';
+	if (this.fs.exists(templateFilePath) && this.fs.exists(pomFilePath)) {
+		logger.info("Adding service dependencies for Java from template " + templateFilePath);
+		let templateFile = this.fs.read(templateFilePath);
+		let template = JSON.parse(templateFile);
+		let pomContents = this.fs.read(pomFilePath, {encoding:'utf-8'});
+		let xDOM = new DOMParser().parseFromString(pomContents, 'application/xml');
+		// go through pom.xml and add missing non-provided dependencies from template
+		let xArtifactIds = xDOM.getElementsByTagName("artifactId");
+		let depsAdded = false;
+		template["dependencies"].forEach(dep => {
+			if (dep["scope"] !== "provided") {
+				let depFound = false;
+				let artifactId = dep["artifactId"];
+				for (let i = 0; i < xArtifactIds.length; i++) {
+					let xArtifactId = xArtifactIds[i];
+					if (xArtifactId.textContent === artifactId) {
+						depFound = true;
+					}
+				}
+				if (!depFound) { // add missing dependency to pom
+					let newXGroupId = xDOM.createElement("groupId");
+					newXGroupId.appendChild(xDOM.createTextNode(dep["groupId"]));
+					let newXArtifactId = xDOM.createElement("artifactId");
+					newXArtifactId.appendChild(xDOM.createTextNode(dep["artifactId"]));
+					let newXVersion = xDOM.createElement("version");
+					newXVersion.appendChild(xDOM.createTextNode(dep["version"]));
+
+					let newXDep = xDOM.createElement("dependency");
+					newXDep.appendChild(newXGroupId);
+					newXDep.appendChild(newXArtifactId);
+					newXDep.appendChild(newXVersion);
+					let xDeps = xDOM.getElementsByTagName("dependencies")[0];
+					xDeps.appendChild(newXDep);
+					depsAdded = true;
+				}
+			}
+		});
+		if (depsAdded) {
+			let newXml = prettifyxml(XMLSerializer.serializeToString(xDOM).replace(/ xmlns="null"/g, ''));
+			this.fs.write(this.destinationPath() + '/pom.xml', newXml);
+		}
+	}
+	}
+
 
 module.exports = {
-	mergeFileObject: mergeFileObject
+	mergeFileObject: mergeFileObject,
+	addJavaDependencies: addJavaDependencies
 }

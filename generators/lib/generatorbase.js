@@ -22,6 +22,7 @@ const camelCase = require('lodash/camelCase');
 const path = require('path');
 const Handlebars = require('handlebars');
 const Utils = require('../lib/Utils');
+const javaUtils = require('../lib/javautils');
 
 const REGEX_HYPHEN = /-/g;
 
@@ -42,7 +43,7 @@ module.exports = class extends Generator {
 
 
 	initializing() {
-		//do nothing by default
+		this._addJavaDependencies = javaUtils.addJavaDependencies.bind(this);
 	}
 
 	/**
@@ -106,7 +107,10 @@ module.exports = class extends Generator {
 	}
 
 	writing() {
-		//do nothing by default
+		// add missing pom.xml dependencies when running service enablement standalone
+		if ((typeof this.context.parentContext === "undefined") && this.hasBluemixProperty && this.hasTemplate) {
+			this._addJavaDependencies();
+		}
 	}
 
 	_sanitizeServiceName(name) {
