@@ -2,17 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.4.7](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.6...v3.4.7) (2019-07-22)
+## [3.4.8](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.7...v3.4.8) (2019-07-23)
 
 
 ### Bug Fixes
 
-* add missing Java dependencies to pom.xml when enabling service ([a7db04b](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a7db04b))
-* add missing newline and lower branches threshold ([7b309d2](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/7b309d2))
-* code review changes ([a5375d6](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a5375d6))
-* fix usages of fs and mem-fs-editor ([3236ccd](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/3236ccd))
-* use templatePath to resolve template file ([655f77d](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/655f77d))
-* use this.fs for reads and writes ([ae0e389](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/ae0e389))
+* fixes for eslint ([bc59300](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/bc59300))
+* more test case fixes ([b29d522](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/b29d522))
+* refactor java dependency additions into generator base ([919fa80](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/919fa80))
+* test case fixes ([59313ef](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/59313ef))
 
 
 
