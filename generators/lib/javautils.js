@@ -79,8 +79,10 @@ function addJavaDependencies() {
 					newXDep.appendChild(newXArtifactId);
 					newXDep.appendChild(newXVersion);
 					let xDeps = xDOM.getElementsByTagName("dependencies")[0];
-					xDeps.appendChild(newXDep);
-					depsAdded = true;
+					if (xDeps) {
+						xDeps.appendChild(newXDep);
+						depsAdded = true;
+					}
 				}
 			}
 		});
