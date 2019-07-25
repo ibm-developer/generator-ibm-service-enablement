@@ -44,7 +44,7 @@ npm install -g generator-ibm-service-enablement
 ## Usage
 
 ```bash
-yo ibm-cloud-enablement
+yo ibm-service-enablement
 ```
 
 Following command line arguments are supported
