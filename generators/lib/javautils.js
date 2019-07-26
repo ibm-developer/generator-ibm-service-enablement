@@ -58,32 +58,37 @@ function addJavaDependencies() {
 		let depsAdded = false;
 		if (template["dependencies"]) {
 			template["dependencies"].forEach(dep => {
-				if (dep["scope"] !== "provided") {
-					let depFound = false;
-					let artifactId = dep["artifactId"];
-					for (let i = 0; i < xArtifactIds.length; i++) {
-						let xArtifactId = xArtifactIds[i];
-						if (xArtifactId.textContent === artifactId) {
-							depFound = true;
-						}
+				let depFound = false;
+				let artifactId = dep["artifactId"];
+				for (let i = 0; i < xArtifactIds.length; i++) {
+					let xArtifactId = xArtifactIds[i];
+					if (xArtifactId.textContent === artifactId) {
+						depFound = true;
 					}
-					if (!depFound) { // add missing dependency to pom
-						let newXGroupId = xDOM.createElement("groupId");
-						newXGroupId.appendChild(xDOM.createTextNode(dep["groupId"]));
-						let newXArtifactId = xDOM.createElement("artifactId");
-						newXArtifactId.appendChild(xDOM.createTextNode(dep["artifactId"]));
-						let newXVersion = xDOM.createElement("version");
-						newXVersion.appendChild(xDOM.createTextNode(dep["version"]));
-	
-						let newXDep = xDOM.createElement("dependency");
-						newXDep.appendChild(newXGroupId);
-						newXDep.appendChild(newXArtifactId);
-						newXDep.appendChild(newXVersion);
-						let xDeps = xDOM.getElementsByTagName("dependencies")[0];
-						if (xDeps) {
-							xDeps.appendChild(newXDep);
-							depsAdded = true;
-						}
+				}
+				if (!depFound) { // add missing dependency to pom
+					let newXDep = xDOM.createElement("dependency");
+
+					let newXGroupId = xDOM.createElement("groupId");
+					newXGroupId.appendChild(xDOM.createTextNode(dep["groupId"]));
+					let newXArtifactId = xDOM.createElement("artifactId");
+					newXArtifactId.appendChild(xDOM.createTextNode(dep["artifactId"]));
+					let newXVersion = xDOM.createElement("version");
+					newXVersion.appendChild(xDOM.createTextNode(dep["version"]));
+
+					newXDep.appendChild(newXGroupId);
+					newXDep.appendChild(newXArtifactId);
+					newXDep.appendChild(newXVersion);
+					if (dep["scope"]) {
+						let newXScope = xDOM.createElement("scope");
+						newXScope.appendChild(xDOM.createTextNode(dep["scope"]));
+						newXDep.appendChild(newXScope);
+					}
+
+					let xDeps = xDOM.getElementsByTagName("dependencies")[0];
+					if (xDeps) {
+						xDeps.appendChild(newXDep);
+						depsAdded = true;
 					}
 				}
 			});
