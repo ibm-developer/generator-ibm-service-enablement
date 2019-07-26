@@ -2,15 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.4.8](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.7...v3.4.8) (2019-07-23)
+## [3.4.9](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.8...v3.4.9) (2019-07-26)
 
 
 ### Bug Fixes
 
-* fixes for eslint ([bc59300](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/bc59300))
-* more test case fixes ([b29d522](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/b29d522))
-* refactor java dependency additions into generator base ([919fa80](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/919fa80))
-* test case fixes ([59313ef](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/59313ef))
+* don't skip provided dependencies ([5987a22](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/5987a22))
 
 
 
