@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.4.10](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.9...v3.4.10) (2019-08-29)
+## [3.4.11](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.10...v3.4.11) (2019-09-03)
 
 
 
