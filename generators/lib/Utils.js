@@ -12,7 +12,7 @@ const REGEX_PORT = /^(\s*)- name: PORT/;
 const REGEX_DEPLOY = /- name: Deploy Stage/;
 const REGEX_BUILD = /- name: Build Stage/;
 const REGEX_CF_LOGS = /cf\slogs/;
-const REGEX_CHART_NAME = /- name: CHART_NAME/;
+const REGEX_KUBECTL_VERSION = /- name: KUBECTL_VERSION/;
 
 // consts used for toolchain.yml
 const REGEX_KUBE_CLUSTER_NAME_UPPER = /KUBE_CLUSTER_NAME/;
@@ -230,24 +230,24 @@ function addServicesToPipelineYamlAsync(args) {
 		let rl = readline.createInterface({ input: readStream });
 
 		let pipelineFileString = '', deployBool = false,
-			buildBool = false, chartNameBool = false;
+			buildBool = false, kubeCtlVersionBool = false;
 
 		rl.on('line', (line) => {
 
 			if (line.search(REGEX_BUILD) > -1) { buildBool = true; }
 			if (line.search(REGEX_DEPLOY) > -1) { deployBool = true; }
-			if (line.search(REGEX_CHART_NAME) > -1) { chartNameBool = true; }
+			if (line.search(REGEX_KUBECTL_VERSION) > -1) { kubeCtlVersionBool = true; }
 
 			let cfLogsIndex = line.search(REGEX_CF_LOGS);
 
-			// insert new properties above CHART_NAME property in Build and Deploy stages--
-			// only for Kube deploys, which should always have the CHART_NAME property
-			if (buildBool && chartNameBool ||
-				deployBool && chartNameBool) {
+			// insert new properties above KUBECTL_VERSION property in Build and Deploy stages--
+			// only for Kube deploys, which should always have the KUBECTL_VERSION property
+			if (buildBool && kubeCtlVersionBool ||
+				deployBool && kubeCtlVersionBool) {
 				pipelineFileString += generateServiceProperties(context.deploymentServicesEnv);
 				pipelineFileString += `${line}\n`;
 				// all done with Build Stage + properties section, don't reset deployBool
-				buildBool = false, chartNameBool = false;
+				buildBool = false, kubeCtlVersionBool = false;
 			}
 			else if (cfLogsIndex > -1 && deployBool) {
 				deployBool = false; // all done with Deploy Stage + CF section
