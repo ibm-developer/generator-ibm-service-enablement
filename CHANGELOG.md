@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.4.12](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.11...v3.4.12) (2019-09-16)
+## [3.4.13](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.12...v3.4.13) (2019-09-16)
 
 
 ### Bug Fixes
 
-* ensure service env props are inserted for knative deploy ([a70e6a8](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/a70e6a8))
+* use chart or image name to insert service envs in pipeline ([1923a46](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/1923a46))
 
 
 
