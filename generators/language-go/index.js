@@ -28,6 +28,7 @@ const PATH_LOCALDEV_CONFIG_FILE = "server/localdev-config.json";
 const PATH_GIT_IGNORE = "./.gitignore";
 const PATH_GOPKG = "Gopkg.toml"
 const PATH_GOPKG_TOML = "./Gopkg.toml";
+const PATH_KNATIVE_YAML = "./.bluemix/service-knative.yaml";
 
 
 module.exports = class extends Generator {
@@ -174,12 +175,14 @@ module.exports = class extends Generator {
 		// add services properties and cf bind-service to pipeline.yml &&
 		// add services secretKeyRefs to values.yaml &&
 		// add services form parameters to toolchain.yml &&
-		// add secretKeyRefs to helm commands in kube_deploy.sh
+		// add secretKeyRefs to helm commands in kube_deploy.sh &&
+		// add secretKeyRefs to service-knative.yaml
 		return Utils.addServicesEnvToHelmChartAsync({context: this.context, destinationPath: this.destinationPath()})
 			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}))
 			.then(() => Utils.addServicesEnvToValuesAsync({context: this.context, destinationPath: this.destinationPath()}))
 			.then(() => Utils.addServicesEnvToToolchainAsync({context: this.context, destinationPath: this.destinationPath()}))
-			.then(() => Utils.addServicesKeysToKubeDeployAsync({context: this.context, destinationPath: this.destinationPath()}));
+			.then(() => Utils.addServicesKeysToKubeDeployAsync({context: this.context, destinationPath: this.destinationPath()}))
+			.then(() => Utils.addServicesToServiceKnativeYamlAsync({context: this.context, destinationPath: this.destinationPath(PATH_KNATIVE_YAML)}));
 	}
 
 	_writeHandlebarsFile(templateFile, destinationFile, data) {

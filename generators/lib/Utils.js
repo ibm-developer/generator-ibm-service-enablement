@@ -3,6 +3,7 @@ const Log4js = require('log4js');
 const logger = Log4js.getLogger("generator-ibm-service-enablement:Utils");
 const readline = require('readline');
 const fs = require('fs');
+const yaml = require('js-yaml');
 
 const SPRING_BOOT_SERVICE_NAME = "spring_boot_service_name";
 const SPRING_BOOT_SERVICE_KEY_SEPARATOR = "spring_boot_service_key_separator";
@@ -113,6 +114,60 @@ function appendDeploymentYaml(deploymentFilePath, services, resolve, reject) {
 		});
 	});
 }
+
+function addServicesToServiceKnativeYamlAsync(args) {
+	return new Promise((resolve) => {
+		let serviceYamlFilePath = args.destinationPath
+		let services = args.context.deploymentServicesEnv; //array of service objects
+
+		let hasServices = services && services.length > 0;
+		if (!fs.existsSync(serviceYamlFilePath) || !hasServices) {
+			logger.info("Not adding service env to service-knative.yaml");
+			return resolve()
+		}
+
+		let serviceYamlContents = yaml.safeLoad(fs.readFileSync(serviceYamlFilePath, 'utf8'));
+
+		services = services.filter(service => {
+			return service.name && service.keyName && service.valueFrom && 
+				service.valueFrom.secretKeyRef && service.valueFrom.secretKeyRef.key
+		});
+
+
+		/* 
+		TODO: in future the service binding secretKeyRefName needs to be passed down here
+			from appman so that we can get the actual value here instead of guessing
+			because we do not know necessarily what sanitizing is being done etc, it is 
+			better to get the data from the cluster (which appman does)
+		*/
+		services = services.map((service) => {
+			let secretKeyRefName = service.valueFrom.secretKeyRef.key + "-" + service.keyName
+			return {
+				name: service.name,
+				valueFrom: {
+					secretKeyRef: {
+						name: secretKeyRefName.toLowerCase(),
+						key: service.valueFrom.secretKeyRef.key
+					}
+				}
+			}
+		})
+
+		if (serviceYamlContents.spec.template.spec.containers[0].env) {
+			logger.info("Env already exists in service-knative.yaml, not overwriting with services");
+			return resolve()
+		}
+		serviceYamlContents.spec.template.spec.containers[0].env = services
+		
+		logger.info("Adding service env to service-knative.yaml");
+
+		fs.writeFileSync(serviceYamlFilePath, yaml.safeDump(serviceYamlContents))
+
+		return resolve();
+	});
+	
+}
+
 
 // add services section with secretKeyRefs in values.yaml
 function addServicesEnvToValuesAsync(args) {
@@ -463,5 +518,6 @@ module.exports = {
 	addServicesToPipelineYamlAsync: addServicesToPipelineYamlAsync,
 	addServicesEnvToValuesAsync: addServicesEnvToValuesAsync,
 	addServicesEnvToToolchainAsync: addServicesEnvToToolchainAsync,
-	addServicesKeysToKubeDeployAsync: addServicesKeysToKubeDeployAsync
+	addServicesKeysToKubeDeployAsync: addServicesKeysToKubeDeployAsync,
+	addServicesToServiceKnativeYamlAsync: addServicesToServiceKnativeYamlAsync
 };
