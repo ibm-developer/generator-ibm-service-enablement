@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.14](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.13...v3.4.14) (2019-09-20)
+
+
+### Bug Fixes
+
+* service binding with knative ([3f5c3bb](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/3f5c3bb))
+
+
+
 ## [3.4.13](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.12...v3.4.13) (2019-09-16)
 
 
