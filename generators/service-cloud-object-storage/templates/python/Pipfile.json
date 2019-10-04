@@ -2,7 +2,7 @@
   "[[source]]": "",
   "[dev-packages]": "",
   "[packages]": {
-    "ibm-cos-sdk": "~=2.1.1",
+    "ibm-cos-sdk": "~=2.5.4",
     "boto3":"1.7.45"
   }
 }
