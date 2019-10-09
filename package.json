@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-service-enablement",
-  "version": "3.4.15",
+  "version": "3.4.16",
   "description": "This generator adds Service enablement to applications",
   "main": "generators/app/index.js",
   "files": [
@@ -31,7 +31,7 @@
   "author": "IBM",
   "license": "Apache-2.0",
   "dependencies": {
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.4.3",
     "jsdom": "^15.1.1",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
