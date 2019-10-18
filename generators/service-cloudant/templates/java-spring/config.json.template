@@ -1,5 +1,5 @@
 {
   "dependencies" : [
-    {"groupId" : "com.cloudant", "artifactId" : "cloudant-spring-boot-starter", "version" : "0.0.2"}
+    {"groupId" : "com.cloudant", "artifactId" : "cloudant-client", "version" : "2.18.0"}
   ]
 }
