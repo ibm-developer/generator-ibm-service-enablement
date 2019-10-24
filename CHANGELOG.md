@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.18](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.17...v3.4.18) (2019-10-24)
+
+
+### Bug Fixes
+
+* ClObSter import requests in python ([2b3cad6](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/2b3cad6))
+* **requirements.txt:** update requests and cos versions ([fc8dbdc](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/fc8dbdc))
+
+
+
 ## [3.4.17](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.4.16...v3.4.17) (2019-10-18)
 
 
