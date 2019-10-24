@@ -4,6 +4,6 @@
   "[packages]": {
     "ibm-cos-sdk": "~=2.5.4",
     "boto3":"1.7.45",
-    "requests": "~=2.2.1"
+    "requests": "~=2.22.0"
   }
 }
