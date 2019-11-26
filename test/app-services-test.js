@@ -32,7 +32,7 @@ serviceKeys.forEach(serviceKey => {
 	let scaffolderKey = scaffolderMapping[serviceKey];
 	let service = Array.isArray(optionsBluemix[scaffolderKey]) ? optionsBluemix[scaffolderKey][0] : optionsBluemix[scaffolderKey];
 	if (service && service.hasOwnProperty('serviceInfo')) {
-		keyRefNames.push(`${service.serviceInfo.name}`);
+		keyRefNames.push(`binding-${service.serviceInfo.name}`);
 	}
 });
 
