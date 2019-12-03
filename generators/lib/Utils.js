@@ -494,7 +494,7 @@ function generateSecretRefsValues(services) {
 	services.forEach((serviceEntry) => {
 		servicesEnvString +=
 			`  ${serviceEntry.scaffolderName}:\n` +
-			`    secretKeyRef: binding-${serviceEntry.keyName}\n`;
+			`    secretKeyRef: binding-${serviceEntry.keyName.toLowerCase}\n`;
 	});
 	return servicesEnvString;
 }
