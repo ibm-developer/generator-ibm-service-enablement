@@ -18,7 +18,7 @@ const PATH_REQUIREMENTS_TXT = "./requirements.txt";
 const PATH_PIPFILE_JSON = "/Pipfile.json";
 const PATH_GIT_IGNORE = "./.gitignore";
 const PATH_PIPFILE = 'Pipfile';
-const PATH_KNATIVE_YAML = "./.bluemix/service-knative.yaml";
+const PATH_KNATIVE_YAML = "./service.yaml";
 const SERVICES_INIT_FILE = "__init__.py";
 const SOURCES = '[[source]]';
 const DEV_PACKAGES = '[dev-packages]';
@@ -300,7 +300,7 @@ module.exports = class extends Generator {
 		// add services secretKeyRefs to values.yaml &&
 		// add services form parameters to toolchain.yml &&
 		// add secretKeyRefs to helm commands in kube_deploy.sh &&
-		// add secretKeyRefs to service-knative.yaml
+		// add secretKeyRefs to ./service.yaml
 		return Utils.addServicesEnvToHelmChartAsync({context: this.context, destinationPath: this.destinationPath()})
 			.then(() => Utils.addServicesToPipelineYamlAsync({context: this.context, destinationPath: this.destinationPath()}))
 			.then(() => Utils.addServicesEnvToValuesAsync({context: this.context, destinationPath: this.destinationPath()}))
