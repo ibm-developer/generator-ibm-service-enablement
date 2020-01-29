@@ -173,7 +173,7 @@ module.exports = class extends Generator {
 
 		this.context.deploymentServicesEnv.push(serviceEnv);
 	}
-
+	
 	_addDependencies() {
 		this.logger.info("Adding dependencies");
 		if (Array.isArray(this.context.dependenciesFile)) {
