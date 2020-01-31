@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-service-enablement",
-  "version": "3.5.4",
+  "version": "3.5.5",
   "description": "This generator adds Service enablement to applications",
   "main": "generators/app/index.js",
   "files": [
@@ -59,6 +59,6 @@
     "standard-version": "^5.0.0",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^1.9.1",
-    "yo": "^3.1.0"
+    "yo": "^3.1.1"
   }
 }

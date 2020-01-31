@@ -6,7 +6,6 @@ const fs = require('fs');
 const optionsBluemix = Object.assign({}, require('./resources/bluemix-watson-iam.json'));
 
 const GENERATOR_PATH = '../generators/app/index.js';
-const REQUIREMENTS_TXT = 'requirements.txt';
 const SERVER_MAPPINGS_JSON = 'server/config/mappings.json';
 const SERVER_LOCALDEV_CONFIG_JSON = 'server/localdev-config.json';
 
@@ -27,7 +26,6 @@ describe('python-flask', function () {
 	});
 
 	it('Can run successful generation and create files', () => {
-		yassert.file(REQUIREMENTS_TXT);
 		yassert.file('.gitignore');
 		yassert.file('server');
 		yassert.file('server/config');
@@ -121,16 +119,9 @@ describe('python-flask', function () {
 });
 
 function testAll(serviceName, localDevConfigJson) {
-	testServiceDependencies(serviceName);
 	testServiceInstrumentation(serviceName);
 	testReadMe(serviceName);
 	testLocalDevConfig(localDevConfigJson || {})
-}
-
-function testServiceDependencies(serviceName) {
-	const filePath = path.join(__dirname, '..', 'generators', `service-${serviceName}`, 'templates', 'python', 'requirements.txt');
-	const expectedDependencies = fs.readFileSync(filePath, 'utf-8');
-	yassert.fileContent(REQUIREMENTS_TXT, expectedDependencies);
 }
 
 function testServiceInstrumentation(serviceName) {

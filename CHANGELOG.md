@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.5](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.5.4...v3.5.5) (2020-01-31)
+
+
+### Bug Fixes
+
+* pipfile append removed ([f01952b](https://github.com/ibm-developer/generator-ibm-service-enablement/commit/f01952b))
+
+
+
 ## [3.5.4](https://github.com/ibm-developer/generator-ibm-service-enablement/compare/v3.5.3...v3.5.4) (2019-12-04)
 
 
