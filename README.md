@@ -1,3 +1,9 @@
+# WARNING: This repository is no longer maintained :warning:
+
+> The functionality of this generator is now available in our [Cloud Assets Generator](https://github.com/IBM/generator-ibm-cloud-assets)
+
+> This repository will not be updated. The repository will be kept available in read-only mode.
+
 # IBM Service Enablement Yeoman Generator
 
 [![IBM Cloud powered][img-ibmcloud-powered]][url-cloud]
